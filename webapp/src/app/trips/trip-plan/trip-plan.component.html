@@ -1,0 +1,10 @@
+<mat-button-toggle-group name="SetView">
+  <mat-button-toggle class="rounded-left" (change)="this.changeShowMap(ShowToggle.TABLE)">Table</mat-button-toggle>
+  <mat-button-toggle (change)="this.changeShowMap(ShowToggle.ALL)">All</mat-button-toggle>
+  <mat-button-toggle class="rounded-right" (change)="this.changeShowMap(ShowToggle.MAP)">Map</mat-button-toggle>
+</mat-button-toggle-group>
+
+<div class="container">
+  <app-trip-plan-table [hidden]="this.showMap === ShowToggle.MAP" class="table-cell" (addMapPin)="this.onOutput($event)"></app-trip-plan-table>
+  <app-trip-plan-map [hidden]="this.showMap === ShowToggle.TABLE" class="map-cell" [mapElement]="this.obs"></app-trip-plan-map>
+</div>

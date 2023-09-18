@@ -1,0 +1,9 @@
+<p>trip-plan-map works!</p>
+
+<google-map [options]="this.options" width="100%" height="90%">
+
+  <map-marker *ngFor="let markerPosition of markerPositions"
+              [position]="markerPosition">
+  </map-marker>
+</google-map>
+

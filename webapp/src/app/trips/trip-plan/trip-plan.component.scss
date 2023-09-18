@@ -1,0 +1,13 @@
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  height: 90%;
+}
+
+.table-cell, .map-cell {
+  padding: 10px;
+  border: 1px solid black;
+  flex-grow: 1;
+}
+
