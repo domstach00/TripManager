@@ -3,6 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 import { ReplaySubject, Subscription } from "rxjs";
 import { Trip } from "../../_model/trip";
 import { TripPlan, GoogleMapPin } from "../../_model/trip-plan";
+import { TripPlanService } from "../../_services/trip-plan.service";
 
 enum ShowToggle {
   ALL,
@@ -22,14 +23,22 @@ export class TripPlanComponent implements OnInit, OnDestroy{
   tripId?: string;
   trip?: Trip;
   tripPlan?: TripPlan
-  constructor(readonly activatedRoute: ActivatedRoute) {
-  }
+
+  tripPlans: TripPlan[] = [];
+  constructor(
+    readonly activatedRoute: ActivatedRoute,
+    readonly tripPlanService: TripPlanService
+  ) {}
 
   ngOnInit(): void {
     this.subscriptions.add(
       this.activatedRoute.params.subscribe(params => {
         this.tripId = params['tripId']
       }))
+
+    // this.tripPlanService.getTripPlans().subscribe(tripPlans => {
+    //   this.tripPlans = tripPlans;
+    // })
   }
 
   ngOnDestroy(): void {

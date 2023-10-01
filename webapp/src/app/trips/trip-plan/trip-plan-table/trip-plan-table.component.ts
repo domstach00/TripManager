@@ -17,17 +17,13 @@ import { MatDialog } from "@angular/material/dialog";
 import {
   TripPlanTableAddNewDialogComponent
 } from "../../../dialog/trip-plan-table-add-new-dialog/trip-plan-table-add-new-dialog.component";
+import { TripPlanService } from "../../../_services/trip-plan.service";
 
 interface TripPlanTableItem {
   displayName: string;
   day?: number
   cost?: number;
   mapElementName?: string;
-}
-
-export interface DialogData {
-  animal: string;
-  name: string;
 }
 
 @Component({
@@ -42,6 +38,8 @@ export class TripPlanTableComponent implements OnInit, OnDestroy, AfterViewInit 
   addValueToTripList?: ReplaySubject<TripPlan>
   @Input()
   editValue?: ReplaySubject<TripPlan>
+  @Input()
+  insertDataSource?: TripPlan[];
 
   @Output()
   addMapPin: EventEmitter<GoogleMapPin> = new EventEmitter();
@@ -51,17 +49,22 @@ export class TripPlanTableComponent implements OnInit, OnDestroy, AfterViewInit 
   autocomplete: google.maps.places.Autocomplete | undefined;
   protected subscriptions: Subscription = new Subscription();
 
-  @Input()
-  dataSource!: MatTableDataSource<TripPlan>;
+  dataSource: MatTableDataSource<TripPlan> = new MatTableDataSource<TripPlan>();
 
   test: TripPlanTableItem[] = [{displayName: "abc"}, {displayName: "cba", cost: 1, mapElementName: "ez"}]
 
   displayedColumns: string[] = ['displayName', 'day', 'cost', 'mapElementName']
   model: any;
-  constructor(public dialog: MatDialog) {
-  }
+  constructor(
+    public dialog: MatDialog,
+    readonly tripPlanService: TripPlanService,
+  ) {}
 
   ngOnInit(): void {
+    this.subscriptions.add(this.tripPlanService.getTripPlans().subscribe(tripPlans => {
+      console.log(tripPlans)
+      this.dataSource?.data.push(...tripPlans);
+    }))
 
     this.subscriptions.add(
       this.addValueToTripList?.subscribe(next => {
@@ -110,36 +113,19 @@ export class TripPlanTableComponent implements OnInit, OnDestroy, AfterViewInit 
     console.log(place);
   }
 
-  onAddressChange(selectedLocation: any, element: TripPlanTableItem) {
-    const googleMapPin: GoogleMapPin = {
-      location: this.markerPositionGenerator(selectedLocation.geometry.location.lat(), selectedLocation.geometry.location.lng()),
-      name: selectedLocation.name,
-      address: selectedLocation.vicinity,
-      iconUrl: selectedLocation.icon
-    }
-
-    element
-
-  }
-
-  doIt(event: any, element: TripPlanTableItem) {
+  doIt(event: google.maps.places.PlaceResult, element: TripPlanTableItem) {
     console.log(event)
     console.log(element)
     console.log(event.formatted_address)
-    console.log(event.geometry.location.lat())
-    console.log(event.geometry.location.lng())
+    console.log(event.geometry?.location?.lat())
+    console.log(event.geometry?.location?.lng())
     console.log(this.model)
     // console.log(event.target.value)
 
 
-      let r = {
-        location: this.markerPositionGenerator(event.geometry.location.lat(), event.geometry.location.lng()),
-        name: event.name + " " + event.vicinity,
-        address: event.vicinity,
-        iconUrl: event.icon
-      } as GoogleMapPin
+      let googleMapPin = this.tripPlanService.placeResultToGoogleMapPin(event)
 
-      this.addMapPin.emit(r)
+      this.addMapPin.emit(googleMapPin)
 
       // this.autocomplete?.addListener('place_changed', () => {
       //     const place = this.autocomplete?.getPlace();
@@ -167,8 +153,13 @@ export class TripPlanTableComponent implements OnInit, OnDestroy, AfterViewInit 
       data: {val: 'a'}
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!!result) {
+        this.tripPlanService.addTripPlan(result).subscribe(value => {
+          this.dataSource.data = [...this.dataSource.data, value]
+        });
+      }
+
     });
   }
 }

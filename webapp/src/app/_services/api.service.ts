@@ -11,23 +11,23 @@ export class ApiService {
   constructor(private httpClient: HttpClient) {
   }
 
-  public get<T = any>(url: ApiPath, options?: any): Observable<T>{
+  public get<T = any>(url: ApiPath | string, options?: any): Observable<T>{
     return this.httpClient.get<T>(`${ApiPath.apiBaseUrl}` + `${url}`)
   }
 
-  public post<T = any, K = any>(url: ApiPath, body?: K, options?: any): Observable<T> {
+  public post<T = any, K = any>(url: ApiPath | string, body?: K, options?: any): Observable<T> {
     return this.httpClient.post<T>(`${ApiPath.apiBaseUrl}` + `${url}`, body);
   }
 
-  public put<T = any, K = any>(url: ApiPath, body?: K, options?: any): Observable<T> {
+  public put<T = any, K = any>(url: ApiPath | string, body?: K, options?: any): Observable<T> {
     return this.httpClient.put<T>(`${ApiPath.apiBaseUrl}` + `${url}`, body);
   }
 
-  public patch<T = any, K = any>(url: ApiPath, body?: K, options?: any): Observable<T> {
+  public patch<T = any, K = any>(url: ApiPath | string, body?: K, options?: any): Observable<T> {
     return this.httpClient.patch<T>(`${ApiPath.apiBaseUrl}` + `${url}`, body);
   }
 
-  public delete<T = any>(url: ApiPath, options?: any): Observable<T> {
+  public delete<T = any>(url: ApiPath | string, options?: any): Observable<T> {
     return this.httpClient.delete<T>(`${ApiPath.apiBaseUrl}` + `${url}`);
   }
 }

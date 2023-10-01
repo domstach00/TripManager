@@ -1,31 +1,3 @@
-<p>trip-plan-table works!</p>
-
-<!--<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">-->
-<!--  <ng-container matColumnDef="tripName">-->
-<!--    <th mat-header-cell *matHeaderCellDef>Name</th>-->
-<!--    <td class="clikable-text" mat-cell *matCellDef="let element"> {{ element.name }}</td>-->
-<!--  </ng-container>-->
-
-<!--  <ng-container matColumnDef="summaryCost">-->
-<!--    <th mat-header-cell *matHeaderCellDef>summaryCost</th>-->
-<!--    <td mat-cell *matCellDef="let element">{{ element.summary_cost }}</td>-->
-<!--  </ng-container>-->
-
-<!--  <ng-container matColumnDef="dayLength">-->
-<!--    <th mat-header-cell *matHeaderCellDef>Day Length</th>-->
-<!--    <td mat-cell *matCellDef="let element">{{ element.day_length }}</td>-->
-<!--  </ng-container>-->
-
-<!--  <ng-container matColumnDef="lastUpdate">-->
-<!--    <th mat-header-cell *matHeaderCellDef>last Update</th>-->
-<!--    <td mat-cell *matCellDef="let element">{{ element.last_update_date }}</td>-->
-<!--  </ng-container>-->
-
-<!--  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
-<!--  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>-->
-
-<!--</table>-->
-
 <div class="container py-1 w-100">
   <div class="row">
     <div class="col-lg-7 mx-auto w-auto">
@@ -37,7 +9,7 @@
             <table mat-table [dataSource]="this.dataSource" class="table h-auto">
               <ng-container matColumnDef="displayName">
                 <th mat-header-cell *matHeaderCellDef>Name</th>
-                <td mat-cell *matCellDef="let element"> {{ element.getNameToDisplay() }} </td>
+                <td mat-cell *matCellDef="let element"> {{ element.displayName }} </td>
               </ng-container>
               <ng-container matColumnDef="day">
                 <th mat-header-cell *matHeaderCellDef>Day</th>
@@ -49,17 +21,16 @@
               </ng-container>
               <ng-container matColumnDef="mapElementName" class="h-auto">
                 <th mat-header-cell *matHeaderCellDef>mapElementName</th>
-                <td mat-cell *matCellDef="let element">
-                  <mat-form-field class="example-full-width h-25">
-                    <mat-label>Locate</mat-label>
-                    <input matInput
-                           ngx-gp-autocomplete
-                           placeholder="{{ this.inputSearchPlaceHolder }}"
-
-                           (onAddressChange)="doIt($event, element)">
-
-                  </mat-form-field>
-                </td>
+                <td mat-cell *matCellDef="let element"> {{ element?.mapElement?.displayName }} </td>
+<!--                  <mat-form-field class="example-full-width h-25">-->
+<!--                    <mat-label>Locate</mat-label>-->
+<!--                    <input matInput-->
+<!--                           ngx-gp-autocomplete-->
+<!--                           placeholder="{{ this.inputSearchPlaceHolder }}"-->
+<!--                           (onAddressChange)="doIt($event, element)">-->
+<!--                    <td mat-cell *matCellDef="let element"> {{ element?.mapElement?.displayName }} -->
+<!--                  </mat-form-field>-->
+<!--                </td>-->
               </ng-container>
 
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -67,16 +38,11 @@
             </table>
           </div>
 
-          <!-- Add rows button-->
-          <button mat-raised-button (click)="this.openDialog()">Pick one</button>
-<!--          <a class="btn btn-primary rounded-0 btn-block" id="insertRow" href="#">Add new row</a>-->
+          <mat-dialog-actions>
+            <button mat-raised-button (click)="this.openDialog()">Add</button>
+          </mat-dialog-actions>
         </div>
       </div>
     </div>
   </div>
 </div><a style="font-size: 8pt; text-decoration: none" target="_blank"></a>
-
-<!--<label>Map Element name</label>-->
-<!--<mat-form-field appearance="outline">-->
-<!--  <input #inputField matInput [placeholder]="inputSearchPlaceHolder"/>-->
-<!--</mat-form-field>-->

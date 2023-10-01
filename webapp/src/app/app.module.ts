@@ -35,6 +35,14 @@ import { GoogleMapsModule } from "@angular/google-maps";
 import { NgxGpAutocompleteModule } from "@angular-magic/ngx-gp-autocomplete";
 import { TripPlanTableAddNewDialogComponent } from './dialog/trip-plan-table-add-new-dialog/trip-plan-table-add-new-dialog.component';
 import { MatDialogModule } from "@angular/material/dialog";
+import { TripPlanService } from "./_services/trip-plan.service";
+import { LogoutComponent } from './logout/logout.component';
+import { JwtModule } from "@auth0/angular-jwt";
+import { tokenGetter } from "./_services/token-storage.service";
+
+export function f() {
+
+}
 
 @NgModule({
   declarations: [
@@ -50,6 +58,7 @@ import { MatDialogModule } from "@angular/material/dialog";
     TripPlanTableComponent,
     TripPlanMapComponent,
     TripPlanTableAddNewDialogComponent,
+    LogoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -83,9 +92,16 @@ import { MatDialogModule } from "@angular/material/dialog";
     BrowserModule,
     FormsModule,
     MatDialogModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+      }
+    })
   ],
   providers: [
-    AuthService
+    AuthService,
+    TripPlanService,
+    // { provide: HTTP_INTERCEPTORS, useClass: CustomInterceptorsService, multi: true },
   ],
   bootstrap: [AppComponent]
 })

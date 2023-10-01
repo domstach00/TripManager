@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping(AuthController.authControllerUrl)
 public class AuthController {
@@ -21,6 +20,7 @@ public class AuthController {
     private UserAuthService userAuthService;
     @Autowired
     private UserMapper userMapper;
+
     @PostMapping(path = loginPostUrl)
     public ResponseEntity<UserDto> login(@RequestBody LoginRequest loginRequest) {
         return ResponseEntity.ok(userAuthService.login(loginRequest));
@@ -30,11 +30,6 @@ public class AuthController {
     public ResponseEntity<UserDto> register(@RequestBody SignupRequest signupRequest) {
         User user = userAuthService.register(signupRequest);
         return ResponseEntity.ok(userMapper.toUserDto(user));
-    }
-
-    @GetMapping(loginPostUrl)
-    public ResponseEntity<String> test() {
-        return ResponseEntity.ok("okkk");
     }
 
     public static String getLoginPostUrl() {

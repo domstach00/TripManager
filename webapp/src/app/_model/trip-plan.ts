@@ -18,10 +18,13 @@ export class TripPlan {
 }
 
 export interface GoogleMapPin {
+  displayName?: string;
   address?: string;
-  location?: google.maps.LatLng;
+  locationLat?: number;
+  locationLng?: number
   iconUrl?: string;
   name?: string;
+  vicinity?: string;
 }
 
 export interface TripPlanElement {

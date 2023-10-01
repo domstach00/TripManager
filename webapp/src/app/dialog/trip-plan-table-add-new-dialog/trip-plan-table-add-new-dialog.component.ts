@@ -1,6 +1,14 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { DialogData } from "../../trips/trip-plan/trip-plan-table/trip-plan-table.component";
+import { GoogleMapPin, TripPlan } from "../../_model/trip-plan";
+import { TripPlanService } from "../../_services/trip-plan.service";
+
+export interface DialogData {
+  name: string;
+  day: string;
+  cost: number;
+  mapElementName: GoogleMapPin;
+}
 
 @Component({
   selector: 'app-trip-plan-table-add-new-dialog',
@@ -8,14 +16,17 @@ import { DialogData } from "../../trips/trip-plan/trip-plan-table/trip-plan-tabl
   styleUrls: ['./trip-plan-table-add-new-dialog.component.scss']
 })
 export class TripPlanTableAddNewDialogComponent {
-
   constructor(
-    public dialogRef: MatDialogRef<TripPlanTableAddNewDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
+    readonly dialogRef: MatDialogRef<TripPlanTableAddNewDialogComponent>,
+    readonly tripPlanService: TripPlanService,
+    @Inject(MAT_DIALOG_DATA) public data: TripPlan,
   ) {}
 
-  onNoClick(): void {
+  onCloseClick(): void {
     this.dialogRef.close();
   }
 
+  assignPlace(assignedPlace: google.maps.places.PlaceResult) {
+    this.data.mapElement = this.tripPlanService.placeResultToGoogleMapPin(assignedPlace)
+  }
 }

@@ -32,8 +32,8 @@ export class TripPlanMapComponent implements OnInit{
   ngOnInit(): void {
     this.mapElement?.subscribe(value => {
       console.log("Here")
-      if (!!value.location)
-        this.markerPositions.push(this.markerPositionGenerator(value.location.lat(), value.location.lng()))
+      if (!!value.locationLat && !!value.locationLng)
+        this.markerPositions.push(this.markerPositionGenerator(value.locationLat, value.locationLng))
     })
 
 

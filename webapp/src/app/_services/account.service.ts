@@ -1,17 +1,17 @@
 import { Injectable } from "@angular/core";
 import { User } from "../_model/user";
-import { TokenStorageService } from "./token-storage.service";
+import { AuthService } from "./auth.service";
 
 @Injectable({
   providedIn: 'root',
 })
 export class AccountService {
 
-  constructor(readonly tokenStorageService: TokenStorageService) {
+  constructor(readonly authService: AuthService) {
   }
 
 
   public getUser(): User | null {
-    return this.tokenStorageService.getUser();
+    return this.authService.getUser();
   }
 }
