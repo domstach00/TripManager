@@ -30,11 +30,6 @@ public class JwtService {
 //    @Value("${sec.app.jwtCookieName}")
     private String jwtCookie = "abce";
 
-    @PostConstruct
-    protected void init() {
-        jwtSecret = Base64.getEncoder().encodeToString(jwtSecret.getBytes());
-    }
-
     public String createToken(UserDto userDto) {
         Date now = new Date();
         Date validity = new Date(now.getTime() + jwtExpirationMs);
@@ -46,7 +41,7 @@ public class JwtService {
                 .withClaim("id", userDto.getId())
                 .withClaim("username", userDto.getUsername())
                 .withClaim("email", userDto.getEmail())
-//                .withClaim("authorities", new ArrayList<>(userDto.getRoles()))
+                .withClaim("authorities", userDto.getRoles().stream().map(Enum::name).toList())
                 .sign(Algorithm.HMAC256(jwtSecret));
     }
 

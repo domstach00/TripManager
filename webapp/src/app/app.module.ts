@@ -10,7 +10,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { LoginFormComponent } from './login-form/login-form.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { ToastrModule } from "ngx-toastr";
 import { AuthService } from "./_services/auth.service";
 import { MatButtonModule } from "@angular/material/button";
@@ -39,6 +39,7 @@ import { TripPlanService } from "./_services/trip-plan.service";
 import { LogoutComponent } from './logout/logout.component';
 import { JwtModule } from "@auth0/angular-jwt";
 import { tokenGetter } from "./_services/token-storage.service";
+import { CustomInterceptorsService } from "./_services/custom-interceptors.service";
 
 export function f() {
 
@@ -101,7 +102,7 @@ export function f() {
   providers: [
     AuthService,
     TripPlanService,
-    // { provide: HTTP_INTERCEPTORS, useClass: CustomInterceptorsService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: CustomInterceptorsService, multi: true },
   ],
   bootstrap: [AppComponent]
 })

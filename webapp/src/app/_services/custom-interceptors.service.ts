@@ -13,7 +13,8 @@ export class CustomInterceptorsService implements HttpInterceptor{
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.tokenStorageService.getToken();
-    req = req.clone({ headers: req.headers.set('Authorization', 'bearer ' + token)});
+    if (!!token)
+      req = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + token)});
     return next.handle(req);
   }
 
