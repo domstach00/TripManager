@@ -4,9 +4,11 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
+import com.example.tripmanager.mapper.RoleMapper;
 import com.example.tripmanager.model.user.Role;
 import com.example.tripmanager.model.user.UserDto;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,11 +19,19 @@ import java.util.*;
 @Service
 @Slf4j
 public class JwtService {
-    @Value("${sec.app.jwtSecret}")
-    private String jwtSecret;
+    private final RoleMapper roleMapper;
 
-    @Value("${sec.app.jwtExpirationMs}")
-    private int jwtExpirationMs;
+    private final String jwtSecret;
+
+    private final int jwtExpirationMs;
+
+    public JwtService(@Autowired RoleMapper roleMapper,
+                      @Value("${sec.app.jwtSecret}") String jwtSecret,
+                      @Value("${sec.app.jwtExpirationMs}") int jwtExpirationMs) {
+        this.roleMapper = roleMapper;
+        this.jwtSecret = jwtSecret;
+        this.jwtExpirationMs = jwtExpirationMs;
+    }
 
     public String createToken(UserDto userDto) {
         Date now = new Date();
@@ -34,16 +44,17 @@ public class JwtService {
                 .withClaim("id", userDto.getId())
                 .withClaim("username", userDto.getUsername())
                 .withClaim("email", userDto.getEmail())
-                .withClaim("authorities", userDto.getRoles().stream().map(Enum::name).toList())
-                .sign(Algorithm.HMAC256(jwtSecret));
+                .withClaim("authorities", roleMapper.roleToString(userDto.getRoles()))
+                .sign(Algorithm.HMAC256(this.jwtSecret));
     }
 
     public Authentication validateToken(String token) {
-        return new UsernamePasswordAuthenticationToken(getUserDtoFromJwt(token), null, Collections.emptyList());
+        UserDto user = getUserDtoFromJwt(token);
+        return new UsernamePasswordAuthenticationToken(user, null, roleMapper.roleToGrantedAuthorities(user.getRoles()));
     }
 
     public UserDto getUserDtoFromJwt(String token) {
-        Algorithm algorithm = Algorithm.HMAC256(jwtSecret);
+        Algorithm algorithm = Algorithm.HMAC256(this.jwtSecret);
 
         JWTVerifier verifier = JWT.require(algorithm).build();
         DecodedJWT decoded = verifier.verify(token);
