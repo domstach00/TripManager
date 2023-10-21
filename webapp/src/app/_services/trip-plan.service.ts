@@ -20,7 +20,7 @@ export class TripPlanService {
   }
 
   public getTripPlan(tripPlanId: string) {
-    return this.apiService.get(`${ApiPath.tripPlan}` + '/' + tripPlanId)
+    return this.apiService.getFormatted(ApiPath.tripPlanSelect, [tripPlanId])
   }
 
   public placeResultToGoogleMapPin(assignedPlace: google.maps.places.PlaceResult): GoogleMapPin {
