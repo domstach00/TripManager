@@ -61,17 +61,16 @@ export class TripPlanTableComponent implements OnInit, OnDestroy, AfterViewInit 
   ) {}
 
   ngOnInit(): void {
-    this.subscriptions.add(this.tripPlanService.getTripPlans().subscribe(tripPlans => {
-      console.log(tripPlans)
-      this.dataSource?.data.push(...tripPlans);
+    this.subscriptions.add(
+      this.tripPlanService.getTripPlans().subscribe(tripPlans => {
+        this.dataSource.data = [...tripPlans];
     }))
 
     this.subscriptions.add(
       this.addValueToTripList?.subscribe(next => {
-        this.dataSource?.data.push(next)
+        this.dataSource.data.push(next)
       })
     )
-
   }
 
   ngAfterViewInit() {
