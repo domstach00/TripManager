@@ -11,12 +11,12 @@ export class TripPlanService {
     readonly apiService: ApiService
   ) {}
 
-  public addTripPlan(tripPlan: TripPlan) {
-    return this.apiService.post<TripPlan>(ApiPath.tripPlan, tripPlan);
+  public addTripPlan(tripPlan: TripPlan, tripId: string) {
+    return this.apiService.postFormatted<TripPlan>(ApiPath.tripPlan, [tripId], tripPlan);
   }
 
-  public getTripPlans() {
-    return this.apiService.get<TripPlan[]>(ApiPath.tripPlan);
+  public getTripPlans(tripId: string) {
+    return this.apiService.getFormatted<TripPlan[]>(ApiPath.tripPlan, [tripId]);
   }
 
   public getTripPlan(tripPlanId: string) {

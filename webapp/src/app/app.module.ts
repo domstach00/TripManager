@@ -40,6 +40,9 @@ import { LogoutComponent } from './logout/logout.component';
 import { JwtModule } from "@auth0/angular-jwt";
 import { tokenGetter } from "./_services/token-storage.service";
 import { CustomInterceptorsService } from "./_services/custom-interceptors.service";
+import { TripService } from "./_services/trip.service";
+import { TripTableAddNewDialogComponent } from './dialog/trip-table-add-new-dialog/trip-table-add-new-dialog.component';
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 export function f() {
 
@@ -60,6 +63,7 @@ export function f() {
     TripPlanMapComponent,
     TripPlanTableAddNewDialogComponent,
     LogoutComponent,
+    TripTableAddNewDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -97,11 +101,13 @@ export function f() {
       config: {
         tokenGetter: tokenGetter,
       }
-    })
+    }),
+    MatTooltipModule
   ],
   providers: [
     AuthService,
     TripPlanService,
+    TripService,
     { provide: HTTP_INTERCEPTORS, useClass: CustomInterceptorsService, multi: true },
   ],
   bootstrap: [AppComponent]

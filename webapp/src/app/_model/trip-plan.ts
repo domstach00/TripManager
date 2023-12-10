@@ -1,20 +1,12 @@
-export class TripPlan {
-  id: string = "";
-  displayName = "";
+export interface TripPlan {
+  id: string;
+  displayName: string;
+  tripId: string
   day?: number
   cost?: number;
   desc?: string;
   link?: string;
   mapElement?: GoogleMapPin
-
-
-  getNameToDisplay(): string {
-    return !!this.displayName
-      ? this.displayName
-      : !!this.mapElement?.name
-        ? this.mapElement.name
-        : ''
-  }
 }
 
 export interface GoogleMapPin {

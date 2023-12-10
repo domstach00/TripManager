@@ -1,10 +1,10 @@
 <div class="demo-button-container">
-  <button mat-raised-button (click)="addData()" class="demo-button">
+  <button mat-raised-button (click)="this.openDialog()" class="demo-button">
     Add data
   </button>
   <button
     mat-raised-button
-    [disabled]="!dataSource.length"
+    [disabled]="!dataSource.data.length"
     (click)="removeData()"
     class="demo-button">
     Remove data
@@ -14,22 +14,33 @@
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
   <ng-container matColumnDef="tripName">
     <th mat-header-cell *matHeaderCellDef>Name</th>
-    <td class="clikable-text" (click)="nav(element.id)" mat-cell *matCellDef="let element"> {{ element.name }}</td>
+    <td class="clikable-text" mat-cell
+        (click)="nav(element.id)"
+        *matCellDef="let element"
+        [matTooltip]="element.name">
+      {{ element.name }}</td>
   </ng-container>
 
   <ng-container matColumnDef="summaryCost">
     <th mat-header-cell *matHeaderCellDef>summaryCost</th>
-    <td mat-cell *matCellDef="let element">{{ element.summary_cost }}</td>
+    <td mat-cell *matCellDef="let element"
+        [matTooltip]="element.summaryCost">
+      {{ element.summaryCost }}</td>
   </ng-container>
 
   <ng-container matColumnDef="dayLength">
     <th mat-header-cell *matHeaderCellDef>Day Length</th>
-    <td mat-cell *matCellDef="let element">{{ element.day_length }}</td>
+    <td mat-cell *matCellDef="let element"
+        [matTooltip]="element.dayLength">
+      {{ element.dayLength }}</td>
   </ng-container>
 
   <ng-container matColumnDef="lastUpdate">
     <th mat-header-cell *matHeaderCellDef>last Update</th>
-    <td mat-cell *matCellDef="let element">{{ element.last_update_date }}</td>
+    <td mat-cell *matCellDef="let element"
+        [matTooltip]="formatLastUpdateBy(element.lastUpdateBy)">
+      {{ formatLastDateTimeUpdate(element.lastUpdateDate, element.lastUpdateTime) }}
+    </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

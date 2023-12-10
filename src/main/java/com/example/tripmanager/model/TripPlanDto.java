@@ -1,7 +1,8 @@
 package com.example.tripmanager.model;
 
-import org.springframework.data.mongodb.core.mapping.DocumentReference;
+import lombok.Data;
 
+@Data
 public class TripPlanDto {
     private String id;
 
@@ -11,5 +12,6 @@ public class TripPlanDto {
     private String desc;
     private String link;
 
+    private TripDto trip;
     private GoogleMapPin mapElement;
 }

@@ -32,14 +32,11 @@ interface TripPlanTableItem {
   styleUrls: ['./trip-plan-table.component.scss']
 })
 export class TripPlanTableComponent implements OnInit, OnDestroy, AfterViewInit {
-  @Input()
-  inputSearchPlaceHolder = 'search';
-  @Input()
-  addValueToTripList?: ReplaySubject<TripPlan>
-  @Input()
-  editValue?: ReplaySubject<TripPlan>
-  @Input()
-  insertDataSource?: TripPlan[];
+  @Input() inputSearchPlaceHolder = 'search';
+  @Input() addValueToTripList?: ReplaySubject<TripPlan>
+  @Input() editValue?: ReplaySubject<TripPlan>
+  @Input() insertDataSource?: TripPlan[];
+  @Input() tripId: string = "";
 
   @Output()
   addMapPin: EventEmitter<GoogleMapPin> = new EventEmitter();
@@ -62,7 +59,7 @@ export class TripPlanTableComponent implements OnInit, OnDestroy, AfterViewInit 
 
   ngOnInit(): void {
     this.subscriptions.add(
-      this.tripPlanService.getTripPlans().subscribe(tripPlans => {
+      this.tripPlanService.getTripPlans(this.tripId).subscribe(tripPlans => {
         this.dataSource.data = [...tripPlans];
     }))
 
@@ -154,7 +151,7 @@ export class TripPlanTableComponent implements OnInit, OnDestroy, AfterViewInit 
 
     dialogRef.afterClosed().subscribe((result) => {
       if (!!result) {
-        this.tripPlanService.addTripPlan(result).subscribe(value => {
+        this.tripPlanService.addTripPlan(result, this.tripId).subscribe(value => {
           this.dataSource.data = [...this.dataSource.data, value]
         });
       }

@@ -1,5 +1,6 @@
 package com.example.tripmanager.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -37,6 +38,7 @@ public class User implements UserDetails {
 
     @NotBlank
     @Size(max = 120)
+    @JsonIgnore
     private String password;
 
     private Set<Role> roles = new HashSet<>();

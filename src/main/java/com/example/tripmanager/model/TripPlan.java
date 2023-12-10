@@ -26,6 +26,9 @@ public class TripPlan {
     private User createdBy;
     private LocalDateTime createdDateTime;
 
+    @DocumentReference
+    private Trip trip;
+
 
     @DocumentReference
     private GoogleMapPin mapElement;

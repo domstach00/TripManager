@@ -5,6 +5,12 @@
 </mat-button-toggle-group>
 
 <div class="container">
-  <app-trip-plan-table [hidden]="this.showMap === ShowToggle.MAP" class="table-cell" (addMapPin)="this.onOutput($event)"></app-trip-plan-table>
-  <app-trip-plan-map [hidden]="this.showMap === ShowToggle.TABLE" class="map-cell" [mapElement]="this.obs"></app-trip-plan-map>
+  <app-trip-plan-table  class="table-cell"
+                        *ngIf="!!this.tripId"
+                        [hidden]="this.showMap === ShowToggle.MAP"
+                        (addMapPin)="this.onOutput($event)"
+                        [tripId]="this.tripId"></app-trip-plan-table>
+  <app-trip-plan-map class="map-cell"
+                     [hidden]="this.showMap === ShowToggle.TABLE"
+                     [mapElement]="this.obs"></app-trip-plan-map>
 </div>
