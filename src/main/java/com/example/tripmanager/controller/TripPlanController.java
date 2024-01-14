@@ -25,8 +25,11 @@ public class TripPlanController {
     }
 
     @PostMapping()
-    public TripPlanDto postTripPlan(@RequestBody TripPlan tripPlan) {
-        return tripPlanMapper.toDto(this.tripPlanService.insertTripPlan(tripPlan));
+    public TripPlanDto postTripPlan(@PathVariable String tripId,
+                                    @RequestBody TripPlanDto tripPlanDto) {
+        return tripPlanMapper.toDto(
+                this.tripPlanService.insertTripPlan(tripPlanDto, tripId)
+        );
     }
 
 }

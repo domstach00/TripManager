@@ -12,6 +12,5 @@ public class TripPlanDto {
     private String desc;
     private String link;
 
-    private TripDto trip;
     private GoogleMapPin mapElement;
 }

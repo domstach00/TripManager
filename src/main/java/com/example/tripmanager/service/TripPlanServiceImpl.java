@@ -1,8 +1,10 @@
 package com.example.tripmanager.service;
 
 import com.example.tripmanager.exception.ItemNotFound;
+import com.example.tripmanager.mapper.TripPlanMapper;
 import com.example.tripmanager.model.Trip;
 import com.example.tripmanager.model.TripPlan;
+import com.example.tripmanager.model.TripPlanDto;
 import com.example.tripmanager.repository.TripPlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,8 @@ public class TripPlanServiceImpl implements TripPlanService{
     private TripService tripService;
     @Autowired
     private GoogleMapPinService googleMapPinService;
+    @Autowired
+    private TripPlanMapper tripPlanMapper;
 
     @Override
     public List<TripPlan> getAllTripPlansForTrip(String tripId) {
@@ -26,7 +30,11 @@ public class TripPlanServiceImpl implements TripPlanService{
     }
 
     @Override
-    public TripPlan insertTripPlan(TripPlan tripPlan) {
+    public TripPlan insertTripPlan(TripPlanDto tripPlanDto, String tripId) {
+        Trip trip = tripService.getTripById(tripId)
+                .orElseThrow(() -> new ItemNotFound("Trip not found - id=" + tripId));
+        TripPlan tripPlan = tripPlanMapper.fromDto(tripPlanDto, trip);
+
         if (tripPlan.getMapElement() != null) {
             tripPlan.setMapElement(this.googleMapPinService.insertGoogleMapPin(tripPlan.getMapElement()));
         }
