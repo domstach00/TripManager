@@ -1,48 +1,39 @@
-<div class="container py-1 w-100">
-  <div class="row">
-    <div class="col-lg-7 mx-auto w-auto">
-      <div class="card rounded-0 border-0 shadow">
-        <div class="card-body p-5">
+<div class="m-3 mw-100">
+  <table mat-table [dataSource]="this.dataSource" class="table-fix">
+    <ng-container matColumnDef="displayName">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let element" [matTooltip]="element?.day"> {{ element.displayName }} </td>
+    </ng-container>
+    <ng-container matColumnDef="day">
+      <th mat-header-cell *matHeaderCellDef>Day</th>
+      <td mat-cell *matCellDef="let element" [matTooltip]="element?.day"> {{ element?.day }} </td>
+    </ng-container>
+    <ng-container matColumnDef="cost">
+      <th mat-header-cell *matHeaderCellDef>Cost</th>
+      <td mat-cell *matCellDef="let element" [matTooltip]="element?.cost"> {{ element?.cost }} </td>
+    </ng-container>
+    <ng-container matColumnDef="mapElementName">
+      <th mat-header-cell *matHeaderCellDef>mapElementName</th>
+      <td mat-cell *matCellDef="let element" [matTooltip]="element?.mapElement?.displayName"> {{ element?.mapElement?.displayName }} </td>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button [matMenuTriggerFor]="kebabMenu" aria-label="">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+        <mat-menu #kebabMenu>
+          <button mat-menu-item (click)="deleteItem(element.tripId, element.id)">Delete</button>
+          <button mat-menu-item (click)="editTripPlanDialog(element)">Edit</button>
+        </mat-menu>
+      </td>
+    </ng-container>
 
-          <!--  Bootstrap table-->
-          <div class="table-responsive">
-            <table mat-table [dataSource]="this.dataSource" class="table h-auto">
-              <ng-container matColumnDef="displayName">
-                <th mat-header-cell *matHeaderCellDef>Name</th>
-                <td mat-cell *matCellDef="let element"> {{ element.displayName }} </td>
-              </ng-container>
-              <ng-container matColumnDef="day">
-                <th mat-header-cell *matHeaderCellDef>Day</th>
-                <td mat-cell *matCellDef="let element"> {{ element?.day }} </td>
-              </ng-container>
-              <ng-container matColumnDef="cost">
-                <th mat-header-cell *matHeaderCellDef>Cost</th>
-                <td mat-cell *matCellDef="let element"> {{ element?.cost }} </td>
-              </ng-container>
-              <ng-container matColumnDef="mapElementName" class="h-auto">
-                <th mat-header-cell *matHeaderCellDef>mapElementName</th>
-                <td mat-cell *matCellDef="let element"> {{ element?.mapElement?.displayName }} </td>
-<!--                  <mat-form-field class="example-full-width h-25">-->
-<!--                    <mat-label>Locate</mat-label>-->
-<!--                    <input matInput-->
-<!--                           ngx-gp-autocomplete-->
-<!--                           placeholder="{{ this.inputSearchPlaceHolder }}"-->
-<!--                           (onAddressChange)="doIt($event, element)">-->
-<!--                    <td mat-cell *matCellDef="let element"> {{ element?.mapElement?.displayName }} -->
-<!--                  </mat-form-field>-->
-<!--                </td>-->
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-          </div>
-
-          <mat-dialog-actions>
-            <button mat-raised-button (click)="this.openDialog()">Add</button>
-          </mat-dialog-actions>
-        </div>
-      </div>
-    </div>
-  </div>
-</div><a style="font-size: 8pt; text-decoration: none" target="_blank"></a>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+<!--  <a style="font-size: 8pt; text-decoration: none" target="_blank"></a>-->
+  <mat-dialog-actions>
+    <button mat-raised-button (click)="this.insertTripPlanDialog()">Add</button>
+  </mat-dialog-actions>
+</div>

@@ -8,4 +8,6 @@ import java.util.List;
 public interface TripPlanService {
     List<TripPlan> getAllTripPlansForTrip(String tripId);
     TripPlan insertTripPlan(TripPlanDto tripPlan, String tripId);
+    void deleteTripPlan(String tripPlanId);
+    TripPlan patchTripPlan(TripPlanDto tripPlanDto);
 }

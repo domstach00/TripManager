@@ -1,5 +1,6 @@
 package com.example.tripmanager.service;
 
+import com.example.tripmanager.exception.ItemNotFound;
 import com.example.tripmanager.model.GoogleMapPin;
 import com.example.tripmanager.repository.GoogleMapPinRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,5 +20,13 @@ public class GoogleMapPinServiceImpl implements GoogleMapPinService{
     @Override
     public List<GoogleMapPin> findAll() {
         return this.googleMapPinRepository.findAll();
+    }
+
+    @Override
+    public boolean deleteGoogleMapPin(String googleMapPinId) {
+        GoogleMapPin googleMapPin = googleMapPinRepository.findById(googleMapPinId)
+                .orElseThrow(() -> new ItemNotFound("GoogleMapPin not found - id=" + googleMapPinId));
+        googleMapPinRepository.delete(googleMapPin);
+        return true;
     }
 }

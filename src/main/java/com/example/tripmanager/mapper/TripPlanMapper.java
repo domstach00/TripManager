@@ -13,6 +13,7 @@ import java.util.List;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public abstract class TripPlanMapper {
 
+    @Mapping(target = "tripId", expression = "java(tripPlan.getTrip().getId())")
     public abstract TripPlanDto toDto(TripPlan tripPlan);
 
     @Mapping(target = "createdBy", ignore = true)

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class TripPlanServiceImpl implements TripPlanService{
@@ -40,4 +41,31 @@ public class TripPlanServiceImpl implements TripPlanService{
         }
         return this.tripPlanRepository.insert(tripPlan);
     }
+
+    @Override
+    public void deleteTripPlan(String tripPlanId) {
+        TripPlan tripPlanToDelete = this.tripPlanRepository.findById(tripPlanId)
+                .orElseThrow(() -> new ItemNotFound("TripPlan not found - id=" + tripPlanId));
+        this.tripPlanRepository.delete(tripPlanToDelete);
+    }
+
+    @Override
+    public TripPlan patchTripPlan(TripPlanDto updatedTripPlanDto) {
+        TripPlan originalTripPlan = tripPlanRepository.findById(updatedTripPlanDto.getId())
+                .orElseThrow(() -> new ItemNotFound("TripPlan not found - id=" + updatedTripPlanDto.getTripId()));
+        updatedTripPlanDto.checkPatchValidation(tripPlanMapper.toDto(originalTripPlan));
+
+        if (!Objects.equals(updatedTripPlanDto.getMapElement(), originalTripPlan.getMapElement())) {
+            if (originalTripPlan.getMapElement() != null) {
+                googleMapPinService.deleteGoogleMapPin(originalTripPlan.getMapElement().getId());
+            }
+            if (updatedTripPlanDto.getMapElement() != null) {
+                googleMapPinService.insertGoogleMapPin(updatedTripPlanDto.getMapElement());
+            }
+        }
+
+        TripPlan updatedTripPlan = tripPlanMapper.fromDto(updatedTripPlanDto, originalTripPlan.getTrip());
+        return tripPlanRepository.save(updatedTripPlan);
+    }
+
 }

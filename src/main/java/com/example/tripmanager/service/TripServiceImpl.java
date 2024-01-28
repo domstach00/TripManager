@@ -1,8 +1,10 @@
 package com.example.tripmanager.service;
 
+import com.example.tripmanager.exception.ItemNotFound;
 import com.example.tripmanager.mapper.TripMapper;
 import com.example.tripmanager.model.Trip;
 import com.example.tripmanager.model.TripDto;
+import com.example.tripmanager.model.user.User;
 import com.example.tripmanager.repository.TripRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +34,12 @@ public class TripServiceImpl implements TripService {
     @Override
     public List<Trip> getTripsForCurrentUser() {
         return this.tripRepository.findAllByAllowedUsersContaining(List.of(userService.getCurrentUser()));
+    }
+
+    @Override
+    public boolean hasUserAccessToTrip(String tripId, User user) {
+        Trip trip = tripRepository.findById(tripId).orElseThrow(() -> new ItemNotFound("Trip not found"));
+        return trip.isPublic() || trip.getAllowedUsers().contains(user);
     }
 
 }

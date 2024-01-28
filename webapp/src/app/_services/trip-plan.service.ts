@@ -1,8 +1,8 @@
 import { GoogleMapPin, TripPlan } from "../_model/trip-plan";
 import { ApiService } from "./api.service";
 import { ApiPath } from "../_model/ApiPath";
-import LatLng = google.maps.LatLng;
 import { Injectable } from "@angular/core";
+import LatLng = google.maps.LatLng;
 
 @Injectable()
 export class TripPlanService {
@@ -13,6 +13,14 @@ export class TripPlanService {
 
   public addTripPlan(tripPlan: TripPlan, tripId: string) {
     return this.apiService.postFormatted<TripPlan>(ApiPath.tripPlan, [tripId], tripPlan);
+  }
+
+  public deleteTripPlan(tripId: string, tripPlanId: string) {
+    return this.apiService.deleteFormatted(ApiPath.tripPlanSelect, [tripPlanId])
+  }
+
+  public patchTripPlan(tripPlan: TripPlan) {
+    return this.apiService.patchFormatted<TripPlan>(ApiPath.tripPlan, [tripPlan.tripId], tripPlan);
   }
 
   public getTripPlans(tripId: string) {
@@ -29,7 +37,7 @@ export class TripPlanService {
       locationLng: assignedPlace.geometry?.location?.lng(),
       name: assignedPlace.name,
       vicinity: assignedPlace.vicinity,
-      displayName: assignedPlace.name + " " + assignedPlace.vicinity,
+      displayName: assignedPlace.name + (assignedPlace.vicinity && assignedPlace.name != assignedPlace.vicinity ? ' ' + assignedPlace.vicinity : ''),
       address: assignedPlace.vicinity,
       iconUrl: assignedPlace.icon
     } as GoogleMapPin

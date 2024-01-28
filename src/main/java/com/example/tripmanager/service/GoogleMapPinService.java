@@ -7,4 +7,5 @@ import java.util.List;
 public interface GoogleMapPinService {
     GoogleMapPin insertGoogleMapPin(GoogleMapPin googleMapPin);
     List<GoogleMapPin> findAll();
+    boolean deleteGoogleMapPin(String googleMapPinId);
 }

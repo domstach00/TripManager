@@ -43,6 +43,7 @@ import { CustomInterceptorsService } from "./_services/custom-interceptors.servi
 import { TripService } from "./_services/trip.service";
 import { TripTableAddNewDialogComponent } from './dialog/trip-table-add-new-dialog/trip-table-add-new-dialog.component';
 import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatSortModule } from "@angular/material/sort";
 
 export function f() {
 
@@ -65,45 +66,46 @@ export function f() {
     LogoutComponent,
     TripTableAddNewDialogComponent,
   ],
-  imports: [
-    BrowserModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    NgbModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatSidenavModule,
-    FormsModule,
-    HttpClientModule,
-    ToastrModule.forRoot(),
-    MatButtonModule,
-    MatListModule,
-    MatGridListModule,
-    MatCardModule,
-    MatMenuModule,
-    ReactiveFormsModule,
-    RouterOutlet,
-    AppRoutingModule,
-    MatTableModule,
-    MatInputModule,
-    MatButtonToggleModule,
-    GoogleMapsModule,
-    NgxGpAutocompleteModule.forRoot({
-      loaderOptions: {
-        apiKey: 'GOOGLE_API_KEY',
-        libraries: ['places']
-      }
-    }),
-    BrowserModule,
-    FormsModule,
-    MatDialogModule,
-    JwtModule.forRoot({
-      config: {
-        tokenGetter: tokenGetter,
-      }
-    }),
-    MatTooltipModule
-  ],
+    imports: [
+        BrowserModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        NgbModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatSidenavModule,
+        FormsModule,
+        HttpClientModule,
+        ToastrModule.forRoot(),
+        MatButtonModule,
+        MatListModule,
+        MatGridListModule,
+        MatCardModule,
+        MatMenuModule,
+        ReactiveFormsModule,
+        RouterOutlet,
+        AppRoutingModule,
+        MatTableModule,
+        MatInputModule,
+        MatButtonToggleModule,
+        GoogleMapsModule,
+        NgxGpAutocompleteModule.forRoot({
+            loaderOptions: {
+                apiKey: 'AIzaSyCySOc5V8jIcTWxBEhu_oNnP67E19ASufI',
+                libraries: ['places']
+            }
+        }),
+        BrowserModule,
+        FormsModule,
+        MatDialogModule,
+        JwtModule.forRoot({
+            config: {
+                tokenGetter: tokenGetter,
+            }
+        }),
+        MatTooltipModule,
+        MatSortModule
+    ],
   providers: [
     AuthService,
     TripPlanService,

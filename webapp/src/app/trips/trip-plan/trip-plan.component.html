@@ -11,6 +11,7 @@
                         (addMapPin)="this.onOutput($event)"
                         [tripId]="this.tripId"></app-trip-plan-table>
   <app-trip-plan-map class="map-cell"
+                     *ngIf="!!this.tripId"
                      [hidden]="this.showMap === ShowToggle.TABLE"
-                     [mapElement]="this.obs"></app-trip-plan-map>
+                     [tripId]="this.tripId"></app-trip-plan-map>
 </div>

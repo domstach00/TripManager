@@ -17,10 +17,14 @@
     <input matInput
            ngx-gp-autocomplete
            (onAddressChange)="assignPlace($event)"
-           [ngModel]="!!data.mapElement ? data.mapElement.displayName : ''">
+           [ngModel]="data.mapElement?.displayName">
+    <span id="clearInputBtn"
+          class="clearBtn"
+          *ngIf="!!data.mapElement?.displayName"
+          (click)="clearMapPinValue()"><mat-icon>clear</mat-icon></span>
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onCloseClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="data">Add</button>
+  <button mat-button [mat-dialog-close]="data">Confirm</button>
 </div>

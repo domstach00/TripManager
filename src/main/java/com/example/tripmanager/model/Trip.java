@@ -23,7 +23,6 @@ public class Trip {
     private String name;
     private String description;
     private int dayLength;
-    private double summaryCost;
     private LocalDate lastUpdateDate;
     private LocalTime lastUpdateTime;
     @DocumentReference

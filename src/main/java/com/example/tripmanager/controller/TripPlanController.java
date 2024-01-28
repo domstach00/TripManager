@@ -1,7 +1,6 @@
 package com.example.tripmanager.controller;
 
 import com.example.tripmanager.mapper.TripPlanMapper;
-import com.example.tripmanager.model.TripPlan;
 import com.example.tripmanager.model.TripPlanDto;
 import com.example.tripmanager.service.TripPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +19,10 @@ public class TripPlanController {
     private TripPlanMapper tripPlanMapper;
 
     @GetMapping()
-    public List<TripPlan> getAllTripPlan(@PathVariable("tripId") String tripId) {
-        return this.tripPlanService.getAllTripPlansForTrip(tripId);
+    public List<TripPlanDto> getAllTripPlan(@PathVariable("tripId") String tripId) {
+        return tripPlanMapper.toDto(
+                tripPlanService.getAllTripPlansForTrip(tripId)
+        );
     }
 
     @PostMapping()
@@ -30,6 +31,19 @@ public class TripPlanController {
         return tripPlanMapper.toDto(
                 this.tripPlanService.insertTripPlan(tripPlanDto, tripId)
         );
+    }
+
+    @PatchMapping()
+    public TripPlanDto patchTripPlan(@PathVariable String tripId,
+                                     @RequestBody TripPlanDto tripPlanDto) {
+        return tripPlanMapper.toDto(
+                tripPlanService.patchTripPlan(tripPlanDto)
+        );
+    }
+
+    @DeleteMapping("/{tripPlanId}")
+    public void deleteTripPlan(@PathVariable String tripId, @PathVariable String tripPlanId) {
+        this.tripPlanService.deleteTripPlan(tripPlanId);
     }
 
 }

@@ -17,6 +17,7 @@ public abstract class TripMapper {
     @Autowired
     protected UserService userService;
 
+//    @Mapping(target = "summaryCost", expression = "java()")
     public abstract TripDto toDto(Trip trip);
 
     @Mapping(target = "lastUpdateDate", expression = "java(getLocalDate())")

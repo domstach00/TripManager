@@ -1,14 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { GoogleMapPin, TripPlan } from "../../_model/trip-plan";
+import { TripPlan } from "../../_model/trip-plan";
 import { TripPlanService } from "../../_services/trip-plan.service";
-
-export interface DialogData {
-  name: string;
-  day: string;
-  cost: number;
-  mapElementName: GoogleMapPin;
-}
 
 @Component({
   selector: 'app-trip-plan-table-add-new-dialog',
@@ -27,6 +20,11 @@ export class TripPlanTableAddNewDialogComponent {
   }
 
   assignPlace(assignedPlace: google.maps.places.PlaceResult) {
+    console.log("assign: ", assignedPlace)
     this.data.mapElement = this.tripPlanService.placeResultToGoogleMapPin(assignedPlace)
+  }
+
+  clearMapPinValue() {
+    this.data.mapElement = undefined;
   }
 }

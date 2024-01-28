@@ -5,6 +5,6 @@ export enum ApiPath {
   trip = 'trip',
   tripSelect = 'trip/{0}',
   tripPlan = 'trip/{0}/plan',
-  tripPlanSelect = 'trip/plan/{0}',
-  googleMapPin = 'googleMapPin',
+  tripPlanSelect = 'trip/{0}/plan/{0}',
+  googleMapPin = 'trip/{0}/googleMapPin',
 }

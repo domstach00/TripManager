@@ -1,0 +1,16 @@
+import { Injectable } from "@angular/core";
+import { ApiService } from "./api.service";
+import { GoogleMapPin } from "../_model/trip-plan";
+import { ApiPath } from "../_model/ApiPath";
+
+@Injectable()
+export class GoogleMapPinService {
+
+  constructor(
+    readonly apiService: ApiService
+  ) {}
+
+  public getGoogleMapPins(tripId: string) {
+    return this.apiService.getFormatted<GoogleMapPin[]>(ApiPath.googleMapPin, [tripId]);
+  }
+}
