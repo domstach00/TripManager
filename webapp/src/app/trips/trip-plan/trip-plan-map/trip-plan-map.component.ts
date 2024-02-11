@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { GoogleMapPin } from "../../../_model/trip-plan";
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { GoogleMapPin, TripPlan } from "../../../_model/trip-plan";
 import { BehaviorSubject, Observable } from "rxjs";
 import { GoogleMap } from "@angular/google-maps";
 import LatLng = google.maps.LatLng;
@@ -20,7 +20,10 @@ export class TripPlanMapComponent implements OnInit {
   tripId!: string;
 
   pinsSubject = new BehaviorSubject<LatLng[]>([]);
-  dataSource$: Observable<google.maps.LatLng[]> = this.pinsSubject.asObservable();
+  dataSource: Observable<google.maps.LatLng[]> = this.pinsSubject.asObservable();
+  @Input() dataSource$!: Observable<TripPlan[]>;
+  @Output() refreshEvent = new EventEmitter<void>();
+
 
   options: google.maps.MapOptions = {
     center: {lat: 50, lng: 19},
@@ -32,7 +35,7 @@ export class TripPlanMapComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.tripPlanService.getTripPlans(this.tripId).subscribe( tripPlanList => {
+    this.dataSource$.subscribe( tripPlanList => {
       const googleMapPins = [...tripPlanList
         .map(value => value.mapElement)
         .filter( (optionalGoogleMapPin): optionalGoogleMapPin is GoogleMapPin =>

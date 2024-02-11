@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
-import { ReplaySubject, Subscription } from "rxjs";
+import { BehaviorSubject, ReplaySubject, Subscription, tap } from "rxjs";
 import { Trip } from "../../_model/trip";
 import { TripPlan, GoogleMapPin } from "../../_model/trip-plan";
 import { TripPlanService } from "../../_services/trip-plan.service";
@@ -16,15 +16,14 @@ enum ShowToggle {
   styleUrls: ['./trip-plan.component.scss']
 })
 export class TripPlanComponent implements OnInit, OnDestroy{
+  dataSource$: BehaviorSubject<TripPlan[]> = new BehaviorSubject<TripPlan[]>([])
   obs: ReplaySubject<GoogleMapPin> = new ReplaySubject<GoogleMapPin>();
   showMap: ShowToggle = ShowToggle.ALL;
 
   subscriptions: Subscription = new Subscription();
-  tripId?: string;
+  tripId!: string;
   trip?: Trip;
-  tripPlan?: TripPlan
 
-  tripPlans: TripPlan[] = [];
   constructor(
     readonly activatedRoute: ActivatedRoute,
     readonly tripPlanService: TripPlanService
@@ -35,19 +34,16 @@ export class TripPlanComponent implements OnInit, OnDestroy{
       this.activatedRoute.params.subscribe(params => {
         this.tripId = params['tripId']
       }))
+  }
 
-    // this.tripPlanService.getTripPlans().subscribe(tripPlans => {
-    //   this.tripPlans = tripPlans;
-    // })
+  refreshData() {
+    this.tripPlanService.getTripPlans(this.tripId).pipe(
+      tap(tripPlans => this.dataSource$.next(tripPlans))
+    ).subscribe();
   }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
-  }
-
-  onOutput(tripMap: GoogleMapPin) {
-    console.log("output")
-    this.obs?.next(tripMap);
   }
 
   changeShowMap(val: ShowToggle) {

@@ -5,9 +5,8 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { GoogleMapPin, TripPlan } from "../../../_model/trip-plan";
-import { MatTableDataSource } from "@angular/material/table";
-import { ReplaySubject, Subscription } from "rxjs";
+import { TripPlan } from "../../../_model/trip-plan";
+import { catchError, Observable, tap, throwError } from "rxjs";
 import { MatDialog } from "@angular/material/dialog";
 import {
   TripPlanTableAddNewDialogComponent
@@ -21,19 +20,12 @@ import { TripPlanService } from "../../../_services/trip-plan.service";
 })
 export class TripPlanTableComponent implements OnInit {
   @Input() inputSearchPlaceHolder = 'search';
-  @Input() addValueToTripList?: ReplaySubject<TripPlan>
-  @Input() editValue?: ReplaySubject<TripPlan>
-  @Input() insertDataSource?: TripPlan[];
-  @Input() tripId: string = "";
+  @Input() tripId!: string;
+  @Input() dataSource!: Observable<TripPlan[]>
 
-  @Output()
-  addMapPin: EventEmitter<GoogleMapPin> = new EventEmitter();
+  @Output() refreshEvent = new EventEmitter<void>();
 
   // @ViewChild('inputField') inputField!: ElementRef;
-
-  protected subscriptions: Subscription = new Subscription();
-
-  dataSource: MatTableDataSource<TripPlan> = new MatTableDataSource<TripPlan>();
 
   displayedColumns: string[] = ['displayName', 'day', 'cost', 'mapElementName', 'actions']
   model: any;
@@ -43,16 +35,11 @@ export class TripPlanTableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.subscriptions.add(
-      this.tripPlanService.getTripPlans(this.tripId).subscribe(tripPlans => {
-        this.dataSource.data = [...tripPlans];
-    }))
+    this.refreshData();
+  }
 
-    this.subscriptions.add(
-      this.addValueToTripList?.subscribe(next => {
-        this.dataSource.data.push(next)
-      })
-    )
+  refreshData() {
+    this.refreshEvent.emit();
   }
 
   insertTripPlanDialog(): void {
@@ -64,9 +51,12 @@ export class TripPlanTableComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (!!result) {
-        this.tripPlanService.addTripPlan(result, this.tripId).subscribe(value => {
-          this.dataSource.data = [...this.dataSource.data, value]
-        });
+        this.tripPlanService.addTripPlan(result, this.tripId).pipe(
+          tap(() => this.refreshData()),
+          catchError(err => {
+            console.error('Error while post', err);
+            return throwError(() => new Error(err));
+          })).subscribe();
       }
 
     });
@@ -81,17 +71,19 @@ export class TripPlanTableComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (!!result) {
-        this.tripPlanService.patchTripPlan(result).subscribe(tripPlan => {
-          console.log("Patched")
-        })
+        this.tripPlanService.patchTripPlan(result).pipe(
+          tap(() => this.refreshData()),
+          catchError(err => {
+            console.error('Error while patch', err);
+            return throwError(() => new Error(err));
+        })).subscribe();
       }
     })
   }
 
   deleteItem(tripId: string, tripPlanId: string) {
-    this.tripPlanService.deleteTripPlan(tripId, tripPlanId).subscribe(
-      () => console.log("Deleted"),
-      error => console.log("not deleted")
-    )
+    this.tripPlanService.deleteTripPlan(tripId, tripPlanId).pipe(
+      tap(() => this.refreshData())
+    ).subscribe();
   }
 }

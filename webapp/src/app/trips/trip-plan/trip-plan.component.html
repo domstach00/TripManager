@@ -7,11 +7,13 @@
 <div class="container">
   <app-trip-plan-table  class="table-cell"
                         *ngIf="!!this.tripId"
-                        [hidden]="this.showMap === ShowToggle.MAP"
-                        (addMapPin)="this.onOutput($event)"
+                        [hidden]="this.showMap !== ShowToggle.TABLE && this.showMap !== ShowToggle.ALL"
+                        [dataSource]="this.dataSource$.asObservable()"
+                        (refreshEvent)="this.refreshData()"
                         [tripId]="this.tripId"></app-trip-plan-table>
   <app-trip-plan-map class="map-cell"
                      *ngIf="!!this.tripId"
-                     [hidden]="this.showMap === ShowToggle.TABLE"
+                     [dataSource$]="this.dataSource$.asObservable()"
+                     [hidden]="this.showMap !== ShowToggle.MAP && this.showMap !== ShowToggle.ALL"
                      [tripId]="this.tripId"></app-trip-plan-map>
 </div>
