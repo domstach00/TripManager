@@ -2,13 +2,10 @@
 .container {
   display: flex;
   justify-content: space-between;
-  height: 90%;
 }
 
-.table-cell, .map-cell {
-  min-width: 150px;
-  padding: 10px;
-  border: 1px solid black;
-  flex-grow: 1;
-}
 
+app-trip-plan-table,
+app-trip-plan-map {
+  flex: 1;
+}

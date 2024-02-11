@@ -4,16 +4,16 @@
   <mat-button-toggle class="rounded-right" (change)="this.changeShowMap(ShowToggle.MAP)">Map</mat-button-toggle>
 </mat-button-toggle-group>
 
-<div class="container">
-  <app-trip-plan-table  class="table-cell"
-                        *ngIf="!!this.tripId"
-                        [hidden]="this.showMap !== ShowToggle.TABLE && this.showMap !== ShowToggle.ALL"
-                        [dataSource]="this.dataSource$.asObservable()"
-                        (refreshEvent)="this.refreshData()"
-                        [tripId]="this.tripId"></app-trip-plan-table>
-  <app-trip-plan-map class="map-cell"
-                     *ngIf="!!this.tripId"
-                     [dataSource$]="this.dataSource$.asObservable()"
-                     [hidden]="this.showMap !== ShowToggle.MAP && this.showMap !== ShowToggle.ALL"
-                     [tripId]="this.tripId"></app-trip-plan-map>
+<div class="row">
+    <app-trip-plan-table class="col-xl-6"
+                          *ngIf="!!this.tripId"
+                          [hidden]="this.showMap !== ShowToggle.TABLE && this.showMap !== ShowToggle.ALL"
+                          [dataSource]="this.dataSource$.asObservable()"
+                          (refreshEvent)="this.refreshData()"
+                          [tripId]="this.tripId"></app-trip-plan-table>
+    <app-trip-plan-map class="col-xl-6"
+                       *ngIf="!!this.tripId"
+                       [dataSource$]="this.dataSource$.asObservable()"
+                       [hidden]="this.showMap !== ShowToggle.MAP && this.showMap !== ShowToggle.ALL"
+                       [tripId]="this.tripId"></app-trip-plan-map>
 </div>
