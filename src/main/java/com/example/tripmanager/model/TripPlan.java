@@ -30,6 +30,5 @@ public class TripPlan {
     private Trip trip;
 
 
-    @DocumentReference
     private GoogleMapPin mapElement;
 }

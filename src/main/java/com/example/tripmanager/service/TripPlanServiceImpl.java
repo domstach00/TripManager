@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class TripPlanServiceImpl implements TripPlanService{
@@ -18,8 +17,6 @@ public class TripPlanServiceImpl implements TripPlanService{
     private TripPlanRepository tripPlanRepository;
     @Autowired
     private TripService tripService;
-    @Autowired
-    private GoogleMapPinService googleMapPinService;
     @Autowired
     private TripPlanMapper tripPlanMapper;
 
@@ -36,9 +33,6 @@ public class TripPlanServiceImpl implements TripPlanService{
                 .orElseThrow(() -> new ItemNotFound("Trip not found - id=" + tripId));
         TripPlan tripPlan = tripPlanMapper.fromDto(tripPlanDto, trip);
 
-        if (tripPlan.getMapElement() != null) {
-            tripPlan.setMapElement(this.googleMapPinService.insertGoogleMapPin(tripPlan.getMapElement()));
-        }
         return this.tripPlanRepository.insert(tripPlan);
     }
 
@@ -54,15 +48,6 @@ public class TripPlanServiceImpl implements TripPlanService{
         TripPlan originalTripPlan = tripPlanRepository.findById(updatedTripPlanDto.getId())
                 .orElseThrow(() -> new ItemNotFound("TripPlan not found - id=" + updatedTripPlanDto.getTripId()));
         updatedTripPlanDto.checkPatchValidation(tripPlanMapper.toDto(originalTripPlan));
-
-        if (!Objects.equals(updatedTripPlanDto.getMapElement(), originalTripPlan.getMapElement())) {
-            if (originalTripPlan.getMapElement() != null) {
-                googleMapPinService.deleteGoogleMapPin(originalTripPlan.getMapElement().getId());
-            }
-            if (updatedTripPlanDto.getMapElement() != null) {
-                googleMapPinService.insertGoogleMapPin(updatedTripPlanDto.getMapElement());
-            }
-        }
 
         TripPlan updatedTripPlan = tripPlanMapper.fromDto(updatedTripPlanDto, originalTripPlan.getTrip());
         return tripPlanRepository.save(updatedTripPlan);
