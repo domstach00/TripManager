@@ -44,6 +44,7 @@ import { TripService } from "./_services/trip.service";
 import { TripTableAddNewDialogComponent } from './dialog/trip-table-add-new-dialog/trip-table-add-new-dialog.component';
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatSortModule } from "@angular/material/sort";
+import { ConfirmActionDialogComponent } from './dialog/delete-confirmation-dialog/confirm-action-dialog.component';
 
 export function f() {
 
@@ -65,6 +66,7 @@ export function f() {
     TripPlanTableAddNewDialogComponent,
     LogoutComponent,
     TripTableAddNewDialogComponent,
+    ConfirmActionDialogComponent,
   ],
     imports: [
         BrowserModule,

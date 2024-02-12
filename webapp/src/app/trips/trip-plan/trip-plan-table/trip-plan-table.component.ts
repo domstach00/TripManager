@@ -12,6 +12,9 @@ import {
   TripPlanTableAddNewDialogComponent
 } from "../../../dialog/trip-plan-table-add-new-dialog/trip-plan-table-add-new-dialog.component";
 import { TripPlanService } from "../../../_services/trip-plan.service";
+import {
+  ConfirmActionDialogComponent
+} from "../../../dialog/delete-confirmation-dialog/confirm-action-dialog.component";
 
 @Component({
   selector: 'app-trip-plan-table',
@@ -46,7 +49,7 @@ export class TripPlanTableComponent implements OnInit {
     const dialogRef = this.dialog.open(TripPlanTableAddNewDialogComponent, {
       height: '400px',
       width: '600px',
-      data: {}
+      data: {},
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -66,7 +69,7 @@ export class TripPlanTableComponent implements OnInit {
     const dialogRef = this.dialog.open(TripPlanTableAddNewDialogComponent, {
       height: '400px',
       width: '600px',
-      data: { ...tripPlan }
+      data: { ...tripPlan },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -81,9 +84,20 @@ export class TripPlanTableComponent implements OnInit {
     })
   }
 
-  deleteItem(tripId: string, tripPlanId: string) {
-    this.tripPlanService.deleteTripPlan(tripId, tripPlanId).pipe(
-      tap(() => this.refreshData())
-    ).subscribe();
+  deleteItem(tripPlan: TripPlan) {
+    const confirmationText = `Do you want to delete item ${tripPlan.displayName}?`
+    const dialogRef = this.dialog.open(ConfirmActionDialogComponent, {
+      height: '300px',
+      width: '600px',
+      data: { elementName: tripPlan?.displayName, body: confirmationText }
+    })
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!!result) {
+        this.tripPlanService.deleteTripPlan(tripPlan.tripId, tripPlan.id).pipe(
+          tap(() => this.refreshData())
+        ).subscribe();
+      }
+    })
   }
 }

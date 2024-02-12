@@ -23,8 +23,8 @@
         <mat-icon>more_vert</mat-icon>
       </button>
         <mat-menu #kebabMenu>
-          <button mat-menu-item (click)="deleteItem(element.tripId, element.id)">Delete</button>
           <button mat-menu-item (click)="editTripPlanDialog(element)">Edit</button>
+          <button mat-menu-item (click)="deleteItem(element)">Delete</button>
         </mat-menu>
       </td>
     </ng-container>
