@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 export interface ConfirmActionData {
   actionName?: string;
   body: string;
+  isWarning?: boolean;
 }
 
 @Component({
@@ -24,5 +25,9 @@ export class ConfirmActionDialogComponent {
 
   onCloseClick() {
     this.dialogRef.close();
+  }
+
+  getConfirmButtonColor() {
+    return this.data.isWarning ? 'btn-danger' : 'btn-primary';
   }
 }

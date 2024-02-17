@@ -89,7 +89,7 @@ export class TripPlanTableComponent implements OnInit {
     const dialogRef = this.dialog.open(ConfirmActionDialogComponent, {
       height: '300px',
       width: '600px',
-      data: { elementName: tripPlan?.displayName, body: confirmationText }
+      data: { elementName: tripPlan?.displayName, body: confirmationText, isWarning: true }
     })
 
     dialogRef.afterClosed().subscribe((result) => {
