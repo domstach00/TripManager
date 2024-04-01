@@ -25,10 +25,11 @@ export class TripPlanMapComponent implements OnInit {
   @Output() refreshEvent = new EventEmitter<void>();
 
 
-  options: google.maps.MapOptions = {
-    center: {lat: 50, lng: 19},
-    zoom: this.zoom,
-  }
+  options?: google.maps.MapOptions;
+  // = {
+  //   center: {lat: 50, lng: 19},
+  //   zoom: this.zoom,
+  // }
 
   constructor(
     readonly tripPlanService: TripPlanService,
@@ -44,6 +45,17 @@ export class TripPlanMapComponent implements OnInit {
           && !!optionalGoogleMapPin.locationLng)
       ];
       const latlngPins = this.mapGoogleMapPinsToLatLngs(googleMapPins);
+
+      this.options = {
+        center: {
+          lat: this.calcAverage(latlngPins.map(latlngPin => latlngPin.lat())),
+          lng: this.calcAverage(latlngPins.map(latlngPin => latlngPin.lng()))
+        },
+        zoom: this.zoom
+
+      }
+
+
       this.pinsSubject.next(latlngPins);
     })
   }
@@ -56,4 +68,14 @@ export class TripPlanMapComponent implements OnInit {
   mapGoogleMapPinToLatLng(googleMapPin: GoogleMapPin): LatLng {
     return new LatLng({lat: googleMapPin.locationLat ?? 0, lng: googleMapPin.locationLng ?? 0}, true, true);
   }
+
+  private calcAverage(table: number[]) {
+    if (!table || table.length === 0) {
+      return 0;
+    }
+    const sum = table.reduce((a, b) => a + b, 0);
+    return sum / table.length;
+  }
+
+  protected readonly String = String;
 }

@@ -6,17 +6,18 @@ export interface TripPlan {
   cost?: number;
   desc?: string;
   link?: string;
-  mapElement?: GoogleMapPin
+  mapElement?: GoogleMapPin;
 }
 
 export interface GoogleMapPin {
   displayName?: string;
   address?: string;
   locationLat?: number;
-  locationLng?: number
+  locationLng?: number;
   iconUrl?: string;
   name?: string;
   vicinity?: string;
+  icon?: string;
 }
 
 export interface TripPlanElement {

@@ -1,0 +1,13 @@
+<div class="m-5">
+    <h1 mat-dialog-title>Select icon</h1>
+    <div mat-dialog-content>
+        <div class="icon-grid">
+            <div *ngFor="let icon of Object.values(iconEnum)" (click)="selectIcon(icon)" class="icon-item">
+                <img [src]="icon" alt="icon">
+            </div>
+        </div>
+    </div>
+    <div mat-dialog-actions>
+        <button type="button" class="btn btn-secondary m-1" (click)="onClose()">Close</button>
+    </div>
+</div>

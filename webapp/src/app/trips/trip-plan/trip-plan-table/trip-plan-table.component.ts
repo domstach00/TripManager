@@ -15,6 +15,8 @@ import { TripPlanService } from "../../../_services/trip-plan.service";
 import {
   ConfirmActionDialogComponent
 } from "../../../dialog/delete-confirmation-dialog/confirm-action-dialog.component";
+import { SelectIconDialogComponent } from "../../../dialog/select-icon-dialog/select-icon-dialog.component";
+import { MapIcon } from "../../../_model/MapPinIcons";
 
 @Component({
   selector: 'app-trip-plan-table',
@@ -43,6 +45,27 @@ export class TripPlanTableComponent implements OnInit {
 
   refreshData() {
     this.refreshEvent.emit();
+  }
+
+  onSelectIcon(tripPlan: TripPlan) {
+    const dialogRef = this.dialog.open(SelectIconDialogComponent, {
+      height: '400px',
+      width: '600px',
+      data: MapIcon,
+    });
+
+    dialogRef.afterClosed().subscribe((result: string) => {
+      if (!!result && tripPlan?.mapElement) {
+        tripPlan.mapElement.icon = result;
+
+        this.tripPlanService.patchTripPlan(tripPlan).pipe(
+            tap(() => this.refreshData()),
+            catchError(err => {
+              console.error('Error while patch', err);
+              return throwError(() => new Error(err));
+            })).subscribe();
+      }
+    })
   }
 
   insertTripPlanDialog(): void {
