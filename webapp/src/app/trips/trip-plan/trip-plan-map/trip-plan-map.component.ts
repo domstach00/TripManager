@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { GoogleMap } from "@angular/google-maps";
 import LatLng = google.maps.LatLng;
 import { TripPlanService } from "../../../_services/trip-plan.service";
+import { getIconPath, MapIcon } from "../../../_model/MapPinIcons";
 
 @Component({
   selector: 'app-trip-plan-map',
@@ -66,7 +67,7 @@ export class TripPlanMapComponent implements OnInit {
   }
 
   mapGoogleMapPinToLatLng(googleMapPin: GoogleMapPin): LatLng {
-    return new LatLng({lat: googleMapPin.locationLat ?? 0, lng: googleMapPin.locationLng ?? 0}, true, true);
+    return new LatLng({lat: googleMapPin.locationLat ?? 0, lng: googleMapPin.locationLng ?? 0});
   }
 
   private calcAverage(table: number[]) {
@@ -78,4 +79,6 @@ export class TripPlanMapComponent implements OnInit {
   }
 
   protected readonly String = String;
+  protected readonly MapIcon = MapIcon;
+  protected readonly getIconPath = getIconPath;
 }

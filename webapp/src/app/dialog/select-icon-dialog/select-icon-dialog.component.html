@@ -2,8 +2,8 @@
     <h1 mat-dialog-title>Select icon</h1>
     <div mat-dialog-content>
         <div class="icon-grid">
-            <div *ngFor="let icon of Object.values(iconEnum)" (click)="selectIcon(icon)" class="icon-item">
-                <img [src]="icon" alt="icon">
+            <div *ngFor="let icon of icons" (click)="selectIcon(icon)" class="icon-item">
+                <img [src]="icon.url" alt="icon-{{icon.key}}">
             </div>
         </div>
     </div>

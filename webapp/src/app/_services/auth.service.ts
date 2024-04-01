@@ -56,8 +56,6 @@ export class AuthService {
 
   public isLoggedIn(): boolean {
     const x = this.tokenStorageService.getToken();
-    if (!!x)
-      console.log(this.helper.decodeToken(x))
     return !this.helper.isTokenExpired(this.tokenStorageService.getToken());
   }
 
