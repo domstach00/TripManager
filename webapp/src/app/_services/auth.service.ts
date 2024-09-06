@@ -8,7 +8,7 @@ import { ToastrService } from "ngx-toastr";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { JwtHelperService } from "@auth0/angular-jwt";
-import { Observable, ReplaySubject, Subject, take } from "rxjs";
+import { Observable, ReplaySubject, Subject, take, tap } from "rxjs";
 import { AccountService } from "./account.service";
 
 export const authJwtEnv = {
@@ -41,7 +41,7 @@ export class AuthService {
 	}
 
 	get currentAccount(): Account {
-		return <Account>this._currentAccount;
+		return this._currentAccount;
 	}
 
 	set currentAccount(account: Account) {
@@ -88,11 +88,6 @@ export class AuthService {
 
 	public isLoggedIn(): boolean {
 		return !this.helper.isTokenExpired(this.tokenStorageService.getToken());
-	}
-
-	public loggedIn() {
-		const token = this.tokenStorageService.getToken();
-		return !this.helper.isTokenExpired(token);
 	}
 
 	public logout() {

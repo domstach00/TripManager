@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { AuthService } from "../_services/auth.service";
 import { Router } from "@angular/router";
@@ -15,7 +15,8 @@ enum OpenForm {
 	templateUrl: './login-form.component.html',
 	styleUrls: ['./login-form.component.scss']
 })
-export class LoginFormComponent implements OnInit {
+export class LoginFormComponent implements OnInit, OnDestroy {
+	protected subscribe = new Subscription();
 	@Output() onSubmitLoginEvent = new EventEmitter();
 	@Output() onSubmitRegisterEvent = new EventEmitter();
 	active: OpenForm = OpenForm.Login;
@@ -34,8 +35,13 @@ export class LoginFormComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		if (this.authService.isLoggedIn())
-			this.router.navigate(['/home'])
+		this.subscribe.add(
+			this.authService.isLoggedIn$.subscribe(isLogged => {
+				if (isLogged) {
+					this.router.navigate(['/home'])
+				}
+			})
+		);
 	}
 
 	onLoginTab(): void {
@@ -56,6 +62,10 @@ export class LoginFormComponent implements OnInit {
 			return;
 		}
 		this.authService.register({email: this.email, username: this.username, password: this.password})
+	}
+
+	ngOnDestroy(): void {
+		this.subscribe.unsubscribe();
 	}
 
 }

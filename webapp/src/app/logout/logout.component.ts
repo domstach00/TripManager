@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from "../_services/auth.service";
 import { Router } from "@angular/router";
+import { Subscription } from "rxjs";
 
 @Component({
 	selector: 'app-logout',
 	templateUrl: './logout.component.html',
 	styleUrls: ['./logout.component.scss']
 })
-export class LogoutComponent implements OnInit {
+export class LogoutComponent implements OnInit, OnDestroy {
+	protected subscription = new Subscription()
 
 	constructor(
 		readonly authService: AuthService,
@@ -16,13 +18,19 @@ export class LogoutComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		if (!this.authService.isLoggedIn()) {
-			this.router.navigate(['/login'])
-		} else {
-			this.authService.logout();
-			this.router.navigate(['/login'])
-		}
+		this.subscription.add(
+			this.authService.isLoggedIn$.subscribe(isLogged => {
+				if (isLogged) {
+					this.router.navigate(['/home']);
+				} else {
+					this.authService.logout();
+					this.router.navigate(['/login'])
+				}
+			})
+		);
 	}
 
-
+	ngOnDestroy(): void {
+		this.subscription.unsubscribe();
+	}
 }
