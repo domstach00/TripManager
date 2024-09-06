@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { Account } from "../_model/account";
-import { AuthService } from "./auth.service";
 import { Observable, publishReplay, refCount, take, tap } from "rxjs";
 import { ApiService } from "./api.service";
 import { ApiPath } from "../_model/ApiPath";
@@ -14,15 +13,9 @@ export class AccountService {
   private currentAccountCache$: Observable<Account>;
 
   constructor(
-    readonly authService: AuthService,
     readonly apiService: ApiService,
   ) {
     this.currentAccountCache$ = this.getCurrentAccount();
-  }
-
-
-  public getUser(): Account | null {
-    return this.authService.getUser();
   }
 
   get currentAccount(): Observable<Account> {

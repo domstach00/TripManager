@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import jwtDecode, { JwtPayload } from "jwt-decode";
+import { JwtPayload, jwtDecode } from "jwt-decode";
 
 const TOKEN_KEY = 'auth-token';
 const DEFAULT_COOKIE_TIME = 60 * 60 * 1000;
