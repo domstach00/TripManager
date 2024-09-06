@@ -9,16 +9,16 @@ import { LogoutComponent } from "./logout/logout.component";
 
 
 const routes: Routes = [
-  {path: 'login', component: LoginFormComponent},
-  {path: 'logout', component: LogoutComponent},
-  {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
-  {path: 'trips', component: TripsComponent, canActivate: [AuthGuard]},
-  {path: 'trips/:tripId', component: TripPlanComponent, canActivate: [AuthGuard]}
+	{path: 'login', component: LoginFormComponent},
+	{path: 'logout', component: LogoutComponent},
+	{path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+	{path: 'trips', component: TripsComponent, canActivate: [AuthGuard]},
+	{path: 'trips/:tripId', component: TripPlanComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+	imports: [RouterModule.forRoot(routes)],
+	exports: [RouterModule]
 })
 export class AppRoutingModule {
 

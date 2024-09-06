@@ -6,52 +6,52 @@ import { GoogleMapPin, TripPlan } from "../../_model/trip-plan";
 import { TripPlanService } from "../../_services/trip-plan.service";
 
 enum ShowToggle {
-  ALL,
-  TABLE,
-  MAP
+	ALL,
+	TABLE,
+	MAP
 }
 
 @Component({
-  selector: 'app-trip-plan',
-  templateUrl: './trip-plan.component.html',
-  styleUrls: ['./trip-plan.component.scss']
+	selector: 'app-trip-plan',
+	templateUrl: './trip-plan.component.html',
+	styleUrls: ['./trip-plan.component.scss']
 })
 export class TripPlanComponent implements OnInit, OnDestroy {
-  dataSource$: BehaviorSubject<TripPlan[]> = new BehaviorSubject<TripPlan[]>([])
-  obs: ReplaySubject<GoogleMapPin> = new ReplaySubject<GoogleMapPin>();
-  showMap: ShowToggle = ShowToggle.ALL;
+	dataSource$: BehaviorSubject<TripPlan[]> = new BehaviorSubject<TripPlan[]>([])
+	obs: ReplaySubject<GoogleMapPin> = new ReplaySubject<GoogleMapPin>();
+	showMap: ShowToggle = ShowToggle.ALL;
 
-  subscriptions: Subscription = new Subscription();
-  tripId!: string;
-  trip?: Trip;
+	subscriptions: Subscription = new Subscription();
+	tripId!: string;
+	trip?: Trip;
 
-  constructor(
-    readonly activatedRoute: ActivatedRoute,
-    readonly tripPlanService: TripPlanService
-  ) {
-  }
+	constructor(
+		readonly activatedRoute: ActivatedRoute,
+		readonly tripPlanService: TripPlanService
+	) {
+	}
 
-  ngOnInit(): void {
-    this.subscriptions.add(
-      this.activatedRoute.params.subscribe(params => {
-        this.tripId = params['tripId']
-      }))
-  }
+	ngOnInit(): void {
+		this.subscriptions.add(
+			this.activatedRoute.params.subscribe(params => {
+				this.tripId = params['tripId']
+			}))
+	}
 
-  refreshData() {
-    this.tripPlanService.getTripPlans(this.tripId).pipe(
-      tap(tripPlans => this.dataSource$.next(tripPlans))
-    ).subscribe();
-  }
+	refreshData() {
+		this.tripPlanService.getTripPlans(this.tripId).pipe(
+			tap(tripPlans => this.dataSource$.next(tripPlans))
+		).subscribe();
+	}
 
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
-  }
+	ngOnDestroy(): void {
+		this.subscriptions.unsubscribe();
+	}
 
-  changeShowMap(val: ShowToggle) {
-    this.showMap = val;
-  }
+	changeShowMap(val: ShowToggle) {
+		this.showMap = val;
+	}
 
 
-  protected readonly ShowToggle = ShowToggle;
+	protected readonly ShowToggle = ShowToggle;
 }

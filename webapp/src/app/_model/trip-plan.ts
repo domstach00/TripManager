@@ -1,36 +1,36 @@
 export interface TripPlan {
-  id: string;
-  displayName: string;
-  tripId: string
-  day?: number
-  cost?: number;
-  desc?: string;
-  link?: string;
-  mapElement?: GoogleMapPin;
+	id: string;
+	displayName: string;
+	tripId: string
+	day?: number
+	cost?: number;
+	desc?: string;
+	link?: string;
+	mapElement?: GoogleMapPin;
 }
 
 export interface GoogleMapPin {
-  displayName?: string;
-  address?: string;
-  locationLat?: number;
-  locationLng?: number;
-  iconUrl?: string;
-  name?: string;
-  vicinity?: string;
-  icon?: string;
+	displayName?: string;
+	address?: string;
+	locationLat?: number;
+	locationLng?: number;
+	iconUrl?: string;
+	name?: string;
+	vicinity?: string;
+	icon?: string;
 }
 
 export interface TripPlanElement {
-  elementType: TripPlanElementType;
+	elementType: TripPlanElementType;
 }
 
 export enum TripPlanElementType {
-  ACCOMMODATION,
-  TRANSPORT,
-  FLIGHT,
-  FOOD,
-  RESTAURANT,
-  OTHER,
-  CAR_RENT,
-  SIGHTSEEING
+	ACCOMMODATION,
+	TRANSPORT,
+	FLIGHT,
+	FOOD,
+	RESTAURANT,
+	OTHER,
+	CAR_RENT,
+	SIGHTSEEING
 }

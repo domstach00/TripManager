@@ -1,10 +1,10 @@
 <google-map *ngIf="!!this.options" [options]="this.options">
 
-  <ng-template ngFor let-pin [ngForOf]="this.dataSource$ | async">
-    <map-marker *ngIf="!!pin.mapElement"
-                [position]="this.mapGoogleMapPinToLatLng(pin.mapElement)"
-                [icon]="getIconPath(pin?.mapElement?.icon) ?? ''"
-    ></map-marker>
-  </ng-template>
+	<ng-template ngFor let-pin [ngForOf]="this.dataSource$ | async">
+		<map-marker *ngIf="!!pin.mapElement"
+					[position]="this.mapGoogleMapPinToLatLng(pin.mapElement)"
+					[icon]="getIconPath(pin?.mapElement?.icon) ?? ''"
+		></map-marker>
+	</ng-template>
 </google-map>
 

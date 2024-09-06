@@ -1,11 +1,11 @@
 
 .container {
-  display: flex;
-  justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
 }
 
 
 app-trip-plan-table,
 app-trip-plan-map {
-  flex: 1;
+	flex: 1;
 }

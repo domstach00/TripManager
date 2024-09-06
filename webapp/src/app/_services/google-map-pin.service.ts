@@ -6,12 +6,12 @@ import { ApiPath } from "../_model/ApiPath";
 @Injectable()
 export class GoogleMapPinService {
 
-  constructor(
-    readonly apiService: ApiService
-  ) {
-  }
+	constructor(
+		readonly apiService: ApiService
+	) {
+	}
 
-  public getGoogleMapPins(tripId: string) {
-    return this.apiService.getFormatted<GoogleMapPin[]>(ApiPath.googleMapPin, [tripId]);
-  }
+	public getGoogleMapPins(tripId: string) {
+		return this.apiService.getFormatted<GoogleMapPin[]>(ApiPath.googleMapPin, [tripId]);
+	}
 }

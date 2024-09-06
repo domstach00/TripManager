@@ -1,22 +1,22 @@
 .icon-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
 }
 
 .icon-item {
-  flex: 1 0 200px;
-  margin: 10px;
-  cursor: pointer;
+	flex: 1 0 200px;
+	margin: 10px;
+	cursor: pointer;
 }
 
 .icon-item img {
-  max-width: 100%;
-  height: auto;
+	max-width: 100%;
+	height: auto;
 }
 
 @media (max-width: 600px) {
-  .icon-item {
-    flex: 1 0 100px;
-  }
+	.icon-item {
+		flex: 1 0 100px;
+	}
 }

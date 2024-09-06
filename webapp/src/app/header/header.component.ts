@@ -1,28 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from "../_services/account.service";
-import { Account } from "../_model/account";
 import { Subscription } from "rxjs";
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+	selector: 'app-header',
+	templateUrl: './header.component.html',
+	styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  private subscription = new Subscription();
-  // currentAccount: Account;
+	private subscription = new Subscription();
 
-  constructor(readonly accountService: AccountService) {
-  }
+	// currentAccount: Account;
+
+	constructor(readonly accountService: AccountService) {
+	}
 
 
-  ngOnInit(): void {
-    // this.accountService.currentAccount.subscribe(
-    //   account => this.currentAccount = account
-    // )
-  }
+	ngOnInit(): void {
+		// this.accountService.currentAccount.subscribe(
+		//   account => this.currentAccount = account
+		// )
+	}
 
-  getUserName() {
-    // return this.currentAccount?.username;
-  }
+	getUserName() {
+		// return this.currentAccount?.username;
+	}
 }

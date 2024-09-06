@@ -1,27 +1,27 @@
 <app-header></app-header>
 
 <div class="container-fluid" *ngIf="authService.isLoggedIn(); else loginTemplate">
-  <div class="row flex-nowrap">
-    <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
-      <div class="flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-        <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-          <span class="fs-5 d-none d-sm-inline">Menu</span>
-        </a>
-        <app-side-bar></app-side-bar>
-      </div>
-    </div>
-    <div class="col py-3">
-      <router-outlet></router-outlet>
-    </div>
-  </div>
+	<div class="row flex-nowrap">
+		<div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+			<div class="flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+				<a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+					<span class="fs-5 d-none d-sm-inline">Menu</span>
+				</a>
+				<app-side-bar></app-side-bar>
+			</div>
+		</div>
+		<div class="col py-3">
+			<router-outlet></router-outlet>
+		</div>
+	</div>
 </div>
 
 <ng-template #loginTemplate>
-  <app-login-form></app-login-form>
+	<app-login-form></app-login-form>
 </ng-template>
 
 <footer class="fixed-bottom bg-dark">
-  <div class="container">
-    <p class="text-center text-light h-100">Copyright © 2023. All rights reserved.</p>
-  </div>
+	<div class="container">
+		<p class="text-center text-light h-100">Copyright © 2023. All rights reserved.</p>
+	</div>
 </footer>

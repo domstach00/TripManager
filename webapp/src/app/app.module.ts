@@ -34,7 +34,7 @@ import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { GoogleMapsModule } from "@angular/google-maps";
 import { NgxGpAutocompleteModule } from "@angular-magic/ngx-gp-autocomplete";
 import {
-  TripPlanTableAddNewDialogComponent
+	TripPlanTableAddNewDialogComponent
 } from './dialog/trip-plan-table-add-new-dialog/trip-plan-table-add-new-dialog.component';
 import { MatDialogModule } from "@angular/material/dialog";
 import { TripPlanService } from "./_services/trip-plan.service";

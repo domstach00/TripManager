@@ -5,14 +5,14 @@ import { Injectable } from "@angular/core";
 
 @Injectable()
 export class TripService {
-  constructor(readonly apiService: ApiService) {
-  }
+	constructor(readonly apiService: ApiService) {
+	}
 
-  public getTrips() {
-    return this.apiService.get<Trip[]>(ApiPath.trip);
-  }
+	public getTrips() {
+		return this.apiService.get<Trip[]>(ApiPath.trip);
+	}
 
-  public postTrip(trip: Trip) {
-    return this.apiService.post<Trip, Trip>(ApiPath.trip, trip);
-  }
+	public postTrip(trip: Trip) {
+		return this.apiService.post<Trip, Trip>(ApiPath.trip, trip);
+	}
 }
