@@ -1,4 +1,4 @@
-package com.example.tripmanager.model.user;
+package com.example.tripmanager.model.account;
 
 public enum RoleType {
     ROLE_USER,

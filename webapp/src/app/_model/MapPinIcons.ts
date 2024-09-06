@@ -22,6 +22,21 @@ export enum MapIcon {
   RAIL = MAP_ICON_PATH + 'rail.png',
   SUBWAY = MAP_ICON_PATH + 'subway.png',
   TRAM = MAP_ICON_PATH + 'tram.png',
+  INFO_CIRCLE = MAP_ICON_PATH + 'info_circle.png',
+  SAILING = MAP_ICON_PATH + 'sailing.png',
+  SWIMMING = MAP_ICON_PATH + 'swimming.png',
+  SKI = MAP_ICON_PATH + 'ski.png',
+  TREE = MAP_ICON_PATH + 'tree.png',
+  CAMPFIRE = MAP_ICON_PATH + 'campfire.png',
+  PICNIC = MAP_ICON_PATH + 'picnic.png',
+  CAMPGROUND = MAP_ICON_PATH + 'campground.png',
+  RANGERSTATION = MAP_ICON_PATH + 'rangerstation.png',
+  TOILETS = MAP_ICON_PATH + 'toilets.png',
+  POI = MAP_ICON_PATH + 'POI.png',
+  HIKER = MAP_ICON_PATH + 'hiker.png',
+  CYCLING = MAP_ICON_PATH + 'cycling.png',
+  MOTORCYCLING = MAP_ICON_PATH + 'cycling.png',
+
 }
 
 export function getIconPath(icon?: string): string | null {

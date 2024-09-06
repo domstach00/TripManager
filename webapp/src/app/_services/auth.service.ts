@@ -1,6 +1,6 @@
 import { ApiService } from "./api.service";
 import { LoginCredentials } from "../_model/login-credentials";
-import { User } from "../_model/user";
+import { Account } from "../_model/account";
 import { ApiPath } from "../_model/ApiPath";
 import { TokenStorageService } from "./token-storage.service";
 import { RegisterCredentials } from "../_model/register-credentials";
@@ -22,6 +22,7 @@ export class AuthService {
 
   helper = new JwtHelperService();
   decodedToken: any;
+
   constructor(
     readonly apiService: ApiService,
     readonly tokenStorageService: TokenStorageService,
@@ -31,7 +32,7 @@ export class AuthService {
   }
 
   public login(loginCredentials: LoginCredentials) {
-    return this.apiService.post<User>(ApiPath.login, loginCredentials).subscribe(user => {
+    return this.apiService.post<Account>(ApiPath.login, loginCredentials).subscribe(user => {
       if (!!user) {
         this.tokenStorageService.saveToken(user.token)
         this.toastrService.success("Logged in")
@@ -49,13 +50,12 @@ export class AuthService {
         this.router.navigate(['/register-success'])
       } else
         this.toastrService.error("Error while creating account")
-    },error => {
+    }, error => {
       this.toastrService.error(error)
     })
   }
 
   public isLoggedIn(): boolean {
-    const x = this.tokenStorageService.getToken();
     return !this.helper.isTokenExpired(this.tokenStorageService.getToken());
   }
 
@@ -68,8 +68,8 @@ export class AuthService {
     this.tokenStorageService.logout();
   }
 
-  public getUser(): User | null {
+  public getUser(): Account | null {
     const token = this.tokenStorageService.getToken();
-    return !!token ? this.helper.decodeToken<User>(token) : null;
+    return !!token ? this.helper.decodeToken<Account>(token) : null;
   }
 }

@@ -27,8 +27,8 @@
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let element">
         <button mat-icon-button [matMenuTriggerFor]="kebabMenu" aria-label="">
-        <mat-icon>more_vert</mat-icon>
-      </button>
+          <mat-icon>more_vert</mat-icon>
+        </button>
         <mat-menu #kebabMenu>
           <button mat-menu-item (click)="editTripPlanDialog(element)">Edit</button>
           <button mat-menu-item (click)="deleteItem(element)">Delete</button>
@@ -39,7 +39,7 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-<!--  <a style="font-size: 8pt; text-decoration: none" target="_blank"></a>-->
+  <!--  <a style="font-size: 8pt; text-decoration: none" target="_blank"></a>-->
   <mat-dialog-actions>
     <button mat-raised-button (click)="this.insertTripPlanDialog()">Add</button>
   </mat-dialog-actions>

@@ -1,6 +1,6 @@
 package com.example.tripmanager.controller;
 
-import com.example.tripmanager.mapper.TripMapper;
+import com.example.tripmanager.model.Trip;
 import com.example.tripmanager.model.TripDto;
 import com.example.tripmanager.service.TripService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +14,15 @@ import java.util.List;
 public class TripController {
     @Autowired
     private TripService tripService;
-    @Autowired
-    private TripMapper tripMapper;
 
     @PostMapping
     public TripDto postTrip(Principal principal,
                             @RequestBody TripDto tripDto) {
-        return tripMapper.toDto(this.tripService.createTrip(tripDto));
+        return Trip.toDto(this.tripService.createTrip(tripDto));
     }
 
     @GetMapping
     public List<TripDto> getTrips(Principal principal) {
-        return tripMapper.toDto(this.tripService.getTripsForCurrentUser());
+        return Trip.toDto(this.tripService.getTripsForCurrentAccount());
     }
 }

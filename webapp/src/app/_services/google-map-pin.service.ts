@@ -8,7 +8,8 @@ export class GoogleMapPinService {
 
   constructor(
     readonly apiService: ApiService
-  ) {}
+  ) {
+  }
 
   public getGoogleMapPins(tripId: string) {
     return this.apiService.getFormatted<GoogleMapPin[]>(ApiPath.googleMapPin, [tripId]);

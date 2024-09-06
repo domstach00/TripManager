@@ -13,7 +13,8 @@ export class TripPlanTableAddNewDialogComponent {
     readonly dialogRef: MatDialogRef<TripPlanTableAddNewDialogComponent>,
     readonly tripPlanService: TripPlanService,
     @Inject(MAT_DIALOG_DATA) public data: TripPlan,
-  ) {}
+  ) {
+  }
 
   onCloseClick(): void {
     this.dialogRef.close();

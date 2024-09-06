@@ -1,6 +1,6 @@
 package com.example.tripmanager.model;
 
-import com.example.tripmanager.model.user.UserDto;
+import com.example.tripmanager.model.account.AccountDto;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -15,5 +15,5 @@ public class TripDto {
     private double summaryCost;
     private LocalDate lastUpdateDate;
     private LocalTime lastUpdateTime;
-    private UserDto lastUpdateBy;
+    private AccountDto lastUpdateBy;
 }

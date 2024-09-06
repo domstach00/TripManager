@@ -2,9 +2,9 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { GoogleMapPin, TripPlan } from "../../../_model/trip-plan";
 import { BehaviorSubject, Observable } from "rxjs";
 import { GoogleMap } from "@angular/google-maps";
-import LatLng = google.maps.LatLng;
 import { TripPlanService } from "../../../_services/trip-plan.service";
-import { getIconPath, MapIcon } from "../../../_model/MapPinIcons";
+import { getIconPath } from "../../../_model/MapPinIcons";
+import LatLng = google.maps.LatLng;
 
 @Component({
   selector: 'app-trip-plan-map',
@@ -14,7 +14,7 @@ import { getIconPath, MapIcon } from "../../../_model/MapPinIcons";
 export class TripPlanMapComponent implements OnInit {
   private zoom = 5;
 
-  @ViewChild('map', { static: true })
+  @ViewChild('map', {static: true})
   map!: GoogleMap;
 
   @Input()
@@ -34,13 +34,14 @@ export class TripPlanMapComponent implements OnInit {
 
   constructor(
     readonly tripPlanService: TripPlanService,
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
-    this.dataSource$.subscribe( tripPlanList => {
+    this.dataSource$.subscribe(tripPlanList => {
       const googleMapPins = [...tripPlanList
         .map(value => value.mapElement)
-        .filter( (optionalGoogleMapPin): optionalGoogleMapPin is GoogleMapPin =>
+        .filter((optionalGoogleMapPin): optionalGoogleMapPin is GoogleMapPin =>
           optionalGoogleMapPin != null
           && !!optionalGoogleMapPin.locationLat
           && !!optionalGoogleMapPin.locationLng)
@@ -55,7 +56,6 @@ export class TripPlanMapComponent implements OnInit {
         zoom: this.zoom
 
       }
-
 
       this.pinsSubject.next(latlngPins);
     })
@@ -79,6 +79,5 @@ export class TripPlanMapComponent implements OnInit {
   }
 
   protected readonly String = String;
-  protected readonly MapIcon = MapIcon;
   protected readonly getIconPath = getIconPath;
 }

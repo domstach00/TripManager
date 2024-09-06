@@ -1,5 +1,6 @@
-package com.example.tripmanager.model.user;
+package com.example.tripmanager.model.account;
 
+import com.example.tripmanager.model.SignupRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -16,13 +17,13 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Document(collection = "users")
+@Document(collection = "accounts")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Builder
-public class User implements UserDetails {
+public class Account implements UserDetails {
     @Id
     private String id;
 
@@ -68,5 +69,21 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return false;
+    }
+
+    public static AccountDto toDto(Account account) {
+        AccountDto accountDto = new AccountDto();
+        accountDto.setId(account.getId());
+        accountDto.setEmail(account.getEmail());
+        accountDto.setRoles(account.getRoles());
+        accountDto.setUsername(account.getUsername());
+        return accountDto;
+    }
+
+    public static Account fromSignUp(SignupRequest signupRequest) {
+        Account account = new Account();
+        account.setEmail(signupRequest.getEmail());
+        account.setUsername(signupRequest.getUsername());
+        return account;
     }
 }

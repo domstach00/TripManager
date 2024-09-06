@@ -5,15 +5,15 @@
 </mat-button-toggle-group>
 
 <div class="row">
-    <app-trip-plan-table class="col-xl-6"
-                          *ngIf="!!this.tripId"
-                          [hidden]="this.showMap !== ShowToggle.TABLE && this.showMap !== ShowToggle.ALL"
-                          [dataSource]="this.dataSource$.asObservable()"
-                          (refreshEvent)="this.refreshData()"
-                          [tripId]="this.tripId"></app-trip-plan-table>
-    <app-trip-plan-map class="col-xl-6"
+  <app-trip-plan-table (refreshEvent)="this.refreshData()"
                        *ngIf="!!this.tripId"
-                       [dataSource$]="this.dataSource$.asObservable()"
-                       [hidden]="this.showMap !== ShowToggle.MAP && this.showMap !== ShowToggle.ALL"
-                       [tripId]="this.tripId"></app-trip-plan-map>
+                       [dataSource]="this.dataSource$.asObservable()"
+                       [hidden]="this.showMap !== ShowToggle.TABLE && this.showMap !== ShowToggle.ALL"
+                       [tripId]="this.tripId"
+                       class="col-xl-6"></app-trip-plan-table>
+  <app-trip-plan-map *ngIf="!!this.tripId"
+                     [dataSource$]="this.dataSource$.asObservable()"
+                     [hidden]="this.showMap !== ShowToggle.MAP && this.showMap !== ShowToggle.ALL"
+                     [tripId]="this.tripId"
+                     class="col-xl-6"></app-trip-plan-map>
 </div>

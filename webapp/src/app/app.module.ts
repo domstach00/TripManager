@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import {SideBarComponent} from "./side-bar/side-bar.component";
+import { SideBarComponent } from "./side-bar/side-bar.component";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatIconModule } from "@angular/material/icon";
 import { MatSidenavModule } from "@angular/material/sidenav";
@@ -33,7 +33,9 @@ import { MatInputModule } from "@angular/material/input";
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { GoogleMapsModule } from "@angular/google-maps";
 import { NgxGpAutocompleteModule } from "@angular-magic/ngx-gp-autocomplete";
-import { TripPlanTableAddNewDialogComponent } from './dialog/trip-plan-table-add-new-dialog/trip-plan-table-add-new-dialog.component';
+import {
+  TripPlanTableAddNewDialogComponent
+} from './dialog/trip-plan-table-add-new-dialog/trip-plan-table-add-new-dialog.component';
 import { MatDialogModule } from "@angular/material/dialog";
 import { TripPlanService } from "./_services/trip-plan.service";
 import { LogoutComponent } from './logout/logout.component';
@@ -70,52 +72,53 @@ export function f() {
     ConfirmActionDialogComponent,
     SelectIconDialogComponent,
   ],
-    imports: [
-        BrowserModule,
-        BrowserModule,
-        BrowserAnimationsModule,
-        NgbModule,
-        MatToolbarModule,
-        MatIconModule,
-        MatSidenavModule,
-        FormsModule,
-        HttpClientModule,
-        ToastrModule.forRoot(),
-        MatButtonModule,
-        MatListModule,
-        MatGridListModule,
-        MatCardModule,
-        MatMenuModule,
-        ReactiveFormsModule,
-        RouterOutlet,
-        AppRoutingModule,
-        MatTableModule,
-        MatInputModule,
-        MatButtonToggleModule,
-        GoogleMapsModule,
-        NgxGpAutocompleteModule.forRoot({
-            loaderOptions: {
-                apiKey: 'AIzaSyCySOc5V8jIcTWxBEhu_oNnP67E19ASufI',
-                libraries: ['places']
-            }
-        }),
-        BrowserModule,
-        FormsModule,
-        MatDialogModule,
-        JwtModule.forRoot({
-            config: {
-                tokenGetter: tokenGetter,
-            }
-        }),
-        MatTooltipModule,
-        MatSortModule
-    ],
+  imports: [
+    BrowserModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    NgbModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatSidenavModule,
+    FormsModule,
+    HttpClientModule,
+    ToastrModule.forRoot(),
+    MatButtonModule,
+    MatListModule,
+    MatGridListModule,
+    MatCardModule,
+    MatMenuModule,
+    ReactiveFormsModule,
+    RouterOutlet,
+    AppRoutingModule,
+    MatTableModule,
+    MatInputModule,
+    MatButtonToggleModule,
+    GoogleMapsModule,
+    NgxGpAutocompleteModule.forRoot({
+      loaderOptions: {
+        apiKey: 'AIzaSyCySOc5V8jIcTWxBEhu_oNnP67E19ASufI',
+        libraries: ['places']
+      }
+    }),
+    BrowserModule,
+    FormsModule,
+    MatDialogModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+      }
+    }),
+    MatTooltipModule,
+    MatSortModule
+  ],
   providers: [
     AuthService,
     TripPlanService,
     TripService,
-    { provide: HTTP_INTERCEPTORS, useClass: CustomInterceptorsService, multi: true },
+    {provide: HTTP_INTERCEPTORS, useClass: CustomInterceptorsService, multi: true},
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+}

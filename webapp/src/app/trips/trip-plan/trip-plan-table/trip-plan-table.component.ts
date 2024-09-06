@@ -1,10 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, } from '@angular/core';
 import { TripPlan } from "../../../_model/trip-plan";
 import { catchError, Observable, tap, throwError } from "rxjs";
 import { MatDialog } from "@angular/material/dialog";
@@ -34,10 +28,12 @@ export class TripPlanTableComponent implements OnInit {
 
   displayedColumns: string[] = ['displayName', 'day', 'cost', 'mapElementName', 'actions']
   model: any;
+
   constructor(
     public dialog: MatDialog,
     readonly tripPlanService: TripPlanService,
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.refreshData();
@@ -59,11 +55,11 @@ export class TripPlanTableComponent implements OnInit {
         tripPlan.mapElement.icon = result.key;
 
         this.tripPlanService.patchTripPlan(tripPlan).pipe(
-            tap(() => this.refreshData()),
-            catchError(err => {
-              console.error('Error while patch', err);
-              return throwError(() => new Error(err));
-            })).subscribe();
+          tap(() => this.refreshData()),
+          catchError(err => {
+            console.error('Error while patch', err);
+            return throwError(() => new Error(err));
+          })).subscribe();
       }
     })
   }
@@ -92,7 +88,7 @@ export class TripPlanTableComponent implements OnInit {
     const dialogRef = this.dialog.open(TripPlanTableAddNewDialogComponent, {
       height: '400px',
       width: '600px',
-      data: { ...tripPlan },
+      data: {...tripPlan},
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -102,7 +98,7 @@ export class TripPlanTableComponent implements OnInit {
           catchError(err => {
             console.error('Error while patch', err);
             return throwError(() => new Error(err));
-        })).subscribe();
+          })).subscribe();
       }
     })
   }
@@ -112,7 +108,7 @@ export class TripPlanTableComponent implements OnInit {
     const dialogRef = this.dialog.open(ConfirmActionDialogComponent, {
       height: '300px',
       width: '600px',
-      data: { elementName: tripPlan?.displayName, body: confirmationText, isWarning: true }
+      data: {elementName: tripPlan?.displayName, body: confirmationText, isWarning: true}
     })
 
     dialogRef.afterClosed().subscribe((result) => {

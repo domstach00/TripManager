@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { BehaviorSubject, ReplaySubject, Subscription, tap } from "rxjs";
 import { Trip } from "../../_model/trip";
-import { TripPlan, GoogleMapPin } from "../../_model/trip-plan";
+import { GoogleMapPin, TripPlan } from "../../_model/trip-plan";
 import { TripPlanService } from "../../_services/trip-plan.service";
 
 enum ShowToggle {
@@ -10,12 +10,13 @@ enum ShowToggle {
   TABLE,
   MAP
 }
+
 @Component({
   selector: 'app-trip-plan',
   templateUrl: './trip-plan.component.html',
   styleUrls: ['./trip-plan.component.scss']
 })
-export class TripPlanComponent implements OnInit, OnDestroy{
+export class TripPlanComponent implements OnInit, OnDestroy {
   dataSource$: BehaviorSubject<TripPlan[]> = new BehaviorSubject<TripPlan[]>([])
   obs: ReplaySubject<GoogleMapPin> = new ReplaySubject<GoogleMapPin>();
   showMap: ShowToggle = ShowToggle.ALL;
@@ -27,7 +28,8 @@ export class TripPlanComponent implements OnInit, OnDestroy{
   constructor(
     readonly activatedRoute: ActivatedRoute,
     readonly tripPlanService: TripPlanService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.subscriptions.add(

@@ -25,7 +25,7 @@ export class SideBarComponent {
   }
 
   home() {
-    return this.generateNavSideBarItem("Home","/home", "home");
+    return this.generateNavSideBarItem("Home", "/home", "home");
   }
 
   settings() {
@@ -37,7 +37,7 @@ export class SideBarComponent {
   }
 
   trips() {
-    return this.generateNavSideBarItem("My trips" , "/trips", "travel_explore")
+    return this.generateNavSideBarItem("My trips", "/trips", "travel_explore")
   }
 
   private generateNavSideBarItem(name: string, ref: string, icon: string) {

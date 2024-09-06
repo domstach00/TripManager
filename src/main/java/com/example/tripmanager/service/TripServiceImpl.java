@@ -1,10 +1,9 @@
 package com.example.tripmanager.service;
 
 import com.example.tripmanager.exception.ItemNotFound;
-import com.example.tripmanager.mapper.TripMapper;
 import com.example.tripmanager.model.Trip;
 import com.example.tripmanager.model.TripDto;
-import com.example.tripmanager.model.user.User;
+import com.example.tripmanager.model.account.Account;
 import com.example.tripmanager.repository.TripRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,13 +16,11 @@ public class TripServiceImpl implements TripService {
     @Autowired
     private TripRepository tripRepository;
     @Autowired
-    private TripMapper tripMapper;
-    @Autowired
-    private UserService userService;
+    private AccountService accountService;
 
     @Override
     public Trip createTrip(TripDto tripDto) {
-        return this.tripRepository.save(tripMapper.createFromDto(tripDto));
+        return this.tripRepository.save(Trip.createFromDto(tripDto, accountService.getCurrentAccount()));
     }
 
     @Override
@@ -32,14 +29,14 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    public List<Trip> getTripsForCurrentUser() {
-        return this.tripRepository.findAllByAllowedUsersContaining(List.of(userService.getCurrentUser()));
+    public List<Trip> getTripsForCurrentAccount() {
+        return this.tripRepository.findAllByAllowedAccountsContaining(List.of(accountService.getCurrentAccount()));
     }
 
     @Override
-    public boolean hasUserAccessToTrip(String tripId, User user) {
+    public boolean hasAccountAccessToTrip(String tripId, Account account) {
         Trip trip = tripRepository.findById(tripId).orElseThrow(() -> new ItemNotFound("Trip not found"));
-        return trip.isPublic() || trip.getAllowedUsers().contains(user);
+        return trip.isPublic() || trip.getAllowedAccounts().contains(account);
     }
 
 }

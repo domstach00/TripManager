@@ -14,11 +14,15 @@ export interface IconKeyUrl {
 })
 export class SelectIconDialogComponent {
   icons: IconKeyUrl[];
+
   constructor(
-      public dialogRef: MatDialogRef<SelectIconDialogComponent>,
-      @Inject(MAT_DIALOG_DATA) readonly iconEnum: MapIcon,
+    public dialogRef: MatDialogRef<SelectIconDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) readonly iconEnum: MapIcon,
   ) {
-    this.icons = Object.keys(MapIcon).map(keyValue => ({key: keyValue, url: MapIcon[keyValue as keyof typeof MapIcon]}));
+    this.icons = Object.keys(MapIcon).map(keyValue => ({
+      key: keyValue,
+      url: MapIcon[keyValue as keyof typeof MapIcon]
+    }));
   }
 
   onClose() {

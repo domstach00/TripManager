@@ -8,7 +8,7 @@ import {
   TripTableAddNewDialogComponent
 } from "../dialog/trip-table-add-new-dialog/trip-table-add-new-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
-import { User } from "../_model/user";
+import { Account } from "../_model/account";
 
 export interface PeriodicElement {
   name: string;
@@ -35,7 +35,8 @@ export class TripsComponent implements OnInit {
     readonly router: Router,
     readonly tripService: TripService,
     public dialog: MatDialog,
-    ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.subscriptions.add(
@@ -49,7 +50,7 @@ export class TripsComponent implements OnInit {
     return date.join("/") + " " + time.slice(0, 2).map(val => val.toString().padStart(2, '0')).join(":")
   }
 
-  formatLastUpdateBy(user: User): string {
+  formatLastUpdateBy(user: Account): string {
     return "Updated by " + user.username;
   }
 

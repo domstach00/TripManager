@@ -1,5 +1,3 @@
-import { MapIcon } from "./MapPinIcons";
-
 export interface TripPlan {
   id: string;
   displayName: string;

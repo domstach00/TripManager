@@ -9,7 +9,8 @@ export class TripPlanService {
 
   constructor(
     readonly apiService: ApiService
-  ) {}
+  ) {
+  }
 
   public addTripPlan(tripPlan: TripPlan, tripId: string) {
     return this.apiService.postFormatted<TripPlan>(ApiPath.tripPlan, [tripId], tripPlan);
@@ -43,7 +44,7 @@ export class TripPlanService {
     } as GoogleMapPin
   }
 
-  public markerPositionGenerator(lat?: number, lng?: number): google.maps.LatLng | null{
+  public markerPositionGenerator(lat?: number, lng?: number): google.maps.LatLng | null {
     return !!lat && !!lng
       ? new LatLng({lat: lat, lng: lng})
       : null

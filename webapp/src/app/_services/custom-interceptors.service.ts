@@ -4,7 +4,7 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/c
 import { Observable } from "rxjs";
 
 @Injectable()
-export class CustomInterceptorsService implements HttpInterceptor{
+export class CustomInterceptorsService implements HttpInterceptor {
 
   constructor(
     readonly tokenStorageService: TokenStorageService
@@ -14,7 +14,7 @@ export class CustomInterceptorsService implements HttpInterceptor{
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.tokenStorageService.getToken();
     if (!!token)
-      req = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + token)});
+      req = req.clone({headers: req.headers.set('Authorization', 'Bearer ' + token)});
     return next.handle(req);
   }
 

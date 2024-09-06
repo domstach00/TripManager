@@ -11,7 +11,7 @@ export class ApiService {
   constructor(private httpClient: HttpClient) {
   }
 
-  public get<T = any>(url: ApiPath, options?: any): Observable<T>{
+  public get<T = any>(url: ApiPath, options?: any): Observable<T> {
     return this.httpClient.get<T>(`${ApiPath.apiBaseUrl}` + `${url}`)
   }
 

@@ -4,9 +4,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
-import com.example.tripmanager.mapper.RoleMapper;
-import com.example.tripmanager.model.user.Role;
-import com.example.tripmanager.model.user.UserDto;
+import com.example.tripmanager.model.account.AccountDto;
+import com.example.tripmanager.model.account.Role;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,41 +18,38 @@ import java.util.*;
 @Service
 @Slf4j
 public class JwtService {
-    private final RoleMapper roleMapper;
 
     private final String jwtSecret;
 
     private final int jwtExpirationMs;
 
-    public JwtService(@Autowired RoleMapper roleMapper,
-                      @Value("${sec.app.jwtSecret}") String jwtSecret,
+    public JwtService(@Value("${sec.app.jwtSecret}") String jwtSecret,
                       @Value("${sec.app.jwtExpirationMs}") int jwtExpirationMs) {
-        this.roleMapper = roleMapper;
         this.jwtSecret = jwtSecret;
         this.jwtExpirationMs = jwtExpirationMs;
     }
 
-    public String createToken(UserDto userDto) {
+    public String createToken(AccountDto accountDto) {
         Date now = new Date();
         Date validity = new Date(now.getTime() + jwtExpirationMs);
 
         return JWT.create()
-                .withIssuer(userDto.getUsername())
+                .withIssuer(accountDto.getUsername())
                 .withIssuedAt(now)
                 .withExpiresAt(validity)
-                .withClaim("id", userDto.getId())
-                .withClaim("username", userDto.getUsername())
-                .withClaim("email", userDto.getEmail())
-                .withClaim("authorities", roleMapper.roleToString(userDto.getRoles()))
+                .withClaim("id", accountDto.getId())
+                .withClaim("username", accountDto.getUsername())
+                .withClaim("email", accountDto.getEmail())
+                .withClaim("authorities", Role.roleToString(accountDto.getRoles()))
                 .sign(Algorithm.HMAC256(this.jwtSecret));
     }
 
     public Authentication validateToken(String token) {
-        UserDto user = getUserDtoFromJwt(token);
-        return new UsernamePasswordAuthenticationToken(user, null, roleMapper.roleToGrantedAuthorities(user.getRoles()));
+        AccountDto user = getUserDtoFromJwt(token);
+        return new UsernamePasswordAuthenticationToken(user, null, Role.toGrantedAuthorities(user.getRoles()));
     }
 
-    public UserDto getUserDtoFromJwt(String token) {
+    public AccountDto getUserDtoFromJwt(String token) {
         Algorithm algorithm = Algorithm.HMAC256(this.jwtSecret);
 
         JWTVerifier verifier = JWT.require(algorithm).build();
@@ -62,8 +58,8 @@ public class JwtService {
         return getUserDtoFromJwt(decoded);
     }
 
-    public UserDto getUserDtoFromJwt(DecodedJWT decoded) {
-        return UserDto.builder()
+    public AccountDto getUserDtoFromJwt(DecodedJWT decoded) {
+        return AccountDto.builder()
                 .username(decoded.getIssuer())
                 .id(decoded.getClaim("id").asString())
                 .email(decoded.getClaim("email").asString())

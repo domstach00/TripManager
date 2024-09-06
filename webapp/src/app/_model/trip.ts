@@ -1,4 +1,4 @@
-import { User } from "./user";
+import { Account } from "./account";
 
 export interface Trip {
   id: string;
@@ -8,5 +8,5 @@ export interface Trip {
   summaryCost: number;
   lastUpdateDate: number[];
   lastUpdateTime: number[];
-  lastUpdateBy: User;
+  lastUpdateBy: Account;
 }

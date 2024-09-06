@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import jwtDecode, { JwtPayload } from "jwt-decode";
 
 const TOKEN_KEY = 'auth-token';
-const DEFAULT_COOKIE_TIME =  60 * 60 * 1000;
+const DEFAULT_COOKIE_TIME = 60 * 60 * 1000;
 
 export function tokenGetter() {
   return getCookie(TOKEN_KEY);
@@ -14,7 +14,7 @@ export function setCookie(name: string, value: string, timeMs: number | undefine
 
   date.setTime(timeMs);
 
-  document.cookie = name+"="+value+"; expires="+date.toUTCString()+"; path=/";
+  document.cookie = name + "=" + value + "; expires=" + date.toUTCString() + "; path=/";
 }
 
 export function getCookie(name: string): string | null {
@@ -33,7 +33,7 @@ export function deleteCookie(name: string) {
 
   date.setTime(date.getTime() + (-1 * 24 * 60 * 60 * 1000));
 
-  document.cookie = name+"=; expires="+date.toUTCString()+"; path=/";
+  document.cookie = name + "=; expires=" + date.toUTCString() + "; path=/";
 }
 
 @Injectable({
@@ -57,4 +57,5 @@ export class TokenStorageService {
   public logout() {
     deleteCookie(TOKEN_KEY);
   }
+
 }

@@ -1,10 +1,9 @@
 package com.example.tripmanager.controller;
 
-import com.example.tripmanager.mapper.UserMapper;
 import com.example.tripmanager.model.*;
-import com.example.tripmanager.model.user.User;
-import com.example.tripmanager.model.user.UserDto;
-import com.example.tripmanager.service.UserAuthService;
+import com.example.tripmanager.model.account.Account;
+import com.example.tripmanager.model.account.AccountDto;
+import com.example.tripmanager.service.AccountAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,19 +16,17 @@ public class AuthController {
     private final static String registerPostUrl = "/register";
 
     @Autowired
-    private UserAuthService userAuthService;
-    @Autowired
-    private UserMapper userMapper;
+    private AccountAuthService accountAuthService;
 
     @PostMapping(path = loginPostUrl)
-    public ResponseEntity<UserDto> login(@RequestBody LoginRequest loginRequest) {
-        return ResponseEntity.ok(userAuthService.login(loginRequest));
+    public ResponseEntity<AccountDto> login(@RequestBody LoginRequest loginRequest) {
+        return ResponseEntity.ok(accountAuthService.login(loginRequest));
     }
 
     @PostMapping(registerPostUrl)
-    public ResponseEntity<UserDto> register(@RequestBody SignupRequest signupRequest) {
-        User user = userAuthService.register(signupRequest);
-        return ResponseEntity.ok(userMapper.toUserDto(user));
+    public ResponseEntity<AccountDto> register(@RequestBody SignupRequest signupRequest) {
+        Account account = accountAuthService.register(signupRequest);
+        return ResponseEntity.ok(Account.toDto(account));
     }
 
     public static String getLoginPostUrl() {
