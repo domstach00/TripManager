@@ -97,7 +97,7 @@ export function f() {
     GoogleMapsModule,
     NgxGpAutocompleteModule.forRoot({
       loaderOptions: {
-        apiKey: 'AIzaSyCySOc5V8jIcTWxBEhu_oNnP67E19ASufI',
+        apiKey: 'YOUR_KEY',
         libraries: ['places']
       }
     }),
