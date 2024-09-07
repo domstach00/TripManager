@@ -86,11 +86,35 @@ export class AuthService {
 		})
 	}
 
-	public isLoggedIn(): boolean {
-		return !this.helper.isTokenExpired(this.tokenStorageService.getToken());
+	get isLoggedIn$(): Observable<boolean> {
+		return this.currentAccountExistsSubject.asObservable();
 	}
 
 	public logout() {
-		this.tokenStorageService.logout();
+		this.logout$().subscribe({
+			next: () => {
+				this.redirectToLoginPage();
+			},
+			error: () => {
+				console.log('[WARN] Error when logging out')
+			}
+		})
+	}
+
+	public redirectToLoginPage() {
+		this.router.navigate(['/login'])
+	}
+
+	public logout$(): Observable<any> {
+		return this.apiService.get<string>(ApiPath.logout, {}).pipe(
+			take(1),
+			tap((responseMessage) => {
+				if (!!responseMessage) {
+					console.log(responseMessage)
+				} else {
+					console.log('Logout response received with no user response message.')
+				}
+			})
+		)
 	}
 }
