@@ -38,7 +38,6 @@ import {
 } from './dialog/trip-plan-table-add-new-dialog/trip-plan-table-add-new-dialog.component';
 import { MatDialogModule } from "@angular/material/dialog";
 import { TripPlanService } from "./_services/trip-plan.service";
-import { LogoutComponent } from './logout/logout.component';
 import { JwtModule } from "@auth0/angular-jwt";
 import { tokenGetter } from "./_services/token-storage.service";
 import { CustomInterceptorsService } from "./_services/custom-interceptors.service";

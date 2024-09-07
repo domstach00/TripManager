@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AccountService } from "../_services/account.service";
-import { Subscription } from "rxjs";
+import { Observable, Subscription } from "rxjs";
+import { AuthService } from "../_services/auth.service";
+import { Account } from "../_model/account";
 
 @Component({
 	selector: 'app-header',
@@ -8,21 +9,20 @@ import { Subscription } from "rxjs";
 	styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-	private subscription = new Subscription();
+	isLoggedIn$: Observable<boolean>;
 
-	// currentAccount: Account;
+	currentAccount: Account;
 
-	constructor(readonly accountService: AccountService) {
+	constructor(readonly authService: AuthService) {
+		this.isLoggedIn$ = this.authService.isLoggedIn$;
+		this.currentAccount = this.authService.currentAccount;
 	}
 
 
 	ngOnInit(): void {
-		// this.accountService.currentAccount.subscribe(
-		//   account => this.currentAccount = account
-		// )
 	}
 
-	getUserName() {
-		// return this.currentAccount?.username;
+	logout() {
+		this.authService.logout();
 	}
 }
