@@ -1,9 +1,9 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
 import { AuthService } from "../_services/auth.service";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { Subscription } from "rxjs";
+import { AccountService } from "../_services/account.service";
 
 enum OpenForm {
 	None,
@@ -28,7 +28,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 	OPEN_FORM = OpenForm;
 
 	constructor(
-		readonly httpClient: HttpClient,
+		readonly accountService: AccountService,
 		readonly authService: AuthService,
 		readonly router: Router,
 		readonly toastrService: ToastrService
@@ -37,8 +37,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 
 	ngOnInit(): void {
 		this.subscribe.add(
-			this.authService.isLoggedIn$.subscribe(isLogged => {
-				if (isLogged) {
+			this.accountService.currentAccount.subscribe(account => {
+				if (!!account) {
 					this.router.navigate(['/home'])
 				}
 			})
