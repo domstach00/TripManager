@@ -1,48 +1,121 @@
-<div class="demo-button-container">
-	<button mat-raised-button (click)="this.openDialog()" class="demo-button">
-		Add data
-	</button>
-	<button
-		mat-raised-button
-		[disabled]="!dataSource.data.length"
-		(click)="removeData()"
-		class="demo-button">
-		Remove data
-	</button>
+<app-header></app-header>
+
+<div class="container-fluid">
+	<div class="row flex-nowrap">
+		<div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+			<div class="flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+				<a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+					<span class="fs-5 d-none d-sm-inline">Menu</span>
+				</a>
+				<app-side-bar></app-side-bar>
+			</div>
+		</div>
+		<div class="col py-3">
+
+			<div class="demo-button-container">
+				<button mat-raised-button (click)="this.openDialog()" class="demo-button">
+					Add data
+				</button>
+				<button
+					mat-raised-button
+					[disabled]="!dataSource.data.length"
+					(click)="removeData()"
+					class="demo-button">
+					Remove data
+				</button>
+			</div>
+
+			<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
+				<ng-container matColumnDef="tripName">
+					<th mat-header-cell *matHeaderCellDef>Name</th>
+					<td class="clikable-text" mat-cell
+						(click)="nav(element.id)"
+						*matCellDef="let element"
+						[matTooltip]="element.name">
+						{{ element.name }}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="summaryCost">
+					<th mat-header-cell *matHeaderCellDef>summaryCost</th>
+					<td mat-cell *matCellDef="let element"
+						[matTooltip]="element.summaryCost">
+						{{ element.summaryCost }}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="dayLength">
+					<th mat-header-cell *matHeaderCellDef>Day Length</th>
+					<td mat-cell *matCellDef="let element"
+						[matTooltip]="element.dayLength">
+						{{ element.dayLength }}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="lastUpdate">
+					<th mat-header-cell *matHeaderCellDef>last Update</th>
+					<td mat-cell *matCellDef="let element"
+						[matTooltip]="formatLastUpdateBy(element.lastUpdateBy)">
+						{{ formatLastDateTimeUpdate(element.lastUpdateDate, element.lastUpdateTime) }}
+					</td>
+				</ng-container>
+
+				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+				<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+			</table>
+		</div>
+	</div>
 </div>
 
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
-	<ng-container matColumnDef="tripName">
-		<th mat-header-cell *matHeaderCellDef>Name</th>
-		<td class="clikable-text" mat-cell
-			(click)="nav(element.id)"
-			*matCellDef="let element"
-			[matTooltip]="element.name">
-			{{ element.name }}</td>
-	</ng-container>
+<footer class="fixed-bottom bg-dark">
+	<div class="container">
+		<p class="text-center text-light h-100">Copyright © 2023. All rights reserved.</p>
+	</div>
+</footer>
 
-	<ng-container matColumnDef="summaryCost">
-		<th mat-header-cell *matHeaderCellDef>summaryCost</th>
-		<td mat-cell *matCellDef="let element"
-			[matTooltip]="element.summaryCost">
-			{{ element.summaryCost }}</td>
-	</ng-container>
 
-	<ng-container matColumnDef="dayLength">
-		<th mat-header-cell *matHeaderCellDef>Day Length</th>
-		<td mat-cell *matCellDef="let element"
-			[matTooltip]="element.dayLength">
-			{{ element.dayLength }}</td>
-	</ng-container>
+<!--<div class="demo-button-container">-->
+<!--	<button mat-raised-button (click)="this.openDialog()" class="demo-button">-->
+<!--		Add data-->
+<!--	</button>-->
+<!--	<button-->
+<!--		mat-raised-button-->
+<!--		[disabled]="!dataSource.data.length"-->
+<!--		(click)="removeData()"-->
+<!--		class="demo-button">-->
+<!--		Remove data-->
+<!--	</button>-->
+<!--</div>-->
 
-	<ng-container matColumnDef="lastUpdate">
-		<th mat-header-cell *matHeaderCellDef>last Update</th>
-		<td mat-cell *matCellDef="let element"
-			[matTooltip]="formatLastUpdateBy(element.lastUpdateBy)">
-			{{ formatLastDateTimeUpdate(element.lastUpdateDate, element.lastUpdateTime) }}
-		</td>
-	</ng-container>
+<!--<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">-->
+<!--	<ng-container matColumnDef="tripName">-->
+<!--		<th mat-header-cell *matHeaderCellDef>Name</th>-->
+<!--		<td class="clikable-text" mat-cell-->
+<!--			(click)="nav(element.id)"-->
+<!--			*matCellDef="let element"-->
+<!--			[matTooltip]="element.name">-->
+<!--			{{ element.name }}</td>-->
+<!--	</ng-container>-->
 
-	<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-	<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+<!--	<ng-container matColumnDef="summaryCost">-->
+<!--		<th mat-header-cell *matHeaderCellDef>summaryCost</th>-->
+<!--		<td mat-cell *matCellDef="let element"-->
+<!--			[matTooltip]="element.summaryCost">-->
+<!--			{{ element.summaryCost }}</td>-->
+<!--	</ng-container>-->
+
+<!--	<ng-container matColumnDef="dayLength">-->
+<!--		<th mat-header-cell *matHeaderCellDef>Day Length</th>-->
+<!--		<td mat-cell *matCellDef="let element"-->
+<!--			[matTooltip]="element.dayLength">-->
+<!--			{{ element.dayLength }}</td>-->
+<!--	</ng-container>-->
+
+<!--	<ng-container matColumnDef="lastUpdate">-->
+<!--		<th mat-header-cell *matHeaderCellDef>last Update</th>-->
+<!--		<td mat-cell *matCellDef="let element"-->
+<!--			[matTooltip]="formatLastUpdateBy(element.lastUpdateBy)">-->
+<!--			{{ formatLastDateTimeUpdate(element.lastUpdateDate, element.lastUpdateTime) }}-->
+<!--		</td>-->
+<!--	</ng-container>-->
+
+<!--	<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
+<!--	<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>-->
+<!--</table>-->

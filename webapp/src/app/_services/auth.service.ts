@@ -44,6 +44,10 @@ export class AuthService {
 		return this._currentAccount;
 	}
 
+	get currentAccount$(): Observable<Account> {
+		return this._currentAccount$;
+	}
+
 	set currentAccount(account: Account) {
 		this._currentAccount = account;
 		this.currentAccountSubject.next(this._currentAccount);
@@ -67,6 +71,7 @@ export class AuthService {
 			if (!!user) {
 				this.tokenStorageService.saveToken(user.token)
 				this.toastrService.success("Logged in")
+				this._currentAccount$ = this.initCurrentAccount$();
 				this.router.navigate(['/home'])
 			} else {
 				this.toastrService.error("Error")

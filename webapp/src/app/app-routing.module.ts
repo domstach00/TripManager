@@ -8,10 +8,14 @@ import { TripPlanComponent } from "./trips/trip-plan/trip-plan.component";
 
 
 const routes: Routes = [
-	{path: 'login', component: LoginFormComponent},
-	{path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
-	{path: 'trips', component: TripsComponent, canActivate: [AuthGuard]},
-	{path: 'trips/:tripId', component: TripPlanComponent, canActivate: [AuthGuard]}
+	{ path: '', redirectTo: '/login', pathMatch: 'full' },
+	{ path: '**', redirectTo: '/login'  },
+	{ path: 'login', component: LoginFormComponent },
+	{ path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+	{ path: 'settings', component: HomeComponent, canActivate: [AuthGuard] },
+	{ path: 'trips', component: TripsComponent, canActivate: [AuthGuard], children: [
+			{ path: 'trips/:tripId', component: TripPlanComponent, canActivate: [AuthGuard] },
+		] },
 ];
 
 @NgModule({

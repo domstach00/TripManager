@@ -9,15 +9,17 @@ import { Account } from "../_model/account";
 	styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-	isLoggedIn$: Observable<boolean>;
-
-	currentAccount: Account;
 
 	constructor(readonly authService: AuthService) {
-		this.isLoggedIn$ = this.authService.isLoggedIn$;
-		this.currentAccount = this.authService.currentAccount;
 	}
 
+	get currentAccount() {
+		return this.authService.currentAccount;
+	}
+
+	getName(): string {
+		return this.currentAccount?.username ?? ''
+	}
 
 	ngOnInit(): void {
 	}

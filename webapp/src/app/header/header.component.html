@@ -1,10 +1,10 @@
-<header class="bg-dark" *ngIf="isLoggedIn$ | async">
+<header class="bg-dark">
 	<div class="container">
 		<a href="#" routerLink="/" class="logo">Trip Manager</a>
 		<nav>
 			<ul class="nav">
-				<li class="nav-item"><a href="/account-details">Witaj {{ currentAccount.username }}</a></li>
-				<li class="nav-item"><a (click)="logout()">Logout</a></li>
+				<li class="nav-item"><a href="/account-details">Witaj {{ getName() }}</a></li>
+				<li class="nav-item" (click)="logout()"><div >Logout</div></li>
 			</ul>
 		</nav>
 	</div>

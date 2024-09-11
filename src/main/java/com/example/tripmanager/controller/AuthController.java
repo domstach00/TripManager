@@ -4,15 +4,11 @@ import com.example.tripmanager.model.*;
 import com.example.tripmanager.model.account.Account;
 import com.example.tripmanager.model.account.AccountDto;
 import com.example.tripmanager.service.AccountAuthService;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.SessionCookieConfig;
-import jakarta.servlet.http.Cookie;
+import com.example.tripmanager.service.AccountService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,6 +20,8 @@ public class AuthController {
 
     @Autowired
     private AccountAuthService accountAuthService;
+    @Autowired
+    private AccountService accountService;
 
     @PostMapping(path = loginPostUrl)
     public ResponseEntity<AccountDto> login(@RequestBody LoginRequest loginRequest) {
@@ -40,6 +38,11 @@ public class AuthController {
     public String logout(HttpServletRequest request,
                          HttpServletResponse response) {
         return accountAuthService.logoutUser(request, response);
+    }
+
+    @GetMapping("/currentaccount")
+    public AccountDto getCurrentAccount() {
+        return Account.toDto(accountService.getCurrentAccount());
     }
 
     public static String getLoginPostUrl() {
