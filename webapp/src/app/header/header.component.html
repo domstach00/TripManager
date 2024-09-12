@@ -1,11 +1,64 @@
-<header class="bg-dark">
-	<div class="container">
-		<a href="#" routerLink="/" class="logo">Trip Manager</a>
-		<nav>
-			<ul class="nav">
-				<li class="nav-item"><a href="/account-details">Witaj {{ getName() }}</a></li>
-				<li class="nav-item" (click)="logout()"><div >Logout</div></li>
-			</ul>
-		</nav>
+<mat-toolbar class="toolbar">
+	<div>Trip Manager</div>
+	<mat-divider class="divider-title" [vertical]="true"></mat-divider>
+
+	<div class="toolbar-item">
+		<button
+			mat-button
+			(click)="navToHome()"
+		>
+			<mat-icon>home</mat-icon>
+			Home
+		</button>
 	</div>
-</header>
+
+	<div class="toolbar-item">
+		<button
+			mat-button
+			(click)="navToTrips()"
+		>
+			<mat-icon>travel_explore</mat-icon>
+			My trips
+		</button>
+	</div>
+
+
+	<div class="fill-remaining-space"></div>
+
+	<div class="toolbar-item">
+		<button mat-button
+				[matMenuTriggerFor]="menu"
+				(menuOpened)="onMenuStatusChange()"
+				(menuClosed)="onMenuStatusChange()">
+			{{ getName() }}
+			<mat-icon
+				class="icon-transition"
+				[ngClass]="{'icon-rotate': isAccMenuOpened}">
+				expand_more
+			</mat-icon>
+		</button>
+		<mat-menu #menu="matMenu" class="account-menu-dropdown">
+			<button
+				mat-menu-item
+				(click)="navToSettings()"
+			>
+				<mat-icon>settings</mat-icon>
+				Settings
+			</button>
+			<button
+				mat-menu-item
+			>
+				<mat-icon>edit_notifications</mat-icon>
+				Notifications settings
+			</button>
+			<button
+				class="button-logout"
+				mat-menu-item
+				(click)="logout()"
+			>
+				<mat-icon>logout</mat-icon>
+				Logout
+			</button>
+		</mat-menu>
+	</div>
+</mat-toolbar>
