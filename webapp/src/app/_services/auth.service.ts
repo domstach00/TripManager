@@ -6,10 +6,10 @@ import { TokenStorageService } from "./token-storage.service";
 import { RegisterCredentials } from "../_model/register-credentials";
 import { ToastrService } from "ngx-toastr";
 import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { Observable, ReplaySubject, Subject, take, tap } from "rxjs";
 import { AccountService } from "./account.service";
+import { RouterService } from "./router.service";
 
 export const authJwtEnv = {
 	config: {
@@ -34,7 +34,7 @@ export class AuthService {
 		readonly apiService: ApiService,
 		readonly tokenStorageService: TokenStorageService,
 		readonly toastrService: ToastrService,
-		readonly router: Router,
+		readonly routerService: RouterService,
 		readonly accountService: AccountService,
 	) {
 		this._currentAccount = <Account><unknown>undefined
@@ -72,7 +72,7 @@ export class AuthService {
 				this.tokenStorageService.saveToken(user.token)
 				this.toastrService.success("Logged in")
 				this._currentAccount$ = this.initCurrentAccount$();
-				this.router.navigate(['/home'])
+				this.routerService.navToHome();
 			} else {
 				this.toastrService.error("Error")
 			}
@@ -83,7 +83,7 @@ export class AuthService {
 		this.apiService.post<boolean, RegisterCredentials>(ApiPath.register, registerCredentials).subscribe(isSuccess => {
 			if (isSuccess) {
 				this.toastrService.success("Account has been created")
-				this.router.navigate(['/register-success'])
+				// TODO this.router.navigate(['/register-success'])
 			} else
 				this.toastrService.error("Error while creating account")
 		}, error => {
@@ -107,7 +107,7 @@ export class AuthService {
 	}
 
 	public redirectToLoginPage() {
-		this.router.navigate(['/login'])
+		this.routerService.navToLogin();
 	}
 
 	public logout$(): Observable<any> {

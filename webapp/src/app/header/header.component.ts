@@ -1,8 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { AuthService } from "../_services/auth.service";
 import { Account } from "../_model/account";
-import { Paths } from "../_model/paths";
-import { Router } from "@angular/router";
+import { RouterService } from "../_services/router.service";
 
 @Component({
 	selector: 'app-header',
@@ -15,7 +14,7 @@ export class HeaderComponent {
 
 	constructor(
 		readonly authService: AuthService,
-		readonly router: Router,
+		readonly routerService: RouterService,
 	) {
 	}
 
@@ -29,21 +28,5 @@ export class HeaderComponent {
 
 	logout() {
 		this.authService.logout();
-	}
-
-	private navTo(path: Paths) {
-		this.router.navigate([path]);
-	}
-
-	navToSettings() {
-		this.navTo(Paths.settings);
-	}
-
-	navToHome() {
-		this.navTo(Paths.home);
-	}
-
-	navToTrips() {
-		this.navTo(Paths.trips)
 	}
 }

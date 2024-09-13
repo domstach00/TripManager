@@ -48,6 +48,7 @@ import { MatSortModule } from "@angular/material/sort";
 import { ConfirmActionDialogComponent } from './dialog/delete-confirmation-dialog/confirm-action-dialog.component';
 import { SelectIconDialogComponent } from './dialog/select-icon-dialog/select-icon-dialog.component';
 import { DefaultPageComponent } from "./default-page/default-page.component";
+import { RouterService } from "./_services/router.service";
 
 export function f() {
 

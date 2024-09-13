@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Trip } from "../_model/trip";
 import { MatTable, MatTableDataSource } from "@angular/material/table";
-import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { TripService } from "../_services/trip.service";
 import {
@@ -9,6 +8,7 @@ import {
 } from "../dialog/trip-table-add-new-dialog/trip-table-add-new-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
 import { Account } from "../_model/account";
+import { RouterService } from "../_services/router.service";
 
 export interface PeriodicElement {
 	name: string;
@@ -32,7 +32,7 @@ export class TripsComponent implements OnInit {
 	@ViewChild(MatTable) table: MatTable<PeriodicElement> | undefined;
 
 	constructor(
-		readonly router: Router,
+		readonly routerService: RouterService,
 		readonly tripService: TripService,
 		public dialog: MatDialog,
 	) {
@@ -60,7 +60,8 @@ export class TripsComponent implements OnInit {
 	}
 
 	nav(tripId: string) {
-		this.router.navigate([`/trips`, tripId])
+		// this.router.navigate([`/trips`, tripId])
+		this.routerService.navToTrip(tripId);
 	}
 
 	openDialog(): void {

@@ -6,15 +6,16 @@ export enum Paths {
 	trip = trips + '/:tripId'
 }
 
-export function mapPath(path: Paths, ids: string[]): string {
+export function mapPath(path: Paths, ids?: string[]): string {
 	if (!path) {
 		return '';
 	}
+	if (!ids || ids.length <= 0) {
+		return path.valueOf();
+	}
 	const pathStr: string = path.valueOf();
 	let index = 0;
-	return !!ids && ids.length > 0
-		? pathStr.replace(/:\w+/g, () => ids[index++])
-		: pathStr;
+	return pathStr.replace(/:\w+/g, () => ids[index++]);
 }
 
 export function asRoutePath(path: Paths): string {
