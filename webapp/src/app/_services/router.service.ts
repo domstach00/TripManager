@@ -11,7 +11,7 @@ export class RouterService {
 	) {
 	}
 
-	private navTo(path: Paths, params?: string[]) {
+	navTo(path: Paths, params?: string[]) {
 		const finalPath = !!params
 			? mapPath(path, params)
 			: path.valueOf();

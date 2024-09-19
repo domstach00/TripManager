@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Account } from "../_model/account";
-import { AccountService } from "../_services/account.service";
+import { AccountService } from "../../../_services/account.service";
+import { Account } from "../../../_model/account";
 
 @Component({
   selector: 'app-default-page',

@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { SideBarComponent } from "./side-bar/side-bar.component";
+import { SideBarComponent } from "./shared/components/side-bar/side-bar.component";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatIconModule } from "@angular/material/icon";
 import { MatSidenavModule } from "@angular/material/sidenav";
@@ -47,12 +47,8 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatSortModule } from "@angular/material/sort";
 import { ConfirmActionDialogComponent } from './dialog/delete-confirmation-dialog/confirm-action-dialog.component';
 import { SelectIconDialogComponent } from './dialog/select-icon-dialog/select-icon-dialog.component';
-import { DefaultPageComponent } from "./default-page/default-page.component";
+import { DefaultPageComponent } from "./shared/components/default-page/default-page.component";
 import { RouterService } from "./_services/router.service";
-
-export function f() {
-
-}
 
 @NgModule({
   declarations: [

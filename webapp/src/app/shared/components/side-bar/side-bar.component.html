@@ -1,0 +1,28 @@
+<div class="navbar-menu-container" *ngIf="!!navSideBarItems && navSideBarItems.length > 0">
+	<mat-icon
+		class="navbar-menu-toggle-arrow"
+		(click)="toggleMenuExpansion()"
+	>
+		{{ isExpandedMenu ? 'chevron_left' : 'chevron_right'}}
+	</mat-icon>
+
+	<div class="navbar-menu"
+		 [ngClass]="{'navbar-menu-collapsed': !isExpandedMenu}"
+	>
+
+		<mat-nav-list
+			*ngFor="let item of this.navSideBarItems" id="menu">
+			<mat-list-item>
+				<button
+					mat-button
+					(click)="navigate(item.path, item.pathParams)"
+				>
+					<mat-icon>{{ item.icon }}</mat-icon>
+					{{ item.name }}
+				</button>
+			</mat-list-item>
+		</mat-nav-list>
+
+	</div>
+
+</div>
