@@ -49,73 +49,76 @@ import { ConfirmActionDialogComponent } from './dialog/delete-confirmation-dialo
 import { SelectIconDialogComponent } from './dialog/select-icon-dialog/select-icon-dialog.component';
 import { DefaultPageComponent } from "./shared/components/default-page/default-page.component";
 import { RouterService } from "./_services/router.service";
+import { Loader } from "@googlemaps/js-api-loader";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    SideBarComponent,
-    LoginFormComponent,
-    HeaderComponent,
-    HomeComponent,
-    FooterComponent,
-    UserDetailsComponent,
-    TripsComponent,
-    TripPlanComponent,
-    TripPlanTableComponent,
-    TripPlanMapComponent,
-    TripPlanTableAddNewDialogComponent,
-    LogoutComponent,
-    TripTableAddNewDialogComponent,
-    ConfirmActionDialogComponent,
-    SelectIconDialogComponent,
-  ],
-  imports: [
-    BrowserModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    NgbModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatSidenavModule,
-    FormsModule,
-    HttpClientModule,
-    ToastrModule.forRoot(),
-    MatButtonModule,
-    MatListModule,
-    MatGridListModule,
-    MatCardModule,
-    MatMenuModule,
-    ReactiveFormsModule,
-    RouterOutlet,
-    AppRoutingModule,
-    MatTableModule,
-    MatInputModule,
-    MatButtonToggleModule,
-    GoogleMapsModule,
-    NgxGpAutocompleteModule.forRoot({
-      loaderOptions: {
-        apiKey: 'YOUR_KEY',
-        libraries: ['places']
-      }
-    }),
-    BrowserModule,
-    FormsModule,
-    MatDialogModule,
-    JwtModule.forRoot({
-      config: {
-        tokenGetter: tokenGetter,
-      }
-    }),
-    MatTooltipModule,
-    MatSortModule
-  ],
-  providers: [
-    AuthService,
-    TripPlanService,
-    TripService,
-    {provide: HTTP_INTERCEPTORS, useClass: CustomInterceptorsService, multi: true},
-  ],
-  bootstrap: [AppComponent]
+	declarations: [
+		AppComponent,
+		SideBarComponent,
+		LoginFormComponent,
+		HeaderComponent,
+		HomeComponent,
+		FooterComponent,
+		UserDetailsComponent,
+		TripsComponent,
+		TripPlanComponent,
+		TripPlanTableComponent,
+		TripPlanMapComponent,
+		TripPlanTableAddNewDialogComponent,
+		TripTableAddNewDialogComponent,
+		ConfirmActionDialogComponent,
+		DefaultPageComponent,
+		SelectIconDialogComponent,
+	],
+	imports: [
+		BrowserModule,
+		BrowserModule,
+		BrowserAnimationsModule,
+		NgbModule,
+		MatToolbarModule,
+		MatIconModule,
+		MatSidenavModule,
+		FormsModule,
+		HttpClientModule,
+		ToastrModule.forRoot(),
+		MatButtonModule,
+		MatListModule,
+		MatGridListModule,
+		MatCardModule,
+		MatMenuModule,
+		ReactiveFormsModule,
+		RouterOutlet,
+		AppRoutingModule,
+		MatTableModule,
+		MatInputModule,
+		MatButtonToggleModule,
+		GoogleMapsModule,
+		NgxGpAutocompleteModule,
+		BrowserModule,
+		FormsModule,
+		MatDialogModule,
+		JwtModule.forRoot({
+			config: {
+				tokenGetter: tokenGetter,
+			}
+		}),
+		MatTooltipModule,
+		MatSortModule
+	],
+	providers: [
+		AuthService,
+		TripPlanService,
+		TripService,
+		RouterService,
+		{
+			provide: Loader,
+			useValue: new Loader({
+				apiKey: 'YOUR_KEY',
+				libraries: ['places',],
+			})},
+		{provide: HTTP_INTERCEPTORS, useClass: CustomInterceptorsService, multi: true},
+	],
+	bootstrap: [AppComponent]
 })
 export class AppModule {
 }
