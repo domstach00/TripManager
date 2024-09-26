@@ -4,49 +4,48 @@
 	</div>
 
 	<div class="tmpl-content">
-		<div class="demo-button-container">
-			<button mat-raised-button (click)="this.openDialog()" class="demo-button">
+		<div class="button-actions">
+			<button mat-button (click)="this.openDialog()">
 				Add data
 			</button>
 			<button
-				mat-raised-button
+				mat-button
 				[disabled]="!dataSource.data.length"
-				(click)="removeData()"
-				class="demo-button">
+				(click)="removeData()">
 				Remove data
 			</button>
 		</div>
 
-		<mat-table #table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
+		<mat-table [dataSource]="dataSource" class="">
 			<ng-container matColumnDef="tripName">
-				<th mat-header-cell *matHeaderCellDef>Name</th>
-				<td class="clikable-text" mat-cell
+				<mat-header-cell mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+				<mat-cell class="clikable-text"
 					(click)="nav(element.id)"
 					*matCellDef="let element"
 					>
-					{{ element.name }}</td>
+					{{ element.name }}</mat-cell>
 			</ng-container>
 
 			<ng-container matColumnDef="summaryCost">
-				<th mat-header-cell *matHeaderCellDef>summaryCost</th>
-				<td mat-cell *matCellDef="let element"
+				<mat-header-cell *matHeaderCellDef>summaryCost</mat-header-cell>
+				<mat-cell *matCellDef="let element"
 					>
-					{{ element.summaryCost }}</td>
+					{{ element.summaryCost }}</mat-cell>
 			</ng-container>
 
 			<ng-container matColumnDef="dayLength">
-				<th mat-header-cell *matHeaderCellDef>Day Length</th>
-				<td mat-cell *matCellDef="let element"
+				<mat-header-cell *matHeaderCellDef>Day Length</mat-header-cell>
+				<mat-cell *matCellDef="let element"
 					>
-					{{ element.dayLength }}</td>
+					{{ element.dayLength }}</mat-cell>
 			</ng-container>
 
 			<ng-container matColumnDef="lastUpdate">
-				<th mat-header-cell *matHeaderCellDef>last Update</th>
-				<td mat-cell *matCellDef="let element"
+				<mat-header-cell *matHeaderCellDef>last Update</mat-header-cell>
+				<mat-cell *matCellDef="let element"
 					>
 					{{ formatLastDateTimeUpdate(element.lastUpdateDate, element.lastUpdateTime) }}
-				</td>
+				</mat-cell>
 			</ng-container>
 
 			<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -55,53 +54,3 @@
 
 	</div>
 </app-default-page>
-
-
-<!--<div class="demo-button-container">-->
-<!--	<button mat-raised-button (click)="this.openDialog()" class="demo-button">-->
-<!--		Add data-->
-<!--	</button>-->
-<!--	<button-->
-<!--		mat-raised-button-->
-<!--		[disabled]="!dataSource.data.length"-->
-<!--		(click)="removeData()"-->
-<!--		class="demo-button">-->
-<!--		Remove data-->
-<!--	</button>-->
-<!--</div>-->
-
-<!--<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">-->
-<!--	<ng-container matColumnDef="tripName">-->
-<!--		<th mat-header-cell *matHeaderCellDef>Name</th>-->
-<!--		<td class="clikable-text" mat-cell-->
-<!--			(click)="nav(element.id)"-->
-<!--			*matCellDef="let element"-->
-<!--			[matTooltip]="element.name">-->
-<!--			{{ element.name }}</td>-->
-<!--	</ng-container>-->
-
-<!--	<ng-container matColumnDef="summaryCost">-->
-<!--		<th mat-header-cell *matHeaderCellDef>summaryCost</th>-->
-<!--		<td mat-cell *matCellDef="let element"-->
-<!--			[matTooltip]="element.summaryCost">-->
-<!--			{{ element.summaryCost }}</td>-->
-<!--	</ng-container>-->
-
-<!--	<ng-container matColumnDef="dayLength">-->
-<!--		<th mat-header-cell *matHeaderCellDef>Day Length</th>-->
-<!--		<td mat-cell *matCellDef="let element"-->
-<!--			[matTooltip]="element.dayLength">-->
-<!--			{{ element.dayLength }}</td>-->
-<!--	</ng-container>-->
-
-<!--	<ng-container matColumnDef="lastUpdate">-->
-<!--		<th mat-header-cell *matHeaderCellDef>last Update</th>-->
-<!--		<td mat-cell *matCellDef="let element"-->
-<!--			[matTooltip]="formatLastUpdateBy(element.lastUpdateBy)">-->
-<!--			{{ formatLastDateTimeUpdate(element.lastUpdateDate, element.lastUpdateTime) }}-->
-<!--		</td>-->
-<!--	</ng-container>-->
-
-<!--	<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
-<!--	<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>-->
-<!--</table>-->

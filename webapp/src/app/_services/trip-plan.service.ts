@@ -4,7 +4,9 @@ import { ApiPath } from "../_model/ApiPath";
 import { Injectable } from "@angular/core";
 import LatLng = google.maps.LatLng;
 
-@Injectable()
+@Injectable({
+	providedIn: 'root',
+})
 export class TripPlanService {
 
 	constructor(
