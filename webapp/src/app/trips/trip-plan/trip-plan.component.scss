@@ -4,6 +4,22 @@
 	justify-content: space-between;
 }
 
+.toggle-buttons {
+	.button-left {
+		border-top-left-radius: 15px;
+		border-bottom-left-radius: 15px;
+	}
+
+	.button-middle {
+
+	}
+
+	.button-right {
+		border-top-right-radius: 15px;
+		border-bottom-right-radius: 15px;
+		border-width: 0;
+	}
+}
 
 app-trip-plan-table,
 app-trip-plan-map {

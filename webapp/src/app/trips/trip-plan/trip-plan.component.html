@@ -4,10 +4,10 @@
 	</div>
 
 	<div class="tmpl-content">
-		<mat-button-toggle-group name="SetView">
-			<mat-button-toggle class="rounded-left" (change)="this.changeShowMap(ShowToggle.TABLE)">Table</mat-button-toggle>
-			<mat-button-toggle (change)="this.changeShowMap(ShowToggle.ALL)">All</mat-button-toggle>
-			<mat-button-toggle class="rounded-right" (change)="this.changeShowMap(ShowToggle.MAP)">Map</mat-button-toggle>
+		<mat-button-toggle-group [hideSingleSelectionIndicator]="true" name="SetView" class="toggle-buttons">
+			<mat-button-toggle class="button-left" (change)="this.changeShowMap(ShowToggle.TABLE)">Table</mat-button-toggle>
+			<mat-button-toggle class="button-middle" (change)="this.changeShowMap(ShowToggle.ALL)">All</mat-button-toggle>
+			<mat-button-toggle class="button-right" (change)="this.changeShowMap(ShowToggle.MAP)">Map</mat-button-toggle>
 		</mat-button-toggle-group>
 
 		<div class="row">
