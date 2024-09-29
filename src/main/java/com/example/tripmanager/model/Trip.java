@@ -3,6 +3,7 @@ package com.example.tripmanager.model;
 import com.example.tripmanager.model.account.Account;
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.domain.Page;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
@@ -58,6 +59,10 @@ public class Trip {
         return tripList.stream()
                 .map(Trip::toDto)
                 .collect(Collectors.toList());
+    }
+
+    public static Page<TripDto> toDto(Page<Trip> tripList) {
+        return tripList.map(Trip::toDto);
     }
 
     public static Trip createFromDto(TripDto tripDto, Account currentAccount) {

@@ -41,7 +41,7 @@ export class TripsComponent implements OnInit {
 	ngOnInit(): void {
 		this.subscriptions.add(
 			this.tripService.getTrips().subscribe(trips => {
-				this.dataSource.data = [...trips]
+				this.dataSource.data = trips.content;
 			})
 		)
 	}
