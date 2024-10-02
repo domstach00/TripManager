@@ -40,7 +40,7 @@ export class TripPlanComponent implements OnInit, OnDestroy {
 
 	refreshData() {
 		this.tripPlanService.getTripPlans(this.tripId).pipe(
-			tap(tripPlans => this.dataSource$.next(tripPlans))
+			tap(tripPlans => this.dataSource$.next(tripPlans.content))
 		).subscribe();
 	}
 

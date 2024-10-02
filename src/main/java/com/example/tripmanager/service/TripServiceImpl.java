@@ -32,7 +32,7 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public Page<Trip> getTripsForAccount(Pageable pageable, Account account) {
-        return this.tripRepository.findAllByAllowedAccountsContaining(List.of(accountService.getCurrentAccount()), pageable);
+        return this.tripRepository.findAllByAllowedAccountsContaining(pageable, List.of(accountService.getCurrentAccount()));
     }
 
     @Override

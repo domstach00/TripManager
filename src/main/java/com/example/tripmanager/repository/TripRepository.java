@@ -10,6 +10,6 @@ import java.util.List;
 
 public interface TripRepository extends MongoRepository<Trip, String> {
 
-    Page<Trip> findAllByAllowedAccountsContaining(List<Account> allowedAccounts, Pageable pageable);
+    Page<Trip> findAllByAllowedAccountsContaining(Pageable pageable, List<Account> allowedAccounts);
 
 }

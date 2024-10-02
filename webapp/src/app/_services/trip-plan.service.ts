@@ -3,6 +3,8 @@ import { ApiService } from "./api.service";
 import { ApiPath } from "../_model/ApiPath";
 import { Injectable } from "@angular/core";
 import LatLng = google.maps.LatLng;
+import { Page } from "../_model/Page";
+import { Observable } from "rxjs";
 
 @Injectable({
 	providedIn: 'root',
@@ -26,8 +28,8 @@ export class TripPlanService {
 		return this.apiService.patchFormatted<TripPlan>(ApiPath.tripPlan, [tripPlan.tripId], tripPlan);
 	}
 
-	public getTripPlans(tripId: string) {
-		return this.apiService.getFormatted<TripPlan[]>(ApiPath.tripPlan, [tripId]);
+	public getTripPlans(tripId: string): Observable<Page<TripPlan>> {
+		return this.apiService.getFormatted<Page<TripPlan>>(ApiPath.tripPlan, [tripId]);
 	}
 
 	public getTripPlan(tripPlanId: string) {

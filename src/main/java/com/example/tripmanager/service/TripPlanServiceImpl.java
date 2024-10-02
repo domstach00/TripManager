@@ -6,9 +6,9 @@ import com.example.tripmanager.model.TripPlan;
 import com.example.tripmanager.model.TripPlanDto;
 import com.example.tripmanager.repository.TripPlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class TripPlanServiceImpl implements TripPlanService{
@@ -18,10 +18,10 @@ public class TripPlanServiceImpl implements TripPlanService{
     private TripService tripService;
 
     @Override
-    public List<TripPlan> getAllTripPlansForTrip(String tripId) {
+    public Page<TripPlan> getAllTripPlansForTrip(Pageable pageable, String tripId) {
         Trip trip = tripService.getTripById(tripId)
                 .orElseThrow(() -> new ItemNotFound("Trip not found - id=" + tripId));
-        return this.tripPlanRepository.findAllByTrip(trip);
+        return this.tripPlanRepository.findAllByTrip(pageable, trip);
     }
 
     @Override

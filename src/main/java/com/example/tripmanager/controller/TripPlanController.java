@@ -1,12 +1,13 @@
 package com.example.tripmanager.controller;
 
+import com.example.tripmanager.controller.support.PageParams;
 import com.example.tripmanager.model.TripPlan;
 import com.example.tripmanager.model.TripPlanDto;
 import com.example.tripmanager.service.TripPlanService;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(TripPlanController.tripPlanControllerUrl)
@@ -17,9 +18,12 @@ public class TripPlanController {
     private TripPlanService tripPlanService;
 
     @GetMapping()
-    public List<TripPlanDto> getAllTripPlan(@PathVariable("tripId") String tripId) {
+    public Page<TripPlanDto> getAllTripPlan(
+            @ParameterObject PageParams pageParams,
+            @PathVariable("tripId") String tripId
+    ) {
         return TripPlan.toDto(
-                tripPlanService.getAllTripPlansForTrip(tripId)
+                tripPlanService.getAllTripPlansForTrip(pageParams.asPageable(), tripId)
         );
     }
 
