@@ -1,0 +1,48 @@
+
+.content {
+	width: 100%;
+	margin: 15px 0;
+	flex-flow: row wrap;
+	box-sizing: border-box;
+	display: flex;
+	place-content: stretch flex-start;
+	align-items: stretch;
+
+	.pagination {
+		align-items: stretch;
+		box-sizing: border-box;
+		display: flex;
+		flex: 1 1 0;
+		flex-flow: row wrap;
+		place-content: stretch center;
+
+		.numbers {
+			flex: 1 1 100%;
+			text-align: center;
+
+			.link-button {
+				font-size: 16px;
+				outline: none;
+				border: 0;
+				margin: 0 5px;
+				background: transparent;
+				cursor: pointer;
+				color: #188ce5;
+
+				&:hover {
+					color: black !important;
+				}
+
+				&.active {
+					color: #188ce5;
+				}
+
+				&.disabled {
+					color: black;
+				}
+
+
+			}
+		}
+	}
+}

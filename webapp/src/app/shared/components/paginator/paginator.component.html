@@ -1,0 +1,55 @@
+<div class="content">
+
+	<div class="pagination">
+		<ng-container *ngIf="shouldDisplayPaginator()">
+			<div class="numbers">
+				<button *ngIf="totalPages > pageLinksToShow"
+						class="link-button"
+						(click)="onPage(1)"
+						[disabled]="isFirstPage || loading"
+						[ngClass]="{'disabled': isFirstPage || loading}">
+					&laquo; First
+				</button>
+
+				<button *ngIf="totalPages > 1"
+						class="link-button"
+						(click)="onPrev()"
+						[disabled]="isFirstPage || loading"
+						[ngClass]="{'disabled': isFirstPage || loading}">
+					&laquo; Previous
+				</button>
+
+				<span *ngIf="totalPages > 2">
+					<button class="link-button"
+							*ngFor="let pageNum of getPages()"
+							(click)="onPage(pageNum)"
+							[disabled]="pageNum === page + 1 || loading"
+							[ngClass]="{'active': pageNum !== page + 1, 'disabled': pageNum === page + 1}">
+						{{ pageNum }}
+					</button>
+				</span>
+
+				<button *ngIf="totalPages > 1"
+						class="link-button"
+						(click)="onNext()"
+						[disabled]="isLastPage || loading"
+						[ngClass]="{'disabled': isLastPage || loading}">
+					Next &raquo;
+				</button>
+
+				<button *ngIf="totalPages > pageLinksToShow"
+						class="link-button"
+						(click)="onPage(totalPages)"
+						[disabled]="isLastPage || loading"
+						[ngClass]="{'disabled': isLastPage || loading}">
+					Last &raquo;
+				</button>
+			</div>
+		</ng-container>
+	</div>
+
+	<div *ngIf="totalPages > 0" class="page-total">
+		<div>Page {{ page + 1 }} of {{ totalPages}}.</div>
+	</div>
+
+</div>

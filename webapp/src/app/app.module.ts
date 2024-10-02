@@ -50,6 +50,7 @@ import { SelectIconDialogComponent } from './dialog/select-icon-dialog/select-ic
 import { DefaultPageComponent } from "./shared/components/default-page/default-page.component";
 import { RouterService } from "./_services/router.service";
 import { Loader } from "@googlemaps/js-api-loader";
+import { PaginatorComponent } from "./shared/components/paginator/paginator.component";
 
 @NgModule({
 	declarations: [
@@ -103,7 +104,8 @@ import { Loader } from "@googlemaps/js-api-loader";
 			}
 		}),
 		MatTooltipModule,
-		MatSortModule
+		MatSortModule,
+		PaginatorComponent
 	],
 	providers: [
 		AuthService,
