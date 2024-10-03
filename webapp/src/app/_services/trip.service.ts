@@ -10,11 +10,11 @@ export class TripService {
 	constructor(readonly apiService: ApiService) {
 	}
 
-	public getTrips(): Observable<Page<Trip>> {
-		return this.apiService.get<Page<Trip>>(ApiPath.trip);
+	public getTrips(params?: any): Observable<Page<Trip>> {
+		return this.apiService.get<Page<Trip>>(ApiPath.trip, params);
 	}
 
-	public postTrip(trip: Trip) {
-		return this.apiService.post<Trip, Trip>(ApiPath.trip, trip);
+	public postTrip(trip: Trip, params?: any) {
+		return this.apiService.post<Trip, Trip>(ApiPath.trip, trip, params);
 	}
 }
