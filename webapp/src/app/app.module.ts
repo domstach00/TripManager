@@ -10,7 +10,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { LoginFormComponent } from './login-form/login-form.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from "@angular/common/http";
 import { ToastrModule } from "ngx-toastr";
 import { AuthService } from "./_services/auth.service";
 import { MatButtonModule } from "@angular/material/button";
@@ -51,6 +51,12 @@ import { DefaultPageComponent } from "./shared/components/default-page/default-p
 import { RouterService } from "./_services/router.service";
 import { Loader } from "@googlemaps/js-api-loader";
 import { PaginatorComponent } from "./shared/components/paginator/paginator.component";
+import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
+import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+
+function HttpLoaderFactory(http: HttpClient) {
+	return new TranslateHttpLoader(http);
+}
 
 @NgModule({
 	declarations: [
@@ -106,6 +112,13 @@ import { PaginatorComponent } from "./shared/components/paginator/paginator.comp
 		}),
 		MatTooltipModule,
 		MatSortModule,
+		TranslateModule.forRoot({
+			loader: {
+				provide: TranslateLoader,
+				useFactory: HttpLoaderFactory,
+				deps: [HttpClient],
+			}
+		})
 	],
 	providers: [
 		AuthService,
