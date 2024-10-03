@@ -1,4 +1,4 @@
-package com.example.tripmanager.model;
+package com.example.tripmanager.model.googleMapPin;
 
 import lombok.*;
 

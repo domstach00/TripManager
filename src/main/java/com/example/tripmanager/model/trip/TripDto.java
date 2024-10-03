@@ -1,4 +1,4 @@
-package com.example.tripmanager.model;
+package com.example.tripmanager.model.trip;
 
 import com.example.tripmanager.model.account.AccountDto;
 import lombok.Data;

@@ -1,8 +1,8 @@
 package com.example.tripmanager.controller;
 
 import com.example.tripmanager.controller.support.PageParams;
-import com.example.tripmanager.model.TripPlan;
-import com.example.tripmanager.model.TripPlanDto;
+import com.example.tripmanager.model.trip.tripPlan.TripPlan;
+import com.example.tripmanager.model.trip.tripPlan.TripPlanDto;
 import com.example.tripmanager.service.TripPlanService;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;

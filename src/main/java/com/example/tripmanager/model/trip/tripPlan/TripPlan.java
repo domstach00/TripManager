@@ -1,6 +1,8 @@
-package com.example.tripmanager.model;
+package com.example.tripmanager.model.trip.tripPlan;
 
+import com.example.tripmanager.model.googleMapPin.GoogleMapPin;
 import com.example.tripmanager.model.account.Account;
+import com.example.tripmanager.model.trip.Trip;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.domain.Page;

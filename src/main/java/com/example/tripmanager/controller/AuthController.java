@@ -1,8 +1,9 @@
 package com.example.tripmanager.controller;
 
-import com.example.tripmanager.model.*;
 import com.example.tripmanager.model.account.Account;
 import com.example.tripmanager.model.account.AccountDto;
+import com.example.tripmanager.model.auth.LoginRequest;
+import com.example.tripmanager.model.auth.SignupRequest;
 import com.example.tripmanager.service.AccountAuthService;
 import com.example.tripmanager.service.AccountService;
 import jakarta.servlet.http.HttpServletRequest;

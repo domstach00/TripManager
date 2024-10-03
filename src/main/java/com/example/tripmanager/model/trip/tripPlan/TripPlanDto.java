@@ -1,6 +1,7 @@
-package com.example.tripmanager.model;
+package com.example.tripmanager.model.trip.tripPlan;
 
 import com.example.tripmanager.exception.PatchValidationException;
+import com.example.tripmanager.model.googleMapPin.GoogleMapPin;
 import lombok.Data;
 
 import java.util.Objects;

@@ -1,8 +1,8 @@
 package com.example.tripmanager.service;
 
 import com.example.tripmanager.exception.ItemNotFound;
-import com.example.tripmanager.model.Trip;
-import com.example.tripmanager.model.TripDto;
+import com.example.tripmanager.model.trip.Trip;
+import com.example.tripmanager.model.trip.TripDto;
 import com.example.tripmanager.model.account.Account;
 import com.example.tripmanager.repository.TripRepository;
 import org.springframework.beans.factory.annotation.Autowired;

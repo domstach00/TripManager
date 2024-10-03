@@ -1,6 +1,6 @@
 package com.example.tripmanager.repository;
 
-import com.example.tripmanager.model.Trip;
+import com.example.tripmanager.model.trip.Trip;
 import com.example.tripmanager.model.account.Account;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

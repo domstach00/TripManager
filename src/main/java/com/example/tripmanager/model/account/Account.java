@@ -1,6 +1,6 @@
 package com.example.tripmanager.model.account;
 
-import com.example.tripmanager.model.SignupRequest;
+import com.example.tripmanager.model.auth.SignupRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
