@@ -70,6 +70,7 @@ import { PaginatorComponent } from "./shared/components/paginator/paginator.comp
 		ConfirmActionDialogComponent,
 		DefaultPageComponent,
 		SelectIconDialogComponent,
+		PaginatorComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -105,7 +106,6 @@ import { PaginatorComponent } from "./shared/components/paginator/paginator.comp
 		}),
 		MatTooltipModule,
 		MatSortModule,
-		PaginatorComponent
 	],
 	providers: [
 		AuthService,

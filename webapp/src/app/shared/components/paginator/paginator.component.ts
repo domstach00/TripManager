@@ -1,14 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NgClass, NgForOf, NgIf } from "@angular/common";
 
 @Component({
   selector: 'app-paginator',
-  standalone: true,
-	imports: [
-		NgClass,
-		NgIf,
-		NgForOf
-	],
   templateUrl: './paginator.component.html',
   styleUrl: './paginator.component.scss'
 })
