@@ -2,7 +2,7 @@ import { ApiService } from "./api.service";
 import { Trip } from "../_model/trip";
 import { ApiPath } from "../_model/ApiPath";
 import { Injectable } from "@angular/core";
-import { Page } from "../_model/Page";
+import { Page } from "../_model/base-models.interface";
 import { Observable } from "rxjs";
 
 @Injectable()

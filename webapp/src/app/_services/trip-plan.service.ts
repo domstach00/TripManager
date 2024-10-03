@@ -3,7 +3,7 @@ import { ApiService } from "./api.service";
 import { ApiPath } from "../_model/ApiPath";
 import { Injectable } from "@angular/core";
 import LatLng = google.maps.LatLng;
-import { Page } from "../_model/Page";
+import { Page } from "../_model/base-models.interface";
 import { Observable } from "rxjs";
 
 @Injectable({

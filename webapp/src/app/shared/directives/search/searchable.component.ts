@@ -1,5 +1,5 @@
 import { Directive, OnDestroy, OnInit } from "@angular/core";
-import { Page } from "../../../_model/Page";
+import { Page } from "../../../_model/base-models.interface";
 import { ApiParams, Searchable } from "./searchable.util";
 import { first, Observable, Subscription, tap } from "rxjs";
 import { Account } from "../../../_model/account";

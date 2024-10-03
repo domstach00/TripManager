@@ -1,3 +1,10 @@
+export interface BaseModel {
+	createdBy: string;
+	createdTime: Date;
+	id: string;
+	lastModifiedBy?: string;
+	lastModifiedTime?: Date;
+}
 
 export interface PageableModel {
 	sort: SortModel;
