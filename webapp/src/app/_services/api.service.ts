@@ -8,47 +8,49 @@ import { Injectable } from "@angular/core";
 })
 export class ApiService {
 
-	constructor(private httpClient: HttpClient) {
+	constructor(
+		private httpClient: HttpClient
+	) {
 	}
 
-	public get<T = any>(url: ApiPath, options?: any): Observable<T> {
-		return this.httpClient.get<T>(`${ApiPath.apiBaseUrl}` + `${url}`)
+	public get<T = any>(url: ApiPath, params?: any): Observable<T> {
+		return this.httpClient.get<T>(`${ApiPath.apiBaseUrl}` + `${url}`, { params })
 	}
 
-	public getFormatted<T = any>(url: ApiPath, paramArray: string[], options?: any): Observable<T> {
-		return this.httpClient.get<T>(this.formatWithBaseUrl(`${url}`, paramArray))
+	public getFormatted<T = any>(url: ApiPath, paramArray: string[], params?: any): Observable<T> {
+		return this.httpClient.get<T>(this.formatWithBaseUrl(`${url}`, paramArray), { params })
 	}
 
-	public post<T = any, K = any>(url: ApiPath, body?: K, options?: any): Observable<T> {
-		return this.httpClient.post<T>(`${ApiPath.apiBaseUrl}` + `${url}`, body);
+	public post<T = any, K = any>(url: ApiPath, body?: K, params?: any): Observable<T> {
+		return this.httpClient.post<T>(`${ApiPath.apiBaseUrl}` + `${url}`, body, { params });
 	}
 
-	public postFormatted<T = any, K = any>(url: ApiPath, paramArray: string[], body?: K, options?: any): Observable<T> {
-		return this.httpClient.post<T>(this.formatWithBaseUrl(`${url}`, paramArray), body);
+	public postFormatted<T = any, K = any>(url: ApiPath, paramArray: string[], body?: K, params?: any): Observable<T> {
+		return this.httpClient.post<T>(this.formatWithBaseUrl(`${url}`, paramArray), body, { params });
 	}
 
-	public put<T = any, K = any>(url: ApiPath, body?: K, options?: any): Observable<T> {
-		return this.httpClient.put<T>(`${ApiPath.apiBaseUrl}` + `${url}`, body);
+	public put<T = any, K = any>(url: ApiPath, body?: K, params?: any): Observable<T> {
+		return this.httpClient.put<T>(`${ApiPath.apiBaseUrl}` + `${url}`, body, { params });
 	}
 
-	public putFormatted<T = any, K = any>(url: ApiPath, paramArray: string[], body?: K, options?: any): Observable<T> {
-		return this.httpClient.put<T>(this.formatWithBaseUrl(`${url}`, paramArray), body);
+	public putFormatted<T = any, K = any>(url: ApiPath, paramArray: string[], body?: K, params?: any): Observable<T> {
+		return this.httpClient.put<T>(this.formatWithBaseUrl(`${url}`, paramArray), body, { params });
 	}
 
-	public patch<T = any, K = any>(url: ApiPath, body?: K, options?: any): Observable<T> {
-		return this.httpClient.patch<T>(`${ApiPath.apiBaseUrl}` + `${url}`, body);
+	public patch<T = any, K = any>(url: ApiPath, body?: K, params?: any): Observable<T> {
+		return this.httpClient.patch<T>(`${ApiPath.apiBaseUrl}` + `${url}`, body, { params });
 	}
 
-	public patchFormatted<T = any, K = any>(url: ApiPath, paramArray: string[], body?: K, options?: any): Observable<T> {
-		return this.httpClient.patch<T>(this.formatWithBaseUrl(`${url}`, paramArray), body);
+	public patchFormatted<T = any, K = any>(url: ApiPath, paramArray: string[], body?: K, params?: any): Observable<T> {
+		return this.httpClient.patch<T>(this.formatWithBaseUrl(`${url}`, paramArray), body, { params });
 	}
 
-	public delete<T = any>(url: ApiPath, options?: any): Observable<T> {
-		return this.httpClient.delete<T>(`${ApiPath.apiBaseUrl}` + `${url}`);
+	public delete<T = any>(url: ApiPath, params?: any): Observable<T> {
+		return this.httpClient.delete<T>(`${ApiPath.apiBaseUrl}` + `${url}`, { params });
 	}
 
-	public deleteFormatted<T = any>(url: ApiPath, paramArray: string[], options?: any): Observable<T> {
-		return this.httpClient.delete<T>(this.formatWithBaseUrl(`${url}`, paramArray));
+	public deleteFormatted<T = any>(url: ApiPath, paramArray: string[], params?: any): Observable<T> {
+		return this.httpClient.delete<T>(this.formatWithBaseUrl(`${url}`, paramArray), { params });
 	}
 
 	private format(str: string, paramArray: string[]): string {
