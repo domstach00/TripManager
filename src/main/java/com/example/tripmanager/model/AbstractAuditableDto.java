@@ -4,7 +4,7 @@ import com.example.tripmanager.model.account.AccountDto;
 
 import java.time.Instant;
 
-public class AbstractAuditableDto extends AbstractEntityDto {
+public abstract class AbstractAuditableDto extends AbstractEntityDto {
     private String createdTime;
     private AccountDto createdBy;
     private String lastModifiedTime;

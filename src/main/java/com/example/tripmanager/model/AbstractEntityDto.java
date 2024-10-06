@@ -1,6 +1,6 @@
 package com.example.tripmanager.model;
 
-public class AbstractEntityDto {
+public abstract class AbstractEntityDto {
     private String id;
 
     public String getId() {

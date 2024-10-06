@@ -1,6 +1,7 @@
 package com.example.tripmanager.service;
 
 import com.example.tripmanager.exception.ItemNotFound;
+import com.example.tripmanager.mapper.TripPlanMapper;
 import com.example.tripmanager.model.trip.Trip;
 import com.example.tripmanager.model.trip.tripPlan.TripPlan;
 import com.example.tripmanager.model.trip.tripPlan.TripPlanDto;
@@ -16,6 +17,16 @@ public class TripPlanServiceImpl implements TripPlanService{
     private TripPlanRepository tripPlanRepository;
     @Autowired
     private TripService tripService;
+    @Autowired
+    protected AccountService accountService;
+
+    protected TripPlanDto toDto(TripPlan tripPlan) {
+        return TripPlanMapper.toDto(tripPlan, accountService);
+    }
+
+    protected TripPlan fromDto(TripPlanDto tripPlanDto, Trip trip) {
+        return TripPlanMapper.fromDto(tripPlanDto, trip);
+    }
 
     @Override
     public Page<TripPlan> getAllTripPlansForTrip(Pageable pageable, String tripId) {
@@ -28,7 +39,7 @@ public class TripPlanServiceImpl implements TripPlanService{
     public TripPlan insertTripPlan(TripPlanDto tripPlanDto, String tripId) {
         Trip trip = tripService.getTripById(tripId)
                 .orElseThrow(() -> new ItemNotFound("Trip not found - id=" + tripId));
-        TripPlan tripPlan = TripPlan.fromDto(tripPlanDto, trip);
+        TripPlan tripPlan = fromDto(tripPlanDto, trip);
 
         return this.tripPlanRepository.insert(tripPlan);
     }
@@ -44,9 +55,9 @@ public class TripPlanServiceImpl implements TripPlanService{
     public TripPlan patchTripPlan(TripPlanDto updatedTripPlanDto) {
         TripPlan originalTripPlan = tripPlanRepository.findById(updatedTripPlanDto.getId())
                 .orElseThrow(() -> new ItemNotFound("TripPlan not found - id=" + updatedTripPlanDto.getTripId()));
-        updatedTripPlanDto.checkPatchValidation(TripPlan.toDto(originalTripPlan));
+        updatedTripPlanDto.checkPatchValidation(toDto(originalTripPlan));
 
-        TripPlan updatedTripPlan = TripPlan.fromDto(updatedTripPlanDto, originalTripPlan.getTrip());
+        TripPlan updatedTripPlan = fromDto(updatedTripPlanDto, originalTripPlan.getTrip());
         return tripPlanRepository.save(updatedTripPlan);
     }
 

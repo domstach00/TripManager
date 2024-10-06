@@ -3,9 +3,11 @@ package com.example.tripmanager.model;
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.GeneratedValue;
+import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 
-public class AbstractEntity implements Serializable {
+@MappedSuperclass
+public abstract class AbstractEntity implements Serializable {
     @Id
     @GeneratedValue
     private String id = null;

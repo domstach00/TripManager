@@ -8,11 +8,16 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.mapping.event.AuditingEntityCallback;
 
+import javax.persistence.EntityListeners;
+import javax.persistence.MappedSuperclass;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
-public class AbstractAuditable extends AbstractEntity {
+@MappedSuperclass
+@EntityListeners(AuditingEntityCallback.class)
+public abstract class AbstractAuditable extends AbstractEntity {
 
     @CreatedDate
     @NotNull
