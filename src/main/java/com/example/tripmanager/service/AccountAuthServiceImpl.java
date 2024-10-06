@@ -15,7 +15,6 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -25,7 +24,6 @@ import java.nio.CharBuffer;
 import java.util.Optional;
 import java.util.Set;
 
-@RequiredArgsConstructor
 @Service
 public class AccountAuthServiceImpl implements AccountAuthService {
     private final static String DEFAULT_SESSION_COOKIE_NAME = "auth-token";
