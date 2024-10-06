@@ -16,41 +16,13 @@
 			</button>
 		</div>
 
-		<mat-table [dataSource]="dataSource" class="">
-			<ng-container matColumnDef="tripName">
-				<mat-header-cell mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-				<mat-cell class="clikable-text"
-					(click)="nav(element.id)"
-					*matCellDef="let element"
-					>
-					{{ element.name }}</mat-cell>
-			</ng-container>
-
-			<ng-container matColumnDef="summaryCost">
-				<mat-header-cell *matHeaderCellDef>summaryCost</mat-header-cell>
-				<mat-cell *matCellDef="let element"
-					>
-					{{ element.summaryCost }}</mat-cell>
-			</ng-container>
-
-			<ng-container matColumnDef="dayLength">
-				<mat-header-cell *matHeaderCellDef>Day Length</mat-header-cell>
-				<mat-cell *matCellDef="let element"
-					>
-					{{ element.dayLength }}</mat-cell>
-			</ng-container>
-
-			<ng-container matColumnDef="lastUpdate">
-				<mat-header-cell *matHeaderCellDef>last Update</mat-header-cell>
-				<mat-cell *matCellDef="let element"
-					>
-					{{ formatLastDateTimeUpdate(element.lastUpdateDate, element.lastUpdateTime) }}
-				</mat-cell>
-			</ng-container>
-
-			<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-			<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-		</mat-table>
+		<ng-container *ngIf="searchResultObservable$ | async as result">
+			<app-trips-table
+				[currentAccount]="currentAccount"
+				[dataSet]="result.content"
+				[totalPages]="result.totalPages">
+			</app-trips-table>
+		</ng-container>
 
 	</div>
 </app-default-page>

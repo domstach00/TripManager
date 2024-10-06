@@ -4,9 +4,8 @@ export interface Trip {
 	id: string;
 	name: string;
 	description?: string;
-	dayLength: number;
-	summaryCost: number;
-	lastUpdateDate: number[];
-	lastUpdateTime: number[];
-	lastUpdateBy: Account;
+	dayLength?: number;
+	summaryCost?: number;
+	lastModifiedTime?: Date;
+	lastModifiedBy?: Account;
 }

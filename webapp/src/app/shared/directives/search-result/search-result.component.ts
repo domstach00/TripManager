@@ -12,6 +12,7 @@ import { Account } from "../../../_model/account";
 import { MatSort, SortDirection } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Subscription } from "rxjs";
+import { TranslateService } from "@ngx-translate/core";
 
 @Directive()
 export class SearchResultComponent<T> implements AfterViewChecked, AfterViewInit, OnChanges, OnDestroy, OnInit {
@@ -32,6 +33,11 @@ export class SearchResultComponent<T> implements AfterViewChecked, AfterViewInit
 	dataSource: MatTableDataSource<T>
 
 	protected subscription: Subscription = new Subscription();
+
+	constructor(
+		protected readonly translate: TranslateService,
+	) {
+	}
 
 	public get dataSet(): T[] {
 		return this._dataSet;

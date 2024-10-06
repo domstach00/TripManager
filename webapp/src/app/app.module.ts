@@ -53,6 +53,7 @@ import { Loader } from "@googlemaps/js-api-loader";
 import { PaginatorComponent } from "./shared/components/paginator/paginator.component";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+import { TripsTableComponent } from "./trips/trips-table.component";
 
 function HttpLoaderFactory(http: HttpClient) {
 	return new TranslateHttpLoader(http);
@@ -68,6 +69,7 @@ function HttpLoaderFactory(http: HttpClient) {
 		FooterComponent,
 		UserDetailsComponent,
 		TripsComponent,
+		TripsTableComponent,
 		TripPlanComponent,
 		TripPlanTableComponent,
 		TripPlanMapComponent,

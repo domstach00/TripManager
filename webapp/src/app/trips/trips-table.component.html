@@ -1,0 +1,36 @@
+<div class="table-content">
+
+	<ng-container *ngIf="!!dataSet">
+		<mat-table [dataSource]="dataSet" class="table-result">
+			<ng-container matColumnDef="tripName">
+				<mat-header-cell mat-header-cell *matHeaderCellDef>{{ 'trips.name' | translate }}</mat-header-cell>
+				<mat-cell class="clickable-text"
+						  *matCellDef="let element">
+					{{ element.name }}</mat-cell>
+			</ng-container>
+
+			<ng-container matColumnDef="summaryCost">
+				<mat-header-cell *matHeaderCellDef> {{ 'trips.summaryCost' | translate}}</mat-header-cell>
+				<mat-cell *matCellDef="let element">
+					{{ element.summaryCost }}</mat-cell>
+			</ng-container>
+
+			<ng-container matColumnDef="dayLength">
+				<mat-header-cell *matHeaderCellDef> {{ 'trips.dayLength' | translate }}</mat-header-cell>
+				<mat-cell *matCellDef="let element">
+					{{ element.dayLength }}</mat-cell>
+			</ng-container>
+
+			<ng-container matColumnDef="lastUpdate">
+				<mat-header-cell *matHeaderCellDef>{{ 'trips.lastUpdate' | translate }}</mat-header-cell>
+				<mat-cell *matCellDef="let element">
+					{{ element.lastModifiedTime }}
+				</mat-cell>
+			</ng-container>
+
+			<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+			<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+		</mat-table>
+	</ng-container>
+
+</div>

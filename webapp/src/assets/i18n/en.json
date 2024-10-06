@@ -1,3 +1,6 @@
 {
-
+	"trips.dayLength": "Day length",
+	"trips.lastUpdate": "Last update",
+	"trips.name": "Name",
+	"trips.summaryCost": "Summary cost"
 }

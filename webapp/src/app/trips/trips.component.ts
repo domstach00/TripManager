@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Trip } from "../_model/trip";
 import { MatTable, MatTableDataSource } from "@angular/material/table";
-import { Subscription } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { TripService } from "../_services/trip.service";
 import {
 	TripTableAddNewDialogComponent
@@ -9,6 +9,11 @@ import {
 import { MatDialog } from "@angular/material/dialog";
 import { Account } from "../_model/account";
 import { RouterService } from "../_services/router.service";
+import { SearchableComponent } from "../shared/directives/search/searchable.component";
+import { Page } from "../_model/base-models.interface";
+import { ApiParams } from "../shared/directives/search/searchable.util";
+import { AccountService } from "../_services/account.service";
+import { ActivatedRoute } from "@angular/router";
 
 export interface PeriodicElement {
 	name: string;
@@ -23,7 +28,7 @@ export interface PeriodicElement {
 	templateUrl: './trips.component.html',
 	styleUrls: ['./trips.component.scss']
 })
-export class TripsComponent implements OnInit {
+export class TripsComponent extends SearchableComponent<Trip, Page<Trip>> implements OnInit {
 	protected subscriptions: Subscription = new Subscription();
 
 	displayedColumns: string[] = ['tripName', 'dayLength', 'summaryCost', 'lastUpdate'];
@@ -34,16 +39,16 @@ export class TripsComponent implements OnInit {
 	constructor(
 		readonly routerService: RouterService,
 		readonly tripService: TripService,
+		override readonly accountService: AccountService,
+		override readonly activatedRoute: ActivatedRoute,
 		public dialog: MatDialog,
 	) {
+		super(accountService, activatedRoute)
 	}
 
-	ngOnInit(): void {
-		this.subscriptions.add(
-			this.tripService.getTrips().subscribe(trips => {
-				this.dataSource.data = trips.content;
-			})
-		)
+	override ngOnInit(): void {
+		super.ngOnInit();
+		this.prepareQueryParamsAndSearch()
 	}
 
 	formatLastDateTimeUpdate(date: number[], time: number[]): string {
@@ -60,7 +65,6 @@ export class TripsComponent implements OnInit {
 	}
 
 	nav(tripId: string) {
-		// this.router.navigate([`/trips`, tripId])
 		this.routerService.navToTrip(tripId);
 	}
 
@@ -79,5 +83,9 @@ export class TripsComponent implements OnInit {
 			}
 
 		});
+	}
+
+	doSearch(options: ApiParams): Observable<Page<Trip>> {
+		return this.tripService.getTrips(options);
 	}
 }
