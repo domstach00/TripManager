@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -46,6 +47,11 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Set<Role> getCurrentAccountRoles() {
         return ((AccountDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getRoles();
+    }
+
+    @Override
+    public Optional<Account> getAccountById(String id) {
+        return accountRepository.findById(id);
     }
 
 

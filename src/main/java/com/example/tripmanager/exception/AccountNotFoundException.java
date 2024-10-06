@@ -1,8 +1,8 @@
 package com.example.tripmanager.exception;
 
 public class AccountNotFoundException extends RuntimeException {
-
-    public AccountNotFoundException(String message) {
-        super(message);
+    private static final String MESSAGE = "Account was not found";
+    public AccountNotFoundException() {
+        super(MESSAGE);
     }
 }

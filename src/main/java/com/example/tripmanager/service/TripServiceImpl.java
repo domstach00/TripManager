@@ -1,6 +1,7 @@
 package com.example.tripmanager.service;
 
 import com.example.tripmanager.exception.ItemNotFound;
+import com.example.tripmanager.mapper.TripMapper;
 import com.example.tripmanager.model.trip.Trip;
 import com.example.tripmanager.model.trip.TripDto;
 import com.example.tripmanager.model.account.Account;
@@ -20,9 +21,13 @@ public class TripServiceImpl implements TripService {
     @Autowired
     private AccountService accountService;
 
+    protected Trip createFromDto(TripDto tripDto) {
+        return TripMapper.createFromDto(tripDto, accountService.getCurrentAccount());
+    }
+
     @Override
     public Trip createTrip(TripDto tripDto) {
-        return this.tripRepository.save(Trip.createFromDto(tripDto, accountService.getCurrentAccount()));
+        return this.tripRepository.save(createFromDto(tripDto));
     }
 
     @Override
