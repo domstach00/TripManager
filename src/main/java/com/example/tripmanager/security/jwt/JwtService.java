@@ -6,8 +6,6 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import com.example.tripmanager.model.account.AccountDto;
 import com.example.tripmanager.model.account.Role;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-@Slf4j
 public class JwtService {
 
     private final String jwtSecret;
@@ -59,11 +56,15 @@ public class JwtService {
     }
 
     public AccountDto getUserDtoFromJwt(DecodedJWT decoded) {
-        return AccountDto.builder()
-                .username(decoded.getIssuer())
-                .id(decoded.getClaim("id").asString())
-                .email(decoded.getClaim("email").asString())
-                .roles(Set.copyOf(decoded.getClaim("authorities").asList(Role.class)))
-                .build();
+        AccountDto accountDto = new AccountDto();
+        accountDto.setId(decoded.getClaim("id").asString());
+        accountDto.setEmail(decoded.getClaim("email").asString());
+        accountDto.setUsername(decoded.getIssuer());
+        accountDto.setRoles(
+                Set.copyOf(
+                        decoded.getClaim("authorities").asList(Role.class)
+                )
+        );
+        return accountDto;
     }
 }

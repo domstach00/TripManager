@@ -2,7 +2,6 @@ package com.example.tripmanager.model.trip;
 
 import com.example.tripmanager.model.AbstractAuditable;
 import com.example.tripmanager.model.account.Account;
-import lombok.*;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
@@ -11,8 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Document
-@AllArgsConstructor
-@NoArgsConstructor
 public class Trip extends AbstractAuditable {
     private String name;
     private String description;
@@ -25,6 +22,8 @@ public class Trip extends AbstractAuditable {
     @Indexed
     private List<Account> allowedAccounts;
 
+    public Trip() {
+    }
 
     public void addAllowedAccount(Account account) {
         if (!getAllowedAccounts().contains(account)) {

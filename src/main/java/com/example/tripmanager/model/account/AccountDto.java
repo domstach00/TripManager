@@ -1,19 +1,11 @@
 package com.example.tripmanager.model.account;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.example.tripmanager.model.AbstractEntityDto;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class AccountDto {
-    private String id;
+public class AccountDto extends AbstractEntityDto {
 
     private String username;
 
@@ -21,4 +13,40 @@ public class AccountDto {
 
     private Set<Role> roles = new HashSet<>();
     private String token;
+
+
+    public AccountDto() {
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 }
