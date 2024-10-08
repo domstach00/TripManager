@@ -2,6 +2,7 @@ package com.example.tripmanager.service;
 
 import com.example.tripmanager.exception.AccountAlreadyExistsException;
 import com.example.tripmanager.exception.WrongCredentialsException;
+import com.example.tripmanager.mapper.AccountMapper;
 import com.example.tripmanager.model.auth.LoginRequest;
 import com.example.tripmanager.model.auth.SignupRequest;
 import com.example.tripmanager.model.account.Account;
@@ -37,6 +38,10 @@ public class AccountAuthServiceImpl implements AccountAuthService {
     @Autowired
     private JwtService jwtService;
 
+    protected AccountDto toDto(Account account) {
+        return AccountMapper.toDto(account);
+    }
+
     @Override
     public AccountDto login(LoginRequest loginRequest) {
         Optional<Account> user = accountRepository.findByEmail(loginRequest.getEmail());
@@ -45,7 +50,7 @@ public class AccountAuthServiceImpl implements AccountAuthService {
             throw new WrongCredentialsException("Wrong credentials");
         }
 
-        AccountDto accountDto = Account.toDto(user.get());
+        AccountDto accountDto = toDto(user.get());
         accountDto.setToken(jwtService.createToken(accountDto));
         return accountDto;
     }
@@ -56,7 +61,7 @@ public class AccountAuthServiceImpl implements AccountAuthService {
             throw new AccountAlreadyExistsException("Account with email %s already exists".formatted(signupRequest.getEmail()));
         }
 
-        Account newAccount = Account.fromSignUp(signupRequest);
+        Account newAccount = AccountMapper.fromSignUp(signupRequest);
         setUserPassword(newAccount, signupRequest.getPassword());
         newAccount.setRoles(Set.of(Role.ROLE_USER));
 

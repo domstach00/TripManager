@@ -1,5 +1,6 @@
 package com.example.tripmanager.controller;
 
+import com.example.tripmanager.mapper.AccountMapper;
 import com.example.tripmanager.model.account.Account;
 import com.example.tripmanager.model.account.AccountDto;
 import com.example.tripmanager.model.auth.LoginRequest;
@@ -24,6 +25,10 @@ public class AuthController {
     @Autowired
     private AccountService accountService;
 
+    protected AccountDto toDto(Account account) {
+        return AccountMapper.toDto(account);
+    }
+
     @PostMapping(path = loginPostUrl)
     public ResponseEntity<AccountDto> login(@RequestBody LoginRequest loginRequest) {
         return ResponseEntity.ok(accountAuthService.login(loginRequest));
@@ -32,7 +37,7 @@ public class AuthController {
     @PostMapping(registerPostUrl)
     public ResponseEntity<AccountDto> register(@RequestBody SignupRequest signupRequest) {
         Account account = accountAuthService.register(signupRequest);
-        return ResponseEntity.ok(Account.toDto(account));
+        return ResponseEntity.ok(toDto(account));
     }
 
     @GetMapping("/logout")
@@ -43,7 +48,7 @@ public class AuthController {
 
     @GetMapping("/currentaccount")
     public AccountDto getCurrentAccount() {
-        return Account.toDto(accountService.getCurrentAccount());
+        return toDto(accountService.getCurrentAccount());
     }
 
     public static String getLoginPostUrl() {
