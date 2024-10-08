@@ -54,6 +54,7 @@ import { PaginatorComponent } from "./shared/components/paginator/paginator.comp
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { TripsTableComponent } from "./trips/trips-table.component";
+import { DateUtilService } from "./_services/date-util.service";
 
 function HttpLoaderFactory(http: HttpClient) {
 	return new TranslateHttpLoader(http);
@@ -127,6 +128,7 @@ function HttpLoaderFactory(http: HttpClient) {
 		TripPlanService,
 		TripService,
 		RouterService,
+		DateUtilService,
 		{
 			provide: Loader,
 			useValue: new Loader({
