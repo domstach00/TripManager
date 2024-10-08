@@ -15,4 +15,5 @@ public interface AccountService {
     AccountDto getAccountDtoFromPrincipal(Principal principal);
     Set<Role> getCurrentAccountRoles();
     Optional<Account> getAccountById(String id);
+    Optional<Account> getAccountByEmail(String email);
 }
