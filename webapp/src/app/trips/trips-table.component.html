@@ -5,25 +5,31 @@
 			<ng-container matColumnDef="tripName">
 				<mat-header-cell mat-header-cell *matHeaderCellDef>{{ 'trips.name' | translate }}</mat-header-cell>
 				<mat-cell class="clickable-text"
+						  (click)="navigateToTrip(element.id)"
+						  [matTooltip]="element.name"
 						  *matCellDef="let element">
-					{{ element.name }}</mat-cell>
+					{{ element.name }}
+				</mat-cell>
 			</ng-container>
 
 			<ng-container matColumnDef="summaryCost">
 				<mat-header-cell *matHeaderCellDef> {{ 'trips.summaryCost' | translate}}</mat-header-cell>
-				<mat-cell *matCellDef="let element">
+				<mat-cell *matCellDef="let element"
+						  [matTooltip]="element.summaryCost" >
 					{{ element.summaryCost }}</mat-cell>
 			</ng-container>
 
 			<ng-container matColumnDef="dayLength">
 				<mat-header-cell *matHeaderCellDef> {{ 'trips.dayLength' | translate }}</mat-header-cell>
-				<mat-cell *matCellDef="let element">
+				<mat-cell *matCellDef="let element"
+						  [matTooltip]="element.dayLength">
 					{{ element.dayLength }}</mat-cell>
 			</ng-container>
 
 			<ng-container matColumnDef="lastUpdate">
 				<mat-header-cell *matHeaderCellDef>{{ 'trips.lastUpdate' | translate }}</mat-header-cell>
-				<mat-cell *matCellDef="let element">
+				<mat-cell *matCellDef="let element"
+						  [matTooltip]="element.lastModifiedTime">
 					{{ element.lastModifiedTime }}
 				</mat-cell>
 			</ng-container>
