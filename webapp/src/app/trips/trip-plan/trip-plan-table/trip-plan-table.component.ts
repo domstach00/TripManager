@@ -10,7 +10,7 @@ import {
 	ConfirmActionDialogComponent
 } from "../../../dialog/delete-confirmation-dialog/confirm-action-dialog.component";
 import { IconKeyUrl, SelectIconDialogComponent } from "../../../dialog/select-icon-dialog/select-icon-dialog.component";
-import { getIconPath, MapIcon } from "../../../_model/MapPinIcons";
+import { defaultMapIcon, getMapIconPath, MapIcon } from "../../../_model/MapPinIcons";
 
 @Component({
 	selector: 'app-trip-plan-table',
@@ -26,7 +26,7 @@ export class TripPlanTableComponent implements OnInit {
 
 	// @ViewChild('inputField') inputField!: ElementRef;
 
-	displayedColumns: string[] = ['displayName', 'day', 'cost', 'mapElementName', 'actions']
+	displayedColumns: string[] = ['name', 'day', 'cost', 'mapElementName', 'actions']
 	model: any;
 
 	constructor(
@@ -104,11 +104,11 @@ export class TripPlanTableComponent implements OnInit {
 	}
 
 	deleteItem(tripPlan: TripPlan) {
-		const confirmationText = `Do you want to delete item ${tripPlan.displayName}?`
+		const confirmationText = `Do you want to delete item ${tripPlan.name}?`
 		const dialogRef = this.dialog.open(ConfirmActionDialogComponent, {
 			height: '300px',
 			width: '600px',
-			data: {elementName: tripPlan?.displayName, body: confirmationText, isWarning: true}
+			data: {elementName: tripPlan?.name, body: confirmationText, isWarning: true}
 		})
 
 		dialogRef.afterClosed().subscribe((result) => {
@@ -120,5 +120,6 @@ export class TripPlanTableComponent implements OnInit {
 		})
 	}
 
-	protected readonly getIconPath = getIconPath;
+	protected readonly getIconPath = getMapIconPath;
+	protected readonly defaultMapIcon = defaultMapIcon;
 }

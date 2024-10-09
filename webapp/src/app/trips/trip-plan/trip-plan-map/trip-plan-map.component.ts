@@ -3,7 +3,7 @@ import { GoogleMapPin, TripPlan } from "../../../_model/trip-plan";
 import { BehaviorSubject, Observable } from "rxjs";
 import { GoogleMap } from "@angular/google-maps";
 import { TripPlanService } from "../../../_services/trip-plan.service";
-import { getIconPath } from "../../../_model/MapPinIcons";
+import { getMapIconPath } from "../../../_model/MapPinIcons";
 import LatLng = google.maps.LatLng;
 
 @Component({
@@ -78,5 +78,5 @@ export class TripPlanMapComponent implements OnInit {
 	}
 
 	protected readonly String = String;
-	protected readonly getIconPath = getIconPath;
+	protected readonly getIconPath = getMapIconPath;
 }

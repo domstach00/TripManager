@@ -1,6 +1,6 @@
 export interface TripPlan {
 	id: string;
-	displayName: string;
+	name: string;
 	tripId: string
 	day?: number
 	cost?: number;

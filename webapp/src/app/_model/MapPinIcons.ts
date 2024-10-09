@@ -39,6 +39,8 @@ export enum MapIcon {
 
 }
 
-export function getIconPath(icon?: string): string | null {
+export function getMapIconPath(icon?: string): string | null {
 	return MapIcon[icon as keyof typeof MapIcon] || null;
 }
+
+export const defaultMapIcon: string = getMapIconPath('RED_DOT');

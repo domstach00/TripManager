@@ -1,8 +1,8 @@
 <div class="m-3 mw-100">
 	<table mat-table [dataSource]="this.dataSource" class="table-fix">
-		<ng-container matColumnDef="displayName">
+		<ng-container matColumnDef="name">
 			<mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-			<mat-cell *matCellDef="let element" [matTooltip]="element?.day"> {{ element.displayName }} </mat-cell>
+			<mat-cell *matCellDef="let element" [matTooltip]="element?.name"> {{ element.name }} </mat-cell>
 		</ng-container>
 		<ng-container matColumnDef="day">
 			<mat-header-cell mat-header-cell *matHeaderCellDef>Day</mat-header-cell>
@@ -16,7 +16,7 @@
 			<mat-header-cell mat-header-cell *matHeaderCellDef>Place</mat-header-cell>
 			<mat-cell *matCellDef="let element" [matTooltip]="element?.mapElement?.displayName">
 				<img *ngIf="element?.mapElement"
-					 [src]="getIconPath(element?.mapElement?.icon) ?? 'assets/map/icons/red-dot.png'"
+					 [src]="getIconPath(element?.mapElement?.icon) ?? defaultMapIcon"
 					 alt="icon"
 					 (click)="onSelectIcon(element)"
 				>
