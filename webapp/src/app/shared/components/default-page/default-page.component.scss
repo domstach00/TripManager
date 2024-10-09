@@ -1,6 +1,20 @@
 .my-container {
 	//display: flex;
 
+	.container-title {
+		display: flex;
+		flex-direction: row;
+		box-sizing: border-box;
+		background-color: #e7e7ea;
+
+		h2 {
+			flex: 1 1 0;
+			box-sizing: border-box;
+			padding-left: 15px;
+			padding-top: 5px;
+		}
+	}
+
 	.container-content {
 		margin: 15px;
 		padding: 15px;

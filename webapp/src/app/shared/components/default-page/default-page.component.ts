@@ -9,6 +9,7 @@ import { Account } from "../../../_model/account";
 })
 export class DefaultPageComponent implements OnInit {
 	@Input() account?: Account;
+	@Input() pageTitleKey?: string;
 
 	constructor(
 		readonly accountService: AccountService,
