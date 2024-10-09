@@ -1,11 +1,13 @@
+import { BaseModel } from "./base-models.interface";
 import { Account } from "./account";
 
-export interface Trip {
-	id: string;
+export interface Trip extends BaseModel {
 	name: string;
 	description?: string;
-	dayLength?: number;
-	summaryCost?: number;
-	lastModifiedTime?: Date;
-	lastModifiedBy?: Account;
+	owner?: Account;
+	membersId?: string[];
+	isPublic?: boolean;
+	isClosed?: boolean;
+	isArchived?: boolean;
+	isDeleted?: boolean;
 }

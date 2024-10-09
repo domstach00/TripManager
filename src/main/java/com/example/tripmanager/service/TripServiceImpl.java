@@ -11,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,13 +36,13 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public Page<Trip> getTripsForAccount(Pageable pageable, Account account) {
-        return this.tripRepository.findAllByAllowedAccountsContaining(pageable, List.of(accountService.getCurrentAccount()));
+        return this.tripRepository.findAllByOwnerId(pageable, account.getId());
     }
 
     @Override
     public boolean hasAccountAccessToTrip(String tripId, Account account) {
         Trip trip = tripRepository.findById(tripId).orElseThrow(() -> new ItemNotFound("Trip not found"));
-        return trip.isPublic() || trip.getAllowedAccounts().contains(account);
+        return trip.isPublic() || trip.getMembers().contains(account.getId());
     }
 
 }

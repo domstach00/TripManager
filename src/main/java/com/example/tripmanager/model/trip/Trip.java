@@ -13,22 +13,20 @@ import java.util.List;
 public class Trip extends AbstractAuditable {
     private String name;
     private String description;
-    private int dayLength;
+    @DocumentReference
+    @Indexed
+    private Account owner;
 
     private boolean isPublic;
     private boolean isClosed;
+    private boolean isArchived;
+    private boolean isDeleted;
 
     @DocumentReference
     @Indexed
-    private List<Account> allowedAccounts;
+    private List<Account> members; // TODO change Account to ObjectId
 
     public Trip() {
-    }
-
-    public void addAllowedAccount(Account account) {
-        if (!getAllowedAccounts().contains(account)) {
-            this.allowedAccounts.add(account);
-        }
     }
 
     public String getName() {
@@ -47,12 +45,28 @@ public class Trip extends AbstractAuditable {
         this.description = description;
     }
 
-    public int getDayLength() {
-        return dayLength;
+    public Account getOwner() {
+        return owner;
     }
 
-    public void setDayLength(int dayLength) {
-        this.dayLength = dayLength;
+    public void setOwner(Account owner) {
+        this.owner = owner;
+    }
+
+    public boolean isArchived() {
+        return isArchived;
+    }
+
+    public void setArchived(boolean archived) {
+        isArchived = archived;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
     public boolean isPublic() {
@@ -71,14 +85,14 @@ public class Trip extends AbstractAuditable {
         isClosed = closed;
     }
 
-    public List<Account> getAllowedAccounts() {
-        if (this.allowedAccounts == null) {
-            this.allowedAccounts = new ArrayList<>();
+    public List<Account> getMembers() {
+        if (this.members == null) {
+            this.members = new ArrayList<>();
         }
-        return allowedAccounts;
+        return members;
     }
 
-    public void setAllowedAccounts(List<Account> allowedAccounts) {
-        this.allowedAccounts = allowedAccounts;
+    public void setMembers(List<Account> members) {
+        this.members = members;
     }
 }

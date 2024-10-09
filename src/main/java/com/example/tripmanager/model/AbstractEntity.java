@@ -1,5 +1,6 @@
 package com.example.tripmanager.model;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,17 @@ public abstract class AbstractEntity implements Serializable {
     private String id = null;
 
     public AbstractEntity() {
+    }
+
+    public static String toString(ObjectId objectId) {
+        return objectId == null
+                ? null
+                : objectId.toHexString();
+    }
+    public static ObjectId toObjectId(String str) {
+        return str == null || str.isBlank()
+                ? null
+                : new ObjectId(str);
     }
 
     public AbstractEntity(String id) {
