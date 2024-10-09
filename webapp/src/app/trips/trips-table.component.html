@@ -1,4 +1,4 @@
-<div class="table-content">
+<div class="table-content" *ngIf="!!currentAccount">
 
 	<ng-container *ngIf="!!dataSet">
 		<mat-table [dataSource]="dataSet" class="table-result">
@@ -13,30 +13,26 @@
 				</mat-cell>
 			</ng-container>
 
-			<ng-container matColumnDef="summaryCost">
-				<mat-header-cell *matHeaderCellDef> {{ 'trips.summaryCost' | translate}}</mat-header-cell>
-				<mat-cell *matCellDef="let element">
-					<div [matTooltip]="element.summaryCost ?? ''">
-						{{ element.summaryCost ?? '' }}
-					</div>
-				</mat-cell>
-			</ng-container>
-
-			<ng-container matColumnDef="dayLength">
-				<mat-header-cell *matHeaderCellDef> {{ 'trips.dayLength' | translate }}</mat-header-cell>
-				<mat-cell *matCellDef="let element">
-					<div [matTooltip]="element.dayLength ?? ''">
-						{{ element.dayLength ?? '' }}
-					</div>
-				</mat-cell>
-			</ng-container>
-
 			<ng-container matColumnDef="lastUpdate">
-				<mat-header-cell *matHeaderCellDef>{{ 'trips.lastUpdate' | translate }}</mat-header-cell>
+				<mat-header-cell *matHeaderCellDef>{{ 'trips.lastModified' | translate }}</mat-header-cell>
 				<mat-cell *matCellDef="let element">
-					<div [matTooltip]="formatDate(element.lastModifiedTime)">
+					<div [matTooltip]="formatModifiedBy(element.lastModifiedBy)">
 						{{ formatDate(element.lastModifiedTime) }}
 					</div>
+				</mat-cell>
+			</ng-container>
+
+			<ng-container matColumnDef="actions" >
+				<mat-header-cell *matHeaderCellDef class="icon-container"></mat-header-cell>
+				<mat-cell *matCellDef="let element" class="icon-container">
+					<button mat-icon-button [matMenuTriggerFor]="kebabMenu">
+						<mat-icon>more_vert</mat-icon>
+					</button>
+					<mat-menu #kebabMenu>
+						<button mat-menu-item (click)="archiveTrip(element.id)">{{ 'trips.archive' | translate }}</button>
+						<button mat-menu-item (click)="editTrip(element)">{{ 'trips.edit' | translate }}</button>
+						<button mat-menu-item (click)="deleteTrip(element.id)">{{ 'trips.delete' | translate }}</button>
+					</mat-menu>
 				</mat-cell>
 			</ng-container>
 

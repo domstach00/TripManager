@@ -1,28 +1,35 @@
 <app-default-page>
-	<div class="tmpl-sidebar">
-		<app-side-bar></app-side-bar>
-	</div>
-
 	<div class="tmpl-content">
-		<div class="button-actions">
-			<button mat-button (click)="this.openDialog()">
-				Add data
-			</button>
-			<button
-				mat-button
-				[disabled]="!dataSource.data.length"
-				(click)="removeData()">
-				Remove data
-			</button>
-		</div>
+		<span class="title-with-button">
+			<div class="title">
+				<h3 mat-card-title>Trips</h3>
+			</div>
+			<div class="button-actions">
+				<button mat-button (click)="this.openDialog()">
+					{{ 'trips.addTrip' | translate }}
+				</button>
+			</div>
+		</span>
 
-		<ng-container *ngIf="searchResultObservable$ | async as result">
+		<ng-container *ngIf="searchResultObservable$ | async as searchResult">
 			<app-trips-table
 				[currentAccount]="currentAccount"
-				[dataSet]="result.content"
-				[totalPages]="result.totalPages">
+				[dataSet]="searchResult.content"
+				[totalPages]="searchResult.totalPages">
 			</app-trips-table>
-		</ng-container>
 
+			<app-paginator
+				[page]="page"
+				[pageSize]="pageSize"
+				[totalElements]="totalElements"
+				[totalPages]="totalPages"
+				[isFirstPage]="searchResult.first"
+				[isLastPage]="searchResult.last"
+				[isEmptyPage]="searchResult.empty"
+				(goPrev)="onPrev()"
+				(goNext)="onNext()"
+				(goPage)="goToPage($event)">
+			</app-paginator>
+		</ng-container>
 	</div>
 </app-default-page>

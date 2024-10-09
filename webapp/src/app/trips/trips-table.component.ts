@@ -4,6 +4,8 @@ import { Trip } from "../_model/trip";
 import { TranslateService } from "@ngx-translate/core";
 import { RouterService } from "../_services/router.service";
 import { DateUtilService } from "../_services/date-util.service";
+import { Account } from "../_model/account";
+import { TripService } from "../_services/trip.service";
 
 @Component({
   selector: 'app-trips-table',
@@ -11,12 +13,13 @@ import { DateUtilService } from "../_services/date-util.service";
   styleUrl: './trips-table.component.scss'
 })
 export class TripsTableComponent extends SearchResultComponent<Trip> {
-	displayedColumns: string[] = ['tripName', 'dayLength', 'summaryCost', 'lastUpdate']
+	displayedColumns: string[] = ['tripName', 'lastUpdate', 'actions']
 
 	constructor(
 		protected override readonly translate: TranslateService,
 		protected readonly routerService: RouterService,
 		protected readonly dateUtilService: DateUtilService,
+		protected readonly tripService: TripService,
 	) {
 		super(translate);
 	}
@@ -29,4 +32,22 @@ export class TripsTableComponent extends SearchResultComponent<Trip> {
 		return this.dateUtilService.formatDate(date);
 	}
 
+	formatModifiedBy(account: Account): string {
+		if (!account) {
+			return '';
+		}
+		return this.translate.instant('lastModifiedByX', { accountName: account.username });
+	}
+
+	deleteTrip(tripId: string) {
+		// TODO delete trip endpoint
+	}
+
+	archiveTrip(tripId: string) {
+		// TODO archive trip endpoint
+	}
+
+	editTrip(trip: Trip) {
+		// TODO allow edit trip items
+	}
 }
