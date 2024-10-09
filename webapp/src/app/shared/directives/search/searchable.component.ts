@@ -43,7 +43,7 @@ export abstract class SearchableComponent<T extends { id: any }, TPage extends P
 					this.currentAccount = account;
 				}
 			)
-		);
+		)
 	}
 
 	get firstSortOrder(): 'asc' | 'desc' {
@@ -189,6 +189,10 @@ export abstract class SearchableComponent<T extends { id: any }, TPage extends P
 	}
 
 	ngOnInit(): void {
+		this.subscription.add(
+			this.fetchCurrentAccount().subscribe()
+		);
+
 		this.subscription.add(
 			this.activatedRoute.queryParams.pipe(
 				first()
