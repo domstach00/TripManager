@@ -2,13 +2,19 @@
 
 	<ng-container *ngIf="!!dataSet">
 		<mat-table [dataSource]="dataSet" class="table-result">
-			<ng-container matColumnDef="tripName">
+			<ng-container matColumnDef="name">
 				<mat-header-cell mat-header-cell *matHeaderCellDef>{{ 'trips.name' | translate }}</mat-header-cell>
 				<mat-cell class="clickable-text"
 						  (click)="navigateToTrip(element.id)"
 						  *matCellDef="let element">
-					<div [matTooltip]="element.name ?? ''">
-						{{ element.name ?? '' }}
+					<span *ngIf="isNamePrefixIconVisible(element)">
+						<mat-icon class="name-prefix-icon" [matTooltip]="translate.instant('trips.icon.tooltip.public')" *ngIf="!!element?.isPublic">public</mat-icon>
+						<mat-icon class="name-prefix-icon" [matTooltip]="translate.instant('trips.icon.tooltip.closed')" *ngIf="!!element?.isClosed">event_available</mat-icon>
+						<mat-icon class="name-prefix-icon" [matTooltip]="translate.instant('trips.icon.tooltip.archived')" *ngIf="!!element?.isArchived">archive</mat-icon>
+						<mat-icon class="name-prefix-icon" [matTooltip]="translate.instant('trips.icon.tooltip.deleted')" *ngIf="!!element?.isDeleted">delete_forever</mat-icon>
+					</span>
+					<div [matTooltip]="element.name">
+						{{ element.name }}
 					</div>
 				</mat-cell>
 			</ng-container>

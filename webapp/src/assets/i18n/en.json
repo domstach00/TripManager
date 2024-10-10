@@ -5,6 +5,12 @@
 	"trips.dayLength": "Day length",
 	"trips.delete": "Delete",
 	"trips.edit": "Edit",
+	"trips.icon.tooltip": {
+		"archived": "This trip is archived",
+		"closed": "This trip is closed / finished",
+		"deleted": "This trip has been deleted",
+		"public": "This trip is public"
+	},
 	"trips.lastModified": "Last modified",
 	"trips.name": "Name",
 	"trips.summaryCost": "Summary cost"

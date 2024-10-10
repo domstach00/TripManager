@@ -13,7 +13,7 @@ import { TripService } from "../_services/trip.service";
   styleUrl: './trips-table.component.scss'
 })
 export class TripsTableComponent extends SearchResultComponent<Trip> {
-	displayedColumns: string[] = ['tripName', 'lastUpdate', 'actions']
+	displayedColumns: string[] = ['name', 'lastUpdate', 'actions']
 
 	constructor(
 		protected override readonly translate: TranslateService,
@@ -37,6 +37,13 @@ export class TripsTableComponent extends SearchResultComponent<Trip> {
 			return '';
 		}
 		return this.translate.instant('lastModifiedByX', { accountName: account.username });
+	}
+
+	isNamePrefixIconVisible(trip: Trip): boolean {
+		return !!trip?.isPublic
+			|| !!trip?.isClosed
+			|| !!trip?.isArchived
+			|| !!trip?.isDeleted;
 	}
 
 	deleteTrip(tripId: string) {
