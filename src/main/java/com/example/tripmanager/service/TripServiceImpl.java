@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -69,6 +70,12 @@ public class TripServiceImpl implements TripService {
         duplicatedTrip.deepCopyFrom(tripToDuplicate);
         duplicatedTrip.setName(duplicatedTrip.getName() + " - duplicated");
         duplicatedTrip.setId(null);
+        duplicatedTrip.setCreatedTime(null);
+        duplicatedTrip.setCreatedBy(null);
+        duplicatedTrip.setLastModifiedTime(null);
+        duplicatedTrip.setLastModifiedBy(null);
+        duplicatedTrip.setOwner(account);
+        duplicatedTrip.setMembers(new ArrayList<>());
         return this.tripRepository.save(duplicatedTrip);
     }
 }
