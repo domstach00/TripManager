@@ -4,6 +4,7 @@
 	"trips.archive": "Archive",
 	"trips.dayLength": "Day length",
 	"trips.delete": "Delete",
+	"trips.duplicate": "Duplicate",
 	"trips.edit": "Edit",
 	"trips.icon.tooltip": {
 		"archived": "This trip is archived",

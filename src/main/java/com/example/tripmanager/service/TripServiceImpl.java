@@ -47,10 +47,8 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public void deleteTrip(String tripId, Account account) {
-        Trip tripToDelete = this.tripRepository.findTripById(tripId, account).orElseThrow(() -> new ItemNotFound("Trip not found"));
-        if (!isTripAdmin(tripToDelete, account)) {
-            throw new RuntimeException("You do not have permissions to delete this trip");
-        }
+        Trip tripToDelete = this.tripRepository.findTripByIdWhereAccountIsOwnerOrAdmin(tripId, account)
+                .orElseThrow(() -> new ItemNotFound("Trip was not found or you do not have enough permissions"));
         tripToDelete.setDeleted(true);
         this.tripRepository.save(tripToDelete);
     }
@@ -58,8 +56,19 @@ public class TripServiceImpl implements TripService {
     @Override
     public Trip archiveTrip(String tripId, Account account) {
         Trip tripToArchive = this.tripRepository.findTripByIdWhereAccountIsOwnerOrAdmin(tripId, account)
-                .orElseThrow(() -> new ItemNotFound("Trip was not found"));
+                .orElseThrow(() -> new ItemNotFound("Trip was not found or you do not have enough permissions"));
         tripToArchive.setArchived(true);
         return this.tripRepository.save(tripToArchive);
+    }
+
+    @Override
+    public Trip duplicateTrip(String tripId, Account account) {
+        Trip tripToDuplicate = this.tripRepository.findTripById(tripId, account)
+                .orElseThrow(() -> new ItemNotFound("Trip was not found or you do not have enough permissions"));
+        Trip duplicatedTrip = new Trip();
+        duplicatedTrip.deepCopyFrom(tripToDuplicate);
+        duplicatedTrip.setName(duplicatedTrip.getName() + " - duplicated");
+        duplicatedTrip.setId(null);
+        return this.tripRepository.save(duplicatedTrip);
     }
 }

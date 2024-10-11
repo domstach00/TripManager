@@ -54,16 +54,4 @@ export class TripsComponent extends SearchableComponent<Trip, Page<Trip>> implem
 	doSearch(options: ApiParams): Observable<Page<Trip>> {
 		return this.tripService.getTrips(options);
 	}
-
-	onArchiveTrip(tripId: string) {
-		this.tripService.archiveTrip(tripId).subscribe(trip => {
-			this.prepareQueryParamsAndSearch()
-		})
-	}
-
-	onDeleteTrip(tripId: string) {
-		this.tripService.deleteTrip(tripId).subscribe(value => {
-			this.prepareQueryParamsAndSearch();
-		})
-	}
 }

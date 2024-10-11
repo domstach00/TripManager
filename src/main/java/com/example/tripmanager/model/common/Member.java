@@ -21,6 +21,11 @@ public class Member {
 
     }
 
+    public void deepCopyFrom(Member that) {
+        setAccountId(that.getAccountId());
+        setMemberRole(that.getMemberRole());
+    }
+
     public static MemberRole getRole(String role) {
         if (Objects.isNull(role) || role.isBlank()) {
             return null;

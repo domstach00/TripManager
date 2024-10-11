@@ -25,4 +25,8 @@ export class TripService {
 	public archiveTrip(tripId: string, params?: any): Observable<Trip> {
 		return this.apiService.patchFormatted(ApiPath.tripArchive, [tripId], params);
 	}
+
+	public duplicateTrip(tripId: string, params?: any): Observable<Trip> {
+		return this.apiService.postFormatted(ApiPath.tripDuplicate, [tripId], params);
+	}
 }

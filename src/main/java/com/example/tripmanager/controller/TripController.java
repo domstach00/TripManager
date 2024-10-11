@@ -10,6 +10,7 @@ import com.example.tripmanager.service.TripService;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -33,6 +34,7 @@ public class TripController extends AbstractController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public TripDto postTrip(Principal principal,
                             @RequestBody TripDto tripDto) {
         return toDto(this.tripService.createTrip(tripDto));
@@ -54,11 +56,19 @@ public class TripController extends AbstractController {
         this.tripService.deleteTrip(tripId, currentAccount);
     }
 
-    @PatchMapping("/archive/{tripId}")
+    @PatchMapping("/{tripId}/archive")
     public TripDto archiveTrip(
             @PathVariable String tripId
     ) {
        final Account currentAccount = this.accountService.getCurrentAccount();
        return toDto(this.tripService.archiveTrip(tripId, currentAccount));
+    }
+
+    @PostMapping("/{tripId}/duplicate")
+    public TripDto duplicateTrip(
+            @PathVariable String tripId
+    ) {
+        final Account currentAccount = this.accountService.getCurrentAccount();
+        return toDto(this.tripService.duplicateTrip(tripId, currentAccount));
     }
 }

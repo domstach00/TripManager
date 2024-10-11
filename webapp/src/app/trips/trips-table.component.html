@@ -37,6 +37,7 @@
 					<mat-menu #kebabMenu>
 						<button mat-menu-item (click)="archiveTrip(element.id)">{{ 'trips.archive' | translate }}</button>
 						<button mat-menu-item (click)="editTrip(element)">{{ 'trips.edit' | translate }}</button>
+						<button mat-menu-item (click)="duplicateTrip(element.id)">{{ 'trips.duplicate' | translate }}</button>
 						<button mat-menu-item (click)="deleteTrip(element.id)">{{ 'trips.delete' | translate }}</button>
 					</mat-menu>
 				</mat-cell>

@@ -16,8 +16,7 @@
 				[currentAccount]="currentAccount"
 				[dataSet]="searchResult.content"
 				[totalPages]="searchResult.totalPages"
-				(archiveTripEvent)="onArchiveTrip($event)"
-				(deleteTripEvent)="onDeleteTrip($event)"
+				(refreshEvent)="prepareQueryParamsAndSearch()"
 			></app-trips-table>
 
 			<app-paginator

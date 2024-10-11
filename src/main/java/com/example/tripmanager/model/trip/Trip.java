@@ -36,6 +36,25 @@ public class Trip extends AbstractAuditable {
     public Trip() {
     }
 
+    public void deepCopyFrom(Trip that) {
+        super.deepCopyFrom(that);
+        setName(that.getName());
+        setDescription(that.getDescription());
+        setOwner(that.getOwner());
+        setMembers(that.getMembers().stream()
+                .map(member -> {
+                    Member deepCopyMember = new Member();
+                    deepCopyMember.deepCopyFrom(member);
+                    return deepCopyMember;
+                })
+                .toList()
+        );
+        setPublic(that.isPublic());
+        setClosed(that.isClosed());
+        setArchived(that.isArchived());
+        setDeleted(that.isDeleted());
+    }
+
     public String getName() {
         return name;
     }

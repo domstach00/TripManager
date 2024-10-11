@@ -5,6 +5,7 @@ import { TranslateService } from "@ngx-translate/core";
 import { RouterService } from "../_services/router.service";
 import { DateUtilService } from "../_services/date-util.service";
 import { Account } from "../_model/account";
+import { TripService } from "../_services/trip.service";
 
 @Component({
   selector: 'app-trips-table',
@@ -13,13 +14,13 @@ import { Account } from "../_model/account";
 })
 export class TripsTableComponent extends SearchResultComponent<Trip> {
 	displayedColumns: string[] = ['name', 'lastUpdate', 'actions']
-	@Output() archiveTripEvent = new EventEmitter<string>();
-	@Output() deleteTripEvent = new EventEmitter<string>();
+	@Output() refreshEvent = new EventEmitter<string>();
 
 	constructor(
 		protected override readonly translate: TranslateService,
 		protected readonly routerService: RouterService,
 		protected readonly dateUtilService: DateUtilService,
+		protected readonly tripService: TripService,
 	) {
 		super(translate);
 	}
@@ -46,12 +47,22 @@ export class TripsTableComponent extends SearchResultComponent<Trip> {
 			|| !!trip?.isDeleted;
 	}
 
-	deleteTrip(tripId: string) {
-		this.deleteTripEvent.emit(tripId);
+	archiveTrip(tripId: string) {
+		this.tripService.archiveTrip(tripId).subscribe(value => {
+			this.refreshEvent.emit();
+		})
 	}
 
-	archiveTrip(tripId: string) {
-		this.archiveTripEvent.emit(tripId);
+	deleteTrip(tripId: string) {
+		this.tripService.deleteTrip(tripId).subscribe(value => {
+			this.refreshEvent.emit();
+		})
+	}
+
+	duplicateTrip(tripId: string) {
+		this.tripService.duplicateTrip(tripId).subscribe(duplicatedTrip => {
+			this.refreshEvent.emit();
+		})
 	}
 
 	editTrip(trip: Trip) {
