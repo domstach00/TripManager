@@ -12,7 +12,6 @@ public interface TripService {
     Trip createTrip(TripDto tripDto);
     Optional<Trip> getTripById(String tripId);
     Page<Trip> getTripsForAccount(Pageable pageable, Account account);
-    boolean hasAccountAccessToTrip(String tripId, Account account);
     boolean isTripAdmin(Trip trip, Account account);
     void deleteTrip(String tripId, Account account);
 }

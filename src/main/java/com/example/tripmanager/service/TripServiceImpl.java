@@ -41,12 +41,6 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    public boolean hasAccountAccessToTrip(String tripId, Account account) {
-        Trip trip = tripRepository.findById(tripId).orElseThrow(() -> new ItemNotFound("Trip not found"));
-        return trip.isPublic() || trip.getMembers().contains(account);
-    }
-
-    @Override
     public boolean isTripAdmin(Trip trip, Account account) {
         return Objects.equals(trip.getOwner().getId(), account.getId());
     }
