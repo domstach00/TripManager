@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -36,13 +37,29 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public Page<Trip> getTripsForAccount(Pageable pageable, Account account) {
-        return this.tripRepository.findAllByOwnerId(pageable, account.getId());
+//        return this.tripRepository.findAll(pageable);
+        return this.tripRepository.findAllRelatedTrips(pageable, account);
     }
 
     @Override
     public boolean hasAccountAccessToTrip(String tripId, Account account) {
         Trip trip = tripRepository.findById(tripId).orElseThrow(() -> new ItemNotFound("Trip not found"));
-        return trip.isPublic() || trip.getMembers().contains(account.getId());
+        return trip.isPublic() || trip.getMembers().contains(account);
+    }
+
+    @Override
+    public boolean isTripAdmin(Trip trip, Account account) {
+        return Objects.equals(trip.getOwner().getId(), account.getId());
+    }
+
+    @Override
+    public void deleteTrip(String tripId, Account account) {
+        Trip tripToDelete = this.tripRepository.findTripById(tripId, account).orElseThrow(() -> new ItemNotFound("Trip not found"));
+        if (!isTripAdmin(tripToDelete, account)) {
+            throw new RuntimeException("You do not have permissions to delete this trip");
+        }
+        tripToDelete.setDeleted(true);
+        this.tripRepository.save(tripToDelete);
     }
 
 }

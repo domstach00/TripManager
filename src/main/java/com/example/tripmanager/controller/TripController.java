@@ -2,6 +2,7 @@ package com.example.tripmanager.controller;
 
 import com.example.tripmanager.controller.support.PageParams;
 import com.example.tripmanager.mapper.TripMapper;
+import com.example.tripmanager.model.account.Account;
 import com.example.tripmanager.model.trip.Trip;
 import com.example.tripmanager.model.trip.TripDto;
 import com.example.tripmanager.service.AccountService;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
 @RestController
-@RequestMapping("/api/trip")
+@RequestMapping(TripController.TRIP_PLAN_CONTROLLER_URL)
 public class TripController extends AbstractController {
+    public static final String TRIP_PLAN_CONTROLLER_URL = "/api/trip";
+
     @Autowired
     private TripService tripService;
     @Autowired
@@ -41,5 +44,13 @@ public class TripController extends AbstractController {
             @ParameterObject PageParams pageParams
     ) {
         return toDto(this.tripService.getTripsForAccount(pageParams.asPageable(), accountService.getCurrentAccount()));
+    }
+
+    @DeleteMapping("/{tripId}")
+    public void deleteTrip(
+            @PathVariable String tripId
+    ) {
+        final Account currentAccount = this.accountService.getCurrentAccount();
+        this.tripService.deleteTrip(tripId, currentAccount);
     }
 }

@@ -11,6 +11,15 @@ import java.util.List;
 
 @Document
 public class Trip extends AbstractAuditable {
+    public static final String FIELD_NAME_NAME = "name";
+    public static final String FIELD_NAME_DESCRIPTION = "description";
+    public static final String FIELD_NAME_OWNER = "owner";
+    public static final String FIELD_NAME_IS_PUBLIC = "isPublic";
+    public static final String FIELD_NAME_IS_CLOSED = "isClosed";
+    public static final String FIELD_NAME_IS_ARCHIVED = "isArchived";
+    public static final String FIELD_NAME_IS_DELETED = "isDeleted";
+    public static final String FIELD_NAME_MEMBERS = "members";
+
     private String name;
     private String description;
     @DocumentReference
