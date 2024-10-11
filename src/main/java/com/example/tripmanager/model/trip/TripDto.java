@@ -2,6 +2,7 @@ package com.example.tripmanager.model.trip;
 
 import com.example.tripmanager.model.AbstractAuditableDto;
 import com.example.tripmanager.model.account.AccountDto;
+import com.example.tripmanager.model.common.MemberDto;
 
 import java.util.List;
 
@@ -9,7 +10,7 @@ public class TripDto extends AbstractAuditableDto {
     private String name;
     private String description;
     private AccountDto owner;
-    private List<String> membersId;
+    private List<MemberDto> members;
     private boolean isPublic;
     private boolean isClosed;
     private boolean isArchived;
@@ -42,12 +43,21 @@ public class TripDto extends AbstractAuditableDto {
         this.owner = owner;
     }
 
-    public List<String> getMembersId() {
-        return membersId;
+//    public List<String> getMembersId() {
+//        return membersId;
+//    }
+
+//    public void setMembersId(List<String> membersId) {
+//        this.membersId = membersId;
+//    }
+
+
+    public List<MemberDto> getMembers() {
+        return members;
     }
 
-    public void setMembersId(List<String> membersId) {
-        this.membersId = membersId;
+    public void setMembers(List<MemberDto> members) {
+        this.members = members;
     }
 
     public boolean isPublic() {

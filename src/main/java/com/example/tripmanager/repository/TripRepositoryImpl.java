@@ -1,6 +1,7 @@
 package com.example.tripmanager.repository;
 
 import com.example.tripmanager.model.account.Account;
+import com.example.tripmanager.model.common.Member;
 import com.example.tripmanager.model.trip.Trip;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
@@ -26,10 +27,7 @@ public class TripRepositoryImpl extends AbstractRepositoryImpl<Trip> implements 
         );
         operationList.add(
                 Aggregation.match(
-                        new Criteria().orOperator(
-                                Criteria.where(Trip.FIELD_NAME_OWNER).is(new ObjectId(account.getId())),
-                                Criteria.where(Trip.FIELD_NAME_MEMBERS).is(new ObjectId(account.getId()))
-                        )
+                        buildCriteriaIsAccountMemberOrOwnerOfTrip(account)
                 )
         );
 
@@ -63,9 +61,18 @@ public class TripRepositoryImpl extends AbstractRepositoryImpl<Trip> implements 
 
     protected Criteria buildCriteriaIsAccountMemberOrOwnerOfTrip(Account account) {
         return new Criteria().orOperator(
-                Criteria.where(Trip.FIELD_NAME_OWNER).is(new ObjectId(account.getId())),
-                Criteria.where(Trip.FIELD_NAME_MEMBERS).is(new ObjectId(account.getId()))
+                buildCriteriaAccountIsOwner(account),
+                buildCriteriaAccountIsMember(account)
         );
+    }
+
+    protected Criteria buildCriteriaAccountIsOwner(Account account) {
+        return Criteria.where(Trip.FIELD_NAME_OWNER)
+                .is(new ObjectId(account.getId()));
+    }
+    protected Criteria buildCriteriaAccountIsMember(Account account) {
+        return Criteria.where(Trip.FIELD_NAME_MEMBERS + "." + Member.FIELD_ACCOUNT_ID)
+                .is(new ObjectId(account.getId()));
     }
 
     protected Criteria buildCriteriaByAccessModifiers(

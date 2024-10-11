@@ -5,9 +5,14 @@ export interface Trip extends BaseModel {
 	name: string;
 	description?: string;
 	owner?: Account;
-	membersId?: string[];
+	members?: Member[];
 	isPublic?: boolean;
 	isClosed?: boolean;
 	isArchived?: boolean;
 	isDeleted?: boolean;
+}
+
+export interface Member {
+	accountId: string;
+	memberRole: string;
 }

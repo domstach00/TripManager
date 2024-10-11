@@ -1,6 +1,5 @@
 package com.example.tripmanager.mapper;
 
-import com.example.tripmanager.model.AbstractEntity;
 import com.example.tripmanager.model.account.Account;
 import com.example.tripmanager.model.trip.Trip;
 import com.example.tripmanager.model.trip.TripDto;
@@ -19,7 +18,7 @@ public class TripMapper {
         tripDto.setName(trip.getName());
         tripDto.setDescription(trip.getDescription());
         tripDto.setOwner(AccountMapper.toDto(trip.getOwner()));
-        tripDto.setMembersId(trip.getMembers().stream().map(AbstractEntity::getId).toList());
+        tripDto.setMembers(MemberMapper.toDto(trip.getMembers()));
         tripDto.setPublic(trip.isPublic());
         tripDto.setClosed(trip.isClosed());
         tripDto.setArchived(trip.isArchived());
@@ -31,12 +30,12 @@ public class TripMapper {
         return tripDtos.map(trip -> toDto(trip, accountService));
     }
 
-    public static Trip createFromDto(TripDto tripDto, Account account) {
+    public static Trip createFromDto(TripDto tripDto, Account account, final AccountService accountService) {
         Trip trip = new Trip();
         trip.setId(tripDto.getId());
         trip.setName(tripDto.getName());
         trip.setDescription(tripDto.getDescription());
-//        trip.setMembers(tripDto.getMembersId());
+        trip.setMembers(MemberMapper.createFromDto(tripDto.getMembers(), accountService));
         trip.setOwner(account);
         trip.setPublic(tripDto.isPublic());
         trip.setClosed(tripDto.isClosed());

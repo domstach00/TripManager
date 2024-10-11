@@ -4,8 +4,13 @@ import com.example.tripmanager.model.account.Account;
 import com.example.tripmanager.model.account.AccountDto;
 import com.example.tripmanager.model.auth.SignupRequest;
 
+import java.util.Objects;
+
 public class AccountMapper {
     public static AccountDto toDto(Account account) {
+        if (Objects.isNull(account)) {
+            return null;
+        }
         AccountDto accountDto = new AccountDto();
         accountDto.setId(account.getId());
         accountDto.setEmail(account.getEmail());

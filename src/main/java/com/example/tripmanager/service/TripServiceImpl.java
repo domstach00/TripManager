@@ -22,12 +22,12 @@ public class TripServiceImpl implements TripService {
     private AccountService accountService;
 
     protected Trip createFromDto(TripDto tripDto) {
-        return TripMapper.createFromDto(tripDto, accountService.getCurrentAccount());
+        return TripMapper.createFromDto(tripDto, accountService.getCurrentAccount(), accountService);
     }
 
     @Override
     public Trip createTrip(TripDto tripDto) {
-        return this.tripRepository.save(createFromDto(tripDto));
+        return this.tripRepository.insert(createFromDto(tripDto));
     }
 
     @Override
@@ -37,7 +37,6 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public Page<Trip> getTripsForAccount(Pageable pageable, Account account) {
-//        return this.tripRepository.findAll(pageable);
         return this.tripRepository.findAllRelatedTrips(pageable, account);
     }
 

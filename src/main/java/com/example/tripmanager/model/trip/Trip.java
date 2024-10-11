@@ -2,6 +2,7 @@ package com.example.tripmanager.model.trip;
 
 import com.example.tripmanager.model.AbstractAuditable;
 import com.example.tripmanager.model.account.Account;
+import com.example.tripmanager.model.common.Member;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
@@ -25,15 +26,12 @@ public class Trip extends AbstractAuditable {
     @DocumentReference
     @Indexed
     private Account owner;
+    private List<Member> members;
 
     private boolean isPublic;
     private boolean isClosed;
     private boolean isArchived;
     private boolean isDeleted;
-
-    @DocumentReference
-    @Indexed
-    private List<Account> members; // TODO change Account to ObjectId
 
     public Trip() {
     }
@@ -94,14 +92,14 @@ public class Trip extends AbstractAuditable {
         isClosed = closed;
     }
 
-    public List<Account> getMembers() {
+    public List<Member> getMembers() {
         if (this.members == null) {
             this.members = new ArrayList<>();
         }
         return members;
     }
 
-    public void setMembers(List<Account> members) {
+    public void setMembers(List<Member> members) {
         this.members = members;
     }
 }
