@@ -17,4 +17,8 @@ export class TripService {
 	public postTrip(trip: Trip, params?: any) {
 		return this.apiService.post<Trip, Trip>(ApiPath.trip, trip, params);
 	}
+
+	public deleteTrip(tripId: string, params?: any): Observable<any> {
+		return this.apiService.deleteFormatted(ApiPath.tripSelect, [tripId], params);
+	}
 }

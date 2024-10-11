@@ -6,7 +6,6 @@ import {
 	TripTableAddNewDialogComponent
 } from "../dialog/trip-table-add-new-dialog/trip-table-add-new-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
-import { RouterService } from "../_services/router.service";
 import { SearchableComponent } from "../shared/directives/search/searchable.component";
 import { Page } from "../_model/base-models.interface";
 import { ApiParams } from "../shared/directives/search/searchable.util";
@@ -54,5 +53,11 @@ export class TripsComponent extends SearchableComponent<Trip, Page<Trip>> implem
 
 	doSearch(options: ApiParams): Observable<Page<Trip>> {
 		return this.tripService.getTrips(options);
+	}
+
+	onDeleteTrip(tripId: string) {
+		this.tripService.deleteTrip(tripId).subscribe(value => {
+			this.prepareQueryParamsAndSearch();
+		})
 	}
 }

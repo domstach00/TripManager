@@ -1,11 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { SearchResultComponent } from "../shared/directives/search-result/search-result.component";
 import { Trip } from "../_model/trip";
 import { TranslateService } from "@ngx-translate/core";
 import { RouterService } from "../_services/router.service";
 import { DateUtilService } from "../_services/date-util.service";
 import { Account } from "../_model/account";
-import { TripService } from "../_services/trip.service";
 
 @Component({
   selector: 'app-trips-table',
@@ -14,12 +13,12 @@ import { TripService } from "../_services/trip.service";
 })
 export class TripsTableComponent extends SearchResultComponent<Trip> {
 	displayedColumns: string[] = ['name', 'lastUpdate', 'actions']
+	@Output() deleteTripEvent = new EventEmitter<string>();
 
 	constructor(
 		protected override readonly translate: TranslateService,
 		protected readonly routerService: RouterService,
 		protected readonly dateUtilService: DateUtilService,
-		protected readonly tripService: TripService,
 	) {
 		super(translate);
 	}
@@ -47,7 +46,7 @@ export class TripsTableComponent extends SearchResultComponent<Trip> {
 	}
 
 	deleteTrip(tripId: string) {
-		// TODO delete trip endpoint
+		this.deleteTripEvent.emit(tripId);
 	}
 
 	archiveTrip(tripId: string) {

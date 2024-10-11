@@ -15,8 +15,9 @@
 			<app-trips-table
 				[currentAccount]="currentAccount"
 				[dataSet]="searchResult.content"
-				[totalPages]="searchResult.totalPages">
-			</app-trips-table>
+				[totalPages]="searchResult.totalPages"
+				(deleteTripEvent)="onDeleteTrip($event)"
+			></app-trips-table>
 
 			<app-paginator
 				[page]="page"
@@ -28,8 +29,8 @@
 				[isEmptyPage]="searchResult.empty"
 				(goPrev)="onPrev()"
 				(goNext)="onNext()"
-				(goPage)="goToPage($event)">
-			</app-paginator>
+				(goPage)="goToPage($event)"
+			></app-paginator>
 		</ng-container>
 	</div>
 </app-default-page>
