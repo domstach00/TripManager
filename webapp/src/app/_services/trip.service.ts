@@ -21,4 +21,8 @@ export class TripService {
 	public deleteTrip(tripId: string, params?: any): Observable<any> {
 		return this.apiService.deleteFormatted(ApiPath.tripSelect, [tripId], params);
 	}
+
+	public archiveTrip(tripId: string, params?: any): Observable<Trip> {
+		return this.apiService.patchFormatted(ApiPath.tripArchive, [tripId], params);
+	}
 }

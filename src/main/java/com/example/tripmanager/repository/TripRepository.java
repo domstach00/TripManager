@@ -13,4 +13,5 @@ public interface TripRepository extends MongoRepository<Trip, String> {
 
     Page<Trip> findAllRelatedTrips(Pageable pageable, Account account);
     Optional<Trip> findTripById(String tripId, Account account);
+    Optional<Trip> findTripByIdWhereAccountIsOwnerOrAdmin(String tripId, Account account);
 }

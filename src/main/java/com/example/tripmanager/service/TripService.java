@@ -14,4 +14,5 @@ public interface TripService {
     Page<Trip> getTripsForAccount(Pageable pageable, Account account);
     boolean isTripAdmin(Trip trip, Account account);
     void deleteTrip(String tripId, Account account);
+    Trip archiveTrip(String tripId, Account account);
 }

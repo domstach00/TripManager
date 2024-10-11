@@ -6,6 +6,7 @@ export enum ApiPath {
 	currentAccount = '/auth/currentaccount',
 	trip = '/trip',
 	tripSelect = '/trip/{0}',
+	tripArchive = '/trip/archive/{0}',
 	tripPlan = '/trip/{0}/plan',
 	tripPlanSelect = '/trip/{0}/plan/{0}',
 	googleMapPin = '/trip/{0}/googleMapPin',

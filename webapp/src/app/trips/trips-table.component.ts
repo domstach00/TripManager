@@ -13,6 +13,7 @@ import { Account } from "../_model/account";
 })
 export class TripsTableComponent extends SearchResultComponent<Trip> {
 	displayedColumns: string[] = ['name', 'lastUpdate', 'actions']
+	@Output() archiveTripEvent = new EventEmitter<string>();
 	@Output() deleteTripEvent = new EventEmitter<string>();
 
 	constructor(
@@ -50,7 +51,7 @@ export class TripsTableComponent extends SearchResultComponent<Trip> {
 	}
 
 	archiveTrip(tripId: string) {
-		// TODO archive trip endpoint
+		this.archiveTripEvent.emit(tripId);
 	}
 
 	editTrip(trip: Trip) {

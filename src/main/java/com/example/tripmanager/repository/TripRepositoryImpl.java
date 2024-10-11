@@ -10,12 +10,14 @@ import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+@Repository
 public class TripRepositoryImpl extends AbstractRepositoryImpl<Trip> implements TripRepository {
     @Override
     public Page<Trip> findAllRelatedTrips(Pageable pageable, Account account) {
@@ -55,6 +57,28 @@ public class TripRepositoryImpl extends AbstractRepositoryImpl<Trip> implements 
     }
 
     @Override
+    public Optional<Trip> findTripByIdWhereAccountIsOwnerOrAdmin(String tripId, Account account) {
+        List<AggregationOperation> operationList = new ArrayList<>();
+        operationList.add(
+                Aggregation.match(buildCriteriaById(tripId))
+        );
+        operationList.add(
+                Aggregation.match(
+                        buildCriteriaByAccessModifiers(false, false, null, null)
+                )
+        );
+        operationList.add(
+                Aggregation.match(
+                        new Criteria().orOperator(
+                                buildCriteriaAccountIsOwner(account),
+                                buildCriteriaAccountIsAdmin(account)
+                        )
+                )
+        );
+        return findOneBy(operationList);
+    }
+
+    @Override
     protected Class<Trip> getEntityClass() {
         return Trip.class;
     }
@@ -64,6 +88,11 @@ public class TripRepositoryImpl extends AbstractRepositoryImpl<Trip> implements 
                 buildCriteriaAccountIsOwner(account),
                 buildCriteriaAccountIsMember(account)
         );
+    }
+
+    protected Criteria buildCriteriaAccountIsAdmin(Account account) {
+        return Criteria.where(Trip.FIELD_NAME_MEMBERS + "." + Member.FIELD_MEMBER_ROLE)
+                .is(Member.MemberRole.ADMINISTRATOR.name());
     }
 
     protected Criteria buildCriteriaAccountIsOwner(Account account) {

@@ -53,4 +53,12 @@ public class TripController extends AbstractController {
         final Account currentAccount = this.accountService.getCurrentAccount();
         this.tripService.deleteTrip(tripId, currentAccount);
     }
+
+    @PatchMapping("/archive/{tripId}")
+    public TripDto archiveTrip(
+            @PathVariable String tripId
+    ) {
+       final Account currentAccount = this.accountService.getCurrentAccount();
+       return toDto(this.tripService.archiveTrip(tripId, currentAccount));
+    }
 }

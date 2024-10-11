@@ -16,6 +16,7 @@
 				[currentAccount]="currentAccount"
 				[dataSet]="searchResult.content"
 				[totalPages]="searchResult.totalPages"
+				(archiveTripEvent)="onArchiveTrip($event)"
 				(deleteTripEvent)="onDeleteTrip($event)"
 			></app-trips-table>
 

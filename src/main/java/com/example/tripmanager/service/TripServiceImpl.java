@@ -55,4 +55,11 @@ public class TripServiceImpl implements TripService {
         this.tripRepository.save(tripToDelete);
     }
 
+    @Override
+    public Trip archiveTrip(String tripId, Account account) {
+        Trip tripToArchive = this.tripRepository.findTripByIdWhereAccountIsOwnerOrAdmin(tripId, account)
+                .orElseThrow(() -> new ItemNotFound("Trip was not found"));
+        tripToArchive.setArchived(true);
+        return this.tripRepository.save(tripToArchive);
+    }
 }
