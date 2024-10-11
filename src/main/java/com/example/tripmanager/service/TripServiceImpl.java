@@ -2,6 +2,7 @@ package com.example.tripmanager.service;
 
 import com.example.tripmanager.exception.ItemNotFound;
 import com.example.tripmanager.mapper.TripMapper;
+import com.example.tripmanager.model.common.Member;
 import com.example.tripmanager.model.trip.Trip;
 import com.example.tripmanager.model.trip.TripDto;
 import com.example.tripmanager.model.account.Account;
@@ -10,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -77,5 +80,20 @@ public class TripServiceImpl implements TripService {
         duplicatedTrip.setOwner(account);
         duplicatedTrip.setMembers(new ArrayList<>());
         return this.tripRepository.save(duplicatedTrip);
+    }
+
+    @Override
+    @Transactional
+    public boolean removeAccountFromTrip(final String tripId, final Account account, final Account currentAccount) {
+        Trip trip = this.tripRepository.findTripByIdWhereAccountIsOwnerOrAdmin(tripId, currentAccount)
+                .orElseThrow(() -> new ItemNotFound("Trip was not found or you do not have enough permissions"));
+        List<Member> accountAsMember = trip.getMembers().stream()
+                .filter(member -> Objects.equals(member.getAccountId(), account.getId()))
+                .toList();
+        if (!accountAsMember.isEmpty() && trip.getMembers().removeAll(accountAsMember)) {
+            this.tripRepository.save(trip);
+            return true;
+        }
+        return false;
     }
 }

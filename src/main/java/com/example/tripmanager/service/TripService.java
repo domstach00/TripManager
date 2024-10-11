@@ -16,4 +16,5 @@ public interface TripService {
     void deleteTrip(String tripId, Account account);
     Trip archiveTrip(String tripId, Account account);
     Trip duplicateTrip(String tripId, Account account);
+    boolean removeAccountFromTrip(String tripId, Account account, Account currentAccount);
 }

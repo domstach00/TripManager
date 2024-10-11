@@ -71,4 +71,12 @@ public class TripController extends AbstractController {
         final Account currentAccount = this.accountService.getCurrentAccount();
         return toDto(this.tripService.duplicateTrip(tripId, currentAccount));
     }
+
+    @DeleteMapping("/{tripId}/leave")
+    public void leaveTripAsMember(
+            @PathVariable String tripId
+    ) {
+        final Account currentAccount = this.accountService.getCurrentAccount();
+        this.tripService.removeAccountFromTrip(tripId, currentAccount, currentAccount);
+    }
 }

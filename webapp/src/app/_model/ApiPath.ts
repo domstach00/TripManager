@@ -8,6 +8,7 @@ export enum ApiPath {
 	tripSelect = trip + '/{0}',
 	tripArchive =  tripSelect + '/archive',
 	tripDuplicate = tripSelect + '/duplicate',
+	tripLeave = tripSelect + '/leave',
 	tripPlan = tripSelect + '/plan',
 	tripPlanSelect = tripSelect + '/plan/{0}',
 	googleMapPin = tripSelect + '/googleMapPin',

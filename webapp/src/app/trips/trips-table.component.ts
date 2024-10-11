@@ -65,8 +65,18 @@ export class TripsTableComponent extends SearchResultComponent<Trip> {
 		})
 	}
 
+	leaveTripAsMember(tripId: string) {
+		this.tripService.leaveTripAsMember(tripId).subscribe( _ => {
+			this.refreshEvent.emit();
+		})
+	}
+
 	isAccountTripAdmin(trip: Trip): boolean {
 		return this.tripService.isAccountTripAdmin(trip, this.currentAccountId);
+	}
+
+	isAccountTripOwner(trip: Trip): boolean {
+		return this.tripService.isAccountTripOwner(trip, this.currentAccountId);
 	}
 
 	editTrip(trip: Trip) {

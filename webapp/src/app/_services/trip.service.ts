@@ -30,13 +30,21 @@ export class TripService {
 		return this.apiService.postFormatted(ApiPath.tripDuplicate, [tripId], params);
 	}
 
+	public leaveTripAsMember(tripId: string, params?: any): Observable<any> {
+		return this.apiService.deleteFormatted(ApiPath.tripLeave, [tripId], params);
+	}
+
+	public isAccountTripOwner(trip: Trip, accountId: string): boolean {
+		return trip?.owner?.id === accountId;
+	}
+
 	public isAccountTripAdmin(trip: Trip, accountId: string): boolean {
-		const isOwner: boolean = trip.owner?.id === accountId;
+		const isOwner: boolean = this.isAccountTripOwner(trip, accountId);
 		if (isOwner) {
 			return true;
 		}
 
-		return trip.members?.some(member =>
+		return trip?.members?.some(member =>
 			member.accountId === accountId && member.memberRole.toUpperCase() === "ADMINISTRATOR");
 	}
 }

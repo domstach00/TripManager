@@ -13,6 +13,7 @@
 		"public": "This trip is public"
 	},
 	"trips.lastModified": "Last modified",
+	"trips.leaveTrip": "Leave trip",
 	"trips.name": "Name",
 	"trips.summaryCost": "Summary cost"
 }

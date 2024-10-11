@@ -41,6 +41,8 @@
 							{{ 'trips.edit' | translate }}</button>
 						<button mat-menu-item (click)="duplicateTrip(element.id)">
 							{{ 'trips.duplicate' | translate }}</button>
+						<button mat-menu-item *ngIf="!isAccountTripOwner(element)" (click)="leaveTripAsMember(element.id)">
+							{{ 'trips.leaveTrip' | translate }}</button>
 						<button mat-menu-item *ngIf="isAccountTripAdmin(element)" (click)="deleteTrip(element.id)">
 							{{ 'trips.delete' | translate }}</button>
 					</mat-menu>
