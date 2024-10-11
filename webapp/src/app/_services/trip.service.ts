@@ -29,4 +29,14 @@ export class TripService {
 	public duplicateTrip(tripId: string, params?: any): Observable<Trip> {
 		return this.apiService.postFormatted(ApiPath.tripDuplicate, [tripId], params);
 	}
+
+	public isAccountTripAdmin(trip: Trip, accountId: string): boolean {
+		const isOwner: boolean = trip.owner?.id === accountId;
+		if (isOwner) {
+			return true;
+		}
+
+		return trip.members?.some(member =>
+			member.accountId === accountId && member.memberRole.toUpperCase() === "ADMINISTRATOR");
+	}
 }

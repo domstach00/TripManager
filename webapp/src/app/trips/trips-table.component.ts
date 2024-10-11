@@ -65,6 +65,10 @@ export class TripsTableComponent extends SearchResultComponent<Trip> {
 		})
 	}
 
+	isAccountTripAdmin(trip: Trip): boolean {
+		return this.tripService.isAccountTripAdmin(trip, this.currentAccountId);
+	}
+
 	editTrip(trip: Trip) {
 		// TODO allow edit trip items
 	}
