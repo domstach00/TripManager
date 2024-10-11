@@ -54,17 +54,6 @@ public abstract class AbstractRepositoryImpl<T extends AbstractEntity> implement
                 : Criteria.where(fieldName).ne(true);
     }
 
-    protected Query buildQueryFromAggregationOperations(List<AggregationOperation> operations) {
-        Criteria criteria = new Criteria();
-        operations.forEach(operation -> {
-            if (operation.getOperator().equals("$match")) {
-                String criteriaString = Arrays.toString(operation.toString().split("\\$match")).trim();
-                criteria.andOperator(Criteria.where(criteriaString));
-            }
-        });
-        return new Query(criteria);
-    }
-
     protected Page<T> findAllBy(final Pageable pageable, final List<AggregationOperation> operationList) {
         return findAllBy(pageable, operationList, getEntityClass(), getEntityClass());
     }
@@ -195,7 +184,6 @@ public abstract class AbstractRepositoryImpl<T extends AbstractEntity> implement
             
             private Query createQueryFromExample(Example<S> exampleToCreateQuery) {
                 S probe = exampleToCreateQuery.getProbe();
-                ExampleMatcher matcher = exampleToCreateQuery.getMatcher();
                 Query query = new Query();
 
                 Arrays.stream(probe.getClass().getDeclaredFields()).forEach(field -> {
@@ -222,7 +210,7 @@ public abstract class AbstractRepositoryImpl<T extends AbstractEntity> implement
             @Override
             @NonNull
             public <R> FetchableFluentQuery<R> as(@NonNull Class<R> resultType) {
-                return null;
+                throw new UnsupportedOperationException("Operation 'as' is currently not supported");
             }
 
             @Override
@@ -346,6 +334,7 @@ public abstract class AbstractRepositoryImpl<T extends AbstractEntity> implement
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void deleteAllById(@NonNull Iterable<? extends String> ids) {
         Query query = new Query(buildCriteriaByIds((Iterable<String>) ids));
         mongoOperations.remove(query, getEntityClass());
