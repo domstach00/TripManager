@@ -26,7 +26,7 @@ export const buildQueryParams = (
 	}
 
 	if (!!pageSize && pageSize > 0) {
-		const pageSizeParams = { sortBy };
+		const pageSizeParams = { pageSize };
 		queryParams = { ...queryParams, ...pageSizeParams };
 	}
 
