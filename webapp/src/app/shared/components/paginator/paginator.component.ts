@@ -1,14 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-paginator',
-  templateUrl: './paginator.component.html',
-  styleUrl: './paginator.component.scss'
+	selector: 'app-paginator',
+	templateUrl: './paginator.component.html',
+	styleUrl: './paginator.component.scss'
 })
 export class PaginatorComponent {
 	readonly pageSortFun = (a: number, b: number) => a - b;
-	readonly pageLinksToShow: number = 10;
-
+	private readonly _pageLinksToShow: number = 10;
 	@Input() page: number;
 	@Input() pageSize: number;
 	@Input() totalElements: number;
@@ -34,27 +33,34 @@ export class PaginatorComponent {
 		return ((this.totalPages - 1) - this.page) <= 5;
 	}
 
+	get pageLinksToShow(): number {
+		return Math.min(this._pageLinksToShow, this.totalPages);
+	}
+
 	onNext(): void {
+		this.page += 1;
 		this.goNext.emit(true);
 	}
 
 	onPrev(): void {
+		this.page -= 1;
 		this.goPrev.emit(true);
 	}
 
 	onPage(n: number): void {
+		this.page = n;
 		this.goPage.emit(n);
 	}
 
 	getPages(): number[] {
 		const c: number = this.totalPages;
-		const p: number = this.pageSize || 1;
+		const p: number = this.page + 1;
 		const pageLinksToShow: number = this.pageLinksToShow;
 		const pages: number[] = [];
 		pages.push(p);
 
 		const times: number = pageLinksToShow - 1;
-		for (let i = 0 ; i < times; i++) {
+		for (let i = 0; i < times; i++) {
 			if (pages.length < pageLinksToShow) {
 				if (Math.min.apply(null, pages) > 1) {
 					pages.push(
@@ -62,14 +68,14 @@ export class PaginatorComponent {
 					);
 				}
 				if (pages.length < pageLinksToShow) {
-					if (Math.min.apply(null, pages) < c) {
+					if (Math.max.apply(null, pages) < c) {
 						pages.push(Math.max.apply(null, pages) + 1);
 					}
 				}
 			}
 		}
 
-		if (!this.isOnFirstFive && !this.isOnLastFive && this.totalPages > this.pageLinksToShow) {
+		if (!this.isOnFirstFive && !this.isOnLastFive && this.totalPages > pageLinksToShow) {
 			const tempPages = [];
 			const firstPages = [];
 			const lastPages = [];
@@ -92,9 +98,9 @@ export class PaginatorComponent {
 			return tempPages;
 		}
 
-		if (this.isOnLastFive && this.totalPages > this.pageLinksToShow) {
+		if (this.isOnLastFive && this.totalPages > pageLinksToShow) {
 			const tempPages = [];
-			for (let i = (this.totalElements - this.pageLinksToShow) + 1; i <= this.totalPages; i++) {
+			for (let i = (this.totalPages - pageLinksToShow) + 1; i <= this.totalPages; i++) {
 				tempPages.push(i);
 			}
 			tempPages.sort(this.pageSortFun);
@@ -104,5 +110,4 @@ export class PaginatorComponent {
 		pages.sort(this.pageSortFun);
 		return pages;
 	}
-
 }
