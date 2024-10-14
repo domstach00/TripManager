@@ -1,45 +1,61 @@
-<div class="m-3 mw-100">
-	<table mat-table [dataSource]="this.dataSource" class="table-fix">
-		<ng-container matColumnDef="name">
-			<mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-			<mat-cell *matCellDef="let element" [matTooltip]="element?.name"> {{ element.name }} </mat-cell>
-		</ng-container>
-		<ng-container matColumnDef="day">
-			<mat-header-cell mat-header-cell *matHeaderCellDef>Day</mat-header-cell>
-			<mat-cell *matCellDef="let element" [matTooltip]="element?.day"> {{ element?.day }} </mat-cell>
-		</ng-container>
-		<ng-container matColumnDef="cost">
-			<mat-header-cell mat-header-cell *matHeaderCellDef>Cost</mat-header-cell>
-			<mat-cell *matCellDef="let element" [matTooltip]="element?.cost"> {{ element?.cost }} </mat-cell>
-		</ng-container>
-		<ng-container matColumnDef="mapElementName">
-			<mat-header-cell mat-header-cell *matHeaderCellDef>Place</mat-header-cell>
-			<mat-cell *matCellDef="let element" [matTooltip]="element?.mapElement?.displayName">
-				<img *ngIf="element?.mapElement"
-					 [src]="getIconPath(element?.mapElement?.icon) ?? defaultMapIcon"
-					 alt="icon"
-					 (click)="onSelectIcon(element)"
-				>
-				{{ element?.mapElement?.displayName }}
-			</mat-cell>
-		</ng-container>
-		<ng-container matColumnDef="actions">
-			<mat-header-cell mat-header-cell *matHeaderCellDef></mat-header-cell>
-			<mat-cell *matCellDef="let element">
-				<button mat-icon-button [matMenuTriggerFor]="kebabMenu" aria-label="">
-					<mat-icon>more_vert</mat-icon>
-				</button>
-				<mat-menu #kebabMenu>
-					<button mat-menu-item (click)="editTripPlanDialog(element)">Edit</button>
-					<button mat-menu-item (click)="deleteItem(element)">Delete</button>
-				</mat-menu>
-			</mat-cell>
-		</ng-container>
+<div class="table-content" *ngIf="!!currentAccount">
+	<ng-container *ngIf="!!dataSet">
+		<mat-table [dataSource]="dataSet" class="table-result">
+			<ng-container matColumnDef="name">
+				<mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+				<mat-cell *matCellDef="let element">
+					<div [matTooltip]="element?.name">
+						{{ element.name }}
+					</div>
+				</mat-cell>
+			</ng-container>
 
-		<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-		<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-	</table>
-	<mat-dialog-actions>
-		<button mat-button class="button-add" (click)="this.insertTripPlanDialog()">Add</button>
-	</mat-dialog-actions>
+			<ng-container matColumnDef="day">
+				<mat-header-cell *matHeaderCellDef>Day</mat-header-cell>
+				<mat-cell *matCellDef="let element">
+					<div [matTooltip]="element?.day">
+						{{ element?.day }}
+					</div>
+				</mat-cell>
+			</ng-container>
+
+			<ng-container matColumnDef="cost">
+				<mat-header-cell *matHeaderCellDef>Cost</mat-header-cell>
+				<mat-cell *matCellDef="let element">
+					<div [matTooltip]="element?.cost">
+						{{ element?.cost }}
+					</div>
+				</mat-cell>
+			</ng-container>
+
+			<ng-container matColumnDef="mapElementName">
+				<mat-header-cell *matHeaderCellDef>Place</mat-header-cell>
+				<mat-cell *matCellDef="let element">
+					<img *ngIf="element?.mapElement"
+						 [src]="getIconPath(element?.mapElement?.icon) ?? defaultMapIcon"
+						 alt="icon"
+						 (click)="onSelectIcon(element)">
+					<div [matTooltip]="element?.mapElement?.displayName">
+						{{ element?.mapElement?.displayName }}
+					</div>
+				</mat-cell>
+			</ng-container>
+
+			<ng-container matColumnDef="actions">
+				<mat-header-cell *matHeaderCellDef class="icon-container"></mat-header-cell>
+				<mat-cell *matCellDef="let element" class="icon-container">
+					<button mat-icon-button [matMenuTriggerFor]="kebabMenu" aria-label="">
+						<mat-icon>more_vert</mat-icon>
+					</button>
+					<mat-menu #kebabMenu>
+						<button mat-menu-item (click)="editTripPlanDialog(element)">Edit</button>
+						<button mat-menu-item (click)="deleteItem(element)">Delete</button>
+					</mat-menu>
+				</mat-cell>
+			</ng-container>
+
+			<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+			<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+		</mat-table>
+	</ng-container>
 </div>

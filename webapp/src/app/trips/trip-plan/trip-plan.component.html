@@ -4,25 +4,17 @@
 	</div>
 
 	<div class="tmpl-content">
-		<mat-button-toggle-group [hideSingleSelectionIndicator]="true" name="SetView" class="toggle-buttons">
-			<mat-button-toggle class="button-left" (change)="this.changeShowMap(ShowToggle.TABLE)">Table</mat-button-toggle>
-			<mat-button-toggle class="button-middle" (change)="this.changeShowMap(ShowToggle.ALL)">All</mat-button-toggle>
-			<mat-button-toggle class="button-right" (change)="this.changeShowMap(ShowToggle.MAP)">Map</mat-button-toggle>
-		</mat-button-toggle-group>
 
-		<div class="row">
-			<app-trip-plan-table (refreshEvent)="this.refreshData()"
-								 *ngIf="!!this.tripId"
-								 [dataSource]="this.dataSource$.asObservable()"
-								 [hidden]="this.showMap !== ShowToggle.TABLE && this.showMap !== ShowToggle.ALL"
-								 [tripId]="this.tripId"
-								 class="col-xl-6"></app-trip-plan-table>
-			<app-trip-plan-map *ngIf="!!this.tripId"
-							   [dataSource$]="this.dataSource$.asObservable()"
-							   [hidden]="this.showMap !== ShowToggle.MAP && this.showMap !== ShowToggle.ALL"
-							   [tripId]="this.tripId"
-							   class="col-xl-6"></app-trip-plan-map>
-		</div>
+		<trip-plan-table-searchable
+			[tripId]="tripId"
+		></trip-plan-table-searchable>
+
+		<app-trip-plan-map
+			*ngIf="!!this.tripId"
+			[dataSource$]="this.dataSource$.asObservable()"
+			[hidden]="this.showMap !== ShowToggle.MAP && this.showMap !== ShowToggle.ALL"
+			[tripId]="this.tripId"
+		></app-trip-plan-map>
 
 	</div>
 </app-default-page>

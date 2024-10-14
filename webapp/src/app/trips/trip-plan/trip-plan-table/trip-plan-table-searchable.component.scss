@@ -1,0 +1,24 @@
+.trip-table-searchable-content {
+	.clikable-text {
+		cursor: pointer;
+	}
+
+	.title-with-button {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 5px;
+
+		.title {
+			flex-grow: 1;
+		}
+
+		.button-actions {
+			display: flex;
+			button {
+				margin: 5px 5px 5px 0;
+				background: #ddd;
+			}
+		}
+	}
+}

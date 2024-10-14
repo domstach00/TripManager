@@ -1,0 +1,37 @@
+<div class="trip-table-searchable-content" *ngIf="!!currentAccount && !!tripId">
+
+	<span class="title-with-button">
+			<div class="title">
+				<h3 mat-card-title>Trips</h3>
+			</div>
+			<div class="button-actions">
+				<button mat-button (click)="insertTripPlanDialog()">
+					{{ 'trips.addTrip' | translate }}
+				</button>
+			</div>
+		</span>
+
+	<ng-container *ngIf="(searchResultObservable$ | async) as searchResult">
+		<app-trip-plan-table
+			[currentAccount]="currentAccount"
+			[dataSet]="searchResult.content"
+			[totalPages]="searchResult.totalPages"
+			[tripId]="tripId"
+			(refreshEvent)="prepareQueryParamsAndSearch()"
+		></app-trip-plan-table>
+
+		<app-paginator
+			[page]="page"
+			[pageSize]="pageSize"
+			[totalElements]="totalElements"
+			[totalPages]="totalPages"
+			[isFirstPage]="searchResult.first"
+			[isLastPage]="searchResult.last"
+			[isEmptyPage]="searchResult.empty"
+			(goPrev)="onPrev()"
+			(goNext)="onNext()"
+			(goPage)="goToPage($event)"
+		></app-paginator>
+	</ng-container>
+
+</div>

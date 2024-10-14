@@ -55,6 +55,7 @@ import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { TripsTableComponent } from "./trips/trips-table.component";
 import { DateUtilService } from "./_services/date-util.service";
+import { TripPlanTableSearchableComponent } from "./trips/trip-plan/trip-plan-table/trip-plan-table-searchable.component";
 
 function HttpLoaderFactory(http: HttpClient) {
 	return new TranslateHttpLoader(http);
@@ -80,6 +81,7 @@ function HttpLoaderFactory(http: HttpClient) {
 		DefaultPageComponent,
 		SelectIconDialogComponent,
 		PaginatorComponent,
+		TripPlanTableSearchableComponent,
 	],
 	imports: [
 		BrowserModule,
