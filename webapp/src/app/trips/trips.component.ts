@@ -27,6 +27,7 @@ export class TripsComponent extends SearchableComponent<Trip, Page<Trip>> implem
 		public dialog: MatDialog,
 	) {
 		super(accountService, activatedRoute)
+		this.pageSize = 5;
 	}
 
 	override ngOnInit(): void {
