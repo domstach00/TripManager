@@ -92,7 +92,9 @@ public abstract class AbstractRepositoryImpl<T extends AbstractEntity> implement
 
         Aggregation countAggregation = Aggregation.newAggregation(countOperationList);
         AggregationResults<Document> countResult = getMongoOperations().aggregate(countAggregation, getEntityClass(), Document.class);
-        return Objects.requireNonNull(countResult.getUniqueMappedResult()).getInteger(FIELD_COUNT);
+        return Objects.isNull(countResult.getUniqueMappedResult())
+                ? 0
+                : countResult.getUniqueMappedResult().getInteger(FIELD_COUNT);
     }
 
     protected List<AggregationOperation> buildPageableOperationList(Pageable pageable) {
