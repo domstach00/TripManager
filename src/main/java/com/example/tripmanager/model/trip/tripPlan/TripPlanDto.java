@@ -19,13 +19,6 @@ public class TripPlanDto extends AbstractAuditableDto {
     public TripPlanDto() {
     }
 
-    public void checkPatchValidation(TripPlanDto originalTripPlan) throws PatchValidationException {
-        if (!Objects.equals(getId(), originalTripPlan.getId())
-                || !Objects.equals(this.tripId, originalTripPlan.tripId)) {
-            throw new PatchValidationException("TripPlanDto has not passed patch validation");
-        }
-    }
-
     public String getName() {
         return name;
     }

@@ -11,7 +11,7 @@ public class TripPlanMapper {
         TripPlanDto tripPlanDto = new TripPlanDto();
         tripPlanDto = AuditableMapper.toDto(tripPlan, tripPlanDto, accountService);
 
-        tripPlanDto.setTripId(tripPlan.getTrip().getId());
+        tripPlanDto.setTripId(tripPlan.getTripId());
         tripPlanDto.setCost(tripPlan.getCost());
         tripPlanDto.setDesc(tripPlan.getDesc());
         tripPlanDto.setLink(tripPlan.getLink());
@@ -26,7 +26,7 @@ public class TripPlanMapper {
         return tripPlanList.map(tripPlan -> toDto(tripPlan, accountService));
     }
 
-    public static TripPlan fromDto(TripPlanDto tripPlanDto, Trip trip) {
+    public static TripPlan fromDto(TripPlanDto tripPlanDto) {
         TripPlan tripPlan = new TripPlan();
         tripPlan.setId(tripPlanDto.getId());
         tripPlan.setName(tripPlanDto.getName());
@@ -35,7 +35,7 @@ public class TripPlanMapper {
         tripPlan.setDesc(tripPlanDto.getDesc());
         tripPlan.setLink(tripPlanDto.getLink());
         tripPlan.setMapElement(tripPlanDto.getMapElement());
-        tripPlan.setTrip(trip);
+        tripPlan.setTripId(tripPlanDto.getTripId());
         return tripPlan;
     }
 }

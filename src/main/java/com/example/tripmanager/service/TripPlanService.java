@@ -9,5 +9,5 @@ public interface TripPlanService {
     Page<TripPlan> getAllTripPlansForTrip(Pageable pageable, String tripId);
     TripPlan insertTripPlan(TripPlanDto tripPlan, String tripId);
     void deleteTripPlan(String tripPlanId);
-    TripPlan patchTripPlan(TripPlanDto tripPlanDto);
+    TripPlan patchTripPlan(TripPlan updatedTripPlan, String tripId);
 }

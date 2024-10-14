@@ -29,6 +29,10 @@ public class TripPlanController {
         return TripPlanMapper.toDto(tripPlan, accountService);
     }
 
+    protected TripPlan createFromDto(TripPlanDto tripPlanDto) {
+        return TripPlanMapper.fromDto(tripPlanDto);
+    }
+
     @GetMapping()
     public Page<TripPlanDto> getAllTripPlan(
             @ParameterObject PageParams pageParams,
@@ -50,9 +54,8 @@ public class TripPlanController {
     @PatchMapping()
     public TripPlanDto patchTripPlan(@PathVariable String tripId,
                                      @RequestBody TripPlanDto tripPlanDto) {
-        return toDto(
-                tripPlanService.patchTripPlan(tripPlanDto)
-        );
+        TripPlan updatedTripPlan = createFromDto(tripPlanDto);
+        return toDto(tripPlanService.patchTripPlan(updatedTripPlan, tripId));
     }
 
     @DeleteMapping("/{tripPlanId}")

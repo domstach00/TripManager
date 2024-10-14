@@ -24,8 +24,8 @@ public class TripPlanServiceImpl implements TripPlanService{
         return TripPlanMapper.toDto(tripPlan, accountService);
     }
 
-    protected TripPlan fromDto(TripPlanDto tripPlanDto, Trip trip) {
-        return TripPlanMapper.fromDto(tripPlanDto, trip);
+    protected TripPlan fromDto(TripPlanDto tripPlanDto) {
+        return TripPlanMapper.fromDto(tripPlanDto);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class TripPlanServiceImpl implements TripPlanService{
     public TripPlan insertTripPlan(TripPlanDto tripPlanDto, String tripId) {
         Trip trip = tripService.getTripById(tripId)
                 .orElseThrow(() -> new ItemNotFound("Trip not found - id=" + tripId));
-        TripPlan tripPlan = fromDto(tripPlanDto, trip);
+        TripPlan tripPlan = fromDto(tripPlanDto);
 
         return this.tripPlanRepository.insert(tripPlan);
     }
@@ -52,13 +52,7 @@ public class TripPlanServiceImpl implements TripPlanService{
     }
 
     @Override
-    public TripPlan patchTripPlan(TripPlanDto updatedTripPlanDto) {
-        TripPlan originalTripPlan = tripPlanRepository.findById(updatedTripPlanDto.getId())
-                .orElseThrow(() -> new ItemNotFound("TripPlan not found - id=" + updatedTripPlanDto.getTripId()));
-        updatedTripPlanDto.checkPatchValidation(toDto(originalTripPlan));
-
-        TripPlan updatedTripPlan = fromDto(updatedTripPlanDto, originalTripPlan.getTrip());
-        return tripPlanRepository.save(updatedTripPlan);
+    public TripPlan patchTripPlan(TripPlan updatedTripPlan, String tripId) {
+      return tripPlanRepository.save(updatedTripPlan);
     }
-
 }
