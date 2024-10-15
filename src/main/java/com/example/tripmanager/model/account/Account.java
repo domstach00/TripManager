@@ -16,8 +16,13 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Document(collection = "accounts")
+@Document(collection = Account.COLLECTION_NAME)
 public class Account extends AbstractEntity implements UserDetails {
+    public static final String COLLECTION_NAME = "accounts";
+    public static final String FIELD_NAME_USERNAME = "username";
+    public static final String FILED_NAME_EMAIL = "email";
+    public static final String FIELD_NAME_PASSWORD = "password";
+    public static final String FIELD_NAME_ROLES = "roles";
 
     @NotBlank
     @Size(max = 20)

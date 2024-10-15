@@ -9,6 +9,8 @@ import java.io.Serializable;
 
 @MappedSuperclass
 public abstract class AbstractEntity implements Serializable {
+    public static final String FIELD_NAME_ID = "id";
+
     @Id
     @GeneratedValue
     private String id = null;

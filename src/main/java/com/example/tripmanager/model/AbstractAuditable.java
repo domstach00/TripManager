@@ -18,6 +18,12 @@ import java.time.temporal.ChronoUnit;
 @MappedSuperclass
 @EntityListeners(AuditingEntityCallback.class)
 public abstract class AbstractAuditable extends AbstractEntity {
+    public static final String FIELD_NAME_CREATED_TIME = "createdTime";
+    public static final String FIELD_NAME_CREATED_BY = "createdBy";
+    public static final String FIELD_NAME_LAST_MODIFIED_TIME = "lastModifiedTime";
+    public static final String FIELD_NAME_LAST_MODIFIED_BY = "lastModifiedBy";
+    public static final String FIELD_NAME_IS_DELETED = "isDeleted";
+
 
     @CreatedDate
     @NotNull

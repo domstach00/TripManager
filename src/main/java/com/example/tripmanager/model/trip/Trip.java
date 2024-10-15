@@ -12,14 +12,13 @@ import java.util.List;
 
 @Document(collection = Trip.COLLECTION_NAME)
 public class Trip extends AbstractAuditable {
-    public static final String COLLECTION_NAME = "trip";
+    public static final String COLLECTION_NAME = "trips";
     public static final String FIELD_NAME_NAME = "name";
     public static final String FIELD_NAME_DESCRIPTION = "description";
     public static final String FIELD_NAME_OWNER = "owner";
     public static final String FIELD_NAME_IS_PUBLIC = "isPublic";
     public static final String FIELD_NAME_IS_CLOSED = "isClosed";
     public static final String FIELD_NAME_IS_ARCHIVED = "isArchived";
-    public static final String FIELD_NAME_IS_DELETED = "isDeleted";
     public static final String FIELD_NAME_MEMBERS = "members";
 
     private String name;
