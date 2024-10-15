@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(TripPlanController.tripPlanControllerUrl)
-public class TripPlanController {
+public class TripPlanController extends AbstractController {
     protected final static String tripPlanControllerUrl = "/api/trip/{tripId}/plan";
 
     @Autowired
@@ -54,6 +54,7 @@ public class TripPlanController {
     @PatchMapping()
     public TripPlanDto patchTripPlan(@PathVariable String tripId,
                                      @RequestBody TripPlanDto tripPlanDto) {
+        throwErrorOnValidateIdsFromUrlAndBody(tripId, tripPlanDto.getTripId());
         TripPlan updatedTripPlan = createFromDto(tripPlanDto);
         return toDto(tripPlanService.patchTripPlan(updatedTripPlan, tripId));
     }
