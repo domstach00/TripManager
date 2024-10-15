@@ -91,8 +91,10 @@ public class TripRepositoryImpl extends AbstractRepositoryImpl<Trip> implements 
     }
 
     protected Criteria buildCriteriaAccountIsAdmin(Account account) {
-        return Criteria.where(Trip.FIELD_NAME_MEMBERS + "." + Member.FIELD_MEMBER_ROLE)
-                .is(Member.MemberRole.ADMINISTRATOR.name());
+        return Criteria.where(Trip.FIELD_NAME_MEMBERS)
+                .elemMatch(
+                        Criteria.where(Member.FIELD_ACCOUNT_ID).is(new ObjectId(account.getId()))
+                                .and(Member.FIELD_MEMBER_ROLE).is(Member.MemberRole.ADMINISTRATOR.name()));
     }
 
     protected Criteria buildCriteriaAccountIsOwner(Account account) {
