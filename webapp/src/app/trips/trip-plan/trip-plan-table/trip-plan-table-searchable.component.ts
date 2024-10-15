@@ -43,7 +43,7 @@ export class TripPlanTableSearchableComponent extends SearchableComponent<TripPl
 		const dialogRef = this.dialog.open(TripPlanTableAddNewDialogComponent, {
 			height: '400px',
 			width: '600px',
-			data: {},
+			data: {tripId: this.tripId},
 		});
 
 		dialogRef.afterClosed().subscribe((result) => {

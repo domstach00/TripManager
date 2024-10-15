@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { TripPlan } from "../../_model/trip-plan";
 import { TripPlanService } from "../../_services/trip-plan.service";
@@ -9,6 +9,8 @@ import { TripPlanService } from "../../_services/trip-plan.service";
 	styleUrls: ['./trip-plan-table-add-new-dialog.component.scss']
 })
 export class TripPlanTableAddNewDialogComponent {
+	@Input() tripId: string;
+
 	constructor(
 		readonly dialogRef: MatDialogRef<TripPlanTableAddNewDialogComponent>,
 		readonly tripPlanService: TripPlanService,
