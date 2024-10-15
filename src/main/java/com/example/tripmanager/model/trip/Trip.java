@@ -10,8 +10,9 @@ import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import java.util.ArrayList;
 import java.util.List;
 
-@Document
+@Document(collection = Trip.COLLECTION_NAME)
 public class Trip extends AbstractAuditable {
+    public static final String COLLECTION_NAME = "trip";
     public static final String FIELD_NAME_NAME = "name";
     public static final String FIELD_NAME_DESCRIPTION = "description";
     public static final String FIELD_NAME_OWNER = "owner";

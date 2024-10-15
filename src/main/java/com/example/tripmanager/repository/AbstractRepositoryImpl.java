@@ -117,6 +117,10 @@ public abstract class AbstractRepositoryImpl<T extends AbstractEntity> implement
         return operationList;
     }
 
+    protected AggregationOperation buildUnwindAggregationOperation(String propertyName) {
+        return Aggregation.unwind("$" + propertyName);
+    }
+
     @Override
     @NonNull
     public <S extends T> S insert(@NonNull S entity) {

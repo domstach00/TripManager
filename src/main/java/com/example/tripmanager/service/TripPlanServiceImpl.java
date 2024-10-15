@@ -20,10 +20,6 @@ public class TripPlanServiceImpl implements TripPlanService{
     @Autowired
     protected AccountService accountService;
 
-    protected TripPlanDto toDto(TripPlan tripPlan) {
-        return TripPlanMapper.toDto(tripPlan, accountService);
-    }
-
     protected TripPlan fromDto(TripPlanDto tripPlanDto) {
         return TripPlanMapper.fromDto(tripPlanDto);
     }
@@ -32,7 +28,7 @@ public class TripPlanServiceImpl implements TripPlanService{
     public Page<TripPlan> getAllTripPlansForTrip(Pageable pageable, String tripId) {
         Trip trip = tripService.getTripById(tripId)
                 .orElseThrow(() -> new ItemNotFound("Trip not found - id=" + tripId));
-        return this.tripPlanRepository.findAllByTrip(pageable, trip);
+        return this.tripPlanRepository.findAllByTripId(pageable, trip.getId());
     }
 
     @Override
@@ -41,12 +37,12 @@ public class TripPlanServiceImpl implements TripPlanService{
                 .orElseThrow(() -> new ItemNotFound("Trip not found - id=" + tripId));
         TripPlan tripPlan = fromDto(tripPlanDto);
 
-        return this.tripPlanRepository.insert(tripPlan);
+        return this.tripPlanRepository.save(tripPlan);
     }
 
     @Override
     public void deleteTripPlan(String tripPlanId) {
-        TripPlan tripPlanToDelete = this.tripPlanRepository.findById(tripPlanId)
+        TripPlan tripPlanToDelete = this.tripPlanRepository.findByIdWhereUserIsAdmin(tripPlanId, this.accountService.getCurrentAccount().getId())
                 .orElseThrow(() -> new ItemNotFound("TripPlan not found - id=" + tripPlanId));
         this.tripPlanRepository.delete(tripPlanToDelete);
     }

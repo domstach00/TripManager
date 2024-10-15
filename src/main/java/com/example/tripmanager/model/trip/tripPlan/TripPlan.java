@@ -9,8 +9,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 
-@Document(collection = "tripPlans")
+@Document(collection = TripPlan.COLLECTION_NAME)
 public class TripPlan extends AbstractAuditable {
+    public static final String COLLECTION_NAME = "tripPlans";
     public static final String FIELD_NAME_NAME = "name";
     public static final String FIELD_NAME_DAY = "day";
     public static final String FIELD_NAME_COST = "cost";
