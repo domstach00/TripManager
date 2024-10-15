@@ -9,6 +9,7 @@ public abstract class AbstractAuditableDto extends AbstractEntityDto {
     private AccountDto createdBy;
     private String lastModifiedTime;
     private AccountDto lastModifiedBy;
+    private Boolean isDeleted;
 
     public String getCreatedTime() {
         return createdTime;
@@ -40,5 +41,13 @@ public abstract class AbstractAuditableDto extends AbstractEntityDto {
 
     public void setLastModifiedBy(AccountDto lastModifiedBy) {
         this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
     }
 }

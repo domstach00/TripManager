@@ -11,10 +11,9 @@ public class TripDto extends AbstractAuditableDto {
     private String description;
     private AccountDto owner;
     private List<MemberDto> members;
-    private boolean isPublic;
-    private boolean isClosed;
-    private boolean isArchived;
-    private boolean isDeleted;
+    private Boolean isPublic;
+    private Boolean isClosed;
+    private Boolean isArchived;
 
     public TripDto() {
     }
@@ -43,14 +42,6 @@ public class TripDto extends AbstractAuditableDto {
         this.owner = owner;
     }
 
-//    public List<String> getMembersId() {
-//        return membersId;
-//    }
-
-//    public void setMembersId(List<String> membersId) {
-//        this.membersId = membersId;
-//    }
-
 
     public List<MemberDto> getMembers() {
         return members;
@@ -60,35 +51,27 @@ public class TripDto extends AbstractAuditableDto {
         this.members = members;
     }
 
-    public boolean isPublic() {
+    public Boolean isPublic() {
         return isPublic;
     }
 
-    public void setPublic(boolean aPublic) {
+    public void setPublic(Boolean aPublic) {
         isPublic = aPublic;
     }
 
-    public boolean isClosed() {
+    public Boolean isClosed() {
         return isClosed;
     }
 
-    public void setClosed(boolean closed) {
+    public void setClosed(Boolean closed) {
         isClosed = closed;
     }
 
-    public boolean isArchived() {
+    public Boolean isArchived() {
         return isArchived;
     }
 
-    public void setArchived(boolean archived) {
+    public void setArchived(Boolean archived) {
         isArchived = archived;
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
     }
 }

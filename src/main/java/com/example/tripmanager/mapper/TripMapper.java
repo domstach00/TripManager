@@ -22,7 +22,6 @@ public class TripMapper {
         tripDto.setPublic(trip.isPublic());
         tripDto.setClosed(trip.isClosed());
         tripDto.setArchived(trip.isArchived());
-        tripDto.setDeleted(trip.isDeleted());
         return tripDto;
     }
 
@@ -40,7 +39,6 @@ public class TripMapper {
         trip.setPublic(tripDto.isPublic());
         trip.setClosed(tripDto.isClosed());
         trip.setArchived(tripDto.isArchived());
-        trip.setDeleted(tripDto.isDeleted());
         return trip;
     }
 }

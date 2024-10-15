@@ -16,6 +16,7 @@ public class AuditableMapper {
         auditableDto.setId(auditable.getId());
         auditableDto.setCreatedTime(auditable.getCreatedTime());
         auditableDto.setLastModifiedTime(auditable.getLastModifiedTime());
+        auditableDto.setDeleted(auditable.isDeleted());
 
         if (accountService != null) {
             final Account createdBy = accountService.getAccountById(auditable.getCreatedBy()).orElseThrow(AccountNotFoundException::new);

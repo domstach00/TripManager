@@ -37,6 +37,8 @@ public abstract class AbstractAuditable extends AbstractEntity {
     @NotEmpty
     private String lastModifiedBy = null;
 
+    private boolean isDeleted = false;
+
     public AbstractAuditable() {
         super();
     }
@@ -47,6 +49,7 @@ public abstract class AbstractAuditable extends AbstractEntity {
         setCreatedBy(that.getCreatedBy());
         setLastModifiedTime(that.getLastModifiedTime());
         setLastModifiedBy(that.getLastModifiedBy());
+        setDeleted(that.isDeleted());
     }
 
 
@@ -86,5 +89,13 @@ public abstract class AbstractAuditable extends AbstractEntity {
 
     public void setLastModifiedBy(String lastModifiedBy) {
         this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 }

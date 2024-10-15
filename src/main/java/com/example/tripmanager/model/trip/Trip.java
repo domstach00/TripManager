@@ -32,7 +32,6 @@ public class Trip extends AbstractAuditable {
     private boolean isPublic;
     private boolean isClosed;
     private boolean isArchived;
-    private boolean isDeleted;
 
     public Trip() {
     }
@@ -86,14 +85,6 @@ public class Trip extends AbstractAuditable {
 
     public void setArchived(boolean archived) {
         isArchived = archived;
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
     }
 
     public boolean isPublic() {
