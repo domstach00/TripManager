@@ -46,6 +46,7 @@ public class TripPlanController extends AbstractController {
     @PostMapping()
     public TripPlanDto postTripPlan(@PathVariable String tripId,
                                     @RequestBody TripPlanDto tripPlanDto) {
+        throwErrorOnValidateIdsFromUrlAndBody(tripId, tripPlanDto.getTripId());
         return toDto(
                 this.tripPlanService.insertTripPlan(tripPlanDto, tripId)
         );
