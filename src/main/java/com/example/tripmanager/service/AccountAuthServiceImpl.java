@@ -1,58 +1,55 @@
 package com.example.tripmanager.service;
 
 import com.example.tripmanager.exception.AccountAlreadyExistsException;
-import com.example.tripmanager.exception.WrongCredentialsException;
+import com.example.tripmanager.exception.InvalidRequestException;
 import com.example.tripmanager.mapper.AccountMapper;
 import com.example.tripmanager.model.auth.LoginRequest;
 import com.example.tripmanager.model.auth.SignupRequest;
 import com.example.tripmanager.model.account.Account;
-import com.example.tripmanager.model.account.AccountDto;
 import com.example.tripmanager.model.account.Role;
 import com.example.tripmanager.repository.AccountRepository;
 import com.example.tripmanager.security.jwt.JwtService;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.SessionCookieConfig;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Service;
 
 import java.nio.CharBuffer;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
 public class AccountAuthServiceImpl implements AccountAuthService {
-    private final static String DEFAULT_SESSION_COOKIE_NAME = "auth-token";
-
     @Autowired
     private AccountRepository accountRepository;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     @Autowired
     private JwtService jwtService;
-
-    protected AccountDto toDto(Account account) {
-        return AccountMapper.toDto(account);
-    }
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @Override
-    public AccountDto login(LoginRequest loginRequest) {
-        Optional<Account> user = accountRepository.findByEmail(loginRequest.getEmail());
-
-        if ( user.isEmpty() || !passwordEncoder.matches(CharBuffer.wrap(loginRequest.getPassword()), user.get().getPassword())) {
-            throw new WrongCredentialsException("Wrong credentials");
+    public void login(LoginRequest loginRequest, HttpServletRequest request, HttpServletResponse response) {
+        if (loginRequest == null || request == null || response == null) {
+            throw new InvalidRequestException();
         }
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                loginRequest.getEmail(),
+                loginRequest.getPassword()
+        );
+        Authentication authentication = authenticationManager.authenticate(
+                usernamePasswordAuthenticationToken
+        );
 
-        AccountDto accountDto = toDto(user.get());
-        accountDto.setToken(jwtService.createToken(accountDto));
-        return accountDto;
+        String jwt = jwtService.generateToken(authentication);
+        int maxCookieAgeInSec = jwtService.getJwtExpirationMs() / 1000;
+        Cookie cookie = createJwtCookie(jwt, request.isSecure(), maxCookieAgeInSec);
+        response.addCookie(cookie);
     }
 
     @Override
@@ -68,43 +65,20 @@ public class AccountAuthServiceImpl implements AccountAuthService {
         return accountRepository.save(newAccount);
     }
 
-    public String logoutUser(HttpServletRequest request,
+    public void logoutUser(HttpServletRequest request,
                            HttpServletResponse response) {
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate();
-        }
+        Cookie jwtCookieToDelete = createJwtCookie("", request.isSecure(), 0);
+        response.addCookie(jwtCookieToDelete);
+    }
 
-        // Get the name of the session cookie
-        String sessionCookieName = DEFAULT_SESSION_COOKIE_NAME;
-        ServletContext context = request.getServletContext();
-        if (context != null) {
-            SessionCookieConfig config = context.getSessionCookieConfig();
-            if (config != null && config.getName() != null) {
-                sessionCookieName = config.getName();
-            }
-        }
-
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (sessionCookieName.equals(cookie.getName())) {
-                    Cookie removeCookie = new Cookie(cookie.getName(), "");
-                    removeCookie.setHttpOnly(true);
-                    removeCookie.setMaxAge(0);
-                    removeCookie.setPath("/");
-                    if (request.isSecure()) {
-                        removeCookie.setSecure(true);
-                    }
-                    response.addCookie(removeCookie);
-                }
-            }
-        }
-
-        SecurityContextLogoutHandler handler = new SecurityContextLogoutHandler();
-        handler.logout(request, response, null);
-
-        return "Logout successful";
+    private Cookie createJwtCookie(String token, boolean isRequestSecure, int maxCookieAgeInSec) {
+        String cookieName = this.jwtService.getJwtCookieName();
+        Cookie cookie = new Cookie(cookieName, token);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(maxCookieAgeInSec);
+        cookie.setSecure(isRequestSecure);
+        return cookie;
     }
 
     private void setUserPassword(Account account, String password) {

@@ -11,9 +11,9 @@ public class TripDto extends AbstractAuditableDto {
     private String description;
     private AccountDto owner;
     private List<MemberDto> members;
-    private Boolean isPublic;
-    private Boolean isClosed;
-    private Boolean isArchived;
+    private boolean isPublic;
+    private boolean isClosed;
+    private boolean isArchived;
 
     public TripDto() {
     }

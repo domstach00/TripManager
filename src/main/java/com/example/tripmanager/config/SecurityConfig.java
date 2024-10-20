@@ -2,6 +2,7 @@ package com.example.tripmanager.config;
 
 import com.example.tripmanager.controller.AuthController;
 import com.example.tripmanager.security.auth.AuthTokenFilter;
+import com.example.tripmanager.security.jwt.JwtService;
 import com.example.tripmanager.security.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -26,11 +27,13 @@ public class SecurityConfig {
     @Autowired
     private CustomUserDetailsService userDetailsService;
 
-    @Autowired
-    private AuthTokenFilter authTokenFilter;
+    @Bean
+    public AuthTokenFilter authTokenFilter(JwtService jwtService, UserDetailsService userDetailsService) {
+        return new AuthTokenFilter(jwtService, userDetailsService);
+    }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthTokenFilter authTokenFilter) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(authTokenFilter, BasicAuthenticationFilter.class)
                 .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

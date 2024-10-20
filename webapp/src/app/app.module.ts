@@ -10,7 +10,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { LoginFormComponent } from './login-form/login-form.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from "@angular/common/http";
+import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { ToastrModule } from "ngx-toastr";
 import { AuthService } from "./_services/auth.service";
 import { MatButtonModule } from "@angular/material/button";
@@ -38,9 +38,6 @@ import {
 } from './dialog/trip-plan-table-add-new-dialog/trip-plan-table-add-new-dialog.component';
 import { MatDialogModule } from "@angular/material/dialog";
 import { TripPlanService } from "./_services/trip-plan.service";
-import { JwtModule } from "@auth0/angular-jwt";
-import { tokenGetter } from "./_services/token-storage.service";
-import { CustomInterceptorsService } from "./_services/custom-interceptors.service";
 import { TripService } from "./_services/trip.service";
 import { TripTableAddNewDialogComponent } from './dialog/trip-table-add-new-dialog/trip-table-add-new-dialog.component';
 import { MatTooltipModule } from "@angular/material/tooltip";
@@ -110,11 +107,6 @@ function HttpLoaderFactory(http: HttpClient) {
 		BrowserModule,
 		FormsModule,
 		MatDialogModule,
-		JwtModule.forRoot({
-			config: {
-				tokenGetter: tokenGetter,
-			}
-		}),
 		MatTooltipModule,
 		MatSortModule,
 		TranslateModule.forRoot({
@@ -137,7 +129,6 @@ function HttpLoaderFactory(http: HttpClient) {
 				apiKey: 'YOUR_KEY',
 				libraries: ['places',],
 			})},
-		{provide: HTTP_INTERCEPTORS, useClass: CustomInterceptorsService, multi: true},
 	],
 	bootstrap: [AppComponent]
 })

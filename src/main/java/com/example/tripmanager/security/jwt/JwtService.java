@@ -2,13 +2,14 @@ package com.example.tripmanager.security.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
-import com.example.tripmanager.model.account.AccountDto;
-import com.example.tripmanager.model.account.Role;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -17,54 +18,58 @@ import java.util.*;
 public class JwtService {
 
     private final String jwtSecret;
-
     private final int jwtExpirationMs;
+    private final String jwtCookieName;
+    private final Algorithm algorithm;
 
     public JwtService(@Value("${sec.app.jwtSecret}") String jwtSecret,
-                      @Value("${sec.app.jwtExpirationMs}") int jwtExpirationMs) {
+                      @Value("${sec.app.jwtExpirationMs}") int jwtExpirationMs,
+                      @Value("${sec.app.jwtCookieName}") String jwtCookieName) {
         this.jwtSecret = jwtSecret;
         this.jwtExpirationMs = jwtExpirationMs;
+        this.jwtCookieName = jwtCookieName;
+        this.algorithm = Algorithm.HMAC512(this.jwtSecret);
     }
 
-    public String createToken(AccountDto accountDto) {
+    public String generateToken(Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
         Date now = new Date();
-        Date validity = new Date(now.getTime() + jwtExpirationMs);
+        Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
 
         return JWT.create()
-                .withIssuer(accountDto.getUsername())
+                .withSubject(userDetails.getUsername())
                 .withIssuedAt(now)
-                .withExpiresAt(validity)
-                .withClaim("id", accountDto.getId())
-                .withClaim("username", accountDto.getUsername())
-                .withClaim("email", accountDto.getEmail())
-                .withClaim("authorities", Role.roleToString(accountDto.getRoles()))
-                .sign(Algorithm.HMAC256(this.jwtSecret));
+                .withExpiresAt(expiryDate)
+                .sign(algorithm);
     }
 
-    public Authentication validateToken(String token) {
-        AccountDto user = getUserDtoFromJwt(token);
-        return new UsernamePasswordAuthenticationToken(user, null, Role.toGrantedAuthorities(user.getRoles()));
+    public String getUsernameFromJWT(String jwtToken) {
+        DecodedJWT decodedJWT = JWT.decode(jwtToken);
+        return decodedJWT.getSubject();
     }
 
-    public AccountDto getUserDtoFromJwt(String token) {
-        Algorithm algorithm = Algorithm.HMAC256(this.jwtSecret);
-
-        JWTVerifier verifier = JWT.require(algorithm).build();
-        DecodedJWT decoded = verifier.verify(token);
-
-        return getUserDtoFromJwt(decoded);
+    public boolean validateToken(String jwtToken) {
+        try {
+            JWTVerifier verifier = JWT.require(algorithm).build();
+            verifier.verify(jwtToken);
+            return true;
+        } catch (JWTVerificationException e) {
+            return false;
+        }
     }
 
-    public AccountDto getUserDtoFromJwt(DecodedJWT decoded) {
-        AccountDto accountDto = new AccountDto();
-        accountDto.setId(decoded.getClaim("id").asString());
-        accountDto.setEmail(decoded.getClaim("email").asString());
-        accountDto.setUsername(decoded.getIssuer());
-        accountDto.setRoles(
-                Set.copyOf(
-                        decoded.getClaim("authorities").asList(Role.class)
-                )
-        );
-        return accountDto;
+    public Authentication getAuthentication(String jwtToken, UserDetailsService userDetailsService) {
+          String username = getUsernameFromJWT(jwtToken);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+    }
+
+    public int getJwtExpirationMs() {
+        return jwtExpirationMs;
+    }
+
+    public String getJwtCookieName() {
+        return jwtCookieName;
     }
 }

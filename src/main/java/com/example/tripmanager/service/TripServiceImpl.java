@@ -25,13 +25,14 @@ public class TripServiceImpl implements TripService {
     @Autowired
     private AccountService accountService;
 
-    protected Trip createFromDto(TripDto tripDto) {
-        return TripMapper.createFromDto(tripDto, accountService.getCurrentAccount(), accountService);
+    protected Trip createFromDto(TripDto tripDto, Account currentAccount) {
+        return TripMapper.createFromDto(tripDto, currentAccount, accountService);
     }
 
     @Override
-    public Trip createTrip(TripDto tripDto) {
-        return this.tripRepository.insert(createFromDto(tripDto));
+    public Trip createTrip(TripDto tripDto, Account currentAccount) {
+        Trip tripToSave = createFromDto(tripDto, currentAccount);
+        return this.tripRepository.save(tripToSave);
     }
 
     @Override

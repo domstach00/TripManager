@@ -1,7 +1,6 @@
 package com.example.tripmanager.model.account;
 
 import com.example.tripmanager.model.AbstractEntity;
-import com.example.tripmanager.model.auth.SignupRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -72,7 +71,7 @@ public class Account extends AbstractEntity implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return getEmail();
     }
 
     public void setUsername(String username) {

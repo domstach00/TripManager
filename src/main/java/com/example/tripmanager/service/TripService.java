@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 public interface TripService {
-    Trip createTrip(TripDto tripDto);
+    Trip createTrip(TripDto tripDto, Account currentAccount);
     Optional<Trip> getTripById(String tripId);
     Page<Trip> getTripsForAccount(Pageable pageable, Account account);
     boolean isTripAdmin(Trip trip, Account account);

@@ -12,7 +12,6 @@ public class AccountDto extends AbstractEntityDto {
     private String email;
 
     private Set<Role> roles = new HashSet<>();
-    private String token;
 
 
     public AccountDto() {
@@ -40,13 +39,5 @@ public class AccountDto extends AbstractEntityDto {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 }

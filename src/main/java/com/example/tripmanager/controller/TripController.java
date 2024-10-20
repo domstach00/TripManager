@@ -37,7 +37,8 @@ public class TripController extends AbstractController {
     @ResponseStatus(HttpStatus.CREATED)
     public TripDto postTrip(Principal principal,
                             @RequestBody TripDto tripDto) {
-        return toDto(this.tripService.createTrip(tripDto));
+        Account currentAccount = getCurrentAccount(principal);
+        return toDto(this.tripService.createTrip(tripDto, currentAccount));
     }
 
     @GetMapping
@@ -45,38 +46,46 @@ public class TripController extends AbstractController {
             Principal principal,
             @ParameterObject PageParams pageParams
     ) {
-        return toDto(this.tripService.getTripsForAccount(pageParams.asPageable(), accountService.getCurrentAccount()));
+        Account currentAccount = getCurrentAccount(principal);
+        Page<Trip> trips = this.tripService.getTripsForAccount(pageParams.asPageable(), currentAccount);
+        return toDto(trips);
     }
 
     @DeleteMapping("/{tripId}")
     public void deleteTrip(
+            Principal principal,
             @PathVariable String tripId
     ) {
-        final Account currentAccount = this.accountService.getCurrentAccount();
+        Account currentAccount = getCurrentAccount(principal);
         this.tripService.deleteTrip(tripId, currentAccount);
     }
 
     @PatchMapping("/{tripId}/archive")
     public TripDto archiveTrip(
+            Principal principal,
             @PathVariable String tripId
     ) {
-       final Account currentAccount = this.accountService.getCurrentAccount();
-       return toDto(this.tripService.archiveTrip(tripId, currentAccount));
+        Account currentAccount = getCurrentAccount(principal);
+        Trip archivedTrip = this.tripService.archiveTrip(tripId, currentAccount);
+        return toDto(archivedTrip);
     }
 
     @PostMapping("/{tripId}/duplicate")
     public TripDto duplicateTrip(
+            Principal principal,
             @PathVariable String tripId
     ) {
-        final Account currentAccount = this.accountService.getCurrentAccount();
-        return toDto(this.tripService.duplicateTrip(tripId, currentAccount));
+        Account currentAccount = getCurrentAccount(principal);
+        Trip duplicatedTrip = this.tripService.duplicateTrip(tripId, currentAccount);
+        return toDto(duplicatedTrip);
     }
 
     @DeleteMapping("/{tripId}/leave")
     public void leaveTripAsMember(
+            Principal principal,
             @PathVariable String tripId
     ) {
-        final Account currentAccount = this.accountService.getCurrentAccount();
+        Account currentAccount = getCurrentAccount(principal);
         this.tripService.removeAccountFromTrip(tripId, currentAccount, currentAccount);
     }
 }

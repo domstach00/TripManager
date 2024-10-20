@@ -2,6 +2,7 @@ package com.example.tripmanager.service;
 
 import com.example.tripmanager.exception.ItemNotFound;
 import com.example.tripmanager.mapper.TripPlanMapper;
+import com.example.tripmanager.model.account.Account;
 import com.example.tripmanager.model.trip.Trip;
 import com.example.tripmanager.model.trip.tripPlan.TripPlan;
 import com.example.tripmanager.model.trip.tripPlan.TripPlanDto;
@@ -41,8 +42,8 @@ public class TripPlanServiceImpl implements TripPlanService{
     }
 
     @Override
-    public void deleteTripPlan(String tripPlanId) {
-        TripPlan tripPlanToDelete = this.tripPlanRepository.findByIdWhereUserIsAdmin(tripPlanId, this.accountService.getCurrentAccount().getId())
+    public void deleteTripPlan(String tripPlanId, Account currentAccount) {
+        TripPlan tripPlanToDelete = this.tripPlanRepository.findByIdWhereUserIsAdmin(tripPlanId, currentAccount.getId())
                 .orElseThrow(() -> new ItemNotFound("TripPlan not found - id=" + tripPlanId));
         this.tripPlanRepository.delete(tripPlanToDelete);
     }

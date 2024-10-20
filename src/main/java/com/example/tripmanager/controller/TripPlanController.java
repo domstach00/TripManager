@@ -2,6 +2,7 @@ package com.example.tripmanager.controller;
 
 import com.example.tripmanager.controller.support.PageParams;
 import com.example.tripmanager.mapper.TripPlanMapper;
+import com.example.tripmanager.model.account.Account;
 import com.example.tripmanager.model.trip.tripPlan.TripPlan;
 import com.example.tripmanager.model.trip.tripPlan.TripPlanDto;
 import com.example.tripmanager.service.AccountService;
@@ -10,6 +11,8 @@ import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
 @RequestMapping(TripPlanController.tripPlanControllerUrl)
@@ -61,8 +64,12 @@ public class TripPlanController extends AbstractController {
     }
 
     @DeleteMapping("/{tripPlanId}")
-    public void deleteTripPlan(@PathVariable String tripId, @PathVariable String tripPlanId) {
-        this.tripPlanService.deleteTripPlan(tripPlanId);
+    public void deleteTripPlan(
+            Principal principal,
+            @PathVariable String tripId,
+            @PathVariable String tripPlanId) {
+        Account currentAccount = getCurrentAccount(principal);
+        this.tripPlanService.deleteTripPlan(tripPlanId, currentAccount);
     }
 
 }

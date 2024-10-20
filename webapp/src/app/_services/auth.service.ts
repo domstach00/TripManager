@@ -2,29 +2,17 @@ import { ApiService } from "./api.service";
 import { LoginCredentials } from "../_model/login-credentials";
 import { Account } from "../_model/account";
 import { ApiPath } from "../_model/ApiPath";
-import { TokenStorageService } from "./token-storage.service";
 import { RegisterCredentials } from "../_model/register-credentials";
 import { ToastrService } from "ngx-toastr";
 import { Injectable } from "@angular/core";
-import { JwtHelperService } from "@auth0/angular-jwt";
 import { Observable, ReplaySubject, Subject, take, tap } from "rxjs";
 import { AccountService } from "./account.service";
 import { RouterService } from "./router.service";
-
-export const authJwtEnv = {
-	config: {
-		allowedDomains: ['localhost:4200', 'localhost:8080']
-	}
-}
 
 @Injectable({
 	providedIn: 'root',
 })
 export class AuthService {
-
-	helper = new JwtHelperService();
-	decodedToken: any;
-
 	private currentAccountExistsSubject: Subject<boolean> = new ReplaySubject<boolean>(1)
 	private currentAccountSubject: Subject<Account> = new ReplaySubject<Account>(1);
 	private _currentAccount$: Observable<Account> = this.currentAccountSubject.asObservable();
@@ -32,7 +20,6 @@ export class AuthService {
 
 	constructor(
 		readonly apiService: ApiService,
-		readonly tokenStorageService: TokenStorageService,
 		readonly toastrService: ToastrService,
 		readonly routerService: RouterService,
 		readonly accountService: AccountService,
@@ -67,11 +54,9 @@ export class AuthService {
 	}
 
 	public login(loginCredentials: LoginCredentials) {
-		return this.apiService.post<Account>(ApiPath.login, loginCredentials).subscribe(user => {
-			if (!!user) {
-				this.tokenStorageService.saveToken(user.token)
-				this.toastrService.success("Logged in")
-				this._currentAccount$ = this.initCurrentAccount$();
+		return this.apiService.post<string>(ApiPath.login, loginCredentials).subscribe(responseMessage => {
+			if (!!responseMessage) {
+				this.toastrService.success(responseMessage)
 				this.routerService.navToHome();
 			} else {
 				this.toastrService.error("Error")
