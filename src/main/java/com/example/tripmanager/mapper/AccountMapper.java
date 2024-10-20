@@ -22,7 +22,7 @@ public class AccountMapper {
     public static Account fromSignUp(SignupRequest signupRequest) {
         Account account = new Account();
         account.setEmail(signupRequest.getEmail());
-        account.setUsername(signupRequest.getUsername());
+        account.setName(signupRequest.getName());
         return account;
     }
 }

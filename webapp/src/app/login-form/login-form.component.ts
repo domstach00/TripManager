@@ -21,7 +21,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 	@Output() onSubmitLoginEvent = new EventEmitter();
 	@Output() onSubmitRegisterEvent = new EventEmitter();
 	active: OpenForm = OpenForm.Login;
-	username: string = "";
+	name: string = "";
 	email: string = "";
 	password: string = "";
 	passwordConfirm: string = "";
@@ -62,7 +62,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 			this.toastrService.error("Passwords are different")
 			return;
 		}
-		this.authService.register({email: this.email, username: this.username, password: this.password})
+		this.authService.register({email: this.email, name: this.name, password: this.password})
 	}
 
 	ngOnDestroy(): void {

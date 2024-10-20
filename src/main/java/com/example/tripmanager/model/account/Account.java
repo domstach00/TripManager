@@ -18,14 +18,14 @@ import java.util.stream.Collectors;
 @Document(collection = Account.COLLECTION_NAME)
 public class Account extends AbstractEntity implements UserDetails {
     public static final String COLLECTION_NAME = "accounts";
-    public static final String FIELD_NAME_USERNAME = "username";
+    public static final String FIELD_NAME_NAME = "name";
     public static final String FILED_NAME_EMAIL = "email";
     public static final String FIELD_NAME_PASSWORD = "password";
     public static final String FIELD_NAME_ROLES = "roles";
 
     @NotBlank
     @Size(max = 20)
-    private String username;
+    private String name;
 
     @NotBlank
     @Size(max = 50)
@@ -74,8 +74,12 @@ public class Account extends AbstractEntity implements UserDetails {
         return getEmail();
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
