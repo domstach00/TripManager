@@ -16,7 +16,7 @@ public abstract class AbstractAuditableDto extends AbstractEntityDto {
     }
 
     public void setCreatedTime(Instant createdTime) {
-        this.createdTime = createdTime.toString();
+        this.createdTime = createdTime == null ? null : createdTime.toString();
     }
 
     public AccountDto getCreatedBy() {
@@ -32,7 +32,7 @@ public abstract class AbstractAuditableDto extends AbstractEntityDto {
     }
 
     public void setLastModifiedTime(Instant lastModifiedTime) {
-        this.lastModifiedTime = lastModifiedTime.toString();
+        this.lastModifiedTime = lastModifiedTime == null ? null : lastModifiedTime.toString();
     }
 
     public AccountDto getLastModifiedBy() {
