@@ -10,14 +10,21 @@ export interface TripPlan {
 }
 
 export interface GoogleMapPin {
-	displayName?: string;
-	address?: string;
+	displayName?: string; // TODO delete
+	address?: string; // TODO delete
 	locationLat?: number;
 	locationLng?: number;
 	iconUrl?: string;
 	name?: string;
-	vicinity?: string;
+	vicinity?: string; // TODO delete
 	icon?: string;
+
+	streetNumber?: string;
+	streetName?: string;
+	subLocality?: string;
+	locality?: string;
+	countryCode?: string;
+	postalCode?: string;
 }
 
 export interface TripPlanElement {

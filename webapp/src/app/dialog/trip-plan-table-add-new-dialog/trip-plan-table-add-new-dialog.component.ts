@@ -23,7 +23,6 @@ export class TripPlanTableAddNewDialogComponent {
 	}
 
 	assignPlace(assignedPlace: google.maps.places.PlaceResult) {
-		console.log("assign: ", assignedPlace)
 		this.data.mapElement = this.tripPlanService.placeResultToGoogleMapPin(assignedPlace)
 	}
 

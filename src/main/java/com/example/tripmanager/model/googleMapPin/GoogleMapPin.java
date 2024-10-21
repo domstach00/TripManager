@@ -9,6 +9,12 @@ public class GoogleMapPin {
     private String icon;
     private String name;
     private String vicinity;
+    private String streetNumber;
+    private String streetName;
+    private String subLocality;
+    private String locality;
+    private String countryCode;
+    private String postalCode;
 
     public GoogleMapPin() {
     }
@@ -75,5 +81,53 @@ public class GoogleMapPin {
 
     public void setVicinity(String vicinity) {
         this.vicinity = vicinity;
+    }
+
+    public String getStreetNumber() {
+        return streetNumber;
+    }
+
+    public void setStreetNumber(String streetNumber) {
+        this.streetNumber = streetNumber;
+    }
+
+    public String getStreetName() {
+        return streetName;
+    }
+
+    public void setStreetName(String streetName) {
+        this.streetName = streetName;
+    }
+
+    public String getSubLocality() {
+        return subLocality;
+    }
+
+    public void setSubLocality(String subLocality) {
+        this.subLocality = subLocality;
+    }
+
+    public String getLocality() {
+        return locality;
+    }
+
+    public void setLocality(String locality) {
+        this.locality = locality;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 }

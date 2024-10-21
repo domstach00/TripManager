@@ -37,15 +37,44 @@ export class TripPlanService {
 	}
 
 	public placeResultToGoogleMapPin(assignedPlace: google.maps.places.PlaceResult): GoogleMapPin {
-		return {
+		const googleMapPin = {
 			locationLat: assignedPlace.geometry?.location?.lat(),
 			locationLng: assignedPlace.geometry?.location?.lng(),
 			name: assignedPlace.name,
 			vicinity: assignedPlace.vicinity,
 			displayName: assignedPlace.name + (assignedPlace.vicinity && assignedPlace.name != assignedPlace.vicinity ? ' ' + assignedPlace.vicinity : ''),
 			address: assignedPlace.vicinity,
-			iconUrl: assignedPlace.icon
+			iconUrl: assignedPlace.icon,
 		} as GoogleMapPin
+
+		if (!!assignedPlace.address_components) {
+			assignedPlace.address_components.forEach(component => {
+				const componentType: string = component.types[0];
+
+				switch (componentType) {
+					case 'street_number':
+						googleMapPin.streetNumber = component.long_name;
+						break;
+					case 'route':
+						googleMapPin.streetName = component.long_name;
+						break;
+					case 'sublocality_level_1':
+						googleMapPin.subLocality = component.long_name;
+						break;
+					case 'locality':
+						googleMapPin.locality = component.long_name;
+						break;
+					case 'country':
+						googleMapPin.countryCode = component.short_name;
+						break;
+					case 'postal_code':
+						googleMapPin.postalCode = component.long_name;
+						break;
+				}
+			});
+		}
+
+		return googleMapPin;
 	}
 
 	public markerPositionGenerator(lat?: number, lng?: number): google.maps.LatLng | null {
