@@ -27,10 +27,10 @@ public class TripPlanServiceImpl implements TripPlanService{
     }
 
     @Override
-    public Page<TripPlan> getAllTripPlansForTrip(Pageable pageable, String tripId) {
+    public Page<TripPlan> getAllTripPlansForTrip(Pageable pageable, String tripId, Account currentAccount) {
         Trip trip = tripService.getTripById(tripId)
                 .orElseThrow(() -> new ItemNotFound("Trip not found - id=" + tripId));
-        return this.tripPlanRepository.findAllByTripId(pageable, trip.getId());
+        return this.tripPlanRepository.findAllByTripId(pageable, trip.getId(), currentAccount.getId());
     }
 
     @Override

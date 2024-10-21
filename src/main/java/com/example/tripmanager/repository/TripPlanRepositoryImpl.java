@@ -23,11 +23,29 @@ public class TripPlanRepositoryImpl extends AbstractRepositoryImpl<TripPlan> imp
 
 
     @Override
-    public Page<TripPlan> findAllByTripId(Pageable pageable, String tripId) {
+    public Page<TripPlan> findAllByTripId(Pageable pageable, String tripId, String accountId) {
         List<AggregationOperation> operationList = new ArrayList<>();
         operationList.add(
                 Aggregation.match(
                         buildCriteriaIsPlanRelatedToTripId(tripId)
+                )
+        );
+
+        final String tripLookedUp = "_" + TripPlan.FIELD_NAME_TRIP_ID;
+        operationList.add(
+                Aggregation.lookup(Trip.COLLECTION_NAME, TripPlan.FIELD_NAME_TRIP_ID, FIELD_NAME_ID_WITH_UNDERSCORE, tripLookedUp)
+        );
+
+        operationList.add(
+                buildUnwindAggregationOperation(tripLookedUp)
+        );
+
+        operationList.add(
+                Aggregation.match(
+                        new Criteria().orOperator(
+                                Criteria.where(tripLookedUp + "." + Trip.FIELD_NAME_OWNER).is(accountId),
+                                Criteria.where(tripLookedUp + "." + Trip.FIELD_NAME_MEMBERS + "." + Member.FIELD_ACCOUNT_ID).is(accountId)
+                        )
                 )
         );
 
@@ -44,7 +62,6 @@ public class TripPlanRepositoryImpl extends AbstractRepositoryImpl<TripPlan> imp
         );
 
         final String tripLookedUp = "_" + TripPlan.FIELD_NAME_TRIP_ID;
-
         operationList.add(
                 Aggregation.lookup(Trip.COLLECTION_NAME, TripPlan.FIELD_NAME_TRIP_ID, FIELD_NAME_ID_WITH_UNDERSCORE, tripLookedUp)
         );

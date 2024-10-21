@@ -39,12 +39,13 @@ public class TripPlanController extends AbstractController {
 
     @GetMapping()
     public Page<TripPlanDto> getAllTripPlan(
+            Principal principal,
             @ParameterObject PageParams pageParams,
             @PathVariable("tripId") String tripId
     ) {
-        return toDto(
-                tripPlanService.getAllTripPlansForTrip(pageParams.asPageable(), tripId)
-        );
+        Account currentAccount = getCurrentAccount(principal);
+        Page<TripPlan> tripPlans = tripPlanService.getAllTripPlansForTrip(pageParams.asPageable(), tripId, currentAccount);
+        return toDto(tripPlans);
     }
 
     @GetMapping("/map")

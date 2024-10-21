@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface TripPlanService {
-    Page<TripPlan> getAllTripPlansForTrip(Pageable pageable, String tripId);
+    Page<TripPlan> getAllTripPlansForTrip(Pageable pageable, String tripId, Account currentAccount);
     TripPlan insertTripPlan(TripPlanDto tripPlan, String tripId);
     void deleteTripPlan(String tripPlanId, Account currentAccount);
     TripPlan patchTripPlan(TripPlan updatedTripPlan, String tripId);
