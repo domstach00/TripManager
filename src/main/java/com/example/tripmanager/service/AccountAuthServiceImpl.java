@@ -57,6 +57,7 @@ public class AccountAuthServiceImpl implements AccountAuthService {
         if (accountRepository.existsByEmail(signupRequest.getEmail())) {
             throw new AccountAlreadyExistsException("Account with email %s already exists".formatted(signupRequest.getEmail()));
         }
+        // TODO add email service
 
         Account newAccount = AccountMapper.fromSignUp(signupRequest);
         setUserPassword(newAccount, signupRequest.getPassword());

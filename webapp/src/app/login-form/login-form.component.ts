@@ -1,15 +1,12 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from "../_services/auth.service";
-import { ToastrService } from "ngx-toastr";
 import { Subscription } from "rxjs";
 import { AccountService } from "../_services/account.service";
 import { RouterService } from "../_services/router.service";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { TranslateService } from "@ngx-translate/core";
+import { Paths } from "../_model/paths";
 
-enum OpenForm {
-	None,
-	Login,
-	Register
-}
 
 @Component({
 	selector: 'app-login-form',
@@ -18,20 +15,14 @@ enum OpenForm {
 })
 export class LoginFormComponent implements OnInit, OnDestroy {
 	protected subscribe = new Subscription();
-	@Output() onSubmitLoginEvent = new EventEmitter();
-	@Output() onSubmitRegisterEvent = new EventEmitter();
-	active: OpenForm = OpenForm.Login;
-	name: string = "";
-	email: string = "";
-	password: string = "";
-	passwordConfirm: string = "";
-	OPEN_FORM = OpenForm;
+	loginForm: FormGroup;
 
 	constructor(
 		readonly accountService: AccountService,
 		readonly authService: AuthService,
 		readonly routerService: RouterService,
-		readonly toastrService: ToastrService
+		private fb: FormBuilder,
+		protected translate: TranslateService,
 	) {
 	}
 
@@ -43,30 +34,23 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 				}
 			})
 		);
+
+		this.loginForm = this.fb.group({
+			email: ['', [Validators.required, Validators.email]],
+			password: ['', [Validators.required]]
+		});
 	}
 
-	onLoginTab(): void {
-		this.active = OpenForm.Login;
-	}
 
-	onRegisterTab(): void {
-		this.active = OpenForm.Register;
-	}
-
-	onSubmitLogin(): void {
-		this.authService.login({email: this.email, password: this.password})
-	}
-
-	onSubmitRegister(): void {
-		if (this.password !== this.passwordConfirm) {
-			this.toastrService.error("Passwords are different")
-			return;
+	onSubmit(): void {
+		if (this.loginForm.valid) {
+			this.authService.login({email: this.loginForm.value['email'], password: this.loginForm.value['password']});
 		}
-		this.authService.register({email: this.email, name: this.name, password: this.password})
 	}
 
 	ngOnDestroy(): void {
 		this.subscribe.unsubscribe();
 	}
 
+	protected readonly Paths = Paths;
 }

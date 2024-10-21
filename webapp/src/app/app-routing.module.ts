@@ -5,11 +5,15 @@ import { LoginFormComponent } from "./login-form/login-form.component";
 import { AuthGuard } from "./guard/auth-guard";
 import { TripsComponent } from "./trips/trips.component";
 import { TripPlanComponent } from "./trips/trip-plan/trip-plan.component";
+import { RegisterComponent } from "./register/register.component";
+import { RegisterSuccessComponent } from "./register/register-success/register-success.component";
 
 
 const routes: Routes = [
 	{ path: '', redirectTo: '/login', pathMatch: 'full' },
 	{ path: 'login', component: LoginFormComponent },
+	{ path: 'register', component: RegisterComponent },
+	{ path: 'register-success', component: RegisterSuccessComponent },
 	{ path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
 	{ path: 'settings', component: HomeComponent, canActivate: [AuthGuard] },
 	{ path: 'trips', component: TripsComponent, canActivate: [AuthGuard] },

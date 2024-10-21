@@ -68,7 +68,7 @@ export class AuthService {
 		this.apiService.post<boolean, RegisterCredentials>(ApiPath.register, registerCredentials).subscribe(isSuccess => {
 			if (isSuccess) {
 				this.toastrService.success("Account has been created")
-				// TODO this.router.navigate(['/register-success'])
+				this.routerService.navToRegisterSuccess();
 			} else
 				this.toastrService.error("Error while creating account")
 		}, error => {

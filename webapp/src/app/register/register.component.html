@@ -1,0 +1,60 @@
+<div class="register-wrapper">
+	<div class="register-box">
+		<h1 class="title"> {{ 'register.title' | translate }}</h1>
+		<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+			<input type="text" placeholder="{{ 'register.name.placeholder' | translate }}" formControlName="name" required>
+			<div class="error" *ngIf="registerForm.get('name').hasError('required') && registerForm.get('name').dirty">
+				{{ 'register.name.error' | translate }}
+			</div>
+
+			<input type="email" placeholder="{{ 'register.email.placeholder' | translate }}" formControlName="email" required>
+			<div class="error" *ngIf="isEmailInvalid()">
+				{{ 'register.email.error' | translate }}
+			</div>
+
+			<input type="password" placeholder="{{ 'register.password.placeholder' | translate }}" formControlName="password" required>
+			<div class="error" *ngIf="isPasswordInvalid()">
+				<div [ngClass]="{'valid': isPasswordValidationMinValid()}">
+					<mat-icon>{{ isPasswordValidationMinValid() ? 'check' : 'close' }}</mat-icon>
+					{{ translate.instant('register.error.moreCharactersThenX', {min: MIN_PASSWORD_LENGTH}) }}
+				</div>
+
+				<div [ngClass]="{'valid': isPasswordValidationMaxValid()}">
+					<mat-icon>{{ isPasswordValidationMaxValid() ? 'check' : 'close' }}</mat-icon>
+					{{ translate.instant('register.error.lessCharactersThenX', {max: MAX_PASSWORD_LENGTH}) }}
+				</div>
+
+				<div [ngClass]="{'valid': isPasswordValidationUpperCaseCountValid()}">
+					<mat-icon>{{ isPasswordValidationUpperCaseCountValid() ? 'check' : 'close' }}</mat-icon>
+					{{ 'register.error.upperCase' | translate }}
+				</div>
+
+				<div [ngClass]="{'valid': isPasswordValidationLowerCaseCountValid()}">
+					<mat-icon>{{ isPasswordValidationLowerCaseCountValid() ? 'check' : 'close' }}</mat-icon>
+					{{ 'register.error.lowerCase' | translate }}
+				</div>
+
+				<div [ngClass]="{'valid': isPasswordValidationNumberCountValid()}">
+					<mat-icon>{{ isPasswordValidationNumberCountValid() ? 'check' : 'close' }}</mat-icon>
+					{{ 'register.error.numberChar' | translate }}
+				</div>
+
+				<div [ngClass]="{'valid': isPasswordValidationSpecialCharCountValid()}">
+					<mat-icon>{{ isPasswordValidationSpecialCharCountValid() ? 'check' : 'close' }}</mat-icon>
+					{{ 'register.error.specialChar' | translate }}
+				</div>
+
+			</div>
+
+			<input type="password" placeholder="{{ 'register.passwordConfirmation.placeholder' | translate }}" formControlName="passwordConfirmation" required>
+			<div class="error" *ngIf="isPasswordConfirmationInvalid()">
+				{{ 'register.passwordConfirmation.error' | translate }}
+			</div>
+
+			<button type="submit" [disabled]="registerForm.invalid">{{ 'register.submit' | translate }}</button>
+		</form>
+		<div class="login-link">
+			<p>{{ 'register.alreadyHaveAccount' | translate }} <a routerLink="{{Paths.login}}">{{ 'register.goToLogin' |translate }}</a></p>
+		</div>
+	</div>
+</div>

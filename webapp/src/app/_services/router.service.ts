@@ -37,4 +37,12 @@ export class RouterService {
 	public navToLogin() {
 		this.navTo(Paths.login);
 	}
+
+	public navToRegisterRegister() {
+		this.navTo(Paths.register);
+	}
+
+	public navToRegisterSuccess() {
+		this.navTo(Paths.registerSuccess);
+	}
 }
