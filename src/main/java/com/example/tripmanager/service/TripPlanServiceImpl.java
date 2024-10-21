@@ -3,6 +3,7 @@ package com.example.tripmanager.service;
 import com.example.tripmanager.exception.ItemNotFound;
 import com.example.tripmanager.mapper.TripPlanMapper;
 import com.example.tripmanager.model.account.Account;
+import com.example.tripmanager.model.googleMapPin.GoogleMapPin;
 import com.example.tripmanager.model.trip.Trip;
 import com.example.tripmanager.model.trip.tripPlan.TripPlan;
 import com.example.tripmanager.model.trip.tripPlan.TripPlanDto;
@@ -51,5 +52,10 @@ public class TripPlanServiceImpl implements TripPlanService{
     @Override
     public TripPlan patchTripPlan(TripPlan updatedTripPlan, String tripId) {
       return tripPlanRepository.save(updatedTripPlan);
+    }
+
+    @Override
+    public Page<GoogleMapPin> getAllGoogleMapPinsForTrip(Pageable pageable, String tripId, Account currentAccount) {
+        return tripPlanRepository.findAllGoogleMapPinsForTripId(pageable, tripId, currentAccount.getId());
     }
 }

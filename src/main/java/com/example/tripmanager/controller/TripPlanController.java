@@ -3,6 +3,7 @@ package com.example.tripmanager.controller;
 import com.example.tripmanager.controller.support.PageParams;
 import com.example.tripmanager.mapper.TripPlanMapper;
 import com.example.tripmanager.model.account.Account;
+import com.example.tripmanager.model.googleMapPin.GoogleMapPin;
 import com.example.tripmanager.model.trip.tripPlan.TripPlan;
 import com.example.tripmanager.model.trip.tripPlan.TripPlanDto;
 import com.example.tripmanager.service.AccountService;
@@ -44,6 +45,16 @@ public class TripPlanController extends AbstractController {
         return toDto(
                 tripPlanService.getAllTripPlansForTrip(pageParams.asPageable(), tripId)
         );
+    }
+
+    @GetMapping("/map")
+    public Page<GoogleMapPin> getAllGoogleMapPinsForTrip(
+            Principal principal,
+            @ParameterObject PageParams pageParams,
+            @PathVariable("tripId") String tripId
+    ) {
+        Account currentAccount = getCurrentAccount(principal);
+        return tripPlanService.getAllGoogleMapPinsForTrip(pageParams.asPageable(), tripId, currentAccount);
     }
 
     @PostMapping()

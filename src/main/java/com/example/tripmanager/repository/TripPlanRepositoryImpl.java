@@ -1,6 +1,7 @@
 package com.example.tripmanager.repository;
 
 import com.example.tripmanager.model.common.Member;
+import com.example.tripmanager.model.googleMapPin.GoogleMapPin;
 import com.example.tripmanager.model.trip.Trip;
 import com.example.tripmanager.model.trip.tripPlan.TripPlan;
 import org.bson.types.ObjectId;
@@ -63,6 +64,40 @@ public class TripPlanRepositoryImpl extends AbstractRepositoryImpl<TripPlan> imp
         );
 
         return findOneBy(operationList);
+    }
+
+    @Override
+    public Page<GoogleMapPin> findAllGoogleMapPinsForTripId(Pageable pageable, String tripId, String accountId) {
+        List<AggregationOperation> operationList = new ArrayList<>();
+
+        operationList.add(
+                Aggregation.match(buildCriteriaIsPlanRelatedToTripId(tripId))
+        );
+
+        final String tripLookedUp = "_" + TripPlan.FIELD_NAME_TRIP_ID;
+        operationList.add(
+                Aggregation.lookup(Trip.COLLECTION_NAME, TripPlan.FIELD_NAME_TRIP_ID, FIELD_NAME_ID_WITH_UNDERSCORE, tripLookedUp)
+        );
+
+        operationList.add(
+                buildUnwindAggregationOperation(tripLookedUp)
+        );
+
+        operationList.add(
+                Aggregation.match(
+                        new Criteria().orOperator(
+                                Criteria.where(tripLookedUp + "." + Trip.FIELD_NAME_OWNER).is(accountId),
+                                Criteria.where(tripLookedUp + "." + Trip.FIELD_NAME_MEMBERS + "." + Member.FIELD_ACCOUNT_ID).is(accountId)
+                        )
+                )
+        );
+
+        operationList.add(
+                Aggregation.project(TripPlan.FIELD_NAME_MAP_ELEMENT)
+                        .andExclude(FIELD_NAME_ID_WITH_UNDERSCORE)
+        );
+
+        return findAllBy(pageable, operationList, TripPlan.class, GoogleMapPin.class);
     }
 
     protected Criteria buildCriteriaIsPlanRelatedToTripId(String tripId) {
