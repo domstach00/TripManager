@@ -43,8 +43,8 @@ public class TripPlanRepositoryImpl extends AbstractRepositoryImpl<TripPlan> imp
         operationList.add(
                 Aggregation.match(
                         new Criteria().orOperator(
-                                Criteria.where(tripLookedUp + "." + Trip.FIELD_NAME_OWNER).is(accountId),
-                                Criteria.where(tripLookedUp + "." + Trip.FIELD_NAME_MEMBERS + "." + Member.FIELD_ACCOUNT_ID).is(accountId)
+                                Criteria.where(tripLookedUp + "." + Trip.FIELD_NAME_OWNER).is(new ObjectId(accountId)),
+                                Criteria.where(tripLookedUp + "." + Trip.FIELD_NAME_MEMBERS + "." + Member.FIELD_ACCOUNT_ID).is(new ObjectId(accountId))
                         )
                 )
         );
@@ -103,8 +103,8 @@ public class TripPlanRepositoryImpl extends AbstractRepositoryImpl<TripPlan> imp
         operationList.add(
                 Aggregation.match(
                         new Criteria().orOperator(
-                                Criteria.where(tripLookedUp + "." + Trip.FIELD_NAME_OWNER).is(accountId),
-                                Criteria.where(tripLookedUp + "." + Trip.FIELD_NAME_MEMBERS + "." + Member.FIELD_ACCOUNT_ID).is(accountId)
+                                Criteria.where(tripLookedUp + "." + Trip.FIELD_NAME_OWNER).is(new ObjectId(accountId)),
+                                Criteria.where(tripLookedUp + "." + Trip.FIELD_NAME_MEMBERS + "." + Member.FIELD_ACCOUNT_ID).is(new ObjectId(accountId))
                         )
                 )
         );
