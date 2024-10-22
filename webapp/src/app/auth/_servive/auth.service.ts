@@ -1,7 +1,7 @@
 import { ApiService } from "../../shared/_service/api.service";
 import { LoginCredentials } from "../_model/login-credentials";
 import { Account } from "../../_model/account";
-import { ApiPath } from "../../_model/ApiPath";
+import { ApiPath } from "../../shared/_model/ApiPath";
 import { RegisterCredentials } from "../_model/register-credentials";
 import { ToastrService } from "ngx-toastr";
 import { Injectable } from "@angular/core";
