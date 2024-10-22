@@ -8,6 +8,7 @@ import { TripPlanTableSearchableComponent } from "./trip-plan/trip-plan-table/tr
 import { TripPlanComponent } from "./trip-plan/trip-plan.component";
 import { TripsTableComponent } from "./trips-table.component";
 import { TripsComponent } from "./trips.component";
+import { TripService } from "./_service/trip.service";
 
 @NgModule({
 	declarations: [
@@ -30,6 +31,7 @@ import { TripsComponent } from "./trips.component";
 				libraries: ['places',],
 			})
 		},
+		TripService,
 	],
 	exports: [
 		TripPlanMapComponent,

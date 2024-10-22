@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Trip } from "../_model/trip";
 import { Observable } from "rxjs";
-import { TripService } from "../_services/trip.service";
+import { TripService } from "./_service/trip.service";
 import {
 	TripTableAddNewDialogComponent
 } from "../dialog/trip-table-add-new-dialog/trip-table-add-new-dialog.component";
@@ -11,7 +11,6 @@ import { Page } from "../shared/_model/base-models.interface";
 import { ApiParams } from "../shared/directives/search/searchable.util";
 import { AccountService } from "../_services/account.service";
 import { ActivatedRoute } from "@angular/router";
-
 
 @Component({
 	selector: 'app-trips',

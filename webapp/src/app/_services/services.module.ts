@@ -1,7 +1,6 @@
 import { NgModule } from "@angular/core";
 import { AccountService } from "./account.service";
 import { GoogleMapPinService } from "./google-map-pin.service";
-import { TripService } from "./trip.service";
 import { TripPlanService } from "./trip-plan.service";
 
 @NgModule({
@@ -10,7 +9,6 @@ import { TripPlanService } from "./trip-plan.service";
 	],
 	providers: [
 		TripPlanService,
-		TripService,
 		GoogleMapPinService,
 		AccountService,
 	],

@@ -5,7 +5,7 @@ import { TranslateService } from "@ngx-translate/core";
 import { RouterService } from "../shared/_service/router.service";
 import { DateUtilService } from "../shared/_service/date-util.service";
 import { Account } from "../_model/account";
-import { TripService } from "../_services/trip.service";
+import { TripService } from "./_service/trip.service";
 
 @Component({
   selector: 'app-trips-table',
