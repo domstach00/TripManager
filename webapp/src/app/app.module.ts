@@ -13,14 +13,9 @@ import { RouterOutlet } from "@angular/router";
 import { HomeComponent } from "./home/home.component";
 import { AppRoutingModule } from "./app-routing.module";
 import { UserDetailsComponent } from './user-details/user-details.component';
-import { TripsComponent } from './trips/trips.component';
 import { MatTableModule } from "@angular/material/table";
-import { TripPlanComponent } from './trips/trip-plan/trip-plan.component';
-import { TripPlanTableComponent } from './trips/trip-plan/trip-plan-table/trip-plan-table.component';
-import { TripPlanMapComponent } from './trips/trip-plan/trip-plan-map/trip-plan-map.component';
 import { MatInputModule } from "@angular/material/input";
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
-import { GoogleMapsModule } from "@angular/google-maps";
 import { NgxGpAutocompleteModule } from "@angular-magic/ngx-gp-autocomplete";
 import {
 	TripPlanTableAddNewDialogComponent
@@ -30,13 +25,11 @@ import { TripTableAddNewDialogComponent } from './dialog/trip-table-add-new-dial
 import { MatSortModule } from "@angular/material/sort";
 import { ConfirmActionDialogComponent } from './dialog/delete-confirmation-dialog/confirm-action-dialog.component';
 import { SelectIconDialogComponent } from './dialog/select-icon-dialog/select-icon-dialog.component';
-import { Loader } from "@googlemaps/js-api-loader";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
-import { TripsTableComponent } from "./trips/trips-table.component";
-import { TripPlanTableSearchableComponent } from "./trips/trip-plan/trip-plan-table/trip-plan-table-searchable.component";
 import { SharedModule } from "./shared/shared.module";
 import { ServicesModule } from "./_services/services.module";
 import { AuthModule } from "./auth/auth.module";
+import { TripsModule } from "./trips/trips.module";
 
 function HttpLoaderFactory(http: HttpClient) {
 	return new TranslateHttpLoader(http);
@@ -47,16 +40,10 @@ function HttpLoaderFactory(http: HttpClient) {
 		AppComponent,
 		HomeComponent,
 		UserDetailsComponent,
-		TripsComponent,
-		TripsTableComponent,
-		TripPlanComponent,
-		TripPlanTableComponent,
-		TripPlanMapComponent,
 		TripPlanTableAddNewDialogComponent,
 		TripTableAddNewDialogComponent,
 		ConfirmActionDialogComponent,
 		SelectIconDialogComponent,
-		TripPlanTableSearchableComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -75,7 +62,6 @@ function HttpLoaderFactory(http: HttpClient) {
 		MatTableModule,
 		MatInputModule,
 		MatButtonToggleModule,
-		GoogleMapsModule,
 		NgxGpAutocompleteModule,
 		BrowserModule,
 		FormsModule,
@@ -84,14 +70,9 @@ function HttpLoaderFactory(http: HttpClient) {
 		ServicesModule,
 		SharedModule,
 		AuthModule,
+		TripsModule,
 	],
 	providers: [
-		{
-			provide: Loader,
-			useValue: new Loader({
-				apiKey: 'YOUR_KEY',
-				libraries: ['places',],
-			})},
 	],
 	bootstrap: [AppComponent]
 })

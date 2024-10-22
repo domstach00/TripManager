@@ -20,8 +20,9 @@ import { MatListItem, MatNavList } from "@angular/material/list";
 import { ApiService } from "./_service/api.service";
 import { DateUtilService } from "./_service/date-util.service";
 import { ReactiveFormsModule } from "@angular/forms";
-import { RouterModule } from "@angular/router";
+import { RouterModule, RouterOutlet } from "@angular/router";
 import { RouterService } from "./_service/router.service";
+import { MatTableModule } from "@angular/material/table";
 
 function HttpLoaderFactory(http: HttpClient) {
 	return new TranslateHttpLoader(http);
@@ -57,6 +58,8 @@ function HttpLoaderFactory(http: HttpClient) {
 		MatListItem,
 		ReactiveFormsModule,
 		RouterModule,
+		RouterOutlet,
+		MatTableModule,
 	],
 	providers: [
 		ApiService,
@@ -82,6 +85,8 @@ function HttpLoaderFactory(http: HttpClient) {
 		MatListItem,
 		ReactiveFormsModule,
 		RouterModule,
+		RouterOutlet,
+		MatTableModule,
 	],
 })
 export class SharedModule {
