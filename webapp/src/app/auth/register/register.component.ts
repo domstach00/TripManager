@@ -4,7 +4,7 @@ import { AuthService } from "../_servive/auth.service";
 import { Paths } from "../../_model/paths";
 import { TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
-import { RouterService } from "../../_services/router.service";
+import { RouterService } from "../_servive/router.service";
 import { RegisterCredentials } from "../_model/register-credentials";
 
 @Component({

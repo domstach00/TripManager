@@ -4,6 +4,7 @@ import { SharedModule } from "../shared/shared.module";
 import { RegisterComponent } from "./register/register.component";
 import { RegisterSuccessComponent } from "./register/register-success/register-success.component";
 import { AuthService } from "./_servive/auth.service";
+import { RouterService } from "./_servive/router.service";
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { AuthService } from "./_servive/auth.service";
 	],
 	providers: [
 		AuthService,
+		RouterService,
 	],
 	exports: [
 		LoginFormComponent,

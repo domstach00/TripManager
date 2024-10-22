@@ -7,7 +7,7 @@ import { ToastrService } from "ngx-toastr";
 import { Injectable } from "@angular/core";
 import { Observable, ReplaySubject, Subject, take, tap } from "rxjs";
 import { AccountService } from "../../_services/account.service";
-import { RouterService } from "../../_services/router.service";
+import { RouterService } from "./router.service";
 
 @Injectable({
 	providedIn: 'root',
