@@ -1,8 +1,10 @@
 import { NgModule } from "@angular/core";
 import { LoginFormComponent } from "./login-form/login-form.component";
 import { SharedModule } from "../shared/shared.module";
-import { RegisterComponent } from "./login-form/register/register.component";
-import { RegisterSuccessComponent } from "./login-form/register/register-success/register-success.component";
+import { RegisterComponent } from "./register/register.component";
+import { RegisterSuccessComponent } from "./register/register-success/register-success.component";
+import { AuthService } from "./_servive/auth.service";
+
 
 @NgModule({
 	declarations: [
@@ -14,7 +16,7 @@ import { RegisterSuccessComponent } from "./login-form/register/register-success
 		SharedModule,
 	],
 	providers: [
-
+		AuthService,
 	],
 	exports: [
 		LoginFormComponent,

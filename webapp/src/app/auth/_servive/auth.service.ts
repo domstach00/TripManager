@@ -1,13 +1,13 @@
-import { ApiService } from "./api.service";
+import { ApiService } from "../../_services/api.service";
 import { LoginCredentials } from "../_model/login-credentials";
-import { Account } from "../_model/account";
-import { ApiPath } from "../_model/ApiPath";
+import { Account } from "../../_model/account";
+import { ApiPath } from "../../_model/ApiPath";
 import { RegisterCredentials } from "../_model/register-credentials";
 import { ToastrService } from "ngx-toastr";
 import { Injectable } from "@angular/core";
 import { Observable, ReplaySubject, Subject, take, tap } from "rxjs";
-import { AccountService } from "./account.service";
-import { RouterService } from "./router.service";
+import { AccountService } from "../../_services/account.service";
+import { RouterService } from "../../_services/router.service";
 
 @Injectable({
 	providedIn: 'root',

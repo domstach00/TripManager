@@ -5,8 +5,8 @@ import { LoginFormComponent } from "./auth/login-form/login-form.component";
 import { AuthGuard } from "./guard/auth-guard";
 import { TripsComponent } from "./trips/trips.component";
 import { TripPlanComponent } from "./trips/trip-plan/trip-plan.component";
-import { RegisterComponent } from "./auth/login-form/register/register.component";
-import { RegisterSuccessComponent } from "./auth/login-form/register/register-success/register-success.component";
+import { RegisterComponent } from "./auth/register/register.component";
+import { RegisterSuccessComponent } from "./auth/register/register-success/register-success.component";
 
 
 const routes: Routes = [
