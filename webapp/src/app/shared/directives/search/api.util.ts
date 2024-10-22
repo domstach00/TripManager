@@ -1,4 +1,4 @@
-import { ApiParams } from "../../shared/directives/search/searchable.util";
+import { ApiParams } from "./searchable.util";
 
 export const buildQueryParams = (
 	searchTerm: string = null,
