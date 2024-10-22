@@ -30,6 +30,7 @@ export class RegisterComponent implements OnInit {
 	protected readonly PASSWORD_SPECIAL_CHARACTERS: RegExp = new RegExp(/[!@#$%^&*]/);
 
 	registerForm: FormGroup;
+	isSubmitting: boolean = false;
 
 	constructor(
 		private fb: FormBuilder,
@@ -92,6 +93,7 @@ export class RegisterComponent implements OnInit {
 	onSubmit(): void {
 		if (this.registerForm.valid) {
 			this.registerForm.disable();
+			this.isSubmitting = true;
 			const registerCredentials: RegisterCredentials = {
 				email: this.registerForm.value['email'],
 				name: this.registerForm.value['name'],
@@ -99,6 +101,7 @@ export class RegisterComponent implements OnInit {
 			}
 
 			this.authService.register(registerCredentials).subscribe(isSuccess => {
+				this.isSubmitting = false;
 				if (isSuccess) {
 					this.toastrService.success("Account has been created")
 					this.routerService.navToRegisterSuccess();
@@ -107,6 +110,7 @@ export class RegisterComponent implements OnInit {
 					this.registerForm.enable();
 				}
 			}, error => {
+				this.isSubmitting = false;
 				this.toastrService.error(error)
 				this.registerForm.enable();
 			});

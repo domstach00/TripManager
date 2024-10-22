@@ -1,6 +1,7 @@
 <div class="register-wrapper">
 	<div class="register-box">
 		<h1 class="title"> {{ 'register.title' | translate }}</h1>
+		<div *ngIf="isSubmitting"><app-loading/></div>
 		<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 			<input type="text" placeholder="{{ 'register.name.placeholder' | translate }}" formControlName="name" required>
 			<div class="error" *ngIf="registerForm.get('name').hasError('required') && registerForm.get('name').dirty">
