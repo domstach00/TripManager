@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AuthService } from "../_services/auth.service";
 import { Paths } from "../_model/paths";
 import { TranslateService } from "@ngx-translate/core";
+import { ToastrService } from "ngx-toastr";
+import { RouterService } from "../_services/router.service";
+import { RegisterCredentials } from "../_model/register-credentials";
 
 @Component({
   selector: 'app-register',
@@ -32,6 +35,8 @@ export class RegisterComponent implements OnInit {
 		private fb: FormBuilder,
 		private authService: AuthService,
 		protected translate: TranslateService,
+		readonly routerService: RouterService,
+		readonly toastrService: ToastrService,
 	) {}
 
 	ngOnInit(): void {
@@ -86,11 +91,27 @@ export class RegisterComponent implements OnInit {
 
 	onSubmit(): void {
 		if (this.registerForm.valid) {
-			this.authService.register({
+			this.registerForm.disable();
+			const registerCredentials: RegisterCredentials = {
 				email: this.registerForm.value['email'],
 				name: this.registerForm.value['name'],
 				password: this.registerForm.value['password']
+			}
+
+			this.authService.register(registerCredentials).subscribe(isSuccess => {
+				if (isSuccess) {
+					this.toastrService.success("Account has been created")
+					this.routerService.navToRegisterSuccess();
+				} else {
+					this.toastrService.error("Error while creating account")
+					this.registerForm.enable();
+				}
+			}, error => {
+				this.toastrService.error(error)
+				this.registerForm.enable();
 			});
+
+
 		}
 	}
 

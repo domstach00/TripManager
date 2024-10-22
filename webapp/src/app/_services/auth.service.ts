@@ -58,15 +58,7 @@ export class AuthService {
 	}
 
 	public register(registerCredentials: RegisterCredentials) {
-		this.apiService.post<boolean, RegisterCredentials>(ApiPath.register, registerCredentials).subscribe(isSuccess => {
-			if (isSuccess) {
-				this.toastrService.success("Account has been created")
-				this.routerService.navToRegisterSuccess();
-			} else
-				this.toastrService.error("Error while creating account")
-		}, error => {
-			this.toastrService.error(error)
-		})
+		return this.apiService.post<boolean, RegisterCredentials>(ApiPath.register, registerCredentials);
 	}
 
 	get isLoggedIn$(): Observable<boolean> {
