@@ -2,8 +2,8 @@ import { Directive, OnDestroy, OnInit } from "@angular/core";
 import { Page } from "../../_model/base-models.interface";
 import { ApiParams, Searchable } from "./searchable.util";
 import { first, Observable, Subscription, tap } from "rxjs";
-import { Account } from "../../../_model/account";
-import { AccountService } from "../../../_services/account.service";
+import { Account } from "../../../account/_model/account";
+import { AccountService } from "../../../account/_serice/account.service";
 import { ActivatedRoute } from "@angular/router";
 
 @Directive()

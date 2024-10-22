@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from '@angular/router';
 import { catchError, map, Observable, of, take } from 'rxjs';
-import { Account } from "../_model/account";
-import { AccountService } from "../_services/account.service";
+import { Account } from "../account/_model/account";
+import { AccountService } from "../account/_serice/account.service";
 import { RouterService } from "../shared/_service/router.service";
 
 @Injectable({

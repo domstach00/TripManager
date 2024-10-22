@@ -8,7 +8,7 @@ import {
 	OnInit,
 	SimpleChanges, ViewChild
 } from "@angular/core";
-import { Account } from "../../../_model/account";
+import { Account } from "../../../account/_model/account";
 import { MatSort, SortDirection } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Subscription } from "rxjs";

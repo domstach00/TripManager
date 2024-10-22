@@ -27,9 +27,9 @@ import { ConfirmActionDialogComponent } from './dialog/delete-confirmation-dialo
 import { SelectIconDialogComponent } from './dialog/select-icon-dialog/select-icon-dialog.component';
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { SharedModule } from "./shared/shared.module";
-import { ServicesModule } from "./_services/services.module";
 import { AuthModule } from "./auth/auth.module";
 import { TripsModule } from "./trips/trips.module";
+import { AccountModule } from "./account/account.module";
 
 function HttpLoaderFactory(http: HttpClient) {
 	return new TranslateHttpLoader(http);
@@ -67,10 +67,10 @@ function HttpLoaderFactory(http: HttpClient) {
 		FormsModule,
 		MatDialogModule,
 		MatSortModule,
-		ServicesModule,
 		SharedModule,
 		AuthModule,
 		TripsModule,
+		AccountModule,
 	],
 	providers: [
 	],

@@ -4,7 +4,7 @@ import { TripPlan } from "../../_model/trip-plan";
 import { Page } from "../../../shared/_model/base-models.interface";
 import { ApiParams } from "../../../shared/directives/search/searchable.util";
 import { Observable } from "rxjs";
-import { AccountService } from "../../../_services/account.service";
+import { AccountService } from "../../../account/_serice/account.service";
 import { ActivatedRoute } from "@angular/router";
 import { TripPlanService } from "../../_service/trip-plan.service";
 import {

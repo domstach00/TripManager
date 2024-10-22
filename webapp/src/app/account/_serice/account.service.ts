@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Account } from "../_model/account";
 import { Observable, publishReplay, refCount, take, tap } from "rxjs";
-import { ApiService } from "../shared/_service/api.service";
-import { ApiPath } from "../shared/_model/ApiPath";
+import { ApiService } from "../../shared/_service/api.service";
+import { ApiPath } from "../../shared/_model/ApiPath";
 
 @Injectable({
 	providedIn: 'root',

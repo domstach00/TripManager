@@ -4,7 +4,6 @@ import { HttpClient } from "@angular/common/http";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { AppLoadingComponent } from "./components/app-loader/app-loading.component";
 import { DefaultPageComponent } from "./components/default-page/default-page.component";
-import { ServicesModule } from "../_services/services.module";
 import { HeaderComponent } from "./components/header/header.component";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatIconModule } from "@angular/material/icon";
@@ -46,7 +45,6 @@ function HttpLoaderFactory(http: HttpClient) {
 				deps: [HttpClient],
 			}
 		}),
-		ServicesModule,
 		MatToolbarModule,
 		MatIconModule,
 		MatTooltipModule,

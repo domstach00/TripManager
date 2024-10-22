@@ -1,5 +1,5 @@
 import { BaseModel } from "../../shared/_model/base-models.interface";
-import { Account } from "../../_model/account";
+import { Account } from "../../account/_model/account";
 
 export interface Trip extends BaseModel {
 	name: string;

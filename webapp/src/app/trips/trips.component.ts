@@ -9,7 +9,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { SearchableComponent } from "../shared/directives/search/searchable.component";
 import { Page } from "../shared/_model/base-models.interface";
 import { ApiParams } from "../shared/directives/search/searchable.util";
-import { AccountService } from "../_services/account.service";
+import { AccountService } from "../account/_serice/account.service";
 import { ActivatedRoute } from "@angular/router";
 
 @Component({

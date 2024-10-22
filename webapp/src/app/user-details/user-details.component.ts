@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AccountService } from "../_services/account.service";
+import { AccountService } from "../account/_serice/account.service";
 
 @Component({
 	selector: 'app-user-details',

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from "../_servive/auth.service";
 import { Subscription } from "rxjs";
-import { AccountService } from "../../_services/account.service";
+import { AccountService } from "../../account/_serice/account.service";
 import { RouterService } from "../../shared/_service/router.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { TranslateService } from "@ngx-translate/core";
