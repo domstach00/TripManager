@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { SearchResultComponent } from "../shared/directives/search-result/search-result.component";
-import { Trip } from "../_model/trip";
+import { Trip } from "./_model/trip";
 import { TranslateService } from "@ngx-translate/core";
 import { RouterService } from "../shared/_service/router.service";
 import { DateUtilService } from "../shared/_service/date-util.service";

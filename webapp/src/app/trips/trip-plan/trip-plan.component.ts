@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { BehaviorSubject, ReplaySubject, Subscription, tap } from "rxjs";
-import { Trip } from "../../_model/trip";
-import { GoogleMapPin, TripPlan } from "../../_model/trip-plan";
+import { Trip } from "../_model/trip";
+import { GoogleMapPin, TripPlan } from "../_model/trip-plan";
 import { TripPlanService } from "../_service/trip-plan.service";
 
 enum ShowToggle {

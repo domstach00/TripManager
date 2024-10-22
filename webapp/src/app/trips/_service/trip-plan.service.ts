@@ -1,4 +1,4 @@
-import { GoogleMapPin, TripPlan } from "../../_model/trip-plan";
+import { GoogleMapPin, TripPlan } from "../_model/trip-plan";
 import { ApiService } from "../../shared/_service/api.service";
 import { ApiPath } from "../../shared/_model/ApiPath";
 import { Injectable } from "@angular/core";

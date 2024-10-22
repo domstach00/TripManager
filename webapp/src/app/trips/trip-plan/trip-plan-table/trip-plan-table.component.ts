@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, } from '@angular/core';
-import { TripPlan } from "../../../_model/trip-plan";
+import { TripPlan } from "../../_model/trip-plan";
 import { catchError, tap, throwError } from "rxjs";
 import { MatDialog } from "@angular/material/dialog";
 import {
@@ -10,7 +10,7 @@ import {
 	ConfirmActionDialogComponent
 } from "../../../dialog/delete-confirmation-dialog/confirm-action-dialog.component";
 import { IconKeyUrl, SelectIconDialogComponent } from "../../../dialog/select-icon-dialog/select-icon-dialog.component";
-import { defaultMapIcon, getMapIconPath, MapIcon } from "../../../_model/MapPinIcons";
+import { defaultMapIcon, getMapIconPath, MapIcon } from "../../_model/MapPinIcons";
 import { SearchResultComponent } from "../../../shared/directives/search-result/search-result.component";
 import { TranslateService } from "@ngx-translate/core";
 

@@ -1,6 +1,6 @@
 import { Component, Inject, Input } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { TripPlan } from "../../_model/trip-plan";
+import { TripPlan } from "../../trips/_model/trip-plan";
 import { TripPlanService } from "../../trips/_service/trip-plan.service";
 
 @Component({

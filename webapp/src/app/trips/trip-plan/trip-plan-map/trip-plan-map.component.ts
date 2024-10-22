@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { GoogleMapPin, TripPlan } from "../../../_model/trip-plan";
+import { GoogleMapPin, TripPlan } from "../../_model/trip-plan";
 import { BehaviorSubject, Observable } from "rxjs";
 import { GoogleMap } from "@angular/google-maps";
-import { getMapIconPath } from "../../../_model/MapPinIcons";
+import { getMapIconPath } from "../../_model/MapPinIcons";
 import LatLng = google.maps.LatLng;
 
 @Component({

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Trip } from "../_model/trip";
+import { Trip } from "./_model/trip";
 import { Observable } from "rxjs";
 import { TripService } from "./_service/trip.service";
 import {

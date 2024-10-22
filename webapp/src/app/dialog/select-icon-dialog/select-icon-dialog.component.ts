@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { MapIcon } from "../../_model/MapPinIcons";
+import { MapIcon } from "../../trips/_model/MapPinIcons";
 
 export interface IconKeyUrl {
 	key: string,

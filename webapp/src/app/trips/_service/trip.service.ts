@@ -1,5 +1,5 @@
 import { ApiService } from "../../shared/_service/api.service";
-import { Trip } from "../../_model/trip";
+import { Trip } from "../_model/trip";
 import { ApiPath } from "../../shared/_model/ApiPath";
 import { Injectable } from "@angular/core";
 import { Page } from "../../shared/_model/base-models.interface";
