@@ -6,7 +6,7 @@ import { ApiParams } from "../../../shared/directives/search/searchable.util";
 import { Observable } from "rxjs";
 import { AccountService } from "../../../_services/account.service";
 import { ActivatedRoute } from "@angular/router";
-import { TripPlanService } from "../../../_services/trip-plan.service";
+import { TripPlanService } from "../../_service/trip-plan.service";
 import {
 	TripPlanTableAddNewDialogComponent
 } from "../../../dialog/trip-plan-table-add-new-dialog/trip-plan-table-add-new-dialog.component";

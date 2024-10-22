@@ -5,7 +5,7 @@ import { MatDialog } from "@angular/material/dialog";
 import {
 	TripPlanTableAddNewDialogComponent
 } from "../../../dialog/trip-plan-table-add-new-dialog/trip-plan-table-add-new-dialog.component";
-import { TripPlanService } from "../../../_services/trip-plan.service";
+import { TripPlanService } from "../../_service/trip-plan.service";
 import {
 	ConfirmActionDialogComponent
 } from "../../../dialog/delete-confirmation-dialog/confirm-action-dialog.component";

@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { GoogleMapPin, TripPlan } from "../../../_model/trip-plan";
 import { BehaviorSubject, Observable } from "rxjs";
 import { GoogleMap } from "@angular/google-maps";
-import { TripPlanService } from "../../../_services/trip-plan.service";
 import { getMapIconPath } from "../../../_model/MapPinIcons";
 import LatLng = google.maps.LatLng;
 
