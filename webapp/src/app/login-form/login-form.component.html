@@ -1,6 +1,9 @@
 <div class="login-wrapper">
 	<div class="login-box">
 		<h1 class="title">{{ 'login.title' | translate }}</h1>
+		<div *ngIf="isSubmitting">
+			<app-loading/>
+		</div>
 		<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 			<input type="email" placeholder="{{ 'login.email.placeholder' | translate }}" formControlName="email" required>
 			<div class="error" *ngIf="loginForm.get('email')?.dirty && loginForm.get('email')?.hasError('required')">

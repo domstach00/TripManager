@@ -18,6 +18,7 @@ import { ToastrService } from "ngx-toastr";
 export class LoginFormComponent implements OnInit, OnDestroy {
 	protected subscribe = new Subscription();
 	loginForm: FormGroup;
+	isSubmitting: boolean = false;
 
 	constructor(
 		readonly accountService: AccountService,
@@ -44,6 +45,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 	onSubmit(): void {
 		if (this.loginForm.valid) {
 			this.loginForm.disable();
+			this.isSubmitting = true;
 			const loginCredentials: LoginCredentials = {
 				email: this.loginForm.value['email'],
 				password: this.loginForm.value['password']
@@ -52,10 +54,12 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 			this.subscribe.add(
 				this.authService.login(loginCredentials).subscribe(_ => {
 					this.loginForm.enable();
+					this.isSubmitting = false;
 					this.routerService.navToHome();
 				}, error => {
 					this.toastrService.error(error);
 					this.loginForm.enable();
+					this.isSubmitting = false;
 				})
 			);
 		}
