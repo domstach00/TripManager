@@ -14,7 +14,7 @@
 			</div>
 
 			<input type="password" placeholder="{{ 'register.password.placeholder' | translate }}" formControlName="password" required>
-			<div class="error" *ngIf="isPasswordInvalid()">
+			<div class="error" *ngIf="isPasswordInvalid() && !isSubmitting">
 				<div [ngClass]="{'valid': isPasswordValidationMinValid()}">
 					<mat-icon>{{ isPasswordValidationMinValid() ? 'check' : 'close' }}</mat-icon>
 					{{ translate.instant('register.error.moreCharactersThenX', {min: MIN_PASSWORD_LENGTH}) }}
