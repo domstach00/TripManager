@@ -18,7 +18,7 @@ import { ToastrService } from "ngx-toastr";
 export class LoginFormComponent implements OnInit, OnDestroy {
 	protected subscribe = new Subscription();
 	loginForm: FormGroup;
-	isSubmitting: boolean = false;
+	isSubmitting: boolean = true;
 
 	constructor(
 		readonly accountService: AccountService,
@@ -32,7 +32,10 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 
 	ngOnInit(): void {
 		this.subscribe.add(
-			this.authService.logout$().subscribe()
+			this.authService.logout$().subscribe({
+				next: () => { this.isSubmitting = false },
+				error: () => { this.isSubmitting = false },
+			})
 		);
 
 		this.loginForm = this.fb.group({
