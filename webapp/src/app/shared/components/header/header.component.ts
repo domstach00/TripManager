@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
 import { Account } from "../../../_model/account";
 import { AuthService } from "../../../auth/_servive/auth.service";
-import { RouterService } from "../../../auth/_servive/router.service";
+import { RouterService } from "../../_service/router.service";
 
 @Component({
 	selector: 'app-header',

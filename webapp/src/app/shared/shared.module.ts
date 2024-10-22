@@ -21,6 +21,7 @@ import { ApiService } from "./_service/api.service";
 import { DateUtilService } from "./_service/date-util.service";
 import { ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
+import { RouterService } from "./_service/router.service";
 
 function HttpLoaderFactory(http: HttpClient) {
 	return new TranslateHttpLoader(http);
@@ -60,6 +61,7 @@ function HttpLoaderFactory(http: HttpClient) {
 	providers: [
 		ApiService,
 		DateUtilService,
+		RouterService,
 	],
 	exports: [
 		AppLoadingComponent,

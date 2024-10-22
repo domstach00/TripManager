@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { Paths } from "../../../_model/paths";
-import { RouterService } from "../../../auth/_servive/router.service";
+import { Paths } from "../../_model/paths";
+import { RouterService } from "../../_service/router.service";
 
 export interface NavSideBarItem {
 	name: string;

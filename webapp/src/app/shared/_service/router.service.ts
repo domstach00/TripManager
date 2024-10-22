@@ -1,5 +1,5 @@
 import { Router } from "@angular/router";
-import { mapPath, Paths } from "../../_model/paths";
+import { mapPath, Paths } from "../_model/paths";
 import { Injectable } from "@angular/core";
 
 @Injectable({

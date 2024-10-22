@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AuthService } from "../_servive/auth.service";
-import { Paths } from "../../_model/paths";
+import { Paths } from "../../shared/_model/paths";
 import { TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
-import { RouterService } from "../_servive/router.service";
+import { RouterService } from "../../shared/_service/router.service";
 import { RegisterCredentials } from "../_model/register-credentials";
 
 @Component({
