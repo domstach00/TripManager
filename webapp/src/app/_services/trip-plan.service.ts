@@ -1,5 +1,5 @@
 import { GoogleMapPin, TripPlan } from "../_model/trip-plan";
-import { ApiService } from "./api.service";
+import { ApiService } from "../shared/_service/api.service";
 import { ApiPath } from "../_model/ApiPath";
 import { Injectable } from "@angular/core";
 import LatLng = google.maps.LatLng;

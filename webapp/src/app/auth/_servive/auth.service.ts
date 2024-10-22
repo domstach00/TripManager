@@ -1,4 +1,4 @@
-import { ApiService } from "../../_services/api.service";
+import { ApiService } from "../../shared/_service/api.service";
 import { LoginCredentials } from "../_model/login-credentials";
 import { Account } from "../../_model/account";
 import { ApiPath } from "../../_model/ApiPath";

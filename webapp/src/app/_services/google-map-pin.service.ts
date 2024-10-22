@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { ApiService } from "./api.service";
+import { ApiService } from "../shared/_service/api.service";
 import { GoogleMapPin } from "../_model/trip-plan";
 import { ApiPath } from "../_model/ApiPath";
 

@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { ApiPath } from "../_model/ApiPath";
+import { ApiPath } from "../../_model/ApiPath";
 import { Observable } from "rxjs";
 import { Injectable } from "@angular/core";
 
