@@ -4,7 +4,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HttpClient, HttpClientModule } from "@angular/common/http";
+import {  HttpClientModule } from "@angular/common/http";
 import { ToastrModule } from "ngx-toastr";
 import { MatListModule } from "@angular/material/list";
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -25,15 +25,10 @@ import { TripTableAddNewDialogComponent } from './dialog/trip-table-add-new-dial
 import { MatSortModule } from "@angular/material/sort";
 import { ConfirmActionDialogComponent } from './dialog/delete-confirmation-dialog/confirm-action-dialog.component';
 import { SelectIconDialogComponent } from './dialog/select-icon-dialog/select-icon-dialog.component';
-import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { SharedModule } from "./shared/shared.module";
 import { AuthModule } from "./auth/auth.module";
 import { TripsModule } from "./trips/trips.module";
 import { AccountModule } from "./account/account.module";
-
-function HttpLoaderFactory(http: HttpClient) {
-	return new TranslateHttpLoader(http);
-}
 
 @NgModule({
 	declarations: [
