@@ -7,7 +7,7 @@ import {
 } from "../dialog/trip-table-add-new-dialog/trip-table-add-new-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
 import { SearchableComponent } from "../shared/directives/search/searchable.component";
-import { Page } from "../_model/base-models.interface";
+import { Page } from "../shared/_model/base-models.interface";
 import { ApiParams } from "../shared/directives/search/searchable.util";
 import { AccountService } from "../_services/account.service";
 import { ActivatedRoute } from "@angular/router";

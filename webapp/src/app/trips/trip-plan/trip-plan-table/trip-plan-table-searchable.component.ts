@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { SearchableComponent } from "../../../shared/directives/search/searchable.component";
 import { TripPlan } from "../../../_model/trip-plan";
-import { Page } from "../../../_model/base-models.interface";
+import { Page } from "../../../shared/_model/base-models.interface";
 import { ApiParams } from "../../../shared/directives/search/searchable.util";
 import { Observable } from "rxjs";
 import { AccountService } from "../../../_services/account.service";

@@ -1,5 +1,5 @@
 import { Directive, OnDestroy } from "@angular/core";
-import { Page } from "../../../_model/base-models.interface";
+import { Page } from "../../_model/base-models.interface";
 import { Observable, of, Subject, Subscription, tap } from "rxjs";
 import { buildQueryParams } from "../../../_model/api/api.util";
 
