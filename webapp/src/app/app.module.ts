@@ -55,6 +55,7 @@ import { DateUtilService } from "./_services/date-util.service";
 import { TripPlanTableSearchableComponent } from "./trips/trip-plan/trip-plan-table/trip-plan-table-searchable.component";
 import { RegisterComponent } from "./register/register.component";
 import { RegisterSuccessComponent } from "./register/register-success/register-success.component";
+import { AppLoaderComponent } from "./shared/components/app-loader/app-loader.component";
 
 function HttpLoaderFactory(http: HttpClient) {
 	return new TranslateHttpLoader(http);
@@ -83,6 +84,7 @@ function HttpLoaderFactory(http: HttpClient) {
 		TripPlanTableSearchableComponent,
 		RegisterComponent,
 		RegisterSuccessComponent,
+		AppLoaderComponent,
 	],
 	imports: [
 		BrowserModule,
