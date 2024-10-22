@@ -26,7 +26,7 @@ import { TripsComponent } from "./trips.component";
 		{
 			provide: Loader,
 			useValue: new Loader({
-				apiKey: 'AIzaSyDlFo7UZhVIGXsj020wi9Fy3DwH_QN_tkA',
+				apiKey: 'YOUR_KEY',
 				libraries: ['places',],
 			})
 		},
