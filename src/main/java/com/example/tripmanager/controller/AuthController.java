@@ -22,6 +22,7 @@ public class AuthController extends AbstractController {
     protected final static String authControllerUrl = "/api/auth";
     private final static String loginPostUrl = "/login";
     private final static String registerPostUrl = "/register";
+    public static final String logoutGetUrl = "/logout";
 
     @Autowired
     private AccountAuthService accountAuthService;
@@ -44,7 +45,7 @@ public class AuthController extends AbstractController {
         return ResponseEntity.ok(toDto(account));
     }
 
-    @GetMapping("/logout")
+    @GetMapping(logoutGetUrl)
     public MessageResponse logout(HttpServletRequest request,
                                   HttpServletResponse response) {
         this.accountAuthService.logoutUser(request, response);
@@ -64,5 +65,9 @@ public class AuthController extends AbstractController {
 
     public static String getRegisterPostUrl() {
         return authControllerUrl + registerPostUrl;
+    }
+
+    public static String getLogoutGetUrl() {
+        return authControllerUrl + logoutGetUrl;
     }
 }

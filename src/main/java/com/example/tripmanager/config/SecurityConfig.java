@@ -40,6 +40,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((request) ->
                         request.requestMatchers(HttpMethod.POST, AuthController.getLoginPostUrl()).permitAll()
                                 .requestMatchers(HttpMethod.POST, AuthController.getRegisterPostUrl()).permitAll()
+                                .requestMatchers(HttpMethod.GET, AuthController.getLogoutGetUrl()).permitAll()
                                 .anyRequest().authenticated());
         return http.build();
     }
