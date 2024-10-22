@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AuthService } from "../_services/auth.service";
+import { AuthService } from "../../_services/auth.service";
 import { Subscription } from "rxjs";
-import { AccountService } from "../_services/account.service";
-import { RouterService } from "../_services/router.service";
+import { AccountService } from "../../_services/account.service";
+import { RouterService } from "../../_services/router.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { TranslateService } from "@ngx-translate/core";
-import { Paths } from "../_model/paths";
-import { LoginCredentials } from "../_model/login-credentials";
+import { Paths } from "../../_model/paths";
+import { LoginCredentials } from "../../_model/login-credentials";
 import { ToastrService } from "ngx-toastr";
 
 

@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { HomeComponent } from "./home/home.component";
-import { LoginFormComponent } from "./login-form/login-form.component";
+import { LoginFormComponent } from "./auth/login-form/login-form.component";
 import { AuthGuard } from "./guard/auth-guard";
 import { TripsComponent } from "./trips/trips.component";
 import { TripPlanComponent } from "./trips/trip-plan/trip-plan.component";

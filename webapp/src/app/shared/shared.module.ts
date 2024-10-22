@@ -19,6 +19,8 @@ import { SideBarComponent } from "./components/side-bar/side-bar.component";
 import { MatListItem, MatNavList } from "@angular/material/list";
 import { ApiService } from "../_services/api.service";
 import { DateUtilService } from "../_services/date-util.service";
+import { ReactiveFormsModule } from "@angular/forms";
+import { RouterModule } from "@angular/router";
 
 function HttpLoaderFactory(http: HttpClient) {
 	return new TranslateHttpLoader(http);
@@ -51,6 +53,8 @@ function HttpLoaderFactory(http: HttpClient) {
 		MatButtonModule,
 		MatNavList,
 		MatListItem,
+		ReactiveFormsModule,
+		RouterModule,
 	],
 	providers: [
 		ApiService,
@@ -73,6 +77,8 @@ function HttpLoaderFactory(http: HttpClient) {
 		MatButtonModule,
 		MatNavList,
 		MatListItem,
+		ReactiveFormsModule,
+		RouterModule,
 	],
 })
 export class SharedModule {

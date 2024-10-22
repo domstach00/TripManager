@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatSidenavModule } from "@angular/material/sidenav";
-import { LoginFormComponent } from './login-form/login-form.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { ToastrModule } from "ngx-toastr";
@@ -39,6 +38,7 @@ import { RegisterComponent } from "./register/register.component";
 import { RegisterSuccessComponent } from "./register/register-success/register-success.component";
 import { SharedModule } from "./shared/shared.module";
 import { ServicesModule } from "./_services/services.module";
+import { AuthModule } from "./auth/auth.module";
 
 function HttpLoaderFactory(http: HttpClient) {
 	return new TranslateHttpLoader(http);
@@ -47,7 +47,6 @@ function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
 	declarations: [
 		AppComponent,
-		LoginFormComponent,
 		HomeComponent,
 		UserDetailsComponent,
 		TripsComponent,
@@ -88,6 +87,7 @@ function HttpLoaderFactory(http: HttpClient) {
 		MatSortModule,
 		ServicesModule,
 		SharedModule,
+		AuthModule,
 	],
 	providers: [
 		{
