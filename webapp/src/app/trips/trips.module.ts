@@ -10,6 +10,7 @@ import { TripsTableComponent } from "./trips-table.component";
 import { TripsComponent } from "./trips.component";
 import { TripService } from "./_service/trip.service";
 import { TripPlanService } from "./_service/trip-plan.service";
+import { GoogleMapPinService } from "./_service/google-map-pin.service";
 
 @NgModule({
 	declarations: [
@@ -34,6 +35,7 @@ import { TripPlanService } from "./_service/trip-plan.service";
 		},
 		TripService,
 		TripPlanService,
+		GoogleMapPinService,
 	],
 	exports: [
 		TripPlanMapComponent,
@@ -42,7 +44,8 @@ import { TripPlanService } from "./_service/trip-plan.service";
 		TripPlanComponent,
 		TripsTableComponent,
 		TripsComponent,
-	]
+	],
+	bootstrap: [TripsComponent]
 })
 export class TripsModule {
 
