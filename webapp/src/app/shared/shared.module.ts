@@ -1,12 +1,9 @@
-import { Directive, NgModule } from "@angular/core";
+import { NgModule } from "@angular/core";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { HttpClient } from "@angular/common/http";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
-import { SearchableComponent } from "./directives/search/searchable.component";
 import { AppLoadingComponent } from "./components/app-loader/app-loading.component";
 import { DefaultPageComponent } from "./components/default-page/default-page.component";
-import { RouterService } from "../_services/router.service";
-import { AuthService } from "../_services/auth.service";
 import { ServicesModule } from "../_services/services.module";
 import { HeaderComponent } from "./components/header/header.component";
 import { MatToolbarModule } from "@angular/material/toolbar";
@@ -19,8 +16,9 @@ import { MatButtonModule } from "@angular/material/button";
 import { FooterComponent } from "./components/footer/footer.component";
 import { PaginatorComponent } from "./components/paginator/paginator.component";
 import { SideBarComponent } from "./components/side-bar/side-bar.component";
-import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatListItem, MatNavList } from "@angular/material/list";
+import { ApiService } from "../_services/api.service";
+import { DateUtilService } from "../_services/date-util.service";
 
 function HttpLoaderFactory(http: HttpClient) {
 	return new TranslateHttpLoader(http);
@@ -55,6 +53,8 @@ function HttpLoaderFactory(http: HttpClient) {
 		MatListItem,
 	],
 	providers: [
+		ApiService,
+		DateUtilService,
 	],
 	exports: [
 		AppLoadingComponent,
