@@ -54,14 +54,7 @@ export class AuthService {
 	}
 
 	public login(loginCredentials: LoginCredentials) {
-		return this.apiService.post<string>(ApiPath.login, loginCredentials).subscribe(responseMessage => {
-			if (!!responseMessage) {
-				this.toastrService.success(responseMessage)
-				this.routerService.navToHome();
-			} else {
-				this.toastrService.error("Error")
-			}
-		}, error => this.toastrService.error(error))
+		return this.apiService.post<string>(ApiPath.login, loginCredentials);
 	}
 
 	public register(registerCredentials: RegisterCredentials) {

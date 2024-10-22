@@ -6,6 +6,8 @@ import { RouterService } from "../_services/router.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { TranslateService } from "@ngx-translate/core";
 import { Paths } from "../_model/paths";
+import { LoginCredentials } from "../_model/login-credentials";
+import { ToastrService } from "ngx-toastr";
 
 
 @Component({
@@ -23,16 +25,13 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 		readonly routerService: RouterService,
 		private fb: FormBuilder,
 		protected translate: TranslateService,
+		readonly toastrService: ToastrService,
 	) {
 	}
 
 	ngOnInit(): void {
 		this.subscribe.add(
-			this.accountService.currentAccount.subscribe(account => {
-				if (!!account) {
-					this.routerService.navToHome();
-				}
-			})
+			this.authService.logout$().subscribe()
 		);
 
 		this.loginForm = this.fb.group({
@@ -44,7 +43,21 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 
 	onSubmit(): void {
 		if (this.loginForm.valid) {
-			this.authService.login({email: this.loginForm.value['email'], password: this.loginForm.value['password']});
+			this.loginForm.disable();
+			const loginCredentials: LoginCredentials = {
+				email: this.loginForm.value['email'],
+				password: this.loginForm.value['password']
+			}
+
+			this.subscribe.add(
+				this.authService.login(loginCredentials).subscribe(_ => {
+					this.loginForm.enable();
+					this.routerService.navToHome();
+				}, error => {
+					this.toastrService.error(error);
+					this.loginForm.enable();
+				})
+			);
 		}
 	}
 
