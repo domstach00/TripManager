@@ -32,7 +32,6 @@ export class TripPlanMapComponent implements OnInit {
 	// }
 
 	constructor(
-		readonly tripPlanService: TripPlanService,
 	) {
 	}
 
