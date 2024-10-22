@@ -34,6 +34,7 @@ function HttpLoaderFactory(http: HttpClient) {
 		FooterComponent,
 		PaginatorComponent,
 		SideBarComponent,
+
 	],
 	imports: [
 		TranslateModule.forRoot({

@@ -34,8 +34,6 @@ import { Loader } from "@googlemaps/js-api-loader";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { TripsTableComponent } from "./trips/trips-table.component";
 import { TripPlanTableSearchableComponent } from "./trips/trip-plan/trip-plan-table/trip-plan-table-searchable.component";
-import { RegisterComponent } from "./register/register.component";
-import { RegisterSuccessComponent } from "./register/register-success/register-success.component";
 import { SharedModule } from "./shared/shared.module";
 import { ServicesModule } from "./_services/services.module";
 import { AuthModule } from "./auth/auth.module";
@@ -59,8 +57,6 @@ function HttpLoaderFactory(http: HttpClient) {
 		ConfirmActionDialogComponent,
 		SelectIconDialogComponent,
 		TripPlanTableSearchableComponent,
-		RegisterComponent,
-		RegisterSuccessComponent,
 	],
 	imports: [
 		BrowserModule,
