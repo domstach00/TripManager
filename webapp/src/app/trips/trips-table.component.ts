@@ -3,7 +3,7 @@ import { SearchResultComponent } from "../shared/directives/search-result/search
 import { Trip } from "../_model/trip";
 import { TranslateService } from "@ngx-translate/core";
 import { RouterService } from "../auth/_servive/router.service";
-import { DateUtilService } from "../_services/date-util.service";
+import { DateUtilService } from "../shared/_service/date-util.service";
 import { Account } from "../_model/account";
 import { TripService } from "../_services/trip.service";
 

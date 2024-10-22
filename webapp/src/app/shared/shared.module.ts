@@ -18,7 +18,7 @@ import { PaginatorComponent } from "./components/paginator/paginator.component";
 import { SideBarComponent } from "./components/side-bar/side-bar.component";
 import { MatListItem, MatNavList } from "@angular/material/list";
 import { ApiService } from "./_service/api.service";
-import { DateUtilService } from "../_services/date-util.service";
+import { DateUtilService } from "./_service/date-util.service";
 import { ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 
