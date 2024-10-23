@@ -22,6 +22,7 @@ import {
 } from "./_dialog/trip-plan-table-add-new-dialog/trip-plan-table-add-new-dialog.component";
 import { NgxGpAutocompleteModule } from "@angular-magic/ngx-gp-autocomplete";
 import { SelectIconDialogComponent } from "./_dialog/select-icon-dialog/select-icon-dialog.component";
+import { TripsRoutingModule } from "./trips-routing.module";
 
 @NgModule({
 	declarations: [
@@ -43,6 +44,7 @@ import { SelectIconDialogComponent } from "./_dialog/select-icon-dialog/select-i
 		MatDialogClose,
 		MatLabel,
 		NgxGpAutocompleteModule,
+		TripsRoutingModule
 	],
 	providers: [
 		{

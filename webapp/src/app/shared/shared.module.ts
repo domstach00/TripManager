@@ -19,7 +19,6 @@ import { MatListItem, MatListModule, MatNavList } from "@angular/material/list";
 import { ApiService } from "./_service/api.service";
 import { DateUtilService } from "./_service/date-util.service";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { RouterModule, RouterOutlet } from "@angular/router";
 import { RouterService } from "./_service/router.service";
 import { MatTableModule } from "@angular/material/table";
 import { MatInputModule } from "@angular/material/input";
@@ -29,9 +28,7 @@ import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { MatCardModule } from "@angular/material/card";
 import { MatGridListModule } from "@angular/material/grid-list";
 import { MatSidenavModule } from "@angular/material/sidenav";
-import { BrowserModule } from "@angular/platform-browser";
 import { ConfirmActionDialogComponent } from "./_dialog/delete-confirmation-dialog/confirm-action-dialog.component";
-import { AppRoutingModule } from "../app-routing.module";
 
 function HttpLoaderFactory(http: HttpClient) {
 	return new TranslateHttpLoader(http);
@@ -65,8 +62,6 @@ function HttpLoaderFactory(http: HttpClient) {
 		MatNavList,
 		MatListItem,
 		ReactiveFormsModule,
-		RouterModule,
-		RouterOutlet,
 		MatTableModule,
 		MatInputModule,
 		MatDialogModule,
@@ -76,9 +71,7 @@ function HttpLoaderFactory(http: HttpClient) {
 		MatGridListModule,
 		MatListModule,
 		MatSidenavModule,
-		BrowserModule,
 		FormsModule,
-		AppRoutingModule,
 	],
 	providers: [
 		ApiService,
@@ -103,8 +96,6 @@ function HttpLoaderFactory(http: HttpClient) {
 		MatNavList,
 		MatListItem,
 		ReactiveFormsModule,
-		RouterModule,
-		RouterOutlet,
 		MatTableModule,
 		MatInputModule,
 		MatDialogModule,
@@ -114,10 +105,8 @@ function HttpLoaderFactory(http: HttpClient) {
 		MatGridListModule,
 		MatListModule,
 		MatSidenavModule,
-		BrowserModule,
 		FormsModule,
 		ConfirmActionDialogComponent,
-		AppRoutingModule,
 	],
 })
 export class SharedModule {
