@@ -9,7 +9,7 @@ import { ActivatedRoute } from "@angular/router";
 import { TripPlanService } from "../../_service/trip-plan.service";
 import {
 	TripPlanTableAddNewDialogComponent
-} from "../../../dialog/trip-plan-table-add-new-dialog/trip-plan-table-add-new-dialog.component";
+} from "../../_dialog/trip-plan-table-add-new-dialog/trip-plan-table-add-new-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
 
 @Component({

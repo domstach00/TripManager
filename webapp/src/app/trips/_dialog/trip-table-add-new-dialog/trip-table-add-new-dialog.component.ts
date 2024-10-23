@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import {
 	TripPlanTableAddNewDialogComponent
 } from "../trip-plan-table-add-new-dialog/trip-plan-table-add-new-dialog.component";
-import { Trip } from "../../trips/_model/trip";
+import { Trip } from "../../_model/trip";
 
 @Component({
 	selector: 'app-trip-table-add-new-dialog',

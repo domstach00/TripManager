@@ -4,12 +4,12 @@ import { catchError, tap, throwError } from "rxjs";
 import { MatDialog } from "@angular/material/dialog";
 import {
 	TripPlanTableAddNewDialogComponent
-} from "../../../dialog/trip-plan-table-add-new-dialog/trip-plan-table-add-new-dialog.component";
+} from "../../_dialog/trip-plan-table-add-new-dialog/trip-plan-table-add-new-dialog.component";
 import { TripPlanService } from "../../_service/trip-plan.service";
 import {
 	ConfirmActionDialogComponent
 } from "../../../dialog/delete-confirmation-dialog/confirm-action-dialog.component";
-import { IconKeyUrl, SelectIconDialogComponent } from "../../../dialog/select-icon-dialog/select-icon-dialog.component";
+import { IconKeyUrl, SelectIconDialogComponent } from "../../_dialog/select-icon-dialog/select-icon-dialog.component";
 import { defaultMapIcon, getMapIconPath, MapIcon } from "../../_model/MapPinIcons";
 import { SearchResultComponent } from "../../../shared/directives/search-result/search-result.component";
 import { TranslateService } from "@ngx-translate/core";

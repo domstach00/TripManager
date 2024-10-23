@@ -4,7 +4,7 @@ import { Observable } from "rxjs";
 import { TripService } from "./_service/trip.service";
 import {
 	TripTableAddNewDialogComponent
-} from "../dialog/trip-table-add-new-dialog/trip-table-add-new-dialog.component";
+} from "./_dialog/trip-table-add-new-dialog/trip-table-add-new-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
 import { SearchableComponent } from "../shared/directives/search/searchable.component";
 import { Page } from "../shared/_model/base-models.interface";

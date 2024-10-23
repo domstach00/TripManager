@@ -15,13 +15,21 @@ import { MatButtonModule } from "@angular/material/button";
 import { FooterComponent } from "./components/footer/footer.component";
 import { PaginatorComponent } from "./components/paginator/paginator.component";
 import { SideBarComponent } from "./components/side-bar/side-bar.component";
-import { MatListItem, MatNavList } from "@angular/material/list";
+import { MatListItem, MatListModule, MatNavList } from "@angular/material/list";
 import { ApiService } from "./_service/api.service";
 import { DateUtilService } from "./_service/date-util.service";
-import { ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule, RouterOutlet } from "@angular/router";
 import { RouterService } from "./_service/router.service";
 import { MatTableModule } from "@angular/material/table";
+import { MatInputModule } from "@angular/material/input";
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatSortModule } from "@angular/material/sort";
+import { MatButtonToggleModule } from "@angular/material/button-toggle";
+import { MatCardModule } from "@angular/material/card";
+import { MatGridListModule } from "@angular/material/grid-list";
+import { MatSidenavModule } from "@angular/material/sidenav";
+import { BrowserModule } from "@angular/platform-browser";
 
 function HttpLoaderFactory(http: HttpClient) {
 	return new TranslateHttpLoader(http);
@@ -58,6 +66,16 @@ function HttpLoaderFactory(http: HttpClient) {
 		RouterModule,
 		RouterOutlet,
 		MatTableModule,
+		MatInputModule,
+		MatDialogModule,
+		MatSortModule,
+		MatButtonToggleModule,
+		MatCardModule,
+		MatGridListModule,
+		MatListModule,
+		MatSidenavModule,
+		BrowserModule,
+		FormsModule,
 	],
 	providers: [
 		ApiService,
@@ -85,6 +103,16 @@ function HttpLoaderFactory(http: HttpClient) {
 		RouterModule,
 		RouterOutlet,
 		MatTableModule,
+		MatInputModule,
+		MatDialogModule,
+		MatSortModule,
+		MatButtonToggleModule,
+		MatCardModule,
+		MatGridListModule,
+		MatListModule,
+		MatSidenavModule,
+		BrowserModule,
+		FormsModule,
 	],
 })
 export class SharedModule {
