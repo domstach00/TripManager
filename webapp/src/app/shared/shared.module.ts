@@ -30,6 +30,8 @@ import { MatCardModule } from "@angular/material/card";
 import { MatGridListModule } from "@angular/material/grid-list";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { BrowserModule } from "@angular/platform-browser";
+import { ConfirmActionDialogComponent } from "./_dialog/delete-confirmation-dialog/confirm-action-dialog.component";
+import { AppRoutingModule } from "../app-routing.module";
 
 function HttpLoaderFactory(http: HttpClient) {
 	return new TranslateHttpLoader(http);
@@ -43,7 +45,7 @@ function HttpLoaderFactory(http: HttpClient) {
 		FooterComponent,
 		PaginatorComponent,
 		SideBarComponent,
-
+		ConfirmActionDialogComponent,
 	],
 	imports: [
 		TranslateModule.forRoot({
@@ -76,6 +78,7 @@ function HttpLoaderFactory(http: HttpClient) {
 		MatSidenavModule,
 		BrowserModule,
 		FormsModule,
+		AppRoutingModule,
 	],
 	providers: [
 		ApiService,
@@ -113,6 +116,8 @@ function HttpLoaderFactory(http: HttpClient) {
 		MatSidenavModule,
 		BrowserModule,
 		FormsModule,
+		ConfirmActionDialogComponent,
+		AppRoutingModule,
 	],
 })
 export class SharedModule {
