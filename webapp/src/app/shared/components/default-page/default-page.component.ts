@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AccountService } from "../../../account/_serice/account.service";
 import { Account } from "../../../account/_model/account";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-default-page',
@@ -13,6 +14,7 @@ export class DefaultPageComponent implements OnInit {
 
 	constructor(
 		readonly accountService: AccountService,
+		protected translate: TranslateService,
 	) {
 	}
 
@@ -24,5 +26,8 @@ export class DefaultPageComponent implements OnInit {
 		}
 	}
 
+	getTitlePage(): string {
+		return this.translate.instant(this.pageTitleKey);
+	}
 
 }

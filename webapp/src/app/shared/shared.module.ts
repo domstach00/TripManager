@@ -1,7 +1,5 @@
 import { NgModule } from "@angular/core";
-import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
-import { HttpClient } from "@angular/common/http";
-import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+import { TranslateModule } from "@ngx-translate/core";
 import { AppLoadingComponent } from "./components/app-loader/app-loading.component";
 import { DefaultPageComponent } from "./components/default-page/default-page.component";
 import { HeaderComponent } from "./components/header/header.component";
@@ -30,10 +28,6 @@ import { MatGridListModule } from "@angular/material/grid-list";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { ConfirmActionDialogComponent } from "./_dialog/delete-confirmation-dialog/confirm-action-dialog.component";
 
-function HttpLoaderFactory(http: HttpClient) {
-	return new TranslateHttpLoader(http);
-}
-
 @NgModule({
 	declarations: [
 		AppLoadingComponent,
@@ -45,13 +39,6 @@ function HttpLoaderFactory(http: HttpClient) {
 		ConfirmActionDialogComponent,
 	],
 	imports: [
-		TranslateModule.forRoot({
-			loader: {
-				provide: TranslateLoader,
-				useFactory: HttpLoaderFactory,
-				deps: [HttpClient],
-			}
-		}),
 		MatToolbarModule,
 		MatIconModule,
 		MatTooltipModule,
