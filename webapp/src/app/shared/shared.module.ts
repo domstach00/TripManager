@@ -1,6 +1,5 @@
 import { NgModule } from "@angular/core";
 import { TranslateModule } from "@ngx-translate/core";
-import { AppLoadingComponent } from "./components/app-loader/app-loading.component";
 import { DefaultPageComponent } from "./components/default-page/default-page.component";
 import { HeaderComponent } from "./components/header/header.component";
 import { MatToolbarModule } from "@angular/material/toolbar";
@@ -27,10 +26,10 @@ import { MatCardModule } from "@angular/material/card";
 import { MatGridListModule } from "@angular/material/grid-list";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { ConfirmActionDialogComponent } from "./_dialog/delete-confirmation-dialog/confirm-action-dialog.component";
+import { AppLoadingModule } from "./components/app-loader/app-loading.module";
 
 @NgModule({
 	declarations: [
-		AppLoadingComponent,
 		HeaderComponent,
 		DefaultPageComponent,
 		FooterComponent,
@@ -59,6 +58,7 @@ import { ConfirmActionDialogComponent } from "./_dialog/delete-confirmation-dial
 		MatListModule,
 		MatSidenavModule,
 		FormsModule,
+		AppLoadingModule,
 	],
 	providers: [
 		ApiService,
@@ -66,7 +66,6 @@ import { ConfirmActionDialogComponent } from "./_dialog/delete-confirmation-dial
 		RouterService,
 	],
 	exports: [
-		AppLoadingComponent,
 		HeaderComponent,
 		TranslateModule,
 		FooterComponent,
@@ -94,6 +93,7 @@ import { ConfirmActionDialogComponent } from "./_dialog/delete-confirmation-dial
 		MatSidenavModule,
 		FormsModule,
 		ConfirmActionDialogComponent,
+		AppLoadingModule,
 	],
 })
 export class SharedModule {
