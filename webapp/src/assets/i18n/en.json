@@ -8,6 +8,8 @@
 	"login.password.placeholder": "Password",
 	"login.submit": "Login",
 	"login.title": "Login \uD83D\uDC4B",
+	"pageNotFound.goToHome": "Go back to Home page",
+	"pageNotFound.reason": "Oops! The page you're looking for doesn't exist.",
 	"register.alreadyHaveAccount": "Already have account?",
 	"register.email.error": "Email is invalid",
 	"register.email.placeholder": "Email",

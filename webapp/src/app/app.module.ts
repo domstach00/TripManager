@@ -12,6 +12,7 @@ import { RouterOutlet } from "@angular/router";
 import { AppRoutingModule } from "./app-routing.module";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
 
 function HttpLoaderFactory(http: HttpClient) {
 	return new TranslateHttpLoader(http);
@@ -22,6 +23,7 @@ function HttpLoaderFactory(http: HttpClient) {
 		AppComponent,
 		HomeComponent,
 		UserDetailsComponent,
+		PageNotFoundComponent,
 	],
 	imports: [
 		TranslateModule.forRoot({
