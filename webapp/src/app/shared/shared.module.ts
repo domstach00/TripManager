@@ -26,7 +26,7 @@ import { MatCardModule } from "@angular/material/card";
 import { MatGridListModule } from "@angular/material/grid-list";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { ConfirmActionDialogComponent } from "./_dialog/delete-confirmation-dialog/confirm-action-dialog.component";
-import { AppLoadingModule } from "./components/app-loader/app-loading.module";
+import { AppLoadingComponent } from "./components/app-loader/app-loading.component";
 
 @NgModule({
 	declarations: [
@@ -58,7 +58,7 @@ import { AppLoadingModule } from "./components/app-loader/app-loading.module";
 		MatListModule,
 		MatSidenavModule,
 		FormsModule,
-		AppLoadingModule,
+		AppLoadingComponent,
 	],
 	providers: [
 		ApiService,
@@ -93,7 +93,7 @@ import { AppLoadingModule } from "./components/app-loader/app-loading.module";
 		MatSidenavModule,
 		FormsModule,
 		ConfirmActionDialogComponent,
-		AppLoadingModule,
+		AppLoadingComponent,
 	],
 })
 export class SharedModule {

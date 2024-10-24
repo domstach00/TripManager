@@ -8,7 +8,7 @@ import { CommonModule } from "@angular/common";
 import { MatIcon } from "@angular/material/icon";
 import { TranslateModule } from "@ngx-translate/core";
 import { ReactiveFormsModule } from "@angular/forms";
-import { AppLoadingModule } from "../shared/components/app-loader/app-loading.module";
+import { AppLoadingComponent } from "../shared/components/app-loader/app-loading.component";
 
 @NgModule({
 	declarations: [
@@ -22,7 +22,7 @@ import { AppLoadingModule } from "../shared/components/app-loader/app-loading.mo
 		MatIcon,
 		TranslateModule,
 		ReactiveFormsModule,
-		AppLoadingModule,
+		AppLoadingComponent,
 	],
 	providers: [
 		AuthService,
