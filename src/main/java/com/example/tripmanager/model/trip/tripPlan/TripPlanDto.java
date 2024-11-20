@@ -1,10 +1,7 @@
 package com.example.tripmanager.model.trip.tripPlan;
 
-import com.example.tripmanager.exception.PatchValidationException;
 import com.example.tripmanager.model.AbstractAuditableDto;
 import com.example.tripmanager.model.googleMapPin.GoogleMapPin;
-
-import java.util.Objects;
 
 public class TripPlanDto extends AbstractAuditableDto {
     private String name;

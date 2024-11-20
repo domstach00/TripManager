@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { APP_INITIALIZER, NgModule } from "@angular/core";
 import { TripPlanMapComponent } from "./trip-plan/trip-plan-map/trip-plan-map.component";
 import { GoogleMapsModule } from "@angular/google-maps";
 import { SharedModule } from "../shared/shared.module";
@@ -23,6 +23,11 @@ import {
 import { NgxGpAutocompleteModule } from "@angular-magic/ngx-gp-autocomplete";
 import { SelectIconDialogComponent } from "./_dialog/select-icon-dialog/select-icon-dialog.component";
 import { TripsRoutingModule } from "./trips-routing.module";
+import { GoogleMapsLoaderService } from "./_service/google-maps-loader.service";
+
+export function initializeGoogleMaps(gmapsLoaderService: GoogleMapsLoaderService) {
+	return () => gmapsLoaderService.load();
+}
 
 @NgModule({
 	declarations: [
@@ -48,15 +53,20 @@ import { TripsRoutingModule } from "./trips-routing.module";
 	],
 	providers: [
 		{
+			provide: APP_INITIALIZER,
+			useFactory: initializeGoogleMaps,
+			deps: [GoogleMapsLoaderService],
+			multi: true,
+		},
+		{
 			provide: Loader,
-			useValue: new Loader({
-				apiKey: 'YOUR_KEY',
-				libraries: ['places',],
-			})
+			useFactory: (gmapsLoaderService: GoogleMapsLoaderService) => gmapsLoaderService.getLoaderInstance,
+			deps: [GoogleMapsLoaderService],
 		},
 		TripService,
 		TripPlanService,
 		GoogleMapPinService,
+		GoogleMapsModule,
 	],
 	exports: [
 		TripPlanMapComponent,

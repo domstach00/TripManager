@@ -3,7 +3,7 @@ import { GoogleMapPin, TripPlan } from "../../_model/trip-plan";
 import { BehaviorSubject, Observable } from "rxjs";
 import { GoogleMap } from "@angular/google-maps";
 import { getMapIconPath } from "../../_model/MapPinIcons";
-import LatLng = google.maps.LatLng;
+import { GoogleMapsLoaderService } from "../../_service/google-maps-loader.service";
 
 @Component({
 	selector: 'app-trip-plan-map',
@@ -19,7 +19,7 @@ export class TripPlanMapComponent implements OnInit {
 	@Input()
 	tripId!: string;
 
-	pinsSubject = new BehaviorSubject<LatLng[]>([]);
+	pinsSubject = new BehaviorSubject<google.maps.LatLng[]>([]);
 	dataSource: Observable<google.maps.LatLng[]> = this.pinsSubject.asObservable();
 	@Input() dataSource$!: Observable<TripPlan[]>;
 	@Output() refreshEvent = new EventEmitter<void>();
@@ -31,10 +31,21 @@ export class TripPlanMapComponent implements OnInit {
 	// }
 
 	constructor(
+		private googleMapsLoaderService: GoogleMapsLoaderService,
 	) {
 	}
 
-	ngOnInit(): void {
+	async ngOnInit() {
+		this.googleMapsLoaderService.load()
+			.then(() => {
+				this.initializeMap();
+			})
+			.catch(error => {
+				console.error('Failed to load Google Maps API:', error);
+			});
+	}
+
+	private initializeMap() {
 		this.dataSource$.subscribe(tripPlanList => {
 			const googleMapPins = [...tripPlanList
 				.map(value => value.mapElement)
@@ -43,7 +54,7 @@ export class TripPlanMapComponent implements OnInit {
 					&& !!optionalGoogleMapPin.locationLat
 					&& !!optionalGoogleMapPin.locationLng)
 			];
-			const latlngPins = this.mapGoogleMapPinsToLatLngs(googleMapPins);
+			const latlngPins: google.maps.LatLng[] = this.mapGoogleMapPinsToLatLngs(googleMapPins);
 
 			this.options = {
 				center: {
@@ -58,13 +69,12 @@ export class TripPlanMapComponent implements OnInit {
 		})
 	}
 
-
-	mapGoogleMapPinsToLatLngs(googleMapPins: GoogleMapPin[]): LatLng[] {
+	mapGoogleMapPinsToLatLngs(googleMapPins: GoogleMapPin[]): google.maps.LatLng[] {
 		return googleMapPins.map(pin => this.mapGoogleMapPinToLatLng(pin));
 	}
 
-	mapGoogleMapPinToLatLng(googleMapPin: GoogleMapPin): LatLng {
-		return new LatLng({lat: googleMapPin.locationLat ?? 0, lng: googleMapPin.locationLng ?? 0});
+	mapGoogleMapPinToLatLng(googleMapPin: GoogleMapPin): google.maps.LatLng {
+		return new google.maps.LatLng({lat: googleMapPin.locationLat ?? 0, lng: googleMapPin.locationLng ?? 0});
 	}
 
 	private calcAverage(table: number[]) {

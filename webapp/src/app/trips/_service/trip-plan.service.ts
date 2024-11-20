@@ -2,7 +2,6 @@ import { GoogleMapPin, TripPlan } from "../_model/trip-plan";
 import { ApiService } from "../../shared/_service/api.service";
 import { ApiPath } from "../../shared/_model/ApiPath";
 import { Injectable } from "@angular/core";
-import LatLng = google.maps.LatLng;
 import { Page } from "../../shared/_model/base-models.interface";
 import { Observable } from "rxjs";
 
@@ -79,7 +78,7 @@ export class TripPlanService {
 
 	public markerPositionGenerator(lat?: number, lng?: number): google.maps.LatLng | null {
 		return !!lat && !!lng
-			? new LatLng({lat: lat, lng: lng})
+			? new google.maps.LatLng({lat: lat, lng: lng})
 			: null
 	}
 }
