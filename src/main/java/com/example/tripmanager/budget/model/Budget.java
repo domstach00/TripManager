@@ -62,6 +62,14 @@ public class Budget extends AbstractAuditable {
         this.ownerId = ownerId;
     }
 
+    public List<ObjectId> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<ObjectId> members) {
+        this.members = members;
+    }
+
     public String getName() {
         return name;
     }
