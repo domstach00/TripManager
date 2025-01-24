@@ -4,6 +4,8 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { GoogleMap } from "@angular/google-maps";
 import { getMapIconPath } from "../../_model/MapPinIcons";
 import { GoogleMapsLoaderService } from "../../_service/google-maps-loader.service";
+import { ApiService } from "../../../shared/_service/api.service";
+import { ApiPath } from "../../../shared/_model/ApiPath";
 
 @Component({
 	selector: 'app-trip-plan-map',
@@ -32,6 +34,7 @@ export class TripPlanMapComponent implements OnInit {
 
 	constructor(
 		private googleMapsLoaderService: GoogleMapsLoaderService,
+		private apiService: ApiService,
 	) {
 	}
 
@@ -43,6 +46,10 @@ export class TripPlanMapComponent implements OnInit {
 			.catch(error => {
 				console.error('Failed to load Google Maps API:', error);
 			});
+
+		this.apiService.getFormatted(ApiPath.mapElements, ['6717b6a942f5016247d7d5cc'],).subscribe(value => {
+			console.log(value)
+		})
 	}
 
 	private initializeMap() {

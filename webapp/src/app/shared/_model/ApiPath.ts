@@ -11,5 +11,6 @@ export enum ApiPath {
 	tripLeave = tripSelect + '/leave',
 	tripPlan = tripSelect + '/plan',
 	tripPlanSelect = tripSelect + '/plan/{0}',
-	googleMapPin = tripSelect + '/googleMapPin',
+	googleMapPin = tripSelect + '/map',
+	mapElements = tripPlan + '/map',
 }

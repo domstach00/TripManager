@@ -1,7 +1,6 @@
 package com.example.tripmanager.repository;
 
 import com.example.tripmanager.model.common.Member;
-import com.example.tripmanager.model.googleMapPin.GoogleMapPin;
 import com.example.tripmanager.model.trip.Trip;
 import com.example.tripmanager.model.trip.tripPlan.TripPlan;
 import org.bson.types.ObjectId;
@@ -84,12 +83,20 @@ public class TripPlanRepositoryImpl extends AbstractRepositoryImpl<TripPlan> imp
     }
 
     @Override
-    public Page<GoogleMapPin> findAllGoogleMapPinsForTripId(Pageable pageable, String tripId, String accountId) {
+    public Page<TripPlan> findAllTripPlansWithMapElementForGivenTripId(Pageable pageable, String tripId, String accountId) {
         List<AggregationOperation> operationList = new ArrayList<>();
+        operationList.add(
+                Aggregation.match(
+                        buildCriteriaIsPlanRelatedToTripId(tripId)
+                )
+        );
 
         operationList.add(
-                Aggregation.match(buildCriteriaIsPlanRelatedToTripId(tripId))
+                Aggregation.match(
+                        buildCriteriaDoesMapElementValueExists(true)
+                )
         );
+
 
         final String tripLookedUp = "_" + TripPlan.FIELD_NAME_TRIP_ID;
         operationList.add(
@@ -109,15 +116,18 @@ public class TripPlanRepositoryImpl extends AbstractRepositoryImpl<TripPlan> imp
                 )
         );
 
-        operationList.add(
-                Aggregation.project(TripPlan.FIELD_NAME_MAP_ELEMENT)
-                        .andExclude(FIELD_NAME_ID_WITH_UNDERSCORE)
-        );
-
-        return findAllBy(pageable, operationList, TripPlan.class, GoogleMapPin.class);
+        return findAllBy(pageable, operationList);
     }
 
     protected Criteria buildCriteriaIsPlanRelatedToTripId(String tripId) {
         return Criteria.where(TripPlan.FIELD_NAME_TRIP_ID).is(new ObjectId(tripId));
+    }
+
+    protected Criteria buildCriteriaDoesMapElementValueExists(boolean exists) {
+        if (exists) {
+            return Criteria.where(TripPlan.FIELD_NAME_MAP_ELEMENT).ne(null);
+        } else {
+            return Criteria.where(TripPlan.FIELD_NAME_MAP_ELEMENT).is(null);
+        }
     }
 }

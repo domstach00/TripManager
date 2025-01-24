@@ -1,7 +1,6 @@
 package com.example.tripmanager.service;
 
 import com.example.tripmanager.model.account.Account;
-import com.example.tripmanager.model.googleMapPin.GoogleMapPin;
 import com.example.tripmanager.model.trip.tripPlan.TripPlan;
 import com.example.tripmanager.model.trip.tripPlan.TripPlanDto;
 import org.springframework.data.domain.Page;
@@ -12,5 +11,5 @@ public interface TripPlanService {
     TripPlan insertTripPlan(TripPlanDto tripPlan, String tripId);
     void deleteTripPlan(String tripPlanId, Account currentAccount);
     TripPlan patchTripPlan(TripPlan updatedTripPlan, String tripId);
-    Page<GoogleMapPin> getAllGoogleMapPinsForTrip(Pageable pageable, String tripId, Account currentAccount);
+    Page<TripPlan> getAllTripPlansWithMapElement(Pageable pageable, String tripId, Account currentAccount);
 }
