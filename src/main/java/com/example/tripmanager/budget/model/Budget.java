@@ -15,6 +15,7 @@ import java.util.List;
 public class Budget extends AbstractAuditable {
     public static final String COLLECTION_NAME = "Budgets";
     public static final String FIELD_NAME_OWNER_ID = "ownerId";
+    public static final String FIELD_NAME_MEMBERS = "members";
     public static final String FIELD_NAME_NAME = "name";
     public static final String FIELD_NAME_CATEGORIES = "categories";
     public static final String FIELD_NAME_DESCRIPTION = "description";
@@ -26,6 +27,7 @@ public class Budget extends AbstractAuditable {
     @NotBlank(message = "Owner Id cannot be empty")
     @Indexed
     private ObjectId ownerId;
+    private List<ObjectId> members;
     @NotBlank(message = "Budget name cannot be empty")
     private String name;
     @Indexed
