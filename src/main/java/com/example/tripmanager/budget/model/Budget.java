@@ -27,6 +27,7 @@ public class Budget extends AbstractAuditable {
     @NotBlank(message = "Owner Id cannot be empty")
     @Indexed
     private ObjectId ownerId;
+    @Indexed
     private List<ObjectId> members;
     @NotBlank(message = "Budget name cannot be empty")
     private String name;
@@ -40,8 +41,9 @@ public class Budget extends AbstractAuditable {
     private Instant endDate;
     private boolean isArchived;
 
-    public Budget(ObjectId ownerId, String name, List<Category> categories, String description, BigDecimal allocatedBudget, Instant startDate, Instant endDate, boolean isArchived) {
+    public Budget(ObjectId ownerId, List<ObjectId> members, String name, List<Category> categories, String description, BigDecimal allocatedBudget, Instant startDate, Instant endDate, boolean isArchived) {
         this.ownerId = ownerId;
+        this.members = members;
         this.name = name;
         this.categories = categories;
         this.description = description;
