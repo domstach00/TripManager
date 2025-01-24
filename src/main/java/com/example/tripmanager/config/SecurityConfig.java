@@ -1,9 +1,9 @@
 package com.example.tripmanager.config;
 
-import com.example.tripmanager.controller.AuthController;
-import com.example.tripmanager.security.auth.AuthTokenFilter;
-import com.example.tripmanager.security.jwt.JwtService;
-import com.example.tripmanager.security.service.CustomUserDetailsService;
+import com.example.tripmanager.auth.controller.AuthController;
+import com.example.tripmanager.auth.security.auth.AuthTokenFilter;
+import com.example.tripmanager.auth.security.jwt.JwtService;
+import com.example.tripmanager.auth.security.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

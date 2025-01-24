@@ -1,9 +1,9 @@
 package com.example.tripmanager.config;
 
-import com.example.tripmanager.exception.AccountAlreadyExistsException;
-import com.example.tripmanager.exception.AccountNotFoundException;
-import com.example.tripmanager.exception.InvalidRequestException;
-import com.example.tripmanager.exception.WrongCredentialsException;
+import com.example.tripmanager.account.exception.AccountAlreadyExistsException;
+import com.example.tripmanager.account.exception.AccountNotFoundException;
+import com.example.tripmanager.shared.exception.InvalidRequestException;
+import com.example.tripmanager.auth.exception.WrongCredentialsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

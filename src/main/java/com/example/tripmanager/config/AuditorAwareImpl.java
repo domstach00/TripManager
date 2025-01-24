@@ -1,9 +1,9 @@
 package com.example.tripmanager.config;
 
-import com.example.tripmanager.model.AbstractEntity;
-import com.example.tripmanager.model.account.Account;
-import com.example.tripmanager.model.account.AccountDto;
-import com.example.tripmanager.service.AccountService;
+import com.example.tripmanager.shared.model.AbstractEntity;
+import com.example.tripmanager.account.model.Account;
+import com.example.tripmanager.account.model.AccountDto;
+import com.example.tripmanager.account.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
