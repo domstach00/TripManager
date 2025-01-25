@@ -1,9 +1,12 @@
 package com.example.tripmanager.budget.model;
 
 import com.example.tripmanager.account.model.AccountDto;
+import com.example.tripmanager.budget.deserializer.JsonBigDecimalDeserializer;
 import com.example.tripmanager.budget.model.category.Category;
 import com.example.tripmanager.shared.model.AbstractAuditableDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import jakarta.validation.constraints.Digits;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -15,6 +18,8 @@ public class BudgetTemplateDto extends AbstractAuditableDto {
     private String description;
     private List<Category> categories;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "0.00")
+    @JsonDeserialize(using = JsonBigDecimalDeserializer.class)
+    @Digits(integer = 10, fraction = 2, message = "Amount cannot exceed 10 whole digits and 2 decimal places")
     private BigDecimal allocatedBudget;
     private String budgetPeriod;
     private boolean isArchived;
