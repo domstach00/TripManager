@@ -2,13 +2,11 @@ package com.example.tripmanager.budget.model.category;
 
 import com.example.tripmanager.budget.model.BudgetType;
 import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 public class Category {
-    @Id
     private String id;
     private String name;
     private BudgetType type;
