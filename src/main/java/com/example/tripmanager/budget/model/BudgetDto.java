@@ -11,6 +11,7 @@ import java.util.List;
 public class BudgetDto extends AbstractAuditableDto {
     private AccountDto ownerId;
     private List<AccountDto> members;
+    private String templateId;
     private String name;
     private List<Category> categories;
     private String description;
@@ -20,9 +21,10 @@ public class BudgetDto extends AbstractAuditableDto {
     private String endDate;
     private boolean isArchived;
 
-    public BudgetDto(AccountDto ownerId, List<AccountDto> members, String name, List<Category> categories, String description, BigDecimal allocatedBudget, String startDate, String endDate, boolean isArchived) {
+    public BudgetDto(AccountDto ownerId, List<AccountDto> members, String templateId, String name, List<Category> categories, String description, BigDecimal allocatedBudget, String startDate, String endDate, boolean isArchived) {
         this.ownerId = ownerId;
         this.members = members;
+        this.templateId = templateId;
         this.name = name;
         this.categories = categories;
         this.description = description;
@@ -49,6 +51,14 @@ public class BudgetDto extends AbstractAuditableDto {
 
     public void setMembers(List<AccountDto> members) {
         this.members = members;
+    }
+
+    public String getTemplateId() {
+        return templateId;
+    }
+
+    public void setTemplateId(String templateId) {
+        this.templateId = templateId;
     }
 
     public String getName() {
