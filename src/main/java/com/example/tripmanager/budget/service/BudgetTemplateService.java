@@ -9,8 +9,14 @@ import org.springframework.stereotype.Service;
 public class BudgetTemplateService {
     @Autowired
     private BudgetTemplateRepository budgetTemplateRepository;
+    @Autowired
+    private BudgetService budgetService;
 
-    public BudgetTemplate createBudgetTemplate(BudgetTemplate budgetTemplate) {
-        return budgetTemplateRepository.save(budgetTemplate);
+    public BudgetTemplate createBudgetTemplate(BudgetTemplate budgetTemplate, boolean initialize) {
+        BudgetTemplate resultTemplate = budgetTemplateRepository.save(budgetTemplate);
+        if (initialize) {
+            budgetService.createBudgetFromTemplate(resultTemplate);
+        }
+        return resultTemplate;
     }
 }

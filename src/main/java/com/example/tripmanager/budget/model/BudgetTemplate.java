@@ -6,8 +6,11 @@ import jakarta.validation.constraints.NotBlank;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.lang.Nullable;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.List;
 
 @Document(collection = BudgetTemplate.COLLECTION_NAME)
@@ -50,16 +53,53 @@ public class BudgetTemplate extends AbstractAuditable {
     }
 
     public enum BudgetPeriod {
-        WEEKLY("Weekly"),
-        MONTHLY("Monthly"),
-        YEARLY("Yearly"),
-        CUSTOM("Custom");
+        WEEKLY("Weekly") {
+            @Override
+            public Instant calculateEndDate(@Nullable Instant startDate) {
+                return startDate == null
+                        ? null
+                        : startDate.atZone(DEFAULT_ZONE).plusDays(6).toInstant();
+            }
+        },
+        MONTHLY("Monthly") {
+            @Override
+            public Instant calculateEndDate(@Nullable Instant startDate) {
+                return startDate == null
+                        ? null
+                        : startDate.atZone(DEFAULT_ZONE).plusMonths(1).toInstant();
+            }
+        },
+        QUARTERLY("Quarterly") {
+            @Override
+            public Instant calculateEndDate(@Nullable Instant startDate) {
+                return startDate == null
+                        ? null
+                        : startDate.atZone(DEFAULT_ZONE).plusMonths(3).toInstant();
+            }
+        },
+        YEARLY("Yearly") {
+            @Override
+            public Instant calculateEndDate(@Nullable Instant startDate) {
+                return startDate == null
+                        ? null
+                        : startDate.atZone(DEFAULT_ZONE).plusYears(1).toInstant();
+            }
+        },
+        CUSTOM("Custom") {
+            @Override
+            public Instant calculateEndDate(@Nullable Instant startDate) {
+                return null;
+            }
+        };
 
+        private static final ZoneId DEFAULT_ZONE = ZoneId.systemDefault();
         private String displayName;
 
         BudgetPeriod(String displayName) {
             this.displayName = displayName;
         }
+
+        public abstract Instant calculateEndDate(@Nullable Instant startDate);
 
         public String getDisplayName() {
             return displayName;

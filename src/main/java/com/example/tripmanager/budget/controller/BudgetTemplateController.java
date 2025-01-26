@@ -8,10 +8,7 @@ import com.example.tripmanager.budget.service.BudgetTemplateService;
 import com.example.tripmanager.shared.controller.AbstractController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
@@ -31,11 +28,12 @@ public class BudgetTemplateController extends AbstractController {
     @ResponseStatus(HttpStatus.CREATED)
     public BudgetTemplateDto createBudgetTemplate(
             Principal principal,
-            BudgetTemplateDto budgetTemplateDto
+            BudgetTemplateDto budgetTemplateDto,
+            @RequestParam(required = false, defaultValue = "true") boolean initialize
     ) {
         Account currentAccount = getCurrentAccount(principal);
         BudgetTemplate budgetTemplateFromCreate = BudgetTemplateMapper.createFromDto(budgetTemplateDto);
-        BudgetTemplate result = budgetTemplateService.createBudgetTemplate(budgetTemplateFromCreate);
+        BudgetTemplate result = budgetTemplateService.createBudgetTemplate(budgetTemplateFromCreate, initialize);
         return toDto(result);
     }
 }
