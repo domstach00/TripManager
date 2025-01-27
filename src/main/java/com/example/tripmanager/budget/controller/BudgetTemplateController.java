@@ -6,6 +6,7 @@ import com.example.tripmanager.budget.model.BudgetTemplate;
 import com.example.tripmanager.budget.model.BudgetTemplateDto;
 import com.example.tripmanager.budget.service.BudgetTemplateService;
 import com.example.tripmanager.shared.controller.AbstractController;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,7 @@ public class BudgetTemplateController extends AbstractController {
     @ResponseStatus(HttpStatus.CREATED)
     public BudgetTemplateDto createBudgetTemplate(
             Principal principal,
-            BudgetTemplateDto budgetTemplateDto,
+            @Valid @RequestBody BudgetTemplateDto budgetTemplateDto,
             @RequestParam(required = false, defaultValue = "true") boolean initialize
     ) {
         Account currentAccount = getCurrentAccount(principal);
