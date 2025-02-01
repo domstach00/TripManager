@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.example.tripmanager.budget.repository.criteria.BudgetCriteria.*;
 
@@ -36,5 +37,21 @@ public class BudgetRepository extends AbstractRepositoryImpl<Budget> {
         );
 
         return findAllBy(pageable, operationList);
+    }
+
+    public Optional<Budget> getBudgetById(String budgetId, Account currentAccount) {
+        List<AggregationOperation> operationList = new ArrayList<>();
+        operationList.add(
+                Aggregation.match(buildCriteriaById(budgetId))
+        );
+        operationList.add(
+                Aggregation.match(buildCriteriaByAccessModifiers(false, null))
+        );
+        operationList.add(
+                Aggregation.match(
+                        buildCriteriaAccountIsBudgetMemberOrOwner(currentAccount.getId())
+                )
+        );
+        return findOneBy(operationList);
     }
 }

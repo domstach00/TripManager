@@ -6,6 +6,7 @@ import com.example.tripmanager.budget.model.Budget;
 import com.example.tripmanager.budget.model.BudgetCreateForm;
 import com.example.tripmanager.budget.model.BudgetTemplate;
 import com.example.tripmanager.budget.repository.BudgetRepository;
+import com.example.tripmanager.shared.exception.ItemNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,5 +33,10 @@ public class BudgetService {
 
     public Page<Budget> getBudgetsRelatedToAccount(Pageable pageable, Account account, boolean includeArchived) {
         return budgetRepository.getBudgetRelatedWhereGivenAccountIsMember(pageable, account, includeArchived);
+    }
+
+    public Budget getBudgetById(String budgetId, Account currentAccount) {
+        return budgetRepository.getBudgetById(budgetId, currentAccount)
+                .orElseThrow(() -> new ItemNotFound("Budget was not found or you do not have enough permissions"));
     }
 }

@@ -54,4 +54,14 @@ public class BudgetController extends AbstractController {
         Page<Budget> budgets = budgetService.getBudgetsRelatedToAccount(pageParams.asPageable(), currentAccount, includeArchived);
         return toDto(budgets);
     }
+
+    @GetMapping("/{budgetId}")
+    public BudgetDto getBudget(
+            Principal principal,
+            @PathVariable String budgetId
+    ) {
+        Account currentAccount = getCurrentAccount(principal);
+        Budget budget = budgetService.getBudgetById(budgetId, currentAccount);
+        return toDto(budget);
+    }
 }
