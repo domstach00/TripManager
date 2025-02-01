@@ -11,6 +11,7 @@ import com.example.tripmanager.shared.mapper.AuditableMapper;
 import com.example.tripmanager.shared.model.AbstractEntity;
 import com.example.tripmanager.shared.util.DateUtils;
 import org.bson.types.ObjectId;
+import org.springframework.data.domain.Page;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -73,5 +74,12 @@ public class BudgetMapper {
         budgetDto.setEndDate(DateUtils.formatInstantToDateString(budget.getEndDate()));
         budgetDto.setArchived(budget.isArchived());
         return budgetDto;
+    }
+
+    public static Page<BudgetDto> toDto(Page<Budget> budgets, AccountService accountService) {
+        if (budgets == null) {
+            return null;
+        }
+        return budgets.map(budget -> toDto(budget, accountService));
     }
 }

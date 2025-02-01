@@ -16,7 +16,7 @@ import java.security.Principal;
 @RestController
 @RequestMapping(BudgetTemplateController.CONTROLLER_URL)
 public class BudgetTemplateController extends AbstractController {
-    public static final String CONTROLLER_URL = "/api/budget/template";
+    public static final String CONTROLLER_URL = "/api/budgets/template";
 
     @Autowired
     private BudgetTemplateService budgetTemplateService;

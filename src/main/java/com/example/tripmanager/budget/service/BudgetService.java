@@ -7,6 +7,8 @@ import com.example.tripmanager.budget.model.BudgetCreateForm;
 import com.example.tripmanager.budget.model.BudgetTemplate;
 import com.example.tripmanager.budget.repository.BudgetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,5 +28,9 @@ public class BudgetService {
         // TODO: Invite members to created budget
 
         return savedBudget;
+    }
+
+    public Page<Budget> getBudgetsRelatedToAccount(Pageable pageable, Account account, boolean includeArchived) {
+        return budgetRepository.getBudgetRelatedWhereGivenAccountIsMember(pageable, account, includeArchived);
     }
 }
