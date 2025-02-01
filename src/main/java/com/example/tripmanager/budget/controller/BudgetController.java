@@ -1,6 +1,8 @@
 package com.example.tripmanager.budget.controller;
 
 import com.example.tripmanager.account.model.Account;
+import com.example.tripmanager.budget.mapper.BudgetMapper;
+import com.example.tripmanager.budget.model.Budget;
 import com.example.tripmanager.budget.model.BudgetCreateForm;
 import com.example.tripmanager.budget.model.BudgetDto;
 import com.example.tripmanager.budget.service.BudgetService;
@@ -20,6 +22,10 @@ public class BudgetController extends AbstractController {
     @Autowired
     private BudgetService budgetService;
 
+    protected BudgetDto toDto(Budget budget) {
+        return BudgetMapper.toDto(budget, accountService);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public BudgetDto createBudget(
@@ -27,8 +33,8 @@ public class BudgetController extends AbstractController {
             @Valid @RequestBody BudgetCreateForm budgetCreateForm
     ) {
         Account currentAccount = getCurrentAccount(principal);
-
-        return null;
+        Budget createdBudget = budgetService.createBudget(budgetCreateForm, currentAccount);
+        return toDto(createdBudget);
     }
 
 }
