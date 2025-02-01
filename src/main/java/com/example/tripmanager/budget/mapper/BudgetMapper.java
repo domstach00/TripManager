@@ -63,7 +63,7 @@ public class BudgetMapper {
         BudgetDto budgetDto = new BudgetDto();
         AuditableMapper.toDto(budget, budgetDto, accountService);
         Optional<Account> ownerOpt = accountService.getAccountById(budget.getOwnerId().toHexString());
-        ownerOpt.ifPresent(owner -> budgetDto.setOwnerId(AccountMapper.toDto(owner)));
+        ownerOpt.ifPresent(owner -> budgetDto.setOwner(AccountMapper.toDto(owner)));
         budgetDto.setMembers(budget.getMembers().stream().map(AbstractEntity::toString).collect(Collectors.toList()));
         budgetDto.setTemplateId(AbstractEntity.toString(budget.getTemplateId()));
         budgetDto.setName(budget.getName());

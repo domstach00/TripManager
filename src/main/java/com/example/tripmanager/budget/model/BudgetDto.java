@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class BudgetDto extends AbstractAuditableDto {
-    private AccountDto ownerId;
+    private AccountDto owner;
     private List<String> members;
     private String templateId;
     private String name;
@@ -21,8 +21,8 @@ public class BudgetDto extends AbstractAuditableDto {
     private String endDate;
     private boolean isArchived;
 
-    public BudgetDto(AccountDto ownerId, List<String> members, String templateId, String name, List<Category> categories, String description, BigDecimal allocatedBudget, String startDate, String endDate, boolean isArchived) {
-        this.ownerId = ownerId;
+    public BudgetDto(AccountDto owner, List<String> members, String templateId, String name, List<Category> categories, String description, BigDecimal allocatedBudget, String startDate, String endDate, boolean isArchived) {
+        this.owner = owner;
         this.members = members;
         this.templateId = templateId;
         this.name = name;
@@ -37,12 +37,12 @@ public class BudgetDto extends AbstractAuditableDto {
     public BudgetDto() {
     }
 
-    public AccountDto getOwnerId() {
-        return ownerId;
+    public AccountDto getOwner() {
+        return owner;
     }
 
-    public void setOwnerId(AccountDto ownerId) {
-        this.ownerId = ownerId;
+    public void setOwner(AccountDto owner) {
+        this.owner = owner;
     }
 
     public List<String> getMembers() {

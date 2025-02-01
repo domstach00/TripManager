@@ -30,6 +30,10 @@ export class RouterService {
 		this.navTo(Paths.trips);
 	}
 
+	public navToBudgets() {
+		this.navTo(Paths.budgets)
+	}
+
 	public navToTrip(tripId: string) {
 		this.navTo(Paths.trip, [tripId]);
 	}

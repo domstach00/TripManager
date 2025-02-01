@@ -5,7 +5,8 @@ export enum Paths {
 	home = '/home',
 	settings = '/settings',
 	trips = '/trips',
-	trip = trips + '/:tripId'
+	trip = trips + '/:tripId',
+	budgets = '/budgets',
 }
 
 export function mapPath(path: Paths, ids?: string[]): string {
