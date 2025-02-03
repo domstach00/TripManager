@@ -65,8 +65,21 @@ export class BudgetTableComponent extends SearchResultComponent<Budget>{
 		// TODO: Continue budget with new period and archive old budget if user wants it
 	}
 
-	leaveBudgetAsMember(budgetId: string) {
-		// TODO: Leaving budget
+	leaveBudgetAsMember(budget: Budget) {
+		const confirmationText = `Do you want to leave Budget ${budget.name}?`
+		const dialogRef = this.dialog.open(ConfirmActionDialogComponent, {
+			height: '300px',
+			width: '600px',
+			data: { elementName: budget.name, body: confirmationText, isWarning: true }
+		})
+
+		dialogRef.afterClosed().subscribe((result) => {
+			if (!!result) {
+				this.budgetService.leaveBudget(budget.id).subscribe(_ => {
+					this.refreshEvent.emit();
+				})
+			}
+		})
 	}
 
 	deleteBudget(budget: Budget) {

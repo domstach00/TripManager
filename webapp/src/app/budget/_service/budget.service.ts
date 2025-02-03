@@ -20,14 +20,18 @@ export class BudgetService{
 	}
 
 	archiveBudget(budgetId: string, params?: any): Observable<Budget> {
-		return this.apiService.putFormatted(ApiPath.budgetsArchive, [budgetId], null, params);
+		return this.apiService.putFormatted(ApiPath.budgetArchive, [budgetId], null, params);
 	}
 
 	unArchiveBudget(budgetId: string, params?: any): Observable<Budget> {
-		return this.apiService.putFormatted(ApiPath.budgetsUnArchive, [budgetId], null, params);
+		return this.apiService.putFormatted(ApiPath.budgetUnArchive, [budgetId], null, params);
 	}
 
 	deleteBudget(budgetId: string, params?: any): Observable<void> {
-		return this.apiService.deleteFormatted(ApiPath.budgetsSelect, [budgetId], params);
+		return this.apiService.deleteFormatted(ApiPath.budgetSelect, [budgetId], params);
+	}
+
+	leaveBudget(budgetId: string, params?: any): Observable<void> {
+		return this.apiService.deleteFormatted(ApiPath.budgetLeave, [budgetId], params);
 	}
 }

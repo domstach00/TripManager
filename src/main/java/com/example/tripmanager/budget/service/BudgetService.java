@@ -7,10 +7,15 @@ import com.example.tripmanager.budget.model.BudgetCreateForm;
 import com.example.tripmanager.budget.model.BudgetTemplate;
 import com.example.tripmanager.budget.repository.BudgetRepository;
 import com.example.tripmanager.shared.exception.ItemNotFound;
+import com.example.tripmanager.shared.model.AbstractEntity;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BudgetService {
@@ -72,4 +77,25 @@ public class BudgetService {
         }
         budgetRepository.save(budgetToDelete);
     }
+
+    public void leaveBudget(String budgetId, Account currentAccount) {
+        if (budgetId == null || currentAccount == null) {
+            throw new IllegalArgumentException("Budget ID and current account cannot be null");
+        }
+        Budget budgetToLeave = budgetRepository.getBudgetByIdWhereAccountIsMember(budgetId, currentAccount)
+                .orElseThrow(() -> new ItemNotFound("Budget was not found or you do not have enough permissions"));
+
+        ObjectId currentAccountId = AbstractEntity.toObjectId(currentAccount.getId());
+        List<ObjectId> updatedMembers = budgetToLeave.getMembers().stream()
+                .filter(memberId -> !memberId.equals(currentAccountId))
+                .collect(Collectors.toList());
+
+        if (updatedMembers.size() == budgetToLeave.getMembers().size()) {
+            return;
+        }
+
+        budgetToLeave.setMembers(updatedMembers);
+        budgetRepository.save(budgetToLeave);
+    }
+
 }

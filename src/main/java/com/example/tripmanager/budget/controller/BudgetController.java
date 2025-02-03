@@ -93,4 +93,13 @@ public class BudgetController extends AbstractController {
         Account currentAccount = getCurrentAccount(principal);
         budgetService.deleteBudget(budgetId, currentAccount);
     }
+
+    @DeleteMapping("/{budgetId}/leave")
+    public void leaveBudget(
+            Principal principal,
+            @PathVariable String budgetId
+    ) {
+        Account currentAccount = getCurrentAccount(principal);
+        budgetService.leaveBudget(budgetId, currentAccount);
+    }
 }
