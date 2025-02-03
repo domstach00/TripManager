@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 
 import java.time.Instant;
 import java.time.ZoneId;
+import java.util.Collections;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -64,7 +65,9 @@ public class BudgetMapper {
         AuditableMapper.toDto(budget, budgetDto, accountService);
         Optional<Account> ownerOpt = accountService.getAccountById(budget.getOwnerId().toHexString());
         ownerOpt.ifPresent(owner -> budgetDto.setOwner(AccountMapper.toDto(owner)));
-        budgetDto.setMembers(budget.getMembers().stream().map(AbstractEntity::toString).collect(Collectors.toList()));
+        budgetDto.setMembers(budget.getMembers() != null
+                ? budget.getMembers().stream().map(AbstractEntity::toString).collect(Collectors.toList())
+                : Collections.emptyList());
         budgetDto.setTemplateId(AbstractEntity.toString(budget.getTemplateId()));
         budgetDto.setName(budget.getName());
         budgetDto.setCategories(budget.getCategories());

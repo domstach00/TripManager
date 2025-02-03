@@ -1,0 +1,28 @@
+<ng-container *ngIf="searchResultObservable$ | async as searchResult">
+	<div class="button-container">
+		<button mat-raised-button color="primary" (click)="openCreateBudgetDialog()">{{ 'budget.createBudget' | translate }}</button>
+		<button mat-raised-button color="primary" (click)="openCreateBudgetDialog()">{{ 'budget.joinBudget' | translate }}</button>
+	</div>
+
+	<budget-table
+		[currentAccount]="currentAccount"
+		[dataSet]="searchResult.content"
+		[totalPages]="searchResult.totalPages"
+		(refreshEvent)="prepareQueryParamsAndSearch()"
+	></budget-table>
+
+	<app-paginator
+		[page]="page"
+		[pageSize]="pageSize"
+		[totalElements]="totalElements"
+		[totalPages]="totalPages"
+		[isFirstPage]="searchResult.first"
+		[isLastPage]="searchResult.last"
+		[isEmptyPage]="searchResult.empty"
+		(goPrev)="onPrev()"
+		(goNext)="onNext()"
+		(goPage)="goToPage($event)"
+	></app-paginator>
+
+
+</ng-container>

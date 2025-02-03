@@ -1,0 +1,65 @@
+<div class="table-container">
+	<table mat-table [dataSource]="dataSource" class="budget-table mat-elevation-z8">
+
+		<ng-container matColumnDef="name">
+			<mat-header-cell *matHeaderCellDef> {{ 'budget.name' | translate }} </mat-header-cell>>
+			<mat-cell *matCellDef="let element">
+				<mat-icon *ngIf="element.isArchived" [matTooltip]="'Archived budget'" class="icons-archive">archive</mat-icon>
+				{{ element.name }}
+			</mat-cell>>
+		</ng-container>
+
+		<ng-container matColumnDef="owner">
+			<mat-header-cell *matHeaderCellDef> {{ 'budget.owner' | translate }} </mat-header-cell>>
+			<mat-cell *matCellDef="let element">
+				{{ element.owner?.username || element.owner?.email }}
+			</mat-cell>>
+		</ng-container>
+
+		<ng-container matColumnDef="startDate">
+			<mat-header-cell *matHeaderCellDef> {{ 'budget.dateStart' | translate }} </mat-header-cell>>
+			<mat-cell *matCellDef="let element">
+				{{ element.startDate | date:'yyyy-MM-dd' }}
+			</mat-cell>>
+		</ng-container>
+
+		<ng-container matColumnDef="endDate">
+			<mat-header-cell *matHeaderCellDef> {{ 'budget.dateEnd' | translate }} </mat-header-cell>
+			<mat-cell *matCellDef="let element">
+				{{ element.endDate | date:'yyyy-MM-dd' }}
+			</mat-cell>>
+		</ng-container>
+
+		<ng-container matColumnDef="allocatedBudget">
+			<mat-header-cell *matHeaderCellDef> {{ 'budget.allocatedBudget' | translate }} </mat-header-cell>>
+			<mat-cell *matCellDef="let element">
+				{{ element.allocatedBudget | currency }}
+			</mat-cell>>
+		</ng-container>
+
+		<ng-container matColumnDef="actions">
+			<mat-header-cell *matHeaderCellDef class="icon-container"></mat-header-cell>
+			<mat-cell *matCellDef="let element" class="icon-container">
+				<button mat-icon-button [matMenuTriggerFor]="kebabMenu">
+					<mat-icon>more_vert</mat-icon>
+				</button>
+				<mat-menu #kebabMenu>
+
+					<button mat-menu-item *ngIf="isBudgetOwner(element)" (click)="archiveBudget(element.id)">
+						{{ 'budget.archive' | translate }}</button>
+					<button mat-menu-item *ngIf="isBudgetOwner(element)" (click)="editBudget(element)">
+						{{ 'budget.edit' | translate }}</button>
+					<button mat-menu-item (click)="startNewBudgetPeriod(element.id)">
+						{{ 'budget.startNewPeriod' | translate }}</button>
+					<button mat-menu-item *ngIf="!isBudgetOwner(element)" (click)="leaveBudgetAsMember(element.id)">
+						{{ 'budget.leaveBudget' | translate }}</button>
+					<button mat-menu-item *ngIf="isBudgetOwner(element)" (click)="deleteBudget(element.id)">
+						{{ 'budget.delete' | translate }}</button>
+				</mat-menu>
+			</mat-cell>
+		</ng-container>
+
+		<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>>
+		<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>>
+	</table>
+</div>
