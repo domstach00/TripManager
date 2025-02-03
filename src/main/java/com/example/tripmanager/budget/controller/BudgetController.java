@@ -75,6 +75,16 @@ public class BudgetController extends AbstractController {
         return toDto(archivedBudget);
     }
 
+    @PutMapping("/{budgetId}/unarchive")
+    public BudgetDto unArchiveBudget(
+            Principal principal,
+            @PathVariable String budgetId
+    ) {
+        Account currentAccount = getCurrentAccount(principal);
+        Budget archivedBudget = budgetService.unArchiveBudget(budgetId, currentAccount);
+        return toDto(archivedBudget);
+    }
+
     @DeleteMapping("/{budgetId}")
     public void deleteBudget(
             Principal principal,

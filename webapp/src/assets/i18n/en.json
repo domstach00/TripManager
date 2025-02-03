@@ -27,6 +27,7 @@
 	"budget.name": "Name",
 	"budget.owner": "Owner",
 	"budget.startNewPeriod": "Start new period",
+	"budget.unArchive": "Unarchive",
 	"lastModifiedByX": "Last modified by {{accountName}}",
 	"login.email.error": "Type email.",
 	"login.email.placeholder": "Email",

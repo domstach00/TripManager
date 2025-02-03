@@ -33,8 +33,22 @@ export class BudgetTableComponent extends SearchResultComponent<Budget>{
 		return true;
 	}
 
+	isBudgetArchived(budget: Budget): boolean {
+		return !!budget && budget.isArchived
+	}
+
 	archiveBudget(budgetId: string) {
 		this.budgetService.archiveBudget(budgetId).subscribe(
+			archivedBudget => {
+				if (!!archivedBudget) {
+					this.refreshEvent.emit();
+				}
+			}
+		)
+	}
+
+	unArchiveBudget(budgetId: string) {
+		this.budgetService.unArchiveBudget(budgetId).subscribe(
 			archivedBudget => {
 				if (!!archivedBudget) {
 					this.refreshEvent.emit();

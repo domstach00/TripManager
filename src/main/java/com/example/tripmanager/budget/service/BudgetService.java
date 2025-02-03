@@ -41,13 +41,25 @@ public class BudgetService {
     }
 
     public Budget archiveBudget(String budgetId, Account currentAccount) {
-        Budget budgetToArchive = budgetRepository.getBudgetById(budgetId, currentAccount)
+        Budget budgetToArchive = budgetRepository.getBudgetByIdWhereAccountIsOwner(budgetId, currentAccount)
                 .orElseThrow(() -> new ItemNotFound("Budget was not found or you do not have enough permissions"));
         if (budgetToArchive.isArchived()) {
             throw new IllegalStateException("Budget is already archived");
         }
 
         budgetToArchive.setArchived(true);
+
+        return budgetRepository.save(budgetToArchive);
+    }
+
+    public Budget unArchiveBudget(String budgetId, Account currentAccount) {
+        Budget budgetToArchive = budgetRepository.getBudgetByIdWhereAccountIsOwner(budgetId, currentAccount)
+                .orElseThrow(() -> new ItemNotFound("Budget was not found or you do not have enough permissions"));
+        if (!budgetToArchive.isArchived()) {
+            throw new IllegalStateException("Budget is already not archived");
+        }
+
+        budgetToArchive.setArchived(false);
 
         return budgetRepository.save(budgetToArchive);
     }

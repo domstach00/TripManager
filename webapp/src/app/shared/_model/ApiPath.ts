@@ -15,5 +15,6 @@ export enum ApiPath {
 	mapElements = tripPlan + '/map',
 	budgets = '/budgets',
 	budgetsSelect = budgets + '/{0}',
-	budgetsArchive = budgetsSelect + '/archive'
+	budgetsArchive = budgetsSelect + '/archive',
+	budgetsUnArchive = budgetsSelect + '/unarchive',
 }

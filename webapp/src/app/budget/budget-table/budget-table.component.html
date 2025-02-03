@@ -45,8 +45,10 @@
 				</button>
 				<mat-menu #kebabMenu>
 
-					<button mat-menu-item *ngIf="isBudgetOwner(element)" (click)="archiveBudget(element.id)">
+					<button mat-menu-item *ngIf="!isBudgetArchived(element) && isBudgetOwner(element)" (click)="archiveBudget(element.id)">
 						{{ 'budget.archive' | translate }}</button>
+					<button mat-menu-item *ngIf="isBudgetArchived(element) && isBudgetOwner(element)" (click)="unArchiveBudget(element.id)">
+						{{ 'budget.unArchive' | translate }}</button>
 					<button mat-menu-item *ngIf="isBudgetOwner(element)" (click)="editBudget(element)">
 						{{ 'budget.edit' | translate }}</button>
 					<button mat-menu-item (click)="startNewBudgetPeriod(element.id)">
