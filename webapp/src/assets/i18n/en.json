@@ -1,6 +1,7 @@
 {
 	"budget.allocatedBudget": "Budget",
 	"budget.archive": "Archive",
+	"budget.code": "Code",
 	"budget.create.allocateBudget": "Budget",
 	"budget.create.allocateBudget.invalid": "Invalid amount",
 	"budget.create.cancel": "Cancel",
@@ -20,6 +21,7 @@
 	"budget.dateStart": "Start Date",
 	"budget.delete": "Delete",
 	"budget.edit": "Edit",
+	"budget.enterCode": "Enter Code",
 	"budget.joinBudget": "Join Budget",
 	"budget.leaveBudget": "Leave",
 	"budget.name": "Name",

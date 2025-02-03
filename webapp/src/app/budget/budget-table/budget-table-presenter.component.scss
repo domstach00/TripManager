@@ -7,21 +7,86 @@
 	padding: 1.5rem;
 	background-color: #fafafa;
 	color: #333;
+	font-family: 'Roboto', sans-serif;
 }
 
-.button-container {
+.header {
 	display: flex;
-	flex-wrap: wrap;
-	gap: 1rem;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
 	margin-bottom: 1.5rem;
+}
+
+.left-section {
+	button {
+		border: 1px solid #3f51b5;
+		color: #3f51b5;
+		background-color: transparent;
+		transition: background-color 0.3s ease;
+		height: 40px;
+		line-height: 40px;
+		padding: 0 16px;
+
+		&:hover {
+			background-color: rgba(63, 81, 181, 0.1);
+		}
+	}
+}
+
+.right-section {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+
+	.code-input {
+		width: 140px;
+
+		.mat-form-field-wrapper {
+			padding-bottom: 0;
+		}
+
+		.mat-form-field-flex {
+			align-items: center;
+			height: 40px;
+		}
+
+		.mat-form-field-infix {
+			padding: 0;
+			border-top: 0;
+			height: 40px;
+			display: flex;
+			align-items: center;
+		}
+
+		.mat-form-field-outline {
+			color: #ccc;
+		}
+
+		.mat-form-field-outline-thicker {
+			color: #3f51b5;
+		}
+
+		.mat-input-element {
+			height: 100%;
+			padding: 0 0.5em;
+			line-height: 40px;
+		}
 	}
 
-button[mat-raised-button] {
-	min-width: 150px;
-	font-size: 1rem;
-	font-weight: 500;
-	padding: 0.5rem 1.5rem;
-	text-transform: none;
+	button {
+		border: 1px solid #3f51b5;
+		color: #3f51b5;
+		background-color: transparent;
+		transition: background-color 0.3s ease;
+		height: 40px;
+		line-height: 40px;
+		padding: 0 16px;
+
+		&:hover {
+			background-color: rgba(63, 81, 181, 0.1);
+		}
+	}
 }
 
 budget-table {

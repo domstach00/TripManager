@@ -1,7 +1,25 @@
 <ng-container *ngIf="searchResultObservable$ | async as searchResult">
-	<div class="button-container">
-		<button mat-raised-button color="primary" (click)="openCreateBudgetDialog()">{{ 'budget.createBudget' | translate }}</button>
-		<button mat-raised-button color="primary" (click)="openCreateBudgetDialog()">{{ 'budget.joinBudget' | translate }}</button>
+	<div class="header">
+		<div class="left-section">
+			<button mat-stroked-button (click)="openCreateBudgetDialog()">
+				{{ 'budget.createBudget' | translate }}
+			</button>
+		</div>
+
+		<div class="right-section">
+			<mat-form-field appearance="outline" class="code-input">
+				<mat-label>{{ 'budget.code' | translate }}</mat-label>
+				<input
+					matInput
+					maxlength="6"
+					placeholder="{{ 'budget.enterCode' | translate }}"
+					[(ngModel)]="joinCode"
+				/>
+			</mat-form-field>
+			<button mat-stroked-button (click)="joinBudget()">
+				{{ 'budget.joinBudget' | translate }}
+			</button>
+		</div>
 	</div>
 
 	<budget-table
@@ -23,6 +41,4 @@
 		(goNext)="onNext()"
 		(goPage)="goToPage($event)"
 	></app-paginator>
-
-
 </ng-container>

@@ -16,6 +16,7 @@ import { MatDialog } from "@angular/material/dialog";
   styleUrl: './budget-table-presenter.component.scss'
 })
 export class BudgetTablePresenterComponent extends SearchableComponent<Budget, Page<Budget>> implements OnInit {
+	joinCode: string = '';
 
 	constructor(
 		override readonly accountService: AccountService,
@@ -48,8 +49,7 @@ export class BudgetTablePresenterComponent extends SearchableComponent<Budget, P
 		});
 	}
 
-	openJoinBudgetDialog(): void {
-		// TODO: Create join budget dialog
+	joinBudget() {
+		// TODO: Ability to join budget via code
 	}
-
 }
