@@ -39,4 +39,16 @@ public class BudgetService {
         return budgetRepository.getBudgetById(budgetId, currentAccount)
                 .orElseThrow(() -> new ItemNotFound("Budget was not found or you do not have enough permissions"));
     }
+
+    public Budget archiveBudget(String budgetId, Account currentAccount) {
+        Budget budgetToArchive = budgetRepository.getBudgetById(budgetId, currentAccount)
+                .orElseThrow(() -> new ItemNotFound("Budget was not found or you do not have enough permissions"));
+        if (budgetToArchive.isArchived()) {
+            throw new IllegalStateException("Budget is already archived");
+        }
+
+        budgetToArchive.setArchived(true);
+
+        return budgetRepository.save(budgetToArchive);
+    }
 }

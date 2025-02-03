@@ -39,7 +39,6 @@ export class BudgetTablePresenterComponent extends SearchableComponent<Budget, P
 
 		dialogRef.afterClosed().subscribe(budgetToCreate => {
 			if (budgetToCreate) {
-				console.log('Nowy budżet:', budgetToCreate);
 				this.budgetService.postBudget(budgetToCreate).subscribe(budget => {
 					if (!!budget) {
 						this.prepareQueryParamsAndSearch();

@@ -64,4 +64,14 @@ public class BudgetController extends AbstractController {
         Budget budget = budgetService.getBudgetById(budgetId, currentAccount);
         return toDto(budget);
     }
+
+    @PutMapping("/{budgetId}/archive")
+    public BudgetDto archiveBudget(
+            Principal principal,
+            @PathVariable String budgetId
+    ) {
+        Account currentAccount = getCurrentAccount(principal);
+        Budget archivedBudget = budgetService.archiveBudget(budgetId, currentAccount);
+        return toDto(archivedBudget);
+    }
 }

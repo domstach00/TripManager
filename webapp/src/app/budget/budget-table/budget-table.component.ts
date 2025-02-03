@@ -4,6 +4,7 @@ import { Budget } from "../_model/budget";
 import { TranslateService } from "@ngx-translate/core";
 import { RouterService } from "../../shared/_service/router.service";
 import { DateUtilService } from "../../shared/_service/date-util.service";
+import { BudgetService } from "../_service/budget.service";
 
 @Component({
   selector: 'budget-table',
@@ -18,6 +19,7 @@ export class BudgetTableComponent extends SearchResultComponent<Budget>{
 		protected override readonly translate: TranslateService,
 		protected readonly routerService: RouterService,
 		protected readonly dateUtilService: DateUtilService,
+		readonly budgetService: BudgetService,
 	) {
 		super(translate);
 	}
@@ -27,7 +29,13 @@ export class BudgetTableComponent extends SearchResultComponent<Budget>{
 	}
 
 	archiveBudget(budgetId: string) {
-		// TODO: Archiving budget
+		this.budgetService.archiveBudget(budgetId).subscribe(
+			archivedBudget => {
+				if (!!archivedBudget) {
+					this.refreshEvent.emit();
+				}
+			}
+		)
 	}
 
 	editBudget(budget: Budget) {

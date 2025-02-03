@@ -22,7 +22,6 @@ export class ApiService {
 	}
 
 	public post<T = any, K = any>(url: ApiPath, body?: K, params?: any): Observable<T> {
-		console.log(`${ApiPath.apiBaseUrl}` + `${url}`)
 		return this.httpClient.post<T>(`${ApiPath.apiBaseUrl}` + `${url}`, body, { params, withCredentials: true });
 	}
 

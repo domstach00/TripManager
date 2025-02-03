@@ -16,7 +16,10 @@ export class BudgetService{
 	}
 
 	postBudget(budgetCreateForm: BudgetCreateForm, params?: any): Observable<Budget> {
-		console.log(ApiPath.budgets,' ',budgetCreateForm, params)
 		return this.apiService.post<Budget, BudgetCreateForm>(ApiPath.budgets, budgetCreateForm, params)
+	}
+
+	archiveBudget(budgetId: string, params?: any): Observable<Budget> {
+		return this.apiService.putFormatted(ApiPath.budgetsArchive, [budgetId], null, params);
 	}
 }

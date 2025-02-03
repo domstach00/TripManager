@@ -14,4 +14,6 @@ export enum ApiPath {
 	googleMapPin = tripSelect + '/map',
 	mapElements = tripPlan + '/map',
 	budgets = '/budgets',
+	budgetsSelect = budgets + '/{0}',
+	budgetsArchive = budgetsSelect + '/archive'
 }
