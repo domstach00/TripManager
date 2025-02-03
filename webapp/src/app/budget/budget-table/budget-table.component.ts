@@ -5,6 +5,10 @@ import { TranslateService } from "@ngx-translate/core";
 import { RouterService } from "../../shared/_service/router.service";
 import { DateUtilService } from "../../shared/_service/date-util.service";
 import { BudgetService } from "../_service/budget.service";
+import { MatDialog } from "@angular/material/dialog";
+import {
+	ConfirmActionDialogComponent
+} from "../../shared/_dialog/delete-confirmation-dialog/confirm-action-dialog.component";
 
 @Component({
   selector: 'budget-table',
@@ -20,6 +24,7 @@ export class BudgetTableComponent extends SearchResultComponent<Budget>{
 		protected readonly routerService: RouterService,
 		protected readonly dateUtilService: DateUtilService,
 		readonly budgetService: BudgetService,
+		readonly dialog: MatDialog
 	) {
 		super(translate);
 	}
@@ -50,7 +55,20 @@ export class BudgetTableComponent extends SearchResultComponent<Budget>{
 		// TODO: Leaving budget
 	}
 
-	deleteBudget(budgetId: string) {
-		// TODO: Deleting budget
+	deleteBudget(budget: Budget) {
+		const confirmationText = `Do you want to delete Budget ${budget.name}?`
+		const dialogRef = this.dialog.open(ConfirmActionDialogComponent, {
+			height: '300px',
+			width: '600px',
+			data: { elementName: budget.name, body: confirmationText, isWarning: true }
+		})
+
+		dialogRef.afterClosed().subscribe((result) => {
+			if (!!result) {
+				this.budgetService.deleteBudget(budget.id).subscribe(_ => {
+					this.refreshEvent.emit();
+				})
+			}
+		})
 	}
 }

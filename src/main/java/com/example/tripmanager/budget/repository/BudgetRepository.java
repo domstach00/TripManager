@@ -54,4 +54,20 @@ public class BudgetRepository extends AbstractRepositoryImpl<Budget> {
         );
         return findOneBy(operationList);
     }
+
+    public Optional<Budget> getBudgetByIdWhereAccountIsOwner(String budgetId, Account currentAccount) {
+        List<AggregationOperation> operationList = new ArrayList<>();
+        operationList.add(
+                Aggregation.match(buildCriteriaById(budgetId))
+        );
+        operationList.add(
+                Aggregation.match(buildCriteriaByAccessModifiers(false, null))
+        );
+        operationList.add(
+                Aggregation.match(
+                        buildCriteriaAccountIsBudgetOwner(currentAccount.getId())
+                )
+        );
+        return findOneBy(operationList);
+    }
 }

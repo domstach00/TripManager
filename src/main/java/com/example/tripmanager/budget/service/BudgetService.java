@@ -51,4 +51,13 @@ public class BudgetService {
 
         return budgetRepository.save(budgetToArchive);
     }
+
+    public void deleteBudget(String budgetId, Account currentAccount) {
+        Budget budgetToDelete = budgetRepository.getBudgetByIdWhereAccountIsOwner(budgetId, currentAccount)
+                .orElseThrow(() -> new ItemNotFound("Budget was not found or you do not have enough permissions"));
+        if (!budgetToDelete.isDeleted()) {
+            budgetToDelete.setDeleted(true);
+        }
+        budgetRepository.save(budgetToDelete);
+    }
 }

@@ -53,7 +53,7 @@
 						{{ 'budget.startNewPeriod' | translate }}</button>
 					<button mat-menu-item *ngIf="!isBudgetOwner(element)" (click)="leaveBudgetAsMember(element.id)">
 						{{ 'budget.leaveBudget' | translate }}</button>
-					<button mat-menu-item *ngIf="isBudgetOwner(element)" (click)="deleteBudget(element.id)">
+					<button mat-menu-item *ngIf="isBudgetOwner(element)" (click)="deleteBudget(element)">
 						{{ 'budget.delete' | translate }}</button>
 				</mat-menu>
 			</mat-cell>

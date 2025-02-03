@@ -22,4 +22,8 @@ export class BudgetService{
 	archiveBudget(budgetId: string, params?: any): Observable<Budget> {
 		return this.apiService.putFormatted(ApiPath.budgetsArchive, [budgetId], null, params);
 	}
+
+	deleteBudget(budgetId: string, params?: any): Observable<void> {
+		return this.apiService.deleteFormatted(ApiPath.budgetsSelect, [budgetId], params);
+	}
 }
