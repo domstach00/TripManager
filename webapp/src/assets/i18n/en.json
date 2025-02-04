@@ -21,6 +21,8 @@
 	"budget.dateStart": "Start Date",
 	"budget.delete": "Delete",
 	"budget.edit": "Edit",
+	"budget.edit.save": "Save",
+	"budget.edit.title": "Edit Budget",
 	"budget.enterCode": "Enter Code",
 	"budget.joinBudget": "Join Budget",
 	"budget.leaveBudget": "Leave",

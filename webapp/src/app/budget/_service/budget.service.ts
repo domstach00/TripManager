@@ -34,4 +34,8 @@ export class BudgetService{
 	leaveBudget(budgetId: string, params?: any): Observable<void> {
 		return this.apiService.deleteFormatted(ApiPath.budgetLeave, [budgetId], params);
 	}
+
+	updateBudget(budgetId: string, updatedBudget: Budget, params?: any): Observable<Budget> {
+		return this.apiService.putFormatted(ApiPath.budgetSelect, [budgetId], updatedBudget, params);
+	}
 }

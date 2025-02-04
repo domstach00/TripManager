@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -96,6 +98,28 @@ public class BudgetService {
 
         budgetToLeave.setMembers(updatedMembers);
         budgetRepository.save(budgetToLeave);
+    }
+
+    @Transactional
+    public Budget editBudget(String budgetId, BudgetCreateForm editedBudget, Account currentAccount) {
+        if (budgetId == null || editedBudget == null || currentAccount == null) {
+            throw new IllegalArgumentException("Updated Budget, Id and current account cannot be null");
+        }
+        Budget orginalBudget = budgetRepository.getBudgetByIdWhereAccountIsOwner(budgetId, currentAccount)
+                .orElseThrow(() -> new ItemNotFound("Budget was not found or you do not have enough permissions"));
+
+        orginalBudget.setName(editedBudget.getName());
+        orginalBudget.setDescription(editedBudget.getDescription());
+        orginalBudget.setAllocatedBudget(editedBudget.getAllocatedBudget());
+        if (editedBudget.getStartDate() != null) {
+            orginalBudget.setStartDate(editedBudget.getStartDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+        }
+        if (editedBudget.getEndDate() != null) {
+            orginalBudget.setEndDate(editedBudget.getEndDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+        }
+        // TODO: Invite members to edited budget
+
+        return budgetRepository.save(orginalBudget);
     }
 
 }

@@ -9,6 +9,7 @@ import { MatDialog } from "@angular/material/dialog";
 import {
 	ConfirmActionDialogComponent
 } from "../../shared/_dialog/delete-confirmation-dialog/confirm-action-dialog.component";
+import { BudgetCreateDialogComponent } from "../_dialog/budget-create-dialog/budget-create-dialog.component";
 
 @Component({
   selector: 'budget-table',
@@ -58,7 +59,20 @@ export class BudgetTableComponent extends SearchResultComponent<Budget>{
 	}
 
 	editBudget(budget: Budget) {
-		// TODO: Editing budget
+		const dialogRef = this.dialog.open(BudgetCreateDialogComponent, {
+			width: '400px',
+			data: { budget: budget }
+		});
+
+		dialogRef.afterClosed().subscribe(updatedData => {
+			if (updatedData) {
+				this.budgetService.updateBudget(budget.id, updatedData).subscribe(updatedBudget => {
+					if (updatedBudget) {
+						this.refreshEvent.emit();
+					}
+				});
+			}
+		});
 	}
 
 	startNewBudgetPeriod(budgetId: string) {

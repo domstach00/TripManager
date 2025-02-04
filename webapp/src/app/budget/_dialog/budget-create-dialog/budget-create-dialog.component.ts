@@ -10,12 +10,15 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 export class BudgetCreateDialogComponent {
 	budgetForm: FormGroup;
 	newMember: string = '';
+	isEditMode: boolean = false;
 
 	constructor(
 		public dialogRef: MatDialogRef<BudgetCreateDialogComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: any,
 		private fb: FormBuilder
 	) {
+		this.isEditMode = !!this.data.budget;
+
 		this.budgetForm = this.fb.group({
 			membersToInvite: [[]],
 			newMember: ['', Validators.email],
@@ -25,6 +28,17 @@ export class BudgetCreateDialogComponent {
 			startDate: [''],
 			endDate: ['']
 		});
+
+		if (this.isEditMode) {
+			this.budgetForm.patchValue({
+				name: this.data.budget.name,
+				description: this.data.budget.description,
+				allocatedBudget: this.data.budget.allocatedBudget,
+				startDate: this.data.budget.startDate,
+				endDate: this.data.budget.endDate,
+				membersToInvite: this.data.budget.membersToInvite || []
+			});
+		}
 	}
 
 	isDateOrderValid(): boolean {

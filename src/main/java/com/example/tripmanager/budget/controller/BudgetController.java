@@ -102,4 +102,15 @@ public class BudgetController extends AbstractController {
         Account currentAccount = getCurrentAccount(principal);
         budgetService.leaveBudget(budgetId, currentAccount);
     }
+
+    @PutMapping("/{budgetId}")
+    public BudgetDto editBudget(
+            Principal principal,
+            @PathVariable String budgetId,
+            @Valid @RequestBody BudgetCreateForm editedBudget
+    ) {
+        Account currentAccount = getCurrentAccount(principal);
+        Budget updatedBudget = budgetService.editBudget(budgetId, editedBudget, currentAccount);
+        return toDto(updatedBudget);
+    }
 }

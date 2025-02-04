@@ -1,4 +1,6 @@
-<h2 mat-dialog-title>{{ 'budget.create.title' | translate }}</h2>
+<h2 mat-dialog-title>
+	{{ isEditMode ? ('budget.edit.title' | translate) : ('budget.create.title' | translate) }}
+</h2>
 <mat-dialog-content>
 	<form [formGroup]="budgetForm" class="budget-form">
 		<mat-form-field appearance="outline">
@@ -57,5 +59,9 @@
 
 <mat-dialog-actions align="end">
 	<button mat-button (click)="close()">{{ 'budget.create.cancel' | translate }}</button>
-	<button mat-button color="primary" [disabled]="budgetForm.invalid || !isDateOrderValid()" (click)="submit()">{{ 'budget.create.save' | translate }}</button>
+	<button mat-button color="primary"
+			[disabled]="budgetForm.invalid || !isDateOrderValid()"
+			(click)="submit()">
+		{{ isEditMode ? ('budget.edit.save' | translate) : ('budget.create.save' | translate) }}
+	</button>
 </mat-dialog-actions>
