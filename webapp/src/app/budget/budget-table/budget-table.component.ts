@@ -31,7 +31,7 @@ export class BudgetTableComponent extends SearchResultComponent<Budget>{
 	}
 
 	isBudgetOwner(budget: Budget): boolean {
-		return true;
+		return budget.owner?.id === this.currentAccountId;
 	}
 
 	isBudgetArchived(budget: Budget): boolean {
