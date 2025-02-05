@@ -23,15 +23,13 @@ export interface BudgetCreateForm {
 	endDate: string;
 }
 
-export interface Categories {
-	symbolicName: string;
+export interface Categories extends BaseModel {
 	name: string;
 	type?: 'EXPENSE' | 'INCOME';
 	allocatedAmount?: string;
 	subCategories?: SubCategory[];
 }
 
-export interface SubCategory {
-	symbolicName: string;
+export interface SubCategory extends BaseModel {
 	name: string;
 }

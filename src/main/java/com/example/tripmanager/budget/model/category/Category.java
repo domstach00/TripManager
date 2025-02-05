@@ -1,19 +1,25 @@
 package com.example.tripmanager.budget.model.category;
 
 import com.example.tripmanager.budget.model.BudgetType;
+import com.example.tripmanager.shared.model.AbstractAuditable;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-public class Category {
-    private String symbolicName;
+@Document(collection = Category.COLLECTION_NAME)
+public class Category extends AbstractAuditable {
+    public static final String COLLECTION_NAME = "Categories";
+    public static final String FIELD_NAME_NAME = "name";
+    public static final String FIELD_NAME_TYPE = "type";
+    public static final String FIELD_NAME_ALLOCATED_AMOUNT = "allocatedAmount";
+    public static final String FIELD_NAME_SUB_CATEGORIES = "subCategories";
     private String name;
     private BudgetType type;
     private BigDecimal allocatedAmount;
     private List<SubCategory> subCategories;
 
-    public Category(String symbolicName, String name, BudgetType type, BigDecimal allocatedAmount, List<SubCategory> subCategories) {
-        this.symbolicName = symbolicName;
+    public Category(String name, BudgetType type, BigDecimal allocatedAmount, List<SubCategory> subCategories) {
         this.name = name;
         this.type = type;
         this.allocatedAmount = allocatedAmount;
@@ -21,14 +27,6 @@ public class Category {
     }
 
     public Category() {
-    }
-
-    public String getSymbolicName() {
-        return symbolicName;
-    }
-
-    public void setSymbolicName(String symbolicName) {
-        this.symbolicName = symbolicName;
     }
 
     public String getName() {

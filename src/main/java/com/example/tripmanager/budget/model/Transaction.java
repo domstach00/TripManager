@@ -13,14 +13,16 @@ import java.time.Instant;
 @Document(collection = Transaction.COLLECTION_NAME)
 public class Transaction extends AbstractAuditable {
     public static final String COLLECTION_NAME = "Transactions";
+    public static final String FIELD_NAME_BUDGET_ID = "budgetId";
     public static final String FIELD_NAME_CATEGORY_ID = "categoryId";
     public static final String FIELD_NAME_SUB_CATEGORY_ID = "subCategoryId";
     public static final String FIELD_NAME_DESCRIPTION = "description";
     public static final String FIELD_NAME_AMOUNT = "amount";
     public static final String FIELD_NAME_TRANSACTION_DATE = "transactionDate";
 
+    private ObjectId budgetId;
     private ObjectId categoryId;
-    private ObjectId subCategoryId;
+    private ObjectId subCategoryOd;
     private String description;
     @NotNull(message = "Amount cannot be null")
     @PositiveOrZero(message = "Amount cannot be negative")
@@ -28,15 +30,24 @@ public class Transaction extends AbstractAuditable {
     private BigDecimal amount;
     private Instant transactionDate;
 
-    public Transaction(ObjectId categoryId, ObjectId subCategoryId, String description, BigDecimal amount, Instant transactionDate) {
+    public Transaction(ObjectId budgetId, ObjectId categoryId, ObjectId subCategoryOd, String description, BigDecimal amount, Instant transactionDate) {
+        this.budgetId = budgetId;
         this.categoryId = categoryId;
-        this.subCategoryId = subCategoryId;
+        this.subCategoryOd = subCategoryOd;
         this.description = description;
         this.amount = amount;
         this.transactionDate = transactionDate;
     }
 
     public Transaction() {
+    }
+
+    public ObjectId getBudgetId() {
+        return budgetId;
+    }
+
+    public void setBudgetId(ObjectId budgetId) {
+        this.budgetId = budgetId;
     }
 
     public ObjectId getCategoryId() {
@@ -47,12 +58,12 @@ public class Transaction extends AbstractAuditable {
         this.categoryId = categoryId;
     }
 
-    public ObjectId getSubCategoryId() {
-        return subCategoryId;
+    public ObjectId getSubCategoryOd() {
+        return subCategoryOd;
     }
 
-    public void setSubCategoryId(ObjectId subCategoryId) {
-        this.subCategoryId = subCategoryId;
+    public void setSubCategoryOd(ObjectId subCategoryOd) {
+        this.subCategoryOd = subCategoryOd;
     }
 
     public String getDescription() {

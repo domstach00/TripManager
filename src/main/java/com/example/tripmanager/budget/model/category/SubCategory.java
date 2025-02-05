@@ -1,24 +1,20 @@
 package com.example.tripmanager.budget.model.category;
 
-public class SubCategory {
-    private String symbolicName;
+import com.example.tripmanager.shared.model.AbstractAuditable;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = SubCategory.COLLECTION_NAME)
+public class SubCategory extends AbstractAuditable {
+    public static final String COLLECTION_NAME = "Categories";
+    public static final String FIELD_NAME_NAME = "name";
     private String name;
 
-    public SubCategory(String symbolicName, String name) {
-        this.symbolicName = symbolicName;
+    public SubCategory(String name) {
         this.name = name;
     }
 
     public SubCategory() {
 
-    }
-
-    public String getSymbolicName() {
-        return symbolicName;
-    }
-
-    public void setSymbolicName(String symbolicName) {
-        this.symbolicName = symbolicName;
     }
 
     public String getName() {
