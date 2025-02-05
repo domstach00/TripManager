@@ -1,6 +1,5 @@
-// budget-details.component.scss
 :host {
-	display: block; // Zmiana z flex na block
+	display: block;
 	max-width: 1200px;
 	margin: 0 auto;
 	padding: 1.5rem;
@@ -51,5 +50,9 @@
 		padding: 1rem;
 		margin: 0.5rem 0;
 		box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+	}
+
+	.align-right {
+		float: right;
 	}
 }

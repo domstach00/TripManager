@@ -1,125 +1,45 @@
-<!--<app-default-page>-->
-<!--	<div class="tmpl-content">-->
-
-<!--		<div class="budget-details-container">-->
-<!--			<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>-->
-
-<!--			<div *ngIf="error" class="error-message">-->
-<!--				{{ error }}-->
-<!--			</div>-->
-
-<!--			<div *ngIf="budget" class="content">-->
-<!--				<h1>{{ budget.name }}</h1>-->
-<!--				<div class="charts-grid">-->
-<!--					&lt;!&ndash; Wykres kołowy &ndash;&gt;-->
-<!--					<mat-card class="chart-card">-->
-<!--						<mat-card-header>-->
-<!--							<mat-card-title>Rozkład wydatków</mat-card-title>-->
-<!--						</mat-card-header>-->
-<!--						<mat-card-content>-->
-<!--							&lt;!&ndash;					<canvas baseChart&ndash;&gt;-->
-<!--							&lt;!&ndash;							[data]="categorySpendingData"&ndash;&gt;-->
-<!--							&lt;!&ndash;							[options]="pieChartOptions"&ndash;&gt;-->
-<!--							&lt;!&ndash;							type="pie">&ndash;&gt;-->
-<!--							&lt;!&ndash;					</canvas>&ndash;&gt;-->
-<!--						</mat-card-content>-->
-<!--					</mat-card>-->
-
-<!--					&lt;!&ndash; Wykres słupkowy &ndash;&gt;-->
-<!--					<mat-card class="chart-card">-->
-<!--						<mat-card-header>-->
-<!--							<mat-card-title>Porównanie okresów</mat-card-title>-->
-<!--						</mat-card-header>-->
-<!--						<mat-card-content>-->
-<!--							&lt;!&ndash;					<canvas baseChart&ndash;&gt;-->
-<!--							&lt;!&ndash;							[data]="timePeriodComparisonData"&ndash;&gt;-->
-<!--							&lt;!&ndash;							[options]="barChartOptions"&ndash;&gt;-->
-<!--							&lt;!&ndash;							type="bar">&ndash;&gt;-->
-<!--							&lt;!&ndash;					</canvas>&ndash;&gt;-->
-<!--						</mat-card-content>-->
-<!--					</mat-card>-->
-
-<!--					&lt;!&ndash; Dodatkowe statystyki &ndash;&gt;-->
-<!--					<mat-card class="stats-card">-->
-<!--						<mat-card-header>-->
-<!--							<mat-card-title>Podsumowanie</mat-card-title>-->
-<!--						</mat-card-header>-->
-<!--						<mat-card-content>-->
-<!--							<div class="stat-item">-->
-<!--								<span>Całkowity budżet:</span>-->
-<!--								<span>{{ budget.allocatedBudget | currency }}</span>-->
-<!--							</div>-->
-<!--							<div class="stat-item">-->
-<!--								<span>Wydatki:</span>-->
-<!--								<span>{{ '22' | currency }}</span>-->
-<!--							</div>-->
-<!--							<div class="stat-item">-->
-<!--								<span>Pozostało:</span>-->
-<!--								<span>{{ '50' | currency }}</span>-->
-<!--							</div>-->
-<!--						</mat-card-content>-->
-<!--					</mat-card>-->
-<!--				</div>-->
-<!--			</div>-->
-<!--		</div>-->
-<!--	</div>-->
-<!--</app-default-page>-->
-
 <div class="budget-details-container">
 	<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
 
-	<div *ngIf="error" class="error-message">
-		{{ error }}
+	<div *ngIf="errorKey" class="error-message">
+		{{ errorKey | translate }}
 	</div>
 
 	<div *ngIf="budget" class="content">
 		<h1>{{ budget.name }}</h1>
 		<div class="charts-grid">
-			<!-- Wykres kołowy -->
 			<mat-card class="chart-card">
 				<mat-card-header>
-					<mat-card-title>Rozkład wydatków</mat-card-title>
+					<mat-card-title>{{ 'budget.details.expensesDistribution' | translate }}</mat-card-title>
 				</mat-card-header>
 				<mat-card-content>
-<!--					<canvas baseChart-->
-<!--							[data]="categorySpendingData"-->
-<!--							[options]="pieChartOptions"-->
-<!--							type="pie">-->
-<!--					</canvas>-->
 				</mat-card-content>
 			</mat-card>
 
-			<!-- Wykres słupkowy -->
 			<mat-card class="chart-card">
 				<mat-card-header>
-					<mat-card-title>Porównanie okresów</mat-card-title>
+					<mat-card-title>{{ 'budget.details.periodsComparison' | translate }}</mat-card-title>
 				</mat-card-header>
 				<mat-card-content>
-<!--					<canvas baseChart-->
-<!--							[data]="timePeriodComparisonData"-->
-<!--							[options]="barChartOptions"-->
-<!--							type="bar">-->
-<!--					</canvas>-->
 				</mat-card-content>
 			</mat-card>
 
-			<!-- Dodatkowe statystyki -->
 			<mat-card class="stats-card">
 				<mat-card-header>
-					<mat-card-title>Podsumowanie</mat-card-title>
+					<mat-card-title>{{ 'budget.details.summary' | translate }}</mat-card-title>
 				</mat-card-header>
 				<mat-card-content>
 					<div class="stat-item">
-						<span>Całkowity budżet:</span>
-						<span>{{ budget.allocatedBudget | currency }}</span>
+						<span>{{ 'budget.details.summary.total.budget' | translate }} </span>
+						<span class="align-right">{{ budget.allocatedBudget | currency }}</span>
 					</div>
 					<div class="stat-item">
-						<span>Wydatki:</span>
-						<span>{{ '22' | currency }}</span>
+						<span>{{ 'budget.details.summary.total.expenses' | translate }} </span>
+						<span class="align-right"> {{ '22' | currency }}</span>
 					</div>
 					<div class="stat-item">
-						<span>Pozostało:</span>
-						<span>{{ '50' | currency }}</span>
+						<span>{{ 'budget.details.summary.total.savings' | translate }} </span>
+						<span class="align-right">{{ '50' | currency }}</span>
 					</div>
 				</mat-card-content>
 			</mat-card>
