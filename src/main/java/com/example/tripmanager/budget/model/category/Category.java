@@ -1,20 +1,19 @@
 package com.example.tripmanager.budget.model.category;
 
 import com.example.tripmanager.budget.model.BudgetType;
-import org.bson.types.ObjectId;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 public class Category {
-    private String id;
+    private String symbolicName;
     private String name;
     private BudgetType type;
     private BigDecimal allocatedAmount;
     private List<SubCategory> subCategories;
 
-    public Category(String name, BudgetType type, BigDecimal allocatedAmount, List<SubCategory> subCategories) {
-        this();
+    public Category(String symbolicName, String name, BudgetType type, BigDecimal allocatedAmount, List<SubCategory> subCategories) {
+        this.symbolicName = symbolicName;
         this.name = name;
         this.type = type;
         this.allocatedAmount = allocatedAmount;
@@ -22,15 +21,14 @@ public class Category {
     }
 
     public Category() {
-        this.id = new ObjectId().toHexString();
     }
 
-    public String getId() {
-        return id;
+    public String getSymbolicName() {
+        return symbolicName;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setSymbolicName(String symbolicName) {
+        this.symbolicName = symbolicName;
     }
 
     public String getName() {

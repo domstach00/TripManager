@@ -1,26 +1,24 @@
 package com.example.tripmanager.budget.model.category;
 
-import org.bson.types.ObjectId;
-
 public class SubCategory {
-    private String id;
+    private String symbolicName;
     private String name;
 
-    public SubCategory(String name) {
-        this();
+    public SubCategory(String symbolicName, String name) {
+        this.symbolicName = symbolicName;
         this.name = name;
     }
 
     public SubCategory() {
-        this.id = new ObjectId().toHexString();
+
     }
 
-    public String getId() {
-        return id;
+    public String getSymbolicName() {
+        return symbolicName;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setSymbolicName(String symbolicName) {
+        this.symbolicName = symbolicName;
     }
 
     public String getName() {
