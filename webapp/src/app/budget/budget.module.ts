@@ -8,6 +8,9 @@ import { BudgetCreateDialogComponent } from "./_dialog/budget-create-dialog/budg
 import { BudgetRoutingModule } from "./budget-routing.module";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatNativeDateModule } from "@angular/material/core";
+import { BudgetDetailsComponent } from "./budget-details/budget-details.component";
+import { MatProgressBar } from "@angular/material/progress-bar";
+import { BudgetLayoutComponent } from "./budget-layout/budget-layout.component";
 
 @NgModule({
 	declarations: [
@@ -15,12 +18,15 @@ import { MatNativeDateModule } from "@angular/material/core";
 		BudgetTablePresenterComponent,
 		BudgetTableComponent,
 		BudgetCreateDialogComponent,
+		BudgetDetailsComponent,
+		BudgetLayoutComponent,
 	],
 	imports: [
 		SharedModule,
 		BudgetRoutingModule,
 		MatDatepickerModule,
 		MatNativeDateModule,
+		MatProgressBar,
 	],
 	providers: [
 		BudgetService,

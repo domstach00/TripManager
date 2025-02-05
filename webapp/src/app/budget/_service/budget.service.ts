@@ -15,6 +15,10 @@ export class BudgetService{
 		return this.apiService.get<Page<Budget>>(ApiPath.budgets, params);
 	}
 
+	getBudget(budgetId: string, params?: any): Observable<Budget> {
+		return this.apiService.getFormatted<Budget>(ApiPath.budgetSelect, [budgetId], params)
+	}
+
 	postBudget(budgetCreateForm: BudgetCreateForm, params?: any): Observable<Budget> {
 		return this.apiService.post<Budget, BudgetCreateForm>(ApiPath.budgets, budgetCreateForm, params)
 	}

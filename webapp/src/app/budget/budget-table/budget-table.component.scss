@@ -43,3 +43,15 @@
 		max-width: 81px;
 	}
 }
+
+.clickable-row {
+	cursor: pointer;
+
+	&:hover {
+		background-color: #f1f1f1 !important;
+	}
+}
+
+.icon-container {
+	pointer-events: auto;
+}
