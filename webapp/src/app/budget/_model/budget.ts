@@ -24,7 +24,7 @@ export interface BudgetCreateForm {
 }
 
 export interface Categories {
-	id: string;
+	symbolicName: string;
 	name: string;
 	type?: 'EXPENSE' | 'INCOME';
 	allocatedAmount?: string;
@@ -32,6 +32,6 @@ export interface Categories {
 }
 
 export interface SubCategory {
-	id: string;
+	symbolicName: string;
 	name: string;
 }
