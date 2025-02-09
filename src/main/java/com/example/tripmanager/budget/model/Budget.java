@@ -5,6 +5,7 @@ import com.example.tripmanager.shared.model.AbstractAuditable;
 import jakarta.validation.constraints.NotBlank;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
@@ -35,6 +36,7 @@ public class Budget extends AbstractAuditable {
     @NotBlank(message = "Budget name cannot be empty")
     private String name;
     @Indexed
+    @DBRef
     private List<Category> categories;
     private String description;
     private BigDecimal allocatedBudget;

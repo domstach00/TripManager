@@ -22,7 +22,7 @@ public class Transaction extends AbstractAuditable {
 
     private ObjectId budgetId;
     private ObjectId categoryId;
-    private ObjectId subCategoryOd;
+    private ObjectId subCategoryId;
     private String description;
     @NotNull(message = "Amount cannot be null")
     @PositiveOrZero(message = "Amount cannot be negative")
@@ -30,10 +30,10 @@ public class Transaction extends AbstractAuditable {
     private BigDecimal amount;
     private Instant transactionDate;
 
-    public Transaction(ObjectId budgetId, ObjectId categoryId, ObjectId subCategoryOd, String description, BigDecimal amount, Instant transactionDate) {
+    public Transaction(ObjectId budgetId, ObjectId categoryId, ObjectId subCategoryId, String description, BigDecimal amount, Instant transactionDate) {
         this.budgetId = budgetId;
         this.categoryId = categoryId;
-        this.subCategoryOd = subCategoryOd;
+        this.subCategoryId = subCategoryId;
         this.description = description;
         this.amount = amount;
         this.transactionDate = transactionDate;
@@ -58,12 +58,12 @@ public class Transaction extends AbstractAuditable {
         this.categoryId = categoryId;
     }
 
-    public ObjectId getSubCategoryOd() {
-        return subCategoryOd;
+    public ObjectId getSubCategoryId() {
+        return subCategoryId;
     }
 
-    public void setSubCategoryOd(ObjectId subCategoryOd) {
-        this.subCategoryOd = subCategoryOd;
+    public void setSubCategoryId(ObjectId subCategoryId) {
+        this.subCategoryId = subCategoryId;
     }
 
     public String getDescription() {

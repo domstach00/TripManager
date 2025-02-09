@@ -8,6 +8,7 @@ import com.example.tripmanager.budget.model.BudgetTemplate;
 import com.example.tripmanager.budget.repository.BudgetRepository;
 import com.example.tripmanager.shared.exception.ItemNotFound;
 import com.example.tripmanager.shared.model.AbstractEntity;
+import org.apache.commons.lang3.StringUtils;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -43,6 +44,9 @@ public class BudgetService {
     }
 
     public Budget getBudgetById(String budgetId, Account currentAccount) {
+        if (StringUtils.isBlank(budgetId)) {
+            throw new IllegalArgumentException("Budget id is empty");
+        }
         return budgetRepository.getBudgetById(budgetId, currentAccount)
                 .orElseThrow(() -> new ItemNotFound("Budget was not found or you do not have enough permissions"));
     }
