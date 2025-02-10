@@ -7,10 +7,15 @@ import { BudgetService } from "./_service/budget.service";
 import { BudgetCreateDialogComponent } from "./_dialog/budget-create-dialog/budget-create-dialog.component";
 import { BudgetRoutingModule } from "./budget-routing.module";
 import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatNativeDateModule } from "@angular/material/core";
+import { MatNativeDateModule, MatOption } from "@angular/material/core";
 import { BudgetDetailsComponent } from "./budget-details/budget-details.component";
 import { MatProgressBar } from "@angular/material/progress-bar";
 import { BudgetLayoutComponent } from "./budget-layout/budget-layout.component";
+import {
+	TransactionCreateDialogComponent
+} from "./_dialog/transaction-create-dialog/transaction-create-dialog.component";
+import { TransactionService } from "./_service/transaction.service";
+import { MatSelect } from "@angular/material/select";
 
 @NgModule({
 	declarations: [
@@ -20,6 +25,7 @@ import { BudgetLayoutComponent } from "./budget-layout/budget-layout.component";
 		BudgetCreateDialogComponent,
 		BudgetDetailsComponent,
 		BudgetLayoutComponent,
+		TransactionCreateDialogComponent,
 	],
 	imports: [
 		SharedModule,
@@ -27,9 +33,12 @@ import { BudgetLayoutComponent } from "./budget-layout/budget-layout.component";
 		MatDatepickerModule,
 		MatNativeDateModule,
 		MatProgressBar,
+		MatSelect,
+		MatOption,
 	],
 	providers: [
 		BudgetService,
+		TransactionService,
 	],
 	exports: [
 

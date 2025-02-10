@@ -18,4 +18,6 @@ export enum ApiPath {
 	budgetArchive = budgetSelect + '/archive',
 	budgetUnArchive = budgetSelect + '/unarchive',
 	budgetLeave = budgetSelect + "/leave",
+
+	transaction = '/transactions',
 }

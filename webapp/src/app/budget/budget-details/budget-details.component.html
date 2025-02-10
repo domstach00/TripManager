@@ -7,6 +7,7 @@
 
 	<div *ngIf="budget" class="content">
 		<h1>{{ budget.name }}</h1>
+		<button mat-stroked-button (click)="openCreateTransactionDialog()">New expense</button>
 		<div class="charts-grid">
 			<mat-card class="chart-card">
 				<mat-card-header>

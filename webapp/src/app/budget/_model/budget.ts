@@ -6,7 +6,7 @@ export interface Budget extends BaseModel {
 	members?: string[];
 	templateId?: string;
 	name: string;
-	categories?: Categories[];
+	categories?: Category[];
 	description?: string;
 	allocatedBudget?: string;
 	startDate?: string;
@@ -23,7 +23,7 @@ export interface BudgetCreateForm {
 	endDate: string;
 }
 
-export interface Categories extends BaseModel {
+export interface Category extends BaseModel {
 	name: string;
 	type?: 'EXPENSE' | 'INCOME';
 	allocatedAmount?: string;
