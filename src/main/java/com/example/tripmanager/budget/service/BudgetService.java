@@ -137,7 +137,7 @@ public class BudgetService {
             throw new IllegalArgumentException("Category form, BudgetId and current account cannot be null");
         }
 
-        Budget budget = budgetRepository.getBudgetByIdWhereAccountIsOwner(budgetId, currentAccount)
+        Budget budget = budgetRepository.getBudgetById(budgetId, currentAccount)
                 .orElseThrow(() -> new ItemNotFound("Budget was not found or you do not have enough permissions"));
         boolean doesSameNameExist = budget.getCategories().stream()
                 .anyMatch(category -> StringUtils.equalsIgnoreCase(category.getName(), categoryCreateForm.getName()));
