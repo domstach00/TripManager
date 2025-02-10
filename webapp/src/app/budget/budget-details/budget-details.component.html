@@ -45,5 +45,10 @@
 				</mat-card-content>
 			</mat-card>
 		</div>
+		<div>
+
+			<category-table *ngIf="!!budget" [budget]="budget"></category-table>
+
+		</div>
 	</div>
 </div>

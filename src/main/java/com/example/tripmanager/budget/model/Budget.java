@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = Budget.COLLECTION_NAME)
@@ -94,7 +95,14 @@ public class Budget extends AbstractAuditable {
         this.name = name;
     }
 
+    public void addCategory(Category category) {
+        getCategories().add(category);
+    }
+
     public List<Category> getCategories() {
+        if (this.categories == null) {
+            setCategories(new ArrayList<>());
+        }
         return categories;
     }
 

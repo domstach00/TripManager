@@ -16,6 +16,10 @@ import {
 } from "./_dialog/transaction-create-dialog/transaction-create-dialog.component";
 import { TransactionService } from "./_service/transaction.service";
 import { MatSelect } from "@angular/material/select";
+import { CategoryCreateDialogComponent } from "./_dialog/category-create-dialog/category-create-dialog.component";
+import {
+	CategoryTableComponent
+} from "./budget-details/category-table/category-table.component";
 
 @NgModule({
 	declarations: [
@@ -26,6 +30,8 @@ import { MatSelect } from "@angular/material/select";
 		BudgetDetailsComponent,
 		BudgetLayoutComponent,
 		TransactionCreateDialogComponent,
+		CategoryCreateDialogComponent,
+		CategoryTableComponent,
 	],
 	imports: [
 		SharedModule,

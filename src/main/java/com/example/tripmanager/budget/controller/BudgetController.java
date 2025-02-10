@@ -5,6 +5,7 @@ import com.example.tripmanager.budget.mapper.BudgetMapper;
 import com.example.tripmanager.budget.model.Budget;
 import com.example.tripmanager.budget.model.BudgetCreateForm;
 import com.example.tripmanager.budget.model.BudgetDto;
+import com.example.tripmanager.budget.model.category.CategoryCreateForm;
 import com.example.tripmanager.budget.service.BudgetService;
 import com.example.tripmanager.shared.controller.AbstractController;
 import com.example.tripmanager.shared.controller.support.PageParams;
@@ -112,5 +113,17 @@ public class BudgetController extends AbstractController {
         Account currentAccount = getCurrentAccount(principal);
         Budget updatedBudget = budgetService.editBudget(budgetId, editedBudget, currentAccount);
         return toDto(updatedBudget);
+    }
+
+    @PostMapping("/{budgetId}/category")
+    @ResponseStatus(HttpStatus.CREATED)
+    public BudgetDto addCategoryToBudget(
+            Principal principal,
+            @PathVariable String budgetId,
+            @Valid @RequestBody CategoryCreateForm categoryCreateForm
+    ) {
+        Account currentAccount = getCurrentAccount(principal);
+        Budget budget = budgetService.addCategoryToBudget(budgetId, categoryCreateForm, currentAccount);
+        return toDto(budget);
     }
 }

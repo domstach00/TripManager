@@ -2,9 +2,12 @@ package com.example.tripmanager.budget.service;
 
 import com.example.tripmanager.account.model.Account;
 import com.example.tripmanager.budget.mapper.BudgetMapper;
+import com.example.tripmanager.budget.mapper.CategoryMapper;
 import com.example.tripmanager.budget.model.Budget;
 import com.example.tripmanager.budget.model.BudgetCreateForm;
 import com.example.tripmanager.budget.model.BudgetTemplate;
+import com.example.tripmanager.budget.model.category.Category;
+import com.example.tripmanager.budget.model.category.CategoryCreateForm;
 import com.example.tripmanager.budget.repository.BudgetRepository;
 import com.example.tripmanager.shared.exception.ItemNotFound;
 import com.example.tripmanager.shared.model.AbstractEntity;
@@ -24,6 +27,8 @@ import java.util.stream.Collectors;
 public class BudgetService {
     @Autowired
     private BudgetRepository budgetRepository;
+    @Autowired
+    private CategoryService categoryService;
 
     public Budget createBudgetFromTemplate(BudgetTemplate budgetTemplate) {
         Budget budget = BudgetMapper.budgetFromTemplate(budgetTemplate);
@@ -126,4 +131,23 @@ public class BudgetService {
         return budgetRepository.save(orginalBudget);
     }
 
+    @Transactional
+    public Budget addCategoryToBudget(String budgetId, CategoryCreateForm categoryCreateForm, Account currentAccount) {
+        if (budgetId == null || categoryCreateForm == null || currentAccount == null) {
+            throw new IllegalArgumentException("Category form, BudgetId and current account cannot be null");
+        }
+
+        Budget budget = budgetRepository.getBudgetByIdWhereAccountIsOwner(budgetId, currentAccount)
+                .orElseThrow(() -> new ItemNotFound("Budget was not found or you do not have enough permissions"));
+        boolean doesSameNameExist = budget.getCategories().stream()
+                .anyMatch(category -> StringUtils.equalsIgnoreCase(category.getName(), categoryCreateForm.getName()));
+        if (doesSameNameExist) {
+            throw new IllegalArgumentException("Same category name (\""+ categoryCreateForm.getName() +"\") already exists in same Budget");
+        }
+        Category categoryToSave = CategoryMapper.categoryFromCreateForm(categoryCreateForm);
+        categoryService.createCategory(categoryToSave);
+
+        budget.addCategory(categoryToSave);
+        return budgetRepository.save(budget);
+    }
 }
