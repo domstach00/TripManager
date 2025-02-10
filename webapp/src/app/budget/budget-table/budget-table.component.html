@@ -40,22 +40,22 @@
 		<ng-container matColumnDef="actions">
 			<mat-header-cell *matHeaderCellDef class="icon-container"></mat-header-cell>
 			<mat-cell *matCellDef="let element" class="icon-container">
-				<button mat-icon-button [matMenuTriggerFor]="kebabMenu">
+				<button mat-icon-button [matMenuTriggerFor]="kebabMenu" (click)="$event.stopPropagation()">
 					<mat-icon>more_vert</mat-icon>
 				</button>
 				<mat-menu #kebabMenu>
 
-					<button mat-menu-item *ngIf="!isBudgetArchived(element) && isBudgetOwner(element)" (click)="archiveBudget(element.id)">
+					<button mat-menu-item *ngIf="!isBudgetArchived(element) && isBudgetOwner(element)" (click)="archiveBudget(element.id); $event.stopPropagation()">
 						{{ 'budget.archive' | translate }}</button>
-					<button mat-menu-item *ngIf="isBudgetArchived(element) && isBudgetOwner(element)" (click)="unArchiveBudget(element.id)">
+					<button mat-menu-item *ngIf="isBudgetArchived(element) && isBudgetOwner(element)" (click)="unArchiveBudget(element.id); $event.stopPropagation()">
 						{{ 'budget.unArchive' | translate }}</button>
-					<button mat-menu-item *ngIf="isBudgetOwner(element)" (click)="editBudget(element)">
+					<button mat-menu-item *ngIf="isBudgetOwner(element)" (click)="editBudget(element); $event.stopPropagation()">
 						{{ 'budget.edit' | translate }}</button>
-					<button mat-menu-item (click)="startNewBudgetPeriod(element.id)">
+					<button mat-menu-item (click)="startNewBudgetPeriod(element.id); $event.stopPropagation()">
 						{{ 'budget.startNewPeriod' | translate }}</button>
-					<button mat-menu-item *ngIf="!isBudgetOwner(element)" (click)="leaveBudgetAsMember(element)">
+					<button mat-menu-item *ngIf="!isBudgetOwner(element)" (click)="leaveBudgetAsMember(element); $event.stopPropagation()">
 						{{ 'budget.leaveBudget' | translate }}</button>
-					<button mat-menu-item *ngIf="isBudgetOwner(element)" (click)="deleteBudget(element)">
+					<button mat-menu-item *ngIf="isBudgetOwner(element)" (click)="deleteBudget(element); $event.stopPropagation()">
 						{{ 'budget.delete' | translate }}</button>
 				</mat-menu>
 			</mat-cell>
