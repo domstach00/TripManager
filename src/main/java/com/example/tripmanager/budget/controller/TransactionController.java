@@ -3,6 +3,7 @@ package com.example.tripmanager.budget.controller;
 import com.example.tripmanager.account.model.Account;
 import com.example.tripmanager.budget.mapper.TransactionMapper;
 import com.example.tripmanager.budget.model.Transaction;
+import com.example.tripmanager.budget.model.TransactionBudgetSummary;
 import com.example.tripmanager.budget.model.TransactionCreateForm;
 import com.example.tripmanager.budget.model.TransactionDto;
 import com.example.tripmanager.budget.service.TransactionService;
@@ -35,5 +36,14 @@ public class TransactionController extends AbstractController {
         Account currentAccount = getCurrentAccount(principal);
         Transaction createdTransaction = transactionService.createTransaction(transactionCreateForm, currentAccount);
         return toDto(createdTransaction);
+    }
+
+    @GetMapping("/budgets/{budgetId}")
+    public TransactionBudgetSummary getTransactionSummaryForGivenBudget(
+            Principal principal,
+            @PathVariable String budgetId
+    ) {
+        Account currentAccount = getCurrentAccount(principal);
+        return transactionService.getTransactionsStatsForBudget(budgetId, currentAccount);
     }
 }

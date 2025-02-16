@@ -6,6 +6,8 @@ import { MatDialog } from "@angular/material/dialog";
 import {
 	TransactionCreateDialogComponent
 } from "../_dialog/transaction-create-dialog/transaction-create-dialog.component";
+import { TransactionBudgetSummary } from "../_model/transaction";
+import { TransactionService } from "../_service/transaction.service";
 
 @Component({
   selector: 'budget-details',
@@ -13,18 +15,24 @@ import {
   styleUrl: './budget-details.component.scss'
 })
 export class BudgetDetailsComponent implements OnInit {
+	budgetId!: string;
 	budget!: Budget;
-	loading = true;
+	loading: boolean = true;
+	loadingSummary: boolean = true;
 	errorKey: string | null = null;
+	transactionBudgetSummary?: TransactionBudgetSummary;
 
 	constructor(
 		private route: ActivatedRoute,
 		private budgetService: BudgetService,
+		private transactionService: TransactionService,
 		readonly dialog: MatDialog,
 	) {}
 
 	ngOnInit(): void {
+		this.budgetId = this.route.snapshot.paramMap.get('id');
 		this.loadBudgetDetails();
+		this.loadTransactionBudgetSummary();
 	}
 
 	openCreateTransactionDialog(): void {
@@ -40,15 +48,14 @@ export class BudgetDetailsComponent implements OnInit {
 		})
 	}
 
-	private loadBudgetDetails(): void {
+	loadBudgetDetails(): void {
 		this.loading = true;
-		const budgetId = this.route.snapshot.paramMap.get('id');
-		if (!budgetId) {
+		if (!this.budgetId) {
 			this.errorKey = 'budget.details.error.invalid.id';
 			return;
 		}
 
-		this.budgetService.getBudget(budgetId).subscribe({
+		this.budgetService.getBudget(this.budgetId).subscribe({
 			next: (budget) => {
 				this.budget = budget;
 				this.loading = false;
@@ -58,5 +65,30 @@ export class BudgetDetailsComponent implements OnInit {
 				this.loading = false;
 			}
 		});
+	}
+
+	loadTransactionBudgetSummary(): void {
+		this.loadingSummary = true;
+		this.transactionService.getTransactionSummaryForGivenBudget(this.budgetId).subscribe({
+			next: (resultTransactionBudgetSummary: TransactionBudgetSummary) => {
+				this.transactionBudgetSummary = resultTransactionBudgetSummary;
+				this.loadingSummary = false;
+			},
+			error: (err) => {
+				console.error("Error on loading TransactionBudgetSummary: ", err);
+				this.loadingSummary = false;
+			}
+		});
+	}
+
+	calculateSavings(budgetTotalValue: string, transactionsTotalValue: string): number {
+		const budgetValueNumber: number = parseFloat(budgetTotalValue);
+		const totalValueNumber: number = parseFloat(transactionsTotalValue);
+
+		if (isNaN(budgetValueNumber) || isNaN(totalValueNumber)) {
+			console.error("Cannot convert budget or total to a number.");
+			return null;
+		}
+		return  budgetValueNumber - totalValueNumber;
 	}
 }

@@ -32,22 +32,27 @@
 				<mat-card-content>
 					<div class="stat-item">
 						<span>{{ 'budget.details.summary.total.budget' | translate }} </span>
-						<span class="align-right">{{ budget.allocatedBudget | currency }}</span>
+						<span class="align-right" *ngIf="!loading">{{ budget?.allocatedBudget | currency }}</span>
 					</div>
+<!--					<div class="stat-item">-->
+<!--						<span>{{ 'budget.details.summary.total.transactionsCount' | translate }} </span>-->
+<!--						<span class="align-right"> {{ transactionBudgetSummary?.transactionCount }}</span>-->
+<!--					</div>-->
 					<div class="stat-item">
-						<span>{{ 'budget.details.summary.total.expenses' | translate }} </span>
-						<span class="align-right"> {{ '22' | currency }}</span>
+						<span>{{ 'budget.details.summary.total.transactionsValue' | translate }} </span>
+						<span class="align-right" *ngIf="!loadingSummary">{{ transactionBudgetSummary?.totalTransactionsValue | currency }}</span>
 					</div>
 					<div class="stat-item">
 						<span>{{ 'budget.details.summary.total.savings' | translate }} </span>
-						<span class="align-right">{{ '50' | currency }}</span>
+						<span class="align-right" *ngIf="!loadingSummary">{{ calculateSavings(budget?.allocatedBudget, transactionBudgetSummary?.totalTransactionsValue) | currency }}</span>
 					</div>
 				</mat-card-content>
+				<div *ngIf="loadingSummary"><app-loading/></div>
 			</mat-card>
 		</div>
 		<div>
 
-			<category-table *ngIf="!!budget" [budget]="budget"></category-table>
+			<category-table *ngIf="!!budget" [budget]="budget" (refreshEvent)="loadBudgetDetails()"></category-table>
 
 		</div>
 	</div>

@@ -3,6 +3,7 @@ package com.example.tripmanager.budget.service;
 import com.example.tripmanager.account.model.Account;
 import com.example.tripmanager.budget.mapper.TransactionMapper;
 import com.example.tripmanager.budget.model.Budget;
+import com.example.tripmanager.budget.model.TransactionBudgetSummary;
 import com.example.tripmanager.budget.model.Transaction;
 import com.example.tripmanager.budget.model.TransactionCreateForm;
 import com.example.tripmanager.budget.model.category.Category;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class TransactionService {
@@ -28,6 +30,12 @@ public class TransactionService {
         validateTransactionCreateForm(transactionCreateForm, currentAccount);
         Transaction transactionToCreate = TransactionMapper.transactionFromCreateForm(transactionCreateForm);
         return transactionRepository.save(transactionToCreate);
+    }
+
+    public TransactionBudgetSummary getTransactionsStatsForBudget(String budgetId, Account currentAccount) {
+        budgetService.getBudgetById(budgetId, currentAccount); // to check if account has access to budget
+        Optional<TransactionBudgetSummary> budgetSummaryOpt = transactionRepository.getTransactionBudgetSummaryByBudgetId(budgetId);
+        return budgetSummaryOpt.orElseGet(() -> new TransactionBudgetSummary(budgetId, 0, 0));
     }
 
     private void validateTransactionCreateForm(TransactionCreateForm createForm, Account currentAccount) {

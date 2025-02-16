@@ -17,3 +17,9 @@ export interface TransactionCreateForm {
 	amount: string;
 	transactionDate: string;
 }
+
+export interface TransactionBudgetSummary {
+	budgetId: string;
+	transactionCount: number;
+	totalTransactionsValue: string;
+}
