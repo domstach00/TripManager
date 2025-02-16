@@ -21,5 +21,5 @@ export enum ApiPath {
 	budgetCategory = budgetSelect + "/category",
 
 	transaction = '/transactions',
-	transactionBudgetSummary = transaction + '/budgets/{0}',
+	transactionBudgetSummary = transaction + '/budgets/{0}/summary',
 }

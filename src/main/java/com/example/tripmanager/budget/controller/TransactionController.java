@@ -39,6 +39,7 @@ public class TransactionController extends AbstractController {
     }
 
     @GetMapping("/budgets/{budgetId}")
+    @GetMapping("/budgets/{budgetId}/summary")
     public TransactionBudgetSummary getTransactionSummaryForGivenBudget(
             Principal principal,
             @PathVariable String budgetId
