@@ -68,8 +68,20 @@ export class CategoryTableComponent {
 		return this.expandedElements.indexOf(row) !== -1;
 	}
 
-	// Predicate dla wiersza rozwinięcia
+	// Predicate for expansion row
 	isExpansionDetailRow = (index: number, row: Category): boolean => {
 		return this.isExpanded(row);
+	}
+
+	editCategory(category: Category) {
+		// TODO: edit category
+	}
+
+	addSubCategory(category: Category) {
+		// TODO: add subcategory
+	}
+
+	deleteCategory(category: Category) {
+		// TODO: delete category
 	}
 }

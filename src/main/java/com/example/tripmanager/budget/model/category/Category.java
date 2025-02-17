@@ -5,6 +5,7 @@ import com.example.tripmanager.shared.model.AbstractAuditable;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = Category.COLLECTION_NAME)
@@ -54,10 +55,17 @@ public class Category extends AbstractAuditable {
     }
 
     public List<SubCategory> getSubCategories() {
+        if (subCategories == null) {
+            subCategories = new ArrayList<>();
+        }
         return subCategories;
     }
 
     public void setSubCategories(List<SubCategory> subCategories) {
         this.subCategories = subCategories;
+    }
+
+    public void addSubCategory(SubCategory subCategory) {
+        getSubCategories().add(subCategory);
     }
 }

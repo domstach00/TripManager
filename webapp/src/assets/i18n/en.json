@@ -2,6 +2,7 @@
 	"budget.allocatedBudget": "Budget",
 	"budget.archive": "Archive",
 	"budget.categories.table.actions": "Actions",
+	"budget.categories.table.actions.addSubCategory": "Add SubCategory",
 	"budget.categories.table.actions.delete": "Delete",
 	"budget.categories.table.actions.edit": "Edit",
 	"budget.categories.table.allocatedAmount": "Allocated Amount",

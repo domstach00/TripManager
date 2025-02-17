@@ -26,8 +26,9 @@
 						<mat-icon>more_vert</mat-icon>
 					</button>
 					<mat-menu #menu="matMenu">
-						<button mat-menu-item>{{ 'budget.categories.table.actions.edit' | translate }}</button>
-						<button mat-menu-item>{{ 'budget.categories.table.actions.delete' | translate }}</button>
+						<button (click)="editCategory(category)" mat-menu-item>{{ 'budget.categories.table.actions.edit' | translate }}</button>
+						<button (click)="addSubCategory(category)" mat-menu-item>{{ 'budget.categories.table.actions.addSubCategory' | translate }}</button>
+						<button (click)="deleteCategory(category)" mat-menu-item>{{ 'budget.categories.table.actions.delete' | translate }}</button>
 					</mat-menu>
 				</mat-cell>
 			</ng-container>

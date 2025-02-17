@@ -8,6 +8,8 @@ import com.example.tripmanager.budget.model.BudgetCreateForm;
 import com.example.tripmanager.budget.model.BudgetTemplate;
 import com.example.tripmanager.budget.model.category.Category;
 import com.example.tripmanager.budget.model.category.CategoryCreateForm;
+import com.example.tripmanager.budget.model.category.SubCategory;
+import com.example.tripmanager.budget.model.category.SubCategoryCreateForm;
 import com.example.tripmanager.budget.repository.BudgetRepository;
 import com.example.tripmanager.shared.exception.ItemNotFound;
 import com.example.tripmanager.shared.model.AbstractEntity;
@@ -21,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -149,5 +152,25 @@ public class BudgetService {
 
         budget.addCategory(categoryToSave);
         return budgetRepository.save(budget);
+    }
+
+    @Transactional
+    public SubCategory addSubCategoryToBudget(String budgetId, String categoryId, SubCategoryCreateForm subCategoryCreateForm, Account currentAccount) {
+        if (budgetId == null || categoryId == null || subCategoryCreateForm == null || currentAccount == null) {
+            throw new IllegalArgumentException("SubCategory form, BudgetId, CategoryId and current account cannot be null");
+        }
+
+        Budget budget = budgetRepository.getBudgetById(budgetId, currentAccount)
+                .orElseThrow(() -> new ItemNotFound("Budget was not found or you do not have enough permissions"));
+        boolean budgetHasCategory = budget.getCategories().stream().filter(category -> Objects.equals(category.getId(), categoryId)).findAny().isEmpty();
+        if (!budgetHasCategory) {
+            throw new IllegalArgumentException("Budget does not contains this category");
+        }
+        Category category = categoryService.getCategory(categoryId)
+                .orElseThrow(() -> new ItemNotFound("Category was not found or you do not have enough permissions"));
+        SubCategory subCategoryToSave = CategoryMapper.subCategoryFromCreateForm(subCategoryCreateForm);
+        category.addSubCategory(subCategoryToSave);
+        categoryService.saveCategory(category);
+        return subCategoryToSave;
     }
 }
