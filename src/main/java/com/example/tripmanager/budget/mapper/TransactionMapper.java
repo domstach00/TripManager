@@ -7,6 +7,7 @@ import com.example.tripmanager.budget.model.TransactionDto;
 import com.example.tripmanager.shared.mapper.AuditableMapper;
 import com.example.tripmanager.shared.model.AbstractEntity;
 import com.example.tripmanager.shared.util.DateUtils;
+import org.springframework.data.domain.Page;
 
 import static com.example.tripmanager.shared.model.AbstractEntity.toObjectId;
 
@@ -19,6 +20,7 @@ public class TransactionMapper {
         transaction.setSubCategoryId(toObjectId(createForm.getSubCategoryId()));
         transaction.setDescription(createForm.getDescription());
         transaction.setAmount(createForm.getAmount());
+        transaction.setTransactionDate(DateUtils.instantFromLocalDateTime(createForm.getTransactionDate()));
         return transaction;
     }
 
@@ -35,5 +37,11 @@ public class TransactionMapper {
         transactionDto.setAmount(transaction.getAmount());
         transactionDto.setTransactionDate(DateUtils.formatInstantToDateTimeString(transaction.getTransactionDate()));
         return transactionDto;
+    }
+
+    public static Page<TransactionDto> toDto(Page<Transaction> transactions, AccountService accountService) {
+        return transactions == null || transactions.isEmpty()
+                ? Page.empty()
+                : transactions.map(transaction -> toDto(transaction, accountService));
     }
 }

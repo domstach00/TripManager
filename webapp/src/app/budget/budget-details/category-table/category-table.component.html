@@ -35,8 +35,7 @@
 			<ng-container matColumnDef="expandedDetail">
 				<mat-cell *matCellDef="let category" [attr.colspan]="displayedColumns.length">
 					<div class="expanded-detail" [@detailExpand]="isExpanded(category) ? 'expanded' : 'collapsed'">
-<!--						<transactions-on-category-table [budget]="budget" [category]="category"></transactions-on-category-table>-->
-						TODO
+						<transactions-on-category-searchable [budgetId]="budget.id" [categoryId]="category.id"></transactions-on-category-searchable>
 					</div>
 				</mat-cell>
 			</ng-container>

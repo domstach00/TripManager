@@ -3,6 +3,7 @@ package com.example.tripmanager.shared.util;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
@@ -24,5 +25,13 @@ public class DateUtils {
             return StringUtils.EMPTY;
         }
         return DATE_TIME_FORMATTER.format(instant);
+    }
+
+    public static Instant instantFromLocalDateTime(LocalDateTime localDateTime) {
+        if (localDateTime == null) {
+            return null;
+        }
+        ZoneId zoneId = ZoneId.systemDefault();
+        return localDateTime.atZone(zoneId).toInstant();
     }
 }

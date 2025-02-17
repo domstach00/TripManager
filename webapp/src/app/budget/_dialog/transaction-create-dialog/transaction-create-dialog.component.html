@@ -27,9 +27,6 @@
 					{{ subCategory.name }}
 				</mat-option>
 			</mat-select>
-			<mat-error *ngIf="transactionForm.get('subCategoryId')?.invalid">
-				Subcategory is required when category is selected
-			</mat-error>
 		</mat-form-field>
 
 		<!-- Amount Input -->

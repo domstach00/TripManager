@@ -47,7 +47,6 @@ export class TransactionCreateDialogComponent implements OnInit {
 		const subCategoryControl = this.transactionForm.get('subCategoryId');
 		this.transactionForm.get('categoryId')?.valueChanges.subscribe(categoryId => {
 			if (categoryId) {
-				subCategoryControl?.setValidators([Validators.required]);
 				this.loadSubCategories(categoryId);
 			} else {
 				subCategoryControl?.clearValidators();
@@ -88,7 +87,7 @@ export class TransactionCreateDialogComponent implements OnInit {
 			transactionDate: this.transactionForm.value.transactionDate.toISOString()
 		};
 
-		this.transactionService.postTransaction(transactionData).subscribe({
+		this.transactionService.postTransactionForBudget(transactionData).subscribe({
 			next: (transaction) => {
 				this.dialogRef.close(transaction);
 				this.loading = false;

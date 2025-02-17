@@ -3,7 +3,10 @@ package com.example.tripmanager.budget.repository;
 import com.example.tripmanager.budget.model.Transaction;
 import com.example.tripmanager.budget.model.TransactionBudgetSummary;
 import com.example.tripmanager.shared.repository.AbstractRepositoryImpl;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.aggregation.*;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -17,6 +20,25 @@ public class TransactionRepository extends AbstractRepositoryImpl<Transaction> {
     @Override
     protected Class<Transaction> getEntityClass() {
         return Transaction.class;
+    }
+
+    public Page<Transaction> getTransactionByBudgetIdAndCategoryId(Pageable pageable, String budgetId, @Nullable String categoryId) {
+        List<AggregationOperation> operationList = new ArrayList<>();
+        operationList.add(
+                Aggregation.match(
+                        buildCriteriaTransactionWithGivenBudgetId(budgetId)
+                )
+        );
+
+        if (categoryId != null) {
+            operationList.add(
+                    Aggregation.match(
+                            buildCriteriaTransactionWithGivenCategoryId(categoryId)
+                    )
+            );
+        }
+
+        return findAllBy(pageable, operationList);
     }
 
     public Optional<TransactionBudgetSummary> getTransactionBudgetSummaryByBudgetId(String budgetId) {

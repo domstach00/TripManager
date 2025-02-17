@@ -8,8 +8,11 @@ import com.example.tripmanager.budget.model.TransactionCreateForm;
 import com.example.tripmanager.budget.model.TransactionDto;
 import com.example.tripmanager.budget.service.TransactionService;
 import com.example.tripmanager.shared.controller.AbstractController;
+import com.example.tripmanager.shared.controller.support.PageParams;
 import jakarta.validation.Valid;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +30,10 @@ public class TransactionController extends AbstractController {
         return TransactionMapper.toDto(transaction, accountService);
     }
 
+    protected Page<TransactionDto> toDto(Page<Transaction> transactions) {
+        return TransactionMapper.toDto(transactions, accountService);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public TransactionDto createBudget(
@@ -39,6 +46,17 @@ public class TransactionController extends AbstractController {
     }
 
     @GetMapping("/budgets/{budgetId}")
+    public Page<TransactionDto> getTransactionsForBudget(
+            Principal principal,
+            @PathVariable String budgetId,
+            @ParameterObject PageParams pageParams,
+            @RequestParam(required = false) String categoryId
+    ) {
+        Account currentAccount = getCurrentAccount(principal);
+        Page<Transaction> transactions = transactionService.getTransactionsForBudget(pageParams.asPageable(), currentAccount, budgetId, categoryId);
+        return toDto(transactions);
+    }
+
     @GetMapping("/budgets/{budgetId}/summary")
     public TransactionBudgetSummary getTransactionSummaryForGivenBudget(
             Principal principal,

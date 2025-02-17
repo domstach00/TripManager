@@ -24,9 +24,7 @@ public class TransactionCreateForm {
 
     @AssertTrue(message = "SubCategoryId must exist only if CategoryId exists")
     public boolean isValidSubCategory() {
-        return (categoryId == null
-                || categoryId.isEmpty()
-                || (subCategoryId != null && !subCategoryId.isEmpty()));
+        return subCategoryId == null || categoryId != null;
     }
 
     public TransactionCreateForm(String budgetId, String categoryId, String subCategoryId, String description, BigDecimal amount, LocalDateTime transactionDate) {

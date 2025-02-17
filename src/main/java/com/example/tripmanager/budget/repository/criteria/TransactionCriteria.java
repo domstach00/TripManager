@@ -9,4 +9,8 @@ public class TransactionCriteria {
     public static Criteria buildCriteriaTransactionWithGivenBudgetId(String budgetId) {
         return Criteria.where(Transaction.FIELD_NAME_BUDGET_ID).is(toObjectId(budgetId));
     }
+
+    public static Criteria buildCriteriaTransactionWithGivenCategoryId(String categoryId) {
+        return Criteria.where(Transaction.FIELD_NAME_CATEGORY_ID).is(toObjectId(categoryId));
+    }
 }

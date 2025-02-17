@@ -11,6 +11,9 @@ import com.example.tripmanager.budget.repository.TransactionRepository;
 import com.example.tripmanager.shared.model.AbstractEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +33,11 @@ public class TransactionService {
         validateTransactionCreateForm(transactionCreateForm, currentAccount);
         Transaction transactionToCreate = TransactionMapper.transactionFromCreateForm(transactionCreateForm);
         return transactionRepository.save(transactionToCreate);
+    }
+
+    public Page<Transaction> getTransactionsForBudget(Pageable pageable, Account currentAccount, String budgetId, @Nullable String categoryId) {
+        budgetService.getBudgetById(budgetId, currentAccount);
+        return transactionRepository.getTransactionByBudgetIdAndCategoryId(pageable, budgetId, categoryId);
     }
 
     public TransactionBudgetSummary getTransactionsStatsForBudget(String budgetId, Account currentAccount) {

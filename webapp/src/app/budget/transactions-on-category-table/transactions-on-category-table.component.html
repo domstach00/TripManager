@@ -1,0 +1,83 @@
+<!-- Sekcja 1: Tabela z grupowanymi transakcjami wg podkategorii -->
+<div class="table-content" *ngIf="groupedTransactions.length > 0">
+	<h2>Transakcje z podkategoriami</h2>
+	<mat-table [dataSource]="groupedTransactions" multiTemplateDataRows="true" class="mat-elevation-z8">
+		<!-- Kolumna grupy (wiersz nagłówkowy) -->
+		<ng-container matColumnDef="group">
+			<mat-header-cell *matHeaderCellDef> Podkategoria </mat-header-cell>
+			<mat-cell *matCellDef="let group" (click)="toggleGroup(group)" class="group-header">
+				<!-- Możesz tutaj przetłumaczyć id na nazwę podkategorii, jeśli masz mapę id->nazwa -->
+				{{ group.subCategoryId }}
+				<button mat-icon-button (click)="$event.stopPropagation()">
+					<mat-icon>{{ isGroupExpanded(group) ? 'expand_less' : 'expand_more' }}</mat-icon>
+				</button>
+			</mat-cell>
+		</ng-container>
+
+		<!-- Kolumna rozwinięcia grupy -->
+		<ng-container matColumnDef="groupDetail">
+			<mat-cell *matCellDef="let group" [attr.colspan]="transactionDisplayedColumns.length" class="group-detail">
+				<div [@detailExpand]="isGroupExpanded(group) ? 'expanded' : 'collapsed'" style="overflow: hidden">
+					<mat-table [dataSource]="group.transactions" class="inner-table">
+						<!-- Kolumna: opis transakcji -->
+						<ng-container matColumnDef="description">
+							<mat-header-cell *matHeaderCellDef> Opis </mat-header-cell>
+							<mat-cell *matCellDef="let transaction">
+								{{ transaction.description }}
+							</mat-cell>
+						</ng-container>
+						<!-- Kolumna: kwota -->
+						<ng-container matColumnDef="amount">
+							<mat-header-cell *matHeaderCellDef> Kwota </mat-header-cell>
+							<mat-cell *matCellDef="let transaction">
+								{{ transaction.amount | currency }}
+							</mat-cell>
+						</ng-container>
+						<!-- Kolumna: data transakcji -->
+						<ng-container matColumnDef="transactionDate">
+							<mat-header-cell *matHeaderCellDef> Data </mat-header-cell>
+							<mat-cell *matCellDef="let transaction">
+								{{ transaction.transactionDate | date }}
+							</mat-cell>
+						</ng-container>
+
+						<mat-header-row *matHeaderRowDef="transactionDisplayedColumns"></mat-header-row>
+						<mat-row *matRowDef="let row; columns: transactionDisplayedColumns"></mat-row>
+					</mat-table>
+				</div>
+			</mat-cell>
+		</ng-container>
+
+		<!-- Nagłówek – tylko jeden, bo wyświetlamy tylko wiersze grupowe -->
+		<mat-header-row *matHeaderRowDef="['group']"></mat-header-row>
+		<!-- Wiersz grupy -->
+		<mat-row *matRowDef="let row; columns: ['group']" (click)="toggleGroup(row)" class="group-row"></mat-row>
+		<!-- Wiersz rozwinięcia (widoczny tylko, gdy grupa jest rozwinięta) -->
+		<mat-row *matRowDef="let row; columns: ['groupDetail']; when: isGroupExpandedRow" class="detail-row"></mat-row>
+	</mat-table>
+</div>
+
+<!-- Sekcja 2: Tabela z transakcjami bez podkategorii -->
+<div *ngIf="noSubCategoryTransactions.length > 0">
+	<h2>Transakcje bez podkategorii</h2>
+	<mat-table [dataSource]="noSubCategoryTransactions" class="mat-elevation-z8">
+		<!-- Kolumna: opis -->
+		<ng-container matColumnDef="description">
+			<mat-header-cell *matHeaderCellDef> Opis </mat-header-cell>
+			<mat-cell *matCellDef="let transaction"> {{ transaction.description }} </mat-cell>
+		</ng-container>
+		<!-- Kolumna: kwota -->
+		<ng-container matColumnDef="amount">
+			<mat-header-cell *matHeaderCellDef> Kwota </mat-header-cell>
+			<mat-cell *matCellDef="let transaction"> {{ transaction.amount | currency }} </mat-cell>
+		</ng-container>
+		<!-- Kolumna: data -->
+		<ng-container matColumnDef="transactionDate">
+			<mat-header-cell *matHeaderCellDef> Data </mat-header-cell>
+			<mat-cell *matCellDef="let transaction"> {{ transaction.transactionDate | date }} </mat-cell>
+		</ng-container>
+
+		<mat-header-row *matHeaderRowDef="transactionDisplayedColumns"></mat-header-row>
+		<mat-row *matRowDef="let row; columns: transactionDisplayedColumns"></mat-row>
+	</mat-table>
+</div>

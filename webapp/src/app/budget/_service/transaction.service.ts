@@ -3,18 +3,22 @@ import { Transaction, TransactionBudgetSummary, TransactionCreateForm } from "..
 import { ApiPath } from "../../shared/_model/ApiPath";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { Page } from "../../shared/_model/base-models.interface";
 
 @Injectable()
 export class TransactionService {
 	constructor(readonly apiService: ApiService) {
 	}
 
-	postTransaction(transactionCreateForm: TransactionCreateForm, params?: any): Observable<Transaction> {
+	postTransactionForBudget(transactionCreateForm: TransactionCreateForm, params?: any): Observable<Transaction> {
 		return this.apiService.post<Transaction, TransactionCreateForm>(ApiPath.transaction, transactionCreateForm, params);
 	}
 
+	getTransactionsForBudget(budgetId: string, categoryId?: string, params?: any): Observable<Page<Transaction>> {
+		return this.apiService.getFormatted<Page<Transaction>>(ApiPath.transactionBudgetSelect, [budgetId], { categoryId, ...params });
+	}
+
 	getTransactionSummaryForGivenBudget(budgetId: string, params?: any): Observable<TransactionBudgetSummary> {
-		console.log("API")
-		return this.apiService.getFormatted<TransactionBudgetSummary>(ApiPath.transactionBudgetSummary, [budgetId], params);
+		return this.apiService.getFormatted<TransactionBudgetSummary>(ApiPath.transactionBudgetSelectSummary, [budgetId], params);
 	}
 }
