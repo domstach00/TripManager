@@ -7,6 +7,7 @@ import com.example.tripmanager.budget.model.TransactionBudgetSummary;
 import com.example.tripmanager.budget.model.Transaction;
 import com.example.tripmanager.budget.model.TransactionCreateForm;
 import com.example.tripmanager.budget.model.category.Category;
+import com.example.tripmanager.budget.model.category.SubCategory;
 import com.example.tripmanager.budget.repository.TransactionRepository;
 import com.example.tripmanager.shared.model.AbstractEntity;
 import org.apache.commons.lang3.StringUtils;
@@ -62,7 +63,7 @@ public class TransactionService {
                     .orElseThrow(() -> new IllegalArgumentException("Wrong CategoryId - Budget does not contains this category"));
 
             List<String> subCategoryIdList = selectedCategory.getSubCategories().stream()
-                    .map(AbstractEntity::getId)
+                    .map(SubCategory::getId)
                     .toList();
             if (subCategoryIdList.isEmpty() || !subCategoryIdList.contains(createForm.getSubCategoryId())) {
                 throw new IllegalArgumentException("Wrong SubCategoryId - Budget does not contains this subCategory");

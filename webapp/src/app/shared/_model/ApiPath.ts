@@ -19,6 +19,8 @@ export enum ApiPath {
 	budgetUnArchive = budgetSelect + '/unarchive',
 	budgetLeave = budgetSelect + "/leave",
 	budgetCategory = budgetSelect + "/category",
+	budgetCategorySelect = budgetCategory + '/{1}',
+	budgetCategorySubCategory = budgetCategorySelect + '/subcategory',
 
 	transaction = '/transactions',
 	transactionBudgetSelect = transaction + '/budgets/{0}',

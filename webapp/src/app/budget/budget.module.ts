@@ -26,6 +26,9 @@ import {
 import {
 	TransactionsOnCategorySearchableComponent
 } from "./transactions-on-category-table/transactions-on-category-searchable.component";
+import {
+	SubcategoryCreateDialogComponent
+} from "./_dialog/subcategory-create-dialog/subcategory-create-dialog.component";
 
 @NgModule({
 	declarations: [
@@ -40,6 +43,7 @@ import {
 		CategoryTableComponent,
 		TransactionsOnCategorySearchableComponent,
 		TransactionsOnCategoryTableComponent,
+		SubcategoryCreateDialogComponent,
 	],
 	imports: [
 		SharedModule,

@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { ApiService } from "../../shared/_service/api.service";
 import { Observable } from "rxjs";
 import { Page } from "../../shared/_model/base-models.interface";
-import { Budget, BudgetCreateForm, CategoryCreateForm } from "../_model/budget";
+import { Budget, BudgetCreateForm, CategoryCreateForm, SubCategory, SubCategoryCreateForm } from "../_model/budget";
 import { ApiPath } from "../../shared/_model/ApiPath";
 
 @Injectable()
@@ -45,5 +45,9 @@ export class BudgetService{
 
 	addCategoryToBudget(budgetId: string, categoryForm: CategoryCreateForm, params?: any): Observable<Budget> {
 		return this.apiService.postFormatted<Budget, CategoryCreateForm>(ApiPath.budgetCategory, [budgetId], categoryForm, params);
+	}
+
+	addSubCategoryToCategoryInBudget(budgetId: string, categoryId: string, subCategoryForm: SubCategoryCreateForm, parms?: any): Observable<SubCategory> {
+		return this.apiService.postFormatted<SubCategory>(ApiPath.budgetCategorySubCategory, [budgetId, categoryId], subCategoryForm, parms);
 	}
 }

@@ -49,7 +49,6 @@ export class TransactionCreateDialogComponent implements OnInit {
 			if (categoryId) {
 				this.loadSubCategories(categoryId);
 			} else {
-				subCategoryControl?.clearValidators();
 				this.subCategories = [];
 			}
 			subCategoryControl?.updateValueAndValidity();
@@ -73,7 +72,15 @@ export class TransactionCreateDialogComponent implements OnInit {
 
 	private loadSubCategories(categoryId: string): void {
 		const category = this.categories.find(c => c.id === categoryId);
-		this.subCategories = category?.subCategories || [];
+		this.subCategories = [...(category?.subCategories || [])];
+
+		if (!this.subCategories.length) {
+			this.transactionForm.get('subCategoryId')?.setValue(null);
+		}
+	}
+
+	trackBySubCategory(index: number, subCategory: SubCategory): string {
+		return subCategory.id;
 	}
 
 	onSubmit(): void {

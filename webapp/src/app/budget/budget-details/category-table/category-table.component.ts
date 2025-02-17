@@ -4,6 +4,9 @@ import { CategoryCreateDialogComponent } from "../../_dialog/category-create-dia
 import { MatDialog } from "@angular/material/dialog";
 import { BudgetService } from "../../_service/budget.service";
 import { animate, state, style, transition, trigger } from "@angular/animations";
+import {
+	SubcategoryCreateDialogComponent
+} from "../../_dialog/subcategory-create-dialog/subcategory-create-dialog.component";
 
 @Component({
   selector: 'category-table',
@@ -78,7 +81,16 @@ export class CategoryTableComponent {
 	}
 
 	addSubCategory(category: Category) {
-		// TODO: add subcategory
+		const dialogRef = this.dialog.open(SubcategoryCreateDialogComponent, {
+			width: '500px',
+			data: { budgetId: this.budget.id, categoryId: category.id },
+		});
+
+		dialogRef.afterClosed().subscribe(newSubCategory => {
+			if (!!newSubCategory) {
+				this.budgetService.addSubCategoryToCategoryInBudget(this.budget.id, category.id, newSubCategory).subscribe(_ => this.refreshEvent.emit())
+			}
+		})
 	}
 
 	deleteCategory(category: Category) {

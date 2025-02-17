@@ -162,8 +162,8 @@ public class BudgetService {
 
         Budget budget = budgetRepository.getBudgetById(budgetId, currentAccount)
                 .orElseThrow(() -> new ItemNotFound("Budget was not found or you do not have enough permissions"));
-        boolean budgetHasCategory = budget.getCategories().stream().filter(category -> Objects.equals(category.getId(), categoryId)).findAny().isEmpty();
-        if (!budgetHasCategory) {
+        boolean isCategoryInBudget = budget.getCategories().stream().anyMatch(category -> Objects.equals(category.getId(), categoryId));
+        if (!isCategoryInBudget) {
             throw new IllegalArgumentException("Budget does not contains this category");
         }
         Category category = categoryService.getCategory(categoryId)

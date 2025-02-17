@@ -30,7 +30,8 @@ export interface Category extends BaseModel {
 	subCategories?: SubCategory[];
 }
 
-export interface SubCategory extends BaseModel {
+export interface SubCategory {
+	id: string;
 	name: string;
 }
 
@@ -38,4 +39,8 @@ export interface CategoryCreateForm {
 	name: string;
 	type?: 'EXPENSE' | 'INCOME';
 	allocatedAmount?: string;
+}
+
+export interface SubCategoryCreateForm {
+	name: string;
 }
