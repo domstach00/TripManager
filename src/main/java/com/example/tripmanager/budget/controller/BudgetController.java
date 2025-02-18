@@ -132,6 +132,7 @@ public class BudgetController extends AbstractController {
     }
 
     @PostMapping("/{budgetId}/category/{categoryId}/subcategory")
+    @ResponseStatus(HttpStatus.CREATED)
     public SubCategory addSubCategoryToCategoryInBudget(
             Principal principal,
             @PathVariable String budgetId,
