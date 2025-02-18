@@ -14,6 +14,11 @@ import {
 })
 export class CategoryTableV2Component implements OnInit {
 	@Input() budgetId!: string;
+	/**
+	 * If categories are provided via `injectCategoriesOptional`,
+	 * the initial API request to load categories will be skipped.
+	 */
+	@Input() preloadedCategories?: Category[] = null;
 	@Output() refreshEvent: EventEmitter<void> = new EventEmitter<void>();
 
 	loading: boolean = true;
@@ -26,7 +31,12 @@ export class CategoryTableV2Component implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.loadCategories(this.budgetId);
+		if (!!this.preloadedCategories) {
+			this.categoryList = this.preloadedCategories;
+			this.loading = false;
+		} else {
+			this.loadCategories(this.budgetId);
+		}
 	}
 
 	loadCategories(budgetId: string) {
