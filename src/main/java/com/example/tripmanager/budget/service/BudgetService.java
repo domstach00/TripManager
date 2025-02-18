@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZoneId;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -172,5 +173,21 @@ public class BudgetService {
         category.addSubCategory(subCategoryToSave);
         categoryService.saveCategory(category);
         return subCategoryToSave;
+    }
+
+    public List<Category> getCategoriesForBudget(Account currentAccount, String budgetId) {
+        Budget budget = getBudgetById(budgetId, currentAccount);
+        return budget.getCategories() == null ? Collections.emptyList() : budget.getCategories();
+    }
+
+    public List<SubCategory> getSubCategoriesForCategoryInBudget(Account currentAccount, String budgetId, String categoryId) {
+        Budget budget = getBudgetById(budgetId, currentAccount);
+        boolean isCategoryInBudget = budget.getCategories().stream().anyMatch(category -> Objects.equals(category.getId(), categoryId));
+        if (!isCategoryInBudget) {
+            throw new IllegalArgumentException("Budget does not contains this category");
+        }
+        Category category = categoryService.getCategory(categoryId)
+                .orElseThrow(() -> new ItemNotFound("Category was not found or you do not have enough permissions"));
+        return category.getSubCategories() == null ? Collections.emptyList() : category.getSubCategories();
     }
 }

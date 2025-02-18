@@ -5,6 +5,7 @@ import com.example.tripmanager.budget.mapper.BudgetMapper;
 import com.example.tripmanager.budget.model.Budget;
 import com.example.tripmanager.budget.model.BudgetCreateForm;
 import com.example.tripmanager.budget.model.BudgetDto;
+import com.example.tripmanager.budget.model.category.Category;
 import com.example.tripmanager.budget.model.category.CategoryCreateForm;
 import com.example.tripmanager.budget.model.category.SubCategory;
 import com.example.tripmanager.budget.model.category.SubCategoryCreateForm;
@@ -19,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping(BudgetController.CONTROLLER_URL)
@@ -138,5 +140,24 @@ public class BudgetController extends AbstractController {
     ) {
         Account currentAccount = getCurrentAccount(principal);
         return budgetService.addSubCategoryToBudget(budgetId, categoryId, subCategoryCreateForm, currentAccount);
+    }
+
+    @GetMapping("/{budgetId}/category")
+    public List<Category> getBudgetCategories(
+            Principal principal,
+            @PathVariable String budgetId
+    ) {
+        Account currentAccount = getCurrentAccount(principal);
+        return budgetService.getCategoriesForBudget(currentAccount, budgetId);
+    }
+
+    @GetMapping("/{budgetId}/category/{categoryId}/subcategory")
+    public List<SubCategory> getBudgetCategorySubCategory(
+            Principal principal,
+            @PathVariable String budgetId,
+            @PathVariable String categoryId
+    ) {
+        Account currentAccount = getCurrentAccount(principal);
+        return budgetService.getSubCategoriesForCategoryInBudget(currentAccount, budgetId, categoryId);
     }
 }
