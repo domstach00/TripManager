@@ -1,0 +1,29 @@
+<div class="category-table" *ngIf="!!budgetId">
+	<div class="category-header">
+		<h3>{{ 'budget.categories.table.title.expanseCategory' | translate }}</h3>
+		<button class="category-create-button" (click)="openCreateCategoryDialog('EXPENSE')">
+			{{ 'budget.categories.table.newCategoryButton' | translate }}
+		</button>
+	</div>
+
+	<ng-container *ngFor="let category of categoryList; index as i; trackBy: trackByFn">
+		<mat-card class="category-row">
+			<div class="category-row-name">
+				{{ category.name }}
+			</div>
+			<div class="category-row-budget">
+				{{ (category.allocatedAmount ?? 0) | currency }} Budget
+			</div>
+			<div class="category-row-action">
+				<button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+					<mat-icon>more_vert</mat-icon>
+				</button>
+				<mat-menu #menu="matMenu">
+					<button (click)="editCategory(category)" mat-menu-item>{{ 'budget.categories.table.actions.edit' | translate }}</button>
+					<button (click)="addSubCategory(category)" mat-menu-item>{{ 'budget.categories.table.actions.addSubCategory' | translate }}</button>
+					<button (click)="deleteCategory(category)" mat-menu-item>{{ 'budget.categories.table.actions.delete' | translate }}</button>
+				</mat-menu>
+			</div>
+		</mat-card>
+	</ng-container>
+</div>

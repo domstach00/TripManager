@@ -29,6 +29,7 @@ import {
 import {
 	SubcategoryCreateDialogComponent
 } from "./_dialog/subcategory-create-dialog/subcategory-create-dialog.component";
+import { CategoryTableV2Component } from "./budget-details/category-table-v2/category-table-v2.component";
 
 @NgModule({
 	declarations: [
@@ -44,6 +45,7 @@ import {
 		TransactionsOnCategorySearchableComponent,
 		TransactionsOnCategoryTableComponent,
 		SubcategoryCreateDialogComponent,
+		CategoryTableV2Component,
 	],
 	imports: [
 		SharedModule,

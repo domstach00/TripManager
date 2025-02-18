@@ -52,8 +52,8 @@
 		</div>
 		<div>
 
-			<category-table *ngIf="!!budget" [budget]="budget" (refreshEvent)="loadBudgetDetails()"></category-table>
-
+<!--			<category-table *ngIf="!!budget" [budget]="budget" (refreshEvent)="loadBudgetDetails()"></category-table>-->
+			<category-table-v2 *ngIf="!!budgetId" [budgetId]="budgetId"></category-table-v2>
 		</div>
 	</div>
 </div>
