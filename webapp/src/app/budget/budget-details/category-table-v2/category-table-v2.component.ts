@@ -23,6 +23,7 @@ export class CategoryTableV2Component implements OnInit {
 
 	loading: boolean = true;
 	categoryList: Category[] = [];
+	expandedElements: Category[] = [];
 
 	constructor(
 		readonly dialog: MatDialog,
@@ -88,5 +89,18 @@ export class CategoryTableV2Component implements OnInit {
 
 	deleteCategory(category: Category) {
 		// TODO: delete category
+	}
+
+	isExpanded(category: Category): boolean {
+		return this.expandedElements.indexOf(category) !== -1;
+	}
+
+	toggleExpendedElements(category: Category) {
+		const index: number = this.expandedElements.indexOf(category);
+		if (index >= 0) {
+			this.expandedElements.splice(index, 1);
+		} else {
+			this.expandedElements.push(category);
+		}
 	}
 }

@@ -7,22 +7,27 @@
 	</div>
 
 	<ng-container *ngFor="let category of categoryList; index as i; trackBy: trackByFn">
-		<mat-card class="category-row">
-			<div class="category-row-name">
-				{{ category.name }}
+		<mat-card class="category-mat-card">
+			<div class="category-row" (click)="toggleExpendedElements(category)">
+				<div class="category-row-name">
+					{{ category.name }}
+				</div>
+				<div class="category-row-budget">
+					{{ (category.allocatedAmount ?? 0) | currency }} Budget
+				</div>
+				<div class="category-row-action">
+					<button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+						<mat-icon>more_vert</mat-icon>
+					</button>
+					<mat-menu #menu="matMenu">
+						<button (click)="editCategory(category)" mat-menu-item>{{ 'budget.categories.table.actions.edit' | translate }}</button>
+						<button (click)="addSubCategory(category)" mat-menu-item>{{ 'budget.categories.table.actions.addSubCategory' | translate }}</button>
+						<button (click)="deleteCategory(category)" mat-menu-item>{{ 'budget.categories.table.actions.delete' | translate }}</button>
+					</mat-menu>
+				</div>
 			</div>
-			<div class="category-row-budget">
-				{{ (category.allocatedAmount ?? 0) | currency }} Budget
-			</div>
-			<div class="category-row-action">
-				<button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
-					<mat-icon>more_vert</mat-icon>
-				</button>
-				<mat-menu #menu="matMenu">
-					<button (click)="editCategory(category)" mat-menu-item>{{ 'budget.categories.table.actions.edit' | translate }}</button>
-					<button (click)="addSubCategory(category)" mat-menu-item>{{ 'budget.categories.table.actions.addSubCategory' | translate }}</button>
-					<button (click)="deleteCategory(category)" mat-menu-item>{{ 'budget.categories.table.actions.delete' | translate }}</button>
-				</mat-menu>
+			<div *ngIf="isExpanded(category)" class="subcategory-section">
+				TODO: Subcategory table / Transaction table
 			</div>
 		</mat-card>
 	</ng-container>

@@ -38,10 +38,7 @@
 		}
 	}
 
-	.category-row {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
+	.category-mat-card {
 		background-color: #fafafa;
 		margin: 3px;
 		padding: 3px;
@@ -50,21 +47,33 @@
 		box-sizing: border-box;
 		transition: transform 0.2s;
 
-		&:hover {
-			transform: translateY(-2px);
+		.category-row {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			padding-top: 10px;
+
+			&:hover {
+				transform: translateY(-2px);
+			}
+
+			&-name {
+				margin-left: 5px;
+				//margin-top: 5px;
+			}
+
+			&-budget {
+
+			}
+
+			&-action {
+
+			}
 		}
 
-		&-name {
-			margin-left: 5px;
-			margin-top: 5px;
-		}
-
-		&-budget {
-
-		}
-
-		&-action {
-
+		.subcategory-section {
+			padding: 5px;
+			background-color: rgba(241, 241, 241, 0.63);
 		}
 	}
 }
