@@ -27,7 +27,7 @@
 				</div>
 			</div>
 			<div *ngIf="isExpanded(category)" class="subcategory-section">
-				TODO: Subcategory table / Transaction table
+				<subcategory-table [budgetId]="budgetId" [categoryId]="category.id"></subcategory-table>
 			</div>
 		</mat-card>
 	</ng-container>

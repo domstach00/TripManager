@@ -1,0 +1,28 @@
+.subcategory-table {
+	display: flex;
+	flex-direction: column;
+	padding: 1rem;
+
+	.subcategory-mat-card {
+		margin: 3px;
+		padding: 3px;
+		transition: transform 0.2s;
+
+	}
+
+	.subcategory-row {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		padding-top: 10px;
+
+		&:hover {
+			transform: translateY(-2px);
+		}
+
+		&-name {
+			margin-left: 5px;
+		}
+	}
+
+}

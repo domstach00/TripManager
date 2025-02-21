@@ -15,7 +15,7 @@ import {
 export class CategoryTableV2Component implements OnInit {
 	@Input() budgetId!: string;
 	/**
-	 * If categories are provided via `injectCategoriesOptional`,
+	 * If categories are provided via `preloadedCategories`,
 	 * the initial API request to load categories will be skipped.
 	 */
 	@Input() preloadedCategories?: Category[] = null;
@@ -82,7 +82,7 @@ export class CategoryTableV2Component implements OnInit {
 
 		dialogRef.afterClosed().subscribe(newSubCategory => {
 			if (!!newSubCategory) {
-				this.budgetService.addSubCategoryToCategoryInBudget(this.budgetId, category.id, newSubCategory).subscribe(_ => this.refreshEvent.emit())
+				this.budgetService.addSubCategoryToCategoryInBudget(this.budgetId, category.id, newSubCategory).subscribe(_ => this.loadCategories(this.budgetId))
 			}
 		})
 	}

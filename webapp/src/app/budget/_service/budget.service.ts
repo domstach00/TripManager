@@ -61,4 +61,8 @@ export class BudgetService{
 	addSubCategoryToCategoryInBudget(budgetId: string, categoryId: string, subCategoryForm: SubCategoryCreateForm, parms?: any): Observable<SubCategory> {
 		return this.apiService.postFormatted<SubCategory>(ApiPath.budgetCategorySubCategory, [budgetId, categoryId], subCategoryForm, parms);
 	}
+
+	getSubCategories(budgetId: string, categoryId: string, params?: any): Observable<SubCategory[]> {
+		return this.apiService.getFormatted<SubCategory[]>(ApiPath.budgetCategorySubCategory, [budgetId, categoryId], params);
+	}
 }

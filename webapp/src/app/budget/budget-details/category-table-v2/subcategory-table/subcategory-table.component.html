@@ -1,0 +1,24 @@
+<div class="subcategory-table" *ngIf="!!budgetId && !!categoryId">
+	<ng-container *ngFor="let subCategory of subCategoryList; index as i">
+		<mat-card class="subcategory-mat-card">
+			<div class="subcategory-row" (click)="toggleExpendedElements(subCategory)">
+				<div class="subcategory-row-name">
+					{{ subCategory.name }}
+				</div>
+				<div class="subcategory-row-action">
+					<button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+						<mat-icon>more_vert</mat-icon>
+					</button>
+					<mat-menu #menu="matMenu">
+						<button (click)="editSubCategory(subCategory)" mat-menu-item>{{ 'budget.subcategories.table.actions.edit' | translate }}</button>
+						<button (click)="deleteSubCategory(subCategory)" mat-menu-item>{{ 'budget.subcategories.table.actions.delete' | translate }}</button>
+					</mat-menu>
+				</div>
+			</div>
+			<div *ngIf="isExpanded(subCategory)">
+				TODO: Dispaly transactions
+			</div>
+		</mat-card>
+	</ng-container>
+
+</div>
