@@ -48,6 +48,11 @@
 	"budget.name": "Name",
 	"budget.owner": "Owner",
 	"budget.startNewPeriod": "Start new period",
+	"budget.transactions.table.actions.delete": "Delete",
+	"budget.transactions.table.actions.edit": "Edit",
+	"budget.transactions.table.amount": "Amount",
+	"budget.transactions.table.description": "Description",
+	"budget.transactions.table.transactionDate": "Date",
 	"budget.unArchive": "Unarchive",
 	"lastModifiedByX": "Last modified by {{accountName}}",
 	"login.email.error": "Type email.",
@@ -96,10 +101,5 @@
 	"trips.lastModified": "Last modified",
 	"trips.leaveTrip": "Leave trip",
 	"trips.name": "Name",
-	"budget.transactions.table.actions.edit": "Edit",
-	"budget.transactions.table.actions.delete": "Delete",
-	"budget.transactions.table.transactionDate": "Date",
-	"budget.transactions.table.amount": "Amount",
-	"budget.transactions.table.description": "Description",
 	"trips.summaryCost": "Summary cost"
 }
