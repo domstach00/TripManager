@@ -33,6 +33,8 @@ import { CategoryTableV2Component } from "./budget-details/category-table-v2/cat
 import {
 	SubcategoryTableComponent
 } from "./budget-details/category-table-v2/subcategory-table/subcategory-table.component";
+import { TransactionsSearchableComponent } from "./transactions-table/transactions-searchable.component";
+import { TransactionsTableComponent } from "./transactions-table/transactions-table.component";
 
 @NgModule({
 	declarations: [
@@ -50,6 +52,8 @@ import {
 		SubcategoryCreateDialogComponent,
 		CategoryTableV2Component,
 		SubcategoryTableComponent,
+		TransactionsSearchableComponent,
+		TransactionsTableComponent,
 	],
 	imports: [
 		SharedModule,

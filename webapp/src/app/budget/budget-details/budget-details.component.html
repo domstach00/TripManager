@@ -54,6 +54,11 @@
 
 <!--			<category-table *ngIf="!!budget" [budget]="budget" (refreshEvent)="loadBudgetDetails()"></category-table>-->
 			<category-table-v2 *ngIf="!!budgetId" [budgetId]="budgetId" [preloadedCategories]="budget.categories"></category-table-v2>
+			<transactions-searchable *ngIf="budgetId"
+				[budgetId]="budgetId"
+				[excludeCategorized]="true"
+				[excludeSubCategorized]="true"
+			></transactions-searchable>
 		</div>
 	</div>
 </div>

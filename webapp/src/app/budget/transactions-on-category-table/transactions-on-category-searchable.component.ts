@@ -26,7 +26,7 @@ export class TransactionsOnCategorySearchableComponent extends SearchableCompone
 	}
 
 	doSearch(options: ApiParams): Observable<Page<Transaction>> {
-		return this.transactionService.getTransactionsForBudget(this.budgetId, this.categoryId, options);
+		return this.transactionService.getTransactionsForBudget(this.budgetId, this.categoryId,null,null,null, options);
 	}
 
 	override ngOnInit() {

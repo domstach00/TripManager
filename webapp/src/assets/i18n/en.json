@@ -96,5 +96,10 @@
 	"trips.lastModified": "Last modified",
 	"trips.leaveTrip": "Leave trip",
 	"trips.name": "Name",
+	"budget.transactions.table.actions.edit": "Edit",
+	"budget.transactions.table.actions.delete": "Delete",
+	"budget.transactions.table.transactionDate": "Date",
+	"budget.transactions.table.amount": "Amount",
+	"budget.transactions.table.description": "Description",
 	"trips.summaryCost": "Summary cost"
 }

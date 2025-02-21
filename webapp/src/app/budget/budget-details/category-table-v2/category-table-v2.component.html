@@ -26,8 +26,14 @@
 					</mat-menu>
 				</div>
 			</div>
-			<div *ngIf="isExpanded(category)" class="subcategory-section">
+			<div *ngIf="isExpanded(category)" class="expandable-section">
 				<subcategory-table [budgetId]="budgetId" [categoryId]="category.id"></subcategory-table>
+				<transactions-searchable
+					[budgetId]="budgetId"
+					[categoryId]="category.id"
+					[excludeSubCategorized]="true"
+					[displayHeaders]="false"
+				></transactions-searchable>
 			</div>
 		</mat-card>
 	</ng-container>

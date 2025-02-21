@@ -1,0 +1,35 @@
+<div class="table-container">
+	<mat-table [dataSource]="dataSet" *ngIf="!!dataSet">
+
+		<ng-container matColumnDef="description">
+			<mat-header-cell *matHeaderCellDef> {{'budget.transactions.table.description' | translate}} </mat-header-cell>
+			<mat-cell *matCellDef="let transaction"> {{ transaction.description }} </mat-cell>
+		</ng-container>
+
+		<ng-container matColumnDef="amount">
+			<mat-header-cell *matHeaderCellDef> {{'budget.transactions.table.amount' | translate}} </mat-header-cell>
+			<mat-cell *matCellDef="let transaction"> {{ transaction.amount | currency }} </mat-cell>
+		</ng-container>
+
+		<ng-container matColumnDef="transactionDate">
+			<mat-header-cell *matHeaderCellDef> {{'budget.transactions.table.transactionDate' | translate}} </mat-header-cell>
+			<mat-cell *matCellDef="let transaction"> {{ transaction.transactionDate | date }} </mat-cell>
+		</ng-container>
+
+		<ng-container matColumnDef="actions">
+			<mat-header-cell *matHeaderCellDef class="icon-container"></mat-header-cell>
+			<mat-cell *matCellDef="let transaction" class="icon-container">
+				<button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+					<mat-icon>more_vert</mat-icon>
+				</button>
+				<mat-menu #menu="matMenu">
+					<button (click)="editTransaction(transaction)" mat-menu-item>{{ 'budget.transactions.table.actions.edit' | translate }}</button>
+					<button (click)="deleteTransaction(transaction)" mat-menu-item>{{ 'budget.transactions.table.actions.delete' | translate }}</button>
+				</mat-menu>
+			</mat-cell>
+		</ng-container>
+
+		<mat-header-row *matHeaderRowDef="displayedColumns" [class.hidden]="!displayHeaders"></mat-header-row>
+		<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+	</mat-table>
+</div>

@@ -22,7 +22,7 @@ public class TransactionRepository extends AbstractRepositoryImpl<Transaction> {
         return Transaction.class;
     }
 
-    public Page<Transaction> getTransactionByBudgetIdAndCategoryId(Pageable pageable, String budgetId, @Nullable String categoryId) {
+    public Page<Transaction> getTransactionByBudgetIdAndCategoryId(Pageable pageable, String budgetId, @Nullable String categoryId, @Nullable String subCategoryId, boolean excludeCategorized, boolean excludeSubCategorized) {
         List<AggregationOperation> operationList = new ArrayList<>();
         operationList.add(
                 Aggregation.match(
@@ -30,10 +30,30 @@ public class TransactionRepository extends AbstractRepositoryImpl<Transaction> {
                 )
         );
 
-        if (categoryId != null) {
+        if (categoryId != null && !excludeCategorized) {
             operationList.add(
                     Aggregation.match(
                             buildCriteriaTransactionWithGivenCategoryId(categoryId)
+                    )
+            );
+        } else if (excludeCategorized) {
+            operationList.add(
+                    Aggregation.match(
+                            buildCriteriaFieldExists(Transaction.FIELD_NAME_CATEGORY_ID, false)
+                    )
+            );
+        }
+
+        if (subCategoryId != null && !excludeSubCategorized) {
+            operationList.add(
+                    Aggregation.match(
+                            buildCriteriaTransactionWithGivenSubCategoryId(subCategoryId)
+                    )
+            );
+        } else if (excludeSubCategorized) {
+            operationList.add(
+                    Aggregation.match(
+                            buildCriteriaFieldExists(Transaction.FIELD_NAME_SUB_CATEGORY_ID, false)
                     )
             );
         }

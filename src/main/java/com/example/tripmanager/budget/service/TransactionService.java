@@ -36,9 +36,9 @@ public class TransactionService {
         return transactionRepository.save(transactionToCreate);
     }
 
-    public Page<Transaction> getTransactionsForBudget(Pageable pageable, Account currentAccount, String budgetId, @Nullable String categoryId) {
+    public Page<Transaction> getTransactionsForBudget(Pageable pageable, Account currentAccount, String budgetId, @Nullable String categoryId, @Nullable String subCategoryId, boolean excludeCategorized, boolean excludeSubCategorized) {
         budgetService.getBudgetById(budgetId, currentAccount);
-        return transactionRepository.getTransactionByBudgetIdAndCategoryId(pageable, budgetId, categoryId);
+        return transactionRepository.getTransactionByBudgetIdAndCategoryId(pageable, budgetId, categoryId, subCategoryId, excludeCategorized, excludeSubCategorized);
     }
 
     public TransactionBudgetSummary getTransactionsStatsForBudget(String budgetId, Account currentAccount) {

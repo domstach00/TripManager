@@ -1,0 +1,25 @@
+<ng-container *ngIf="searchResultObservable$ | async as searchResult">
+
+	<div class="wrapper">
+		<transactions-table
+			[currentAccount]="currentAccount"
+			[dataSet]="searchResult.content"
+			[totalPages]="searchResult.totalPages"
+			[displayHeaders]="displayHeaders"
+		></transactions-table>
+
+		<app-paginator
+			*ngIf="totalPages > 1"
+			[page]="page"
+			[pageSize]="pageSize"
+			[totalElements]="totalElements"
+			[totalPages]="totalPages"
+			[isFirstPage]="searchResult.first"
+			[isLastPage]="searchResult.last"
+			[isEmptyPage]="searchResult.empty"
+			(goPrev)="onPrev()"
+			(goNext)="onNext()"
+			(goPage)="goToPage($event)"
+		></app-paginator>
+	</div>
+</ng-container>

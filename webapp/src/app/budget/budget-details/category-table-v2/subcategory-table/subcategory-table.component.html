@@ -16,7 +16,12 @@
 				</div>
 			</div>
 			<div *ngIf="isExpanded(subCategory)">
-				TODO: Dispaly transactions
+				<transactions-searchable
+					[budgetId]="budgetId"
+					[categoryId]="categoryId"
+					[subCategoryId]="subCategory.id"
+					[displayHeaders]="false"
+				></transactions-searchable>
 			</div>
 		</mat-card>
 	</ng-container>

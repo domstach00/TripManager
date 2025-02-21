@@ -14,8 +14,16 @@ export class TransactionService {
 		return this.apiService.post<Transaction, TransactionCreateForm>(ApiPath.transaction, transactionCreateForm, params);
 	}
 
-	getTransactionsForBudget(budgetId: string, categoryId?: string, params?: any): Observable<Page<Transaction>> {
-		return this.apiService.getFormatted<Page<Transaction>>(ApiPath.transactionBudgetSelect, [budgetId], { categoryId, ...params });
+	getTransactionsForBudget(budgetId: string, categoryId?: string, subCategoryId?: string, excludeCategorized?: boolean, excludeSubCategorized?: boolean, params?: any): Observable<Page<Transaction>> {
+		const updatedParams = {
+			...params,
+			...(categoryId !== undefined && { categoryId }),
+			...(subCategoryId !== undefined && { subCategoryId }),
+			...(excludeCategorized !== undefined && { excludeCategorized }),
+			...(excludeSubCategorized !== undefined && { excludeSubCategorized }),
+		};
+
+		return this.apiService.getFormatted<Page<Transaction>>(ApiPath.transactionBudgetSelect, [budgetId], updatedParams);
 	}
 
 	getTransactionSummaryForGivenBudget(budgetId: string, params?: any): Observable<TransactionBudgetSummary> {

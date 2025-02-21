@@ -50,10 +50,13 @@ public class TransactionController extends AbstractController {
             Principal principal,
             @PathVariable String budgetId,
             @ParameterObject PageParams pageParams,
-            @RequestParam(required = false) String categoryId
+            @RequestParam(required = false) String categoryId,
+            @RequestParam(required = false) String subCategoryId,
+            @RequestParam(required = false, defaultValue = "false") boolean excludeCategorized,
+            @RequestParam(required = false, defaultValue = "false") boolean excludeSubCategorized
     ) {
         Account currentAccount = getCurrentAccount(principal);
-        Page<Transaction> transactions = transactionService.getTransactionsForBudget(pageParams.asPageable(), currentAccount, budgetId, categoryId);
+        Page<Transaction> transactions = transactionService.getTransactionsForBudget(pageParams.asPageable(), currentAccount, budgetId, categoryId, subCategoryId, excludeCategorized, excludeSubCategorized);
         return toDto(transactions);
     }
 
