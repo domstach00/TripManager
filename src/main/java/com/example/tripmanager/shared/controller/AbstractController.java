@@ -14,9 +14,12 @@ public abstract class AbstractController {
     protected AccountService accountService;
 
     protected Account getCurrentAccount(Principal principal) {
+        if (principal == null) {
+            throw new IllegalArgumentException("Principal cannot be null");
+        }
         return accountService.getCurrentAccount(principal);
     }
-    protected void throwErrorOnValidateIdsFromUrlAndBody(String idFromUrl, String idFromBody) {
+    public void throwErrorOnValidateIdsFromUrlAndBody(String idFromUrl, String idFromBody) {
         if (StringUtils.isBlank(idFromUrl) || StringUtils.isBlank(idFromBody)) {
             throw new IllegalArgumentException("Id cannot be blank or null");
         }

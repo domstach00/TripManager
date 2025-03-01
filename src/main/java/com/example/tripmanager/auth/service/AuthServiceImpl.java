@@ -54,6 +54,9 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Account register(SignupRequest signupRequest) {
+        if (signupRequest == null) {
+            throw new IllegalArgumentException("SignupRequest form cannot be null");
+        }
         if (accountRepository.existsByEmail(signupRequest.getEmail())) {
             throw new AccountAlreadyExistsException("Account with email %s already exists".formatted(signupRequest.getEmail()));
         }

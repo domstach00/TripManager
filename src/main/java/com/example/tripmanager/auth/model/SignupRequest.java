@@ -1,8 +1,13 @@
 package com.example.tripmanager.auth.model;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class SignupRequest {
+    @NotBlank(message = "Email cannot be null")
     private String email;
+    @NotBlank(message = "Name cannot be null")
     private String name;
+    @NotBlank(message = "Password cannot be null")
     private String password;
 
     public SignupRequest() {

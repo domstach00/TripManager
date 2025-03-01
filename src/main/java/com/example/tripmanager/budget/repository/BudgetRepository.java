@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -39,7 +40,11 @@ public class BudgetRepository extends AbstractRepositoryImpl<Budget> {
         return findAllBy(pageable, operationList);
     }
 
-    public Optional<Budget> getBudgetById(String budgetId, Account currentAccount) {
+    public Optional<Budget> getBudgetById(String budgetId, @NonNull Account currentAccount) {
+        return getBudgetById(budgetId, currentAccount.getId());
+    }
+
+    public Optional<Budget> getBudgetById(String budgetId, String currentAccountId) {
         List<AggregationOperation> operationList = new ArrayList<>();
         operationList.add(
                 Aggregation.match(buildCriteriaById(budgetId))
@@ -49,13 +54,13 @@ public class BudgetRepository extends AbstractRepositoryImpl<Budget> {
         );
         operationList.add(
                 Aggregation.match(
-                        buildCriteriaAccountIsBudgetMemberOrOwner(currentAccount.getId())
+                        buildCriteriaAccountIsBudgetMemberOrOwner(currentAccountId)
                 )
         );
         return findOneBy(operationList);
     }
 
-    public Optional<Budget> getBudgetByIdWhereAccountIsOwner(String budgetId, Account currentAccount) {
+    public Optional<Budget> getBudgetByIdWhereAccountIsOwner(String budgetId, @NonNull Account currentAccount) {
         List<AggregationOperation> operationList = new ArrayList<>();
         operationList.add(
                 Aggregation.match(buildCriteriaById(budgetId))

@@ -10,8 +10,9 @@ import com.example.tripmanager.shared.model.messageResponse.MessageResponse;
 import com.example.tripmanager.auth.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -41,9 +42,10 @@ public class AuthController extends AbstractController {
     }
 
     @PostMapping(registerPostUrl)
-    public ResponseEntity<AccountDto> register(@RequestBody SignupRequest signupRequest) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public AccountDto register(@Valid @RequestBody SignupRequest signupRequest) {
         Account account = authService.register(signupRequest);
-        return ResponseEntity.ok(toDto(account));
+        return toDto(account);
     }
 
     @GetMapping(logoutGetUrl)
