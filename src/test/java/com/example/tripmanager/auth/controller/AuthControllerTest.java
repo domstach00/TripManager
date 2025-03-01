@@ -5,7 +5,6 @@ import com.example.tripmanager.account.model.AccountDto;
 import com.example.tripmanager.auth.model.LoginRequest;
 import com.example.tripmanager.auth.model.SignupRequest;
 import com.example.tripmanager.auth.service.AuthService;
-import com.example.tripmanager.shared.exception.InvalidRequestException;
 import com.example.tripmanager.shared.model.messageResponse.MessageResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -77,9 +76,7 @@ class AuthControllerTest {
 
     @Test
     void testLogin_NullLoginRequestForm() {
-        when(authController.login(null, dummyRequest, dummyResponse))
-                .thenThrow(InvalidRequestException.class);
-        assertThrows(InvalidRequestException.class,
+        assertThrows(NullPointerException.class,
                 () -> authController.login(null, dummyRequest, dummyResponse));
     }
 
@@ -109,7 +106,7 @@ class AuthControllerTest {
 
         doReturn(dummyAccountDto).when(authController).toDto(dummyAccount);
 
-        AccountDto result = authController.register(signupRequest);
+        AccountDto result = authController.register(signupRequest, dummyRequest);
 
         assertNotNull(result);
         assertEquals("acc1", result.getId());
@@ -118,10 +115,8 @@ class AuthControllerTest {
 
     @Test
     void testRegister_NullRequest() {
-        when(authService.register(null)).thenThrow(IllegalArgumentException.class);
-
-        assertThrows(IllegalArgumentException.class,
-                () -> authController.register(null));
+        assertThrows(NullPointerException.class,
+                () -> authController.register(null, dummyRequest));
     }
 
     @Test
@@ -134,14 +129,14 @@ class AuthControllerTest {
         when(authService.register(eq(signupRequest))).thenThrow(ex);
 
         RuntimeException thrown = assertThrows(RuntimeException.class,
-                () -> authController.register(signupRequest));
+                () -> authController.register(signupRequest, dummyRequest));
 
         assertEquals("Register error", thrown.getMessage());
     }
 
     @Test
     void testLogoutSuccess() {
-        MessageResponse response = authController.logout(dummyRequest, dummyResponse);
+        MessageResponse response = authController.logout(dummyPrincipal, dummyRequest, dummyResponse);
 
         verify(authService, times(1))
                 .logoutUser(eq(dummyRequest), eq(dummyResponse));
@@ -157,7 +152,7 @@ class AuthControllerTest {
                 .logoutUser(eq(dummyRequest), eq(dummyResponse));
 
         RuntimeException thrown = assertThrows(RuntimeException.class,
-                () -> authController.logout(dummyRequest, dummyResponse));
+                () -> authController.logout(dummyPrincipal, dummyRequest, dummyResponse));
 
         assertEquals("Logout error", thrown.getMessage());
     }

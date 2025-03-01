@@ -7,12 +7,14 @@ import com.example.tripmanager.budget.model.BudgetTemplateDto;
 import com.example.tripmanager.budget.service.BudgetTemplateService;
 import com.example.tripmanager.shared.controller.AbstractController;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
+@Slf4j
 @RestController
 @RequestMapping(BudgetTemplateController.CONTROLLER_URL)
 public class BudgetTemplateController extends AbstractController {
@@ -33,6 +35,7 @@ public class BudgetTemplateController extends AbstractController {
             @RequestParam(required = false, defaultValue = "true") boolean initialize
     ) {
         Account currentAccount = getCurrentAccount(principal);
+        log.info("Attempting to create BudgetTemplate by accountId={}", currentAccount.getId());
         BudgetTemplate budgetTemplateFromCreate = BudgetTemplateMapper.createFromDto(budgetTemplateDto);
         BudgetTemplate result = budgetTemplateService.createBudgetTemplate(budgetTemplateFromCreate, initialize);
         return toDto(result);

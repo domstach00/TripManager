@@ -10,6 +10,7 @@ import com.example.tripmanager.budget.service.TransactionService;
 import com.example.tripmanager.shared.controller.AbstractController;
 import com.example.tripmanager.shared.controller.support.PageParams;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
+@Slf4j
 @RestController
 @RequestMapping(TransactionController.CONTROLLER_URL)
 public class TransactionController extends AbstractController {
@@ -36,11 +38,12 @@ public class TransactionController extends AbstractController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public TransactionDto createBudget(
+    public TransactionDto createTransaction(
             Principal principal,
             @Valid @RequestBody TransactionCreateForm transactionCreateForm
     ) {
         Account currentAccount = getCurrentAccount(principal);
+        log.info("Attempting to create Transaction by accountId={}", currentAccount.getId());
         Transaction createdTransaction = transactionService.createTransaction(transactionCreateForm, currentAccount);
         return toDto(createdTransaction);
     }

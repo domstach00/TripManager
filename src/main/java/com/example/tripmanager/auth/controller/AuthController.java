@@ -11,13 +11,14 @@ import com.example.tripmanager.auth.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
-
+@Slf4j
 @RestController
 @RequestMapping(AuthController.authControllerUrl)
 public class AuthController extends AbstractController {
@@ -37,20 +38,25 @@ public class AuthController extends AbstractController {
     public MessageResponse login(@RequestBody LoginRequest loginRequest,
                                  HttpServletRequest request,
                                  HttpServletResponse response) {
+        log.info("Attempting to login with email={} from ip={}", loginRequest.getEmail(), request.getRemoteAddr());
         authService.login(loginRequest, request, response);
         return new MessageResponse("Login successful");
     }
 
     @PostMapping(registerPostUrl)
     @ResponseStatus(HttpStatus.CREATED)
-    public AccountDto register(@Valid @RequestBody SignupRequest signupRequest) {
+    public AccountDto register(@Valid @RequestBody SignupRequest signupRequest, HttpServletRequest request) {
+        log.info("Attempting to register with email={} from ip={}", signupRequest.getEmail(), request.getRemoteAddr());
         Account account = authService.register(signupRequest);
         return toDto(account);
     }
 
     @GetMapping(logoutGetUrl)
-    public MessageResponse logout(HttpServletRequest request,
+    public MessageResponse logout(Principal principal,
+                                  HttpServletRequest request,
                                   HttpServletResponse response) {
+        Account currentAccount = getCurrentAccount(principal);
+        log.info("Attempting to logout user={} from ip={}", currentAccount.getId(), request.getPathInfo());
         this.authService.logoutUser(request, response);
         return new MessageResponse("Logout successful");
     }
@@ -59,7 +65,8 @@ public class AuthController extends AbstractController {
     public AccountDto getCurrentLoggedInAccount(
             Principal principal
     ) {
-        return toDto(getCurrentAccount(principal));
+        Account currentAccount = getCurrentAccount(principal);
+        return toDto(currentAccount);
     }
 
     public static String getLoginPostUrl() {

@@ -12,6 +12,7 @@ import com.example.tripmanager.auth.security.jwt.JwtService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.nio.CharBuffer;
 import java.util.Set;
 
+@Slf4j
 @Service
 public class AuthServiceImpl implements AuthService {
     @Autowired
@@ -36,8 +38,10 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void login(LoginRequest loginRequest, HttpServletRequest request, HttpServletResponse response) {
         if (loginRequest == null || request == null || response == null) {
+            log.error("Login request failed: loginRequest, request, or response is null");
             throw new InvalidRequestException();
         }
+        log.info("Login attempt for user: {}", loginRequest.getEmail());
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                 loginRequest.getEmail(),
                 loginRequest.getPassword()
@@ -50,14 +54,18 @@ public class AuthServiceImpl implements AuthService {
         int maxCookieAgeInSec = jwtService.getJwtExpirationMs() / 1000;
         Cookie cookie = createJwtCookie(jwt, request.isSecure(), maxCookieAgeInSec);
         response.addCookie(cookie);
+        log.info("User {} successfully logged in with ip={}", loginRequest.getEmail(), request.getRemoteAddr());
     }
 
     @Override
     public Account register(SignupRequest signupRequest) {
         if (signupRequest == null) {
+            log.error("Registration failed: SignupRequest form is null");
             throw new IllegalArgumentException("SignupRequest form cannot be null");
         }
+        log.info("Registration attempt for email: {}", signupRequest.getEmail());
         if (accountRepository.existsByEmail(signupRequest.getEmail())) {
+            log.warn("Registration failed: Account with email '{}' already exists", signupRequest.getEmail());
             throw new AccountAlreadyExistsException("Account with email %s already exists".formatted(signupRequest.getEmail()));
         }
         // TODO add email service
@@ -66,17 +74,21 @@ public class AuthServiceImpl implements AuthService {
         setUserPassword(newAccount, signupRequest.getPassword());
         newAccount.setRoles(Set.of(Role.ROLE_USER));
 
-        return accountRepository.save(newAccount);
+        Account createdAccount = accountRepository.save(newAccount);
+        log.info("User registered successfully with email: {}", createdAccount.getEmail());
+        return createdAccount;
     }
 
     public void logoutUser(HttpServletRequest request,
                            HttpServletResponse response) {
         Cookie jwtCookieToDelete = createJwtCookie("", request.isSecure(), 0);
         response.addCookie(jwtCookieToDelete);
+        log.info("User successfully logged out");
     }
 
     private Cookie createJwtCookie(String token, boolean isRequestSecure, int maxCookieAgeInSec) {
         String cookieName = this.jwtService.getJwtCookieName();
+        log.debug("Creating JWT cookie with name '{}' and maxAge '{}'", cookieName, maxCookieAgeInSec);
         Cookie cookie = new Cookie(cookieName, token);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
@@ -86,6 +98,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     private void setUserPassword(Account account, String password) {
+        log.debug("Encoding password for account with email: {}", account.getEmail());
         account.setPassword(passwordEncoder.encode(CharBuffer.wrap(password)));
     }
 }

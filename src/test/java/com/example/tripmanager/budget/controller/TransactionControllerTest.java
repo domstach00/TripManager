@@ -74,7 +74,7 @@ class TransactionControllerTest {
         doReturn(expectedDto)
                 .when(transactionController).toDto(createdTransaction);
 
-        TransactionDto result = transactionController.createBudget(dummyPrincipal, createForm);
+        TransactionDto result = transactionController.createTransaction(dummyPrincipal, createForm);
 
         assertNotNull(result);
         assertEquals("t1", result.getId());
@@ -168,7 +168,7 @@ class TransactionControllerTest {
                 .thenThrow(new RuntimeException("Service error"));
 
         assertThrows(RuntimeException.class, () ->
-                transactionController.createBudget(dummyPrincipal, createForm));
+                transactionController.createTransaction(dummyPrincipal, createForm));
     }
 
     @Test

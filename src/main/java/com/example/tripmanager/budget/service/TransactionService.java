@@ -10,6 +10,7 @@ import com.example.tripmanager.budget.model.category.Category;
 import com.example.tripmanager.budget.model.category.SubCategory;
 import com.example.tripmanager.budget.repository.TransactionRepository;
 import com.example.tripmanager.shared.model.AbstractEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class TransactionService {
     @Autowired
@@ -31,56 +33,75 @@ public class TransactionService {
 
     @Transactional
     public Transaction createTransaction(TransactionCreateForm transactionCreateForm, Account currentAccount) {
+        log.info("Creating a new transaction for budget {} by {}", transactionCreateForm.getBudgetId(), currentAccount.getEmail());
         validateTransactionCreateForm(transactionCreateForm, currentAccount);
         Transaction transactionToCreate = TransactionMapper.transactionFromCreateForm(transactionCreateForm);
-        return transactionRepository.save(transactionToCreate);
+        Transaction createdTransaction = transactionRepository.save(transactionToCreate);
+        log.info("Transaction successfully created with ID: {}", transactionToCreate.getId());
+        return createdTransaction;
     }
 
     public Page<Transaction> getTransactionsForBudget(Pageable pageable, Account currentAccount, String budgetId, @Nullable String categoryId, @Nullable String subCategoryId, boolean excludeCategorized, boolean excludeSubCategorized) {
+        log.debug("Fetching transactions for budgetId: {}, categoryId: {}, subCategoryId: {}", budgetId, categoryId, subCategoryId);
         budgetService.getBudgetById(budgetId, currentAccount);
-        return transactionRepository.getTransactionByBudgetIdAndCategoryId(pageable, budgetId, categoryId, subCategoryId, excludeCategorized, excludeSubCategorized);
+        Page<Transaction> transactions = transactionRepository.getTransactionByBudgetIdAndCategoryId(pageable, budgetId, categoryId, subCategoryId, excludeCategorized, excludeSubCategorized);
+        log.info("Retrieved {} transactions for budgetId: {}", transactions.getTotalElements(), budgetId);
+        return transactions;
     }
 
     public TransactionBudgetSummary getTransactionsStatsForBudget(String budgetId, Account currentAccount) {
+        log.debug("Fetching transaction statistics for budgetId: {}", budgetId);
         budgetService.getBudgetById(budgetId, currentAccount); // to check if account has access to budget
         Optional<TransactionBudgetSummary> budgetSummaryOpt = transactionRepository.getTransactionBudgetSummaryByBudgetId(budgetId);
-        return budgetSummaryOpt.orElseGet(() -> new TransactionBudgetSummary(budgetId, 0, 0));
+        TransactionBudgetSummary summary = budgetSummaryOpt.orElseGet(() -> new TransactionBudgetSummary(budgetId, 0, 0));
+        log.info("Transaction statistics retrieved for budgetId: {} - Total Amount: {}, Total Transactions: {}", budgetId, summary.getTransactionCount(), summary.getTransactionCount());
+        return summary;
     }
 
     private void validateTransactionCreateForm(TransactionCreateForm createForm, Account currentAccount) {
+        log.debug("Validating transaction create form for account: {}", currentAccount.getEmail());
         Budget refferedBudget = budgetService.getBudgetById(createForm.getBudgetId(), currentAccount);
         if (refferedBudget == null) {
+            log.warn("Invalid transaction: BudgetId {} does not exist or user has no access", createForm.getBudgetId());
             throw new IllegalArgumentException("Wrong BudgetId");
         }
         // When SubCategory is selected (and Category)
         if (!StringUtils.isBlank(createForm.getSubCategoryId())) {
             if (StringUtils.isBlank(createForm.getCategoryId())) {
+                log.warn("Invalid transaction: SubCategoryId {} provided but CategoryId is missing", createForm.getSubCategoryId());
                 throw new IllegalArgumentException("SubCategoryId cannot be selected because CategoryId is blank");
             }
             Category selectedCategory = refferedBudget.getCategories().stream()
                     .filter(category -> Objects.equals(category.getId(), createForm.getCategoryId()))
                     .findFirst()
-                    .orElseThrow(() -> new IllegalArgumentException("Wrong CategoryId - Budget does not contains this category"));
+                    .orElseThrow(() -> {
+                        log.warn("Invalid transaction: CategoryId {} does not exist in budget {}", createForm.getCategoryId(), createForm.getBudgetId());
+                        return new IllegalArgumentException("Wrong CategoryId - Budget does not contains this category");
+                    });
 
             List<String> subCategoryIdList = selectedCategory.getSubCategories().stream()
                     .map(SubCategory::getId)
                     .toList();
             if (subCategoryIdList.isEmpty() || !subCategoryIdList.contains(createForm.getSubCategoryId())) {
+                log.warn("Invalid transaction: SubCategoryId {} does not exist in CategoryId {}", createForm.getSubCategoryId(), createForm.getCategoryId());
                 throw new IllegalArgumentException("Wrong SubCategoryId - Budget does not contains this subCategory");
             }
         }
         // When only Category is selected
         else if (!StringUtils.isBlank(createForm.getCategoryId())) {
             if (refferedBudget.getCategories() == null || refferedBudget.getCategories().isEmpty()) {
+                log.warn("Invalid transaction: CategoryId {} does not exist in budget {}", createForm.getCategoryId(), createForm.getBudgetId());
                 throw new IllegalArgumentException("Wrong CategoryId");
             }
             List<String> categoryIdList = refferedBudget.getCategories().stream()
                     .map(AbstractEntity::getId)
                     .toList();
             if (categoryIdList.isEmpty() || !categoryIdList.contains(createForm.getCategoryId())) {
+                log.warn("Invalid transaction: CategoryId {} does not exist in budget {}", createForm.getCategoryId(), createForm.getBudgetId());
                 throw new IllegalArgumentException("Wrong CategoryId - Budget does not contains this category");
             }
         }
+        log.info("Transaction create form validation successful for budgetId: {}", createForm.getBudgetId());
     }
 
 }

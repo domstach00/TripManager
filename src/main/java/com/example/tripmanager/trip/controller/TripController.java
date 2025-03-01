@@ -8,6 +8,7 @@ import com.example.tripmanager.trip.model.Trip;
 import com.example.tripmanager.trip.model.TripDto;
 import com.example.tripmanager.account.service.AccountService;
 import com.example.tripmanager.trip.service.TripService;
+import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
+@Slf4j
 @RestController
 @RequestMapping(TripController.TRIP_PLAN_CONTROLLER_URL)
 public class TripController extends AbstractController {
@@ -39,6 +41,7 @@ public class TripController extends AbstractController {
     public TripDto postTrip(Principal principal,
                             @RequestBody TripDto tripDto) {
         Account currentAccount = getCurrentAccount(principal);
+        log.info("Attempting to create Trip by accountId={}", currentAccount.getId());
         return toDto(this.tripService.createTrip(tripDto, currentAccount));
     }
 
@@ -58,6 +61,7 @@ public class TripController extends AbstractController {
             @PathVariable String tripId
     ) {
         Account currentAccount = getCurrentAccount(principal);
+        log.info("Attempting to delete Trip {} by accountId={}", tripId, currentAccount.getId());
         this.tripService.deleteTrip(tripId, currentAccount);
     }
 
@@ -67,6 +71,7 @@ public class TripController extends AbstractController {
             @PathVariable String tripId
     ) {
         Account currentAccount = getCurrentAccount(principal);
+        log.info("Attempting to archive Trip {} by accountId={}", tripId, currentAccount.getId());
         Trip archivedTrip = this.tripService.archiveTrip(tripId, currentAccount);
         return toDto(archivedTrip);
     }
@@ -77,6 +82,7 @@ public class TripController extends AbstractController {
             @PathVariable String tripId
     ) {
         Account currentAccount = getCurrentAccount(principal);
+        log.info("Attempting to duplicate Trip {} by accountId={}", tripId, currentAccount.getId());
         Trip duplicatedTrip = this.tripService.duplicateTrip(tripId, currentAccount);
         return toDto(duplicatedTrip);
     }
@@ -87,6 +93,7 @@ public class TripController extends AbstractController {
             @PathVariable String tripId
     ) {
         Account currentAccount = getCurrentAccount(principal);
+        log.info("Attempting to leave (as member) Trip {} by accountId={}", tripId, currentAccount.getId());
         this.tripService.removeAccountFromTrip(tripId, currentAccount, currentAccount);
     }
 }

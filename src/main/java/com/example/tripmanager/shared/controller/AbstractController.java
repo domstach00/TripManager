@@ -3,18 +3,21 @@ package com.example.tripmanager.shared.controller;
 
 import com.example.tripmanager.account.model.Account;
 import com.example.tripmanager.account.service.AccountService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.security.Principal;
 import java.util.Objects;
 
+@Slf4j
 public abstract class AbstractController {
     @Autowired
     protected AccountService accountService;
 
     protected Account getCurrentAccount(Principal principal) {
         if (principal == null) {
+            log.warn("Principal is null");
             throw new IllegalArgumentException("Principal cannot be null");
         }
         return accountService.getCurrentAccount(principal);
@@ -24,6 +27,7 @@ public abstract class AbstractController {
             throw new IllegalArgumentException("Id cannot be blank or null");
         }
         if (!Objects.equals(idFromUrl, idFromBody)) {
+            log.warn("Id in path and given body does now match");
             throw new IllegalArgumentException("Id in path and given body does not match");
         }
     }

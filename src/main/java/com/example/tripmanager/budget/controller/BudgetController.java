@@ -13,6 +13,7 @@ import com.example.tripmanager.budget.service.BudgetService;
 import com.example.tripmanager.shared.controller.AbstractController;
 import com.example.tripmanager.shared.controller.support.PageParams;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping(BudgetController.CONTROLLER_URL)
 public class BudgetController extends AbstractController {
@@ -45,6 +47,7 @@ public class BudgetController extends AbstractController {
             @Valid @RequestBody BudgetCreateForm budgetCreateForm
     ) {
         Account currentAccount = getCurrentAccount(principal);
+        log.info("Attempting to create Budget by accountId={}", currentAccount.getId());
         Budget createdBudget = budgetService.createBudget(budgetCreateForm, currentAccount);
         return toDto(createdBudget);
     }
@@ -76,6 +79,7 @@ public class BudgetController extends AbstractController {
             @PathVariable String budgetId
     ) {
         Account currentAccount = getCurrentAccount(principal);
+        log.info("Attempting to archive Budget {} by accountId={}", budgetId, currentAccount.getId());
         Budget archivedBudget = budgetService.archiveBudget(budgetId, currentAccount);
         return toDto(archivedBudget);
     }
@@ -86,6 +90,7 @@ public class BudgetController extends AbstractController {
             @PathVariable String budgetId
     ) {
         Account currentAccount = getCurrentAccount(principal);
+        log.info("Attempting to unarchive Budget {} by accountId={}", budgetId, currentAccount.getId());
         Budget archivedBudget = budgetService.unArchiveBudget(budgetId, currentAccount);
         return toDto(archivedBudget);
     }
@@ -96,6 +101,7 @@ public class BudgetController extends AbstractController {
             @PathVariable String budgetId
     ) {
         Account currentAccount = getCurrentAccount(principal);
+        log.info("Attempting to delete Budget {} by accountId={}", budgetId, currentAccount.getId());
         budgetService.deleteBudget(budgetId, currentAccount);
     }
 
@@ -105,6 +111,7 @@ public class BudgetController extends AbstractController {
             @PathVariable String budgetId
     ) {
         Account currentAccount = getCurrentAccount(principal);
+        log.info("Attempting to leave Budget {} by accountId={}", budgetId, currentAccount.getId());
         budgetService.leaveBudget(budgetId, currentAccount);
     }
 
@@ -115,6 +122,7 @@ public class BudgetController extends AbstractController {
             @Valid @RequestBody BudgetCreateForm editedBudget
     ) {
         Account currentAccount = getCurrentAccount(principal);
+        log.info("Attempting to edit Budget {} by accountId={}", budgetId, currentAccount.getId());
         Budget updatedBudget = budgetService.editBudget(budgetId, editedBudget, currentAccount);
         return toDto(updatedBudget);
     }
@@ -127,6 +135,7 @@ public class BudgetController extends AbstractController {
             @Valid @RequestBody CategoryCreateForm categoryCreateForm
     ) {
         Account currentAccount = getCurrentAccount(principal);
+        log.info("Attempting to add category to Budget {} by accountId={}", budgetId, currentAccount.getId());
         Budget budget = budgetService.addCategoryToBudget(budgetId, categoryCreateForm, currentAccount);
         return toDto(budget);
     }
@@ -140,6 +149,7 @@ public class BudgetController extends AbstractController {
             @Valid @RequestBody SubCategoryCreateForm subCategoryCreateForm
     ) {
         Account currentAccount = getCurrentAccount(principal);
+        log.info("Attempting to add subcategory to category {} in Budget {} by accountId={}", categoryId, budgetId, currentAccount.getId());
         return budgetService.addSubCategoryToBudget(budgetId, categoryId, subCategoryCreateForm, currentAccount);
     }
 

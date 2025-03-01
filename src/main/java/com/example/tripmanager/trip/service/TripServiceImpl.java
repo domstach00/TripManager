@@ -8,6 +8,7 @@ import com.example.tripmanager.trip.model.Trip;
 import com.example.tripmanager.trip.model.TripDto;
 import com.example.tripmanager.account.model.Account;
 import com.example.tripmanager.trip.repository.TripRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class TripServiceImpl implements TripService {
     @Autowired
@@ -27,50 +29,81 @@ public class TripServiceImpl implements TripService {
     private AccountService accountService;
 
     protected Trip createFromDto(TripDto tripDto, Account currentAccount) {
+        log.debug("Creating trip from DTO for accountId={}", currentAccount.getId());
         return TripMapper.createFromDto(tripDto, currentAccount, accountService);
     }
 
     @Override
     public Trip createTrip(TripDto tripDto, Account currentAccount) {
+        log.debug("Creating new trip for accountId={}", currentAccount.getId());
         Trip tripToSave = createFromDto(tripDto, currentAccount);
-        return this.tripRepository.save(tripToSave);
+        Trip savedTrip = this.tripRepository.save(tripToSave);
+        log.debug("Trip created with ID: {} by accountId={}", savedTrip.getId(), currentAccount.getId());
+        return savedTrip;
     }
 
     @Override
     public Optional<Trip> getTripById(String tripId) {
-        return this.tripRepository.findById(tripId);
+        log.debug("Fetching trip with Id={}", tripId);
+        Optional<Trip> tripOpt = this.tripRepository.findById(tripId);
+        if (tripOpt.isPresent()) {
+            log.info("Fetched tripId={}", tripId);
+        } else {
+            log.info("Trip with Id={} was not found", tripId);
+        }
+        return tripOpt;
     }
 
     @Override
     public Page<Trip> getTripsForAccount(Pageable pageable, Account account) {
-        return this.tripRepository.findAllRelatedTrips(pageable, account);
+        log.debug("Fetching trips for account: {}", account.getId());
+        Page<Trip> trips = this.tripRepository.findAllRelatedTrips(pageable, account);
+        log.info("Retrieved {} trips for account={}", trips.getTotalElements(), account.getId());
+        return trips;
     }
 
     @Override
     public boolean isTripAdmin(Trip trip, Account account) {
-        return Objects.equals(trip.getOwner().getId(), account.getId());
+        boolean isAdmin = Objects.equals(trip.getOwner().getId(), account.getId());
+        log.info("Checking if account {} is admin for trip {}: {}", account.getId(), trip.getId(), isAdmin);
+        return isAdmin;
     }
 
     @Override
     public void deleteTrip(String tripId, Account account) {
+        log.debug("Attempting to delete trip with ID: {} by account: {}", tripId, account.getId());
         Trip tripToDelete = this.tripRepository.findTripByIdWhereAccountIsOwnerOrAdmin(tripId, account)
-                .orElseThrow(() -> new ItemNotFound("Trip was not found or you do not have enough permissions"));
+                .orElseThrow(() -> {
+                    log.warn("Trip {} not found or insufficient permissions for account: {}", tripId, account.getId());
+                    return new ItemNotFound("Trip was not found or you do not have enough permissions");
+                });
         tripToDelete.setDeleted(true);
         this.tripRepository.save(tripToDelete);
+        log.info("Trip with Id={} marked as deleted", tripId);
     }
 
     @Override
     public Trip archiveTrip(String tripId, Account account) {
+        log.debug("Attempting to archive trip with ID: {} by account: {}", tripId, account.getId());
         Trip tripToArchive = this.tripRepository.findTripByIdWhereAccountIsOwnerOrAdmin(tripId, account)
-                .orElseThrow(() -> new ItemNotFound("Trip was not found or you do not have enough permissions"));
+                .orElseThrow(() -> {
+                    log.warn("Trip {} not found or insufficient permissions for account: {}", tripId, account.getId());
+                    return new ItemNotFound("Trip was not found or you do not have enough permissions");
+                });
         tripToArchive.setArchived(true);
-        return this.tripRepository.save(tripToArchive);
+        Trip archivedTrip = this.tripRepository.save(tripToArchive);
+        log.info("Trip with Id={} archived", tripId);
+        return archivedTrip;
     }
 
     @Override
     public Trip duplicateTrip(String tripId, Account account) {
+        log.debug("Attempting to duplicate trip with Id={} by accountId={}", tripId, account.getId());
         Trip tripToDuplicate = this.tripRepository.findTripById(tripId, account)
-                .orElseThrow(() -> new ItemNotFound("Trip was not found or you do not have enough permissions"));
+                .orElseThrow(() -> {
+                    log.warn("Trip {} not found or insufficient permissions for accountId={}", tripId, account.getId());
+                    return new ItemNotFound("Trip was not found or you do not have enough permissions");
+                });
         Trip duplicatedTrip = new Trip();
         duplicatedTrip.deepCopyFrom(tripToDuplicate);
         duplicatedTrip.setName(duplicatedTrip.getName() + " - duplicated");
@@ -81,21 +114,29 @@ public class TripServiceImpl implements TripService {
         duplicatedTrip.setLastModifiedBy(null);
         duplicatedTrip.setOwner(account);
         duplicatedTrip.setMembers(new ArrayList<>());
-        return this.tripRepository.save(duplicatedTrip);
+        Trip savedTrip = this.tripRepository.save(duplicatedTrip);
+        log.info("Trip duplicated with new Id={} by accountId={}", savedTrip.getId(), account.getId());
+        return savedTrip;
     }
 
     @Override
     @Transactional
     public boolean removeAccountFromTrip(final String tripId, final Account account, final Account currentAccount) {
+        log.debug("Attempting to remove account {} from trip {} by accountId={}", account.getId(), tripId, currentAccount.getId());
         Trip trip = this.tripRepository.findTripByIdWhereAccountIsOwnerOrAdmin(tripId, currentAccount)
-                .orElseThrow(() -> new ItemNotFound("Trip was not found or you do not have enough permissions"));
+                .orElseThrow(() -> {
+                    log.warn("Trip {} not found or insufficient permissions for accountId={}", tripId, currentAccount.getId());
+                    return new ItemNotFound("Trip was not found or you do not have enough permissions");
+                });
         List<Member> accountAsMember = trip.getMembers().stream()
                 .filter(member -> Objects.equals(member.getAccountId(), account.getId()))
                 .toList();
         if (!accountAsMember.isEmpty() && trip.getMembers().removeAll(accountAsMember)) {
             this.tripRepository.save(trip);
+            log.info("Account {} successfully removed from trip {}", account.getId(), tripId);
             return true;
         }
+        log.info("Account {} was not a member of trip {} or removal failed", account.getId(), tripId);
         return false;
     }
 }
