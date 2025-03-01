@@ -8,7 +8,8 @@ import com.example.tripmanager.trip.model.Trip;
 import com.example.tripmanager.trip.model.TripDto;
 import com.example.tripmanager.account.model.Account;
 import com.example.tripmanager.trip.repository.TripRepository;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,9 +21,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-@Slf4j
 @Service
 public class TripServiceImpl implements TripService {
+    private static final Logger log = LoggerFactory.getLogger(TripServiceImpl.class);
     @Autowired
     private TripRepository tripRepository;
     @Autowired

@@ -10,8 +10,9 @@ import com.example.tripmanager.budget.model.category.Category;
 import com.example.tripmanager.budget.model.category.SubCategory;
 import com.example.tripmanager.budget.repository.TransactionRepository;
 import com.example.tripmanager.shared.model.AbstractEntity;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,9 +24,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-@Slf4j
 @Service
 public class TransactionService {
+    private static final Logger log = LoggerFactory.getLogger(TransactionService.class);
     @Autowired
     private TransactionRepository transactionRepository;
     @Autowired

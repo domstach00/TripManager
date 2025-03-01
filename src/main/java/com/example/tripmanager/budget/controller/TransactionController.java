@@ -10,7 +10,8 @@ import com.example.tripmanager.budget.service.TransactionService;
 import com.example.tripmanager.shared.controller.AbstractController;
 import com.example.tripmanager.shared.controller.support.PageParams;
 import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,11 +20,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
-@Slf4j
 @RestController
 @RequestMapping(TransactionController.CONTROLLER_URL)
 public class TransactionController extends AbstractController {
     public static final String CONTROLLER_URL = "/api/transactions";
+    private static final Logger log = LoggerFactory.getLogger(TransactionController.class);
 
     @Autowired
     private TransactionService transactionService;

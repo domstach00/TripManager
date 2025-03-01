@@ -1,17 +1,17 @@
 package com.example.tripmanager.shared.controller;
 
-
 import com.example.tripmanager.account.model.Account;
 import com.example.tripmanager.account.service.AccountService;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.security.Principal;
 import java.util.Objects;
 
-@Slf4j
 public abstract class AbstractController {
+    private static final Logger log = LoggerFactory.getLogger(AbstractController.class);
     @Autowired
     protected AccountService accountService;
 

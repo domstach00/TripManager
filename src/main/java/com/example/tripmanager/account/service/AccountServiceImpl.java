@@ -2,7 +2,8 @@ package com.example.tripmanager.account.service;
 
 import com.example.tripmanager.account.model.Account;
 import com.example.tripmanager.account.repository.AccountRepository;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,8 +13,8 @@ import java.security.Principal;
 import java.util.Optional;
 
 @Service
-@Slf4j
 public class AccountServiceImpl implements AccountService {
+    private static final Logger log = LoggerFactory.getLogger(AccountServiceImpl.class);
     @Autowired
     private AccountRepository accountRepository;
 

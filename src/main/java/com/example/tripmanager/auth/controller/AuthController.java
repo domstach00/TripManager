@@ -11,17 +11,18 @@ import com.example.tripmanager.auth.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
-@Slf4j
 @RestController
 @RequestMapping(AuthController.authControllerUrl)
 public class AuthController extends AbstractController {
+    private static final Logger log = LoggerFactory.getLogger(AuthController.class);
     protected final static String authControllerUrl = "/api/auth";
     private final static String loginPostUrl = "/login";
     private final static String registerPostUrl = "/register";

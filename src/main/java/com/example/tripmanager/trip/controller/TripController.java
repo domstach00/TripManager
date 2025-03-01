@@ -8,7 +8,8 @@ import com.example.tripmanager.trip.model.Trip;
 import com.example.tripmanager.trip.model.TripDto;
 import com.example.tripmanager.account.service.AccountService;
 import com.example.tripmanager.trip.service.TripService;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,10 +18,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
-@Slf4j
 @RestController
 @RequestMapping(TripController.TRIP_PLAN_CONTROLLER_URL)
 public class TripController extends AbstractController {
+    private static final Logger log = LoggerFactory.getLogger(TripController.class);
     public static final String TRIP_PLAN_CONTROLLER_URL = "/api/trip";
 
     @Autowired
