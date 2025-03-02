@@ -5,7 +5,9 @@ import com.example.tripmanager.budget.model.TransactionBudgetSummary;
 import com.example.tripmanager.shared.repository.AbstractRepositoryImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.mongodb.core.aggregation.*;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
+import org.springframework.data.mongodb.core.aggregation.ConvertOperators;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.example.tripmanager.budget.repository.criteria.TransactionCriteria.*;
+import static com.example.tripmanager.budget.repository.criteria.TransactionCriteria.buildCriteriaFieldExists;
+import static com.example.tripmanager.budget.repository.criteria.TransactionCriteria.buildCriteriaTransactionWithGivenBudgetId;
+import static com.example.tripmanager.budget.repository.criteria.TransactionCriteria.buildCriteriaTransactionWithGivenCategoryId;
+import static com.example.tripmanager.budget.repository.criteria.TransactionCriteria.buildCriteriaTransactionWithGivenSubCategoryId;
 
 @Repository
 public class TransactionRepository extends AbstractRepositoryImpl<Transaction> {

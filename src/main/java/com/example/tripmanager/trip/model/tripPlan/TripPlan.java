@@ -6,7 +6,6 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-
 @Document(collection = TripPlan.COLLECTION_NAME)
 public class TripPlan extends AbstractAuditable {
     public static final String COLLECTION_NAME = "tripPlans";

@@ -8,7 +8,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;
 
-
 public interface TripRepository extends MongoRepository<Trip, String> {
 
     Page<Trip> findAllRelatedTrips(Pageable pageable, Account account);

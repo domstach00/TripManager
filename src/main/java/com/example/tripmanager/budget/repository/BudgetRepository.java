@@ -14,7 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.example.tripmanager.budget.repository.criteria.BudgetCriteria.*;
+import static com.example.tripmanager.budget.repository.criteria.BudgetCriteria.buildCriteriaAccountIsBudgetMember;
+import static com.example.tripmanager.budget.repository.criteria.BudgetCriteria.buildCriteriaAccountIsBudgetMemberOrOwner;
+import static com.example.tripmanager.budget.repository.criteria.BudgetCriteria.buildCriteriaAccountIsBudgetOwner;
+import static com.example.tripmanager.budget.repository.criteria.BudgetCriteria.buildCriteriaByAccessModifiers;
 
 @Repository
 public class BudgetRepository extends AbstractRepositoryImpl<Budget> {
