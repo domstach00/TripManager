@@ -8,7 +8,16 @@ import java.time.Duration;
 @Component
 @ConfigurationProperties(prefix = "token.expiration")
 public class TokenConfiguration {
+    private String secret;
     private Duration accountActivation;
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public void setSecret(String secret) {
+        this.secret = secret;
+    }
 
     public Duration getAccountActivation() {
         return accountActivation;

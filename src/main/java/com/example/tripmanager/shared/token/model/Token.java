@@ -10,13 +10,18 @@ import java.time.LocalDateTime;
 @Document(collection = Token.COLLECTION_NAME)
 public class Token extends AbstractEntity {
     public static final String COLLECTION_NAME = "tokens";
+    public static final String FIELD_NAME_TOKEN_VALUE = "tokenValue";
+    public static final String FIELD_NAME_ACCOUNT_ID = "accountId";
+    public static final String FIELD_NAME_EXPIRATION_DATE = "expirationDate";
+    public static final String FIELD_NAME_IS_USED = "isUsed";
+    public static final String FIELD_NAME_TOKEN_TYPE = "tokenType";
 
     @Indexed(unique = true)
     private String tokenValue;
 
     private ObjectId accountId;
     private LocalDateTime expirationDate;
-    private boolean used;
+    private boolean isUsed;
     private TokenType tokenType;
 
     public Token() {
@@ -37,8 +42,8 @@ public class Token extends AbstractEntity {
         this.tokenValue = tokenValue;
     }
 
-    public ObjectId getAccountId() {
-        return accountId;
+    public String getAccountId() {
+        return toString(accountId);
     }
 
     public void setAccountId(ObjectId accountId) {
@@ -54,11 +59,11 @@ public class Token extends AbstractEntity {
     }
 
     public boolean isUsed() {
-        return used;
+        return isUsed;
     }
 
     public void setUsed(boolean used) {
-        this.used = used;
+        this.isUsed = used;
     }
 
     public TokenType getTokenType() {
