@@ -34,7 +34,7 @@ public class EmailService {
     public void sendWelcomeEmail(@NotNull Account account, @NotBlank String activationToken) {
         Map<String, Object> model = new HashMap<>();
         model.put("username", account.getUsername());
-        String activationLink = activationLinkService.createActivationLink("token", activationToken); //activationToken; // createActivationLink
+        String activationLink = activationLinkService.createActivationLink("token", activationToken);
         model.put("activationLink", activationLink);
 
         EmailDetails emailDetails = new EmailDetails(

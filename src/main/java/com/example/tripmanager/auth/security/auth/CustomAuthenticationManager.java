@@ -1,5 +1,6 @@
 package com.example.tripmanager.auth.security.auth;
 
+import com.example.tripmanager.auth.exception.AccountNotEnabledException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,6 +34,9 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 
         if (userDetails == null || !passwordEncoder.matches(password, userDetails.getPassword())) {
             throw new BadCredentialsException("Invalid email or password");
+        }
+        if (!userDetails.isEnabled()) {
+            throw new AccountNotEnabledException();
         }
 
         return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());

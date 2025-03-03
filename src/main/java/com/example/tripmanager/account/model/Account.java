@@ -22,6 +22,7 @@ public class Account extends AbstractEntity implements UserDetails {
     public static final String FILED_NAME_EMAIL = "email";
     public static final String FIELD_NAME_PASSWORD = "password";
     public static final String FIELD_NAME_ROLES = "roles";
+    public static final String FIELD_NAME_IS_ENABLED = "isEnabled";
 
     @NotBlank
     @Size(max = 20)
@@ -38,6 +39,7 @@ public class Account extends AbstractEntity implements UserDetails {
     private String password;
 
     private Set<Role> roles = new HashSet<>();
+    private boolean isEnabled = false;
 
     public Account() {
     }
@@ -66,7 +68,11 @@ public class Account extends AbstractEntity implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return this.isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
     }
 
     @Override
