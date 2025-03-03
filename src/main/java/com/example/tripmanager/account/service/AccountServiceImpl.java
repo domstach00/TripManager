@@ -21,7 +21,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account getCurrentAccount(Principal principal) {
         if (principal == null) {
-            log.warn("Attempt to retrieve current account failed: principal is null");
+            log.debug("Attempt to retrieve current account failed: principal is null");
             return null;
         } else if (principal instanceof User user) {
             log.debug("Retrieving account for username: {}", user.getUsername());

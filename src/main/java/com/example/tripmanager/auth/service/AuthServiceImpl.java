@@ -1,6 +1,7 @@
 package com.example.tripmanager.auth.service;
 
 import com.example.tripmanager.account.exception.AccountAlreadyExistsException;
+import com.example.tripmanager.email.service.EmailService;
 import com.example.tripmanager.shared.exception.InvalidRequestException;
 import com.example.tripmanager.account.mapper.AccountMapper;
 import com.example.tripmanager.auth.model.LoginRequest;
@@ -9,6 +10,9 @@ import com.example.tripmanager.account.model.Account;
 import com.example.tripmanager.account.model.Role;
 import com.example.tripmanager.account.repository.AccountRepository;
 import com.example.tripmanager.auth.security.jwt.JwtService;
+import com.example.tripmanager.shared.token.model.Token;
+import com.example.tripmanager.shared.token.model.TokenType;
+import com.example.tripmanager.shared.token.service.TokenService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -35,6 +39,10 @@ public class AuthServiceImpl implements AuthService {
     private JwtService jwtService;
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private EmailService emailService;
+    @Autowired
+    private TokenService tokenService;
 
     @Override
     public void login(LoginRequest loginRequest, HttpServletRequest request, HttpServletResponse response) {
@@ -69,13 +77,14 @@ public class AuthServiceImpl implements AuthService {
             log.warn("Registration failed: Account with email '{}' already exists", signupRequest.getEmail());
             throw new AccountAlreadyExistsException("Account with email %s already exists".formatted(signupRequest.getEmail()));
         }
-        // TODO add email service
 
         Account newAccount = AccountMapper.fromSignUp(signupRequest);
         setUserPassword(newAccount, signupRequest.getPassword());
         newAccount.setRoles(Set.of(Role.ROLE_USER));
 
         Account createdAccount = accountRepository.save(newAccount);
+        Token generatedToken = tokenService.generateToken(createdAccount.getId(), TokenType.ACCOUNT_ACTIVATION);
+        emailService.sendWelcomeEmail(createdAccount, generatedToken.getTokenValue());
         log.info("User registered successfully with email: {}", createdAccount.getEmail());
         return createdAccount;
     }
