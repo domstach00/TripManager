@@ -127,6 +127,25 @@
             <version>4.3.0</version>
         </dependency>
 
+        <!-- Email  -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+            <version>3.3.4</version>
+        </dependency>
+        <!-- Rendering templates (HTML) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <version>3.3.4</version>
+        </dependency>
+        <!-- RabbitMQ -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+            <version>3.3.4</version>
+        </dependency>
+
     </dependencies>
 
     <build>

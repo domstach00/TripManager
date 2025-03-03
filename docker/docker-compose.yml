@@ -10,20 +10,15 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=rootuser
       - MONGO_INITDB_ROOT_PASSWORD=rootpass
-  mongo-express:
-    image: mongo-express
-    container_name: mongo-express
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
     ports:
-      - 8081:8081
+      - "5672:5672"
+      - "15672:15672"
     environment:
-      - ME_CONFIG_MONGODB_AUTH_USERNAME=rootuser
-      - ME_CONFIG_MONGODB_AUTH_PASSWORD=rootpass
-      - ME_CONFIG_BASICAUTH_USERNAME=rootuser
-      - ME_CONFIG_BASICAUTH_PASSWORD=rootpass
-      - ME_CONFIG_MONGODB_ENABLE_ADMIN=false
-      - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
-      - ME_CONFIG_MONGODB_SERVER=mongo
-      - ME_CONFIG_MONGODB_PORT=27017
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
 volumes:
   data: {}
 networks:
