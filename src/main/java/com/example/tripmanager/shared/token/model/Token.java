@@ -19,6 +19,7 @@ public class Token extends AbstractEntity {
     @Indexed(unique = true)
     private String tokenValue;
 
+    @Indexed
     private ObjectId accountId;
     private LocalDateTime expirationDate;
     private boolean isUsed;
@@ -46,8 +47,8 @@ public class Token extends AbstractEntity {
         return toString(accountId);
     }
 
-    public void setAccountId(ObjectId accountId) {
-        this.accountId = accountId;
+    public void setAccountId(String accountId) {
+        this.accountId = toObjectId(accountId);
     }
 
     public LocalDateTime getExpirationDate() {

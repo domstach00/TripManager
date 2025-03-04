@@ -17,6 +17,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.nio.CharBuffer;
+import java.util.Optional;
 
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
@@ -31,10 +32,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -185,5 +191,66 @@ class AuthServiceImplTest {
         assertTrue(cookie.isHttpOnly());
         assertEquals("/", cookie.getPath());
         assertTrue(cookie.getSecure());
+    }
+
+
+    @Test
+    void testActivateAccountWithBlankToken() {
+        // Token zawierający same spacje lub pusty
+        boolean result = authService.activateAccount("  ");
+        assertFalse(result);
+        // Nie powinno zostać wywołane walidowanie tokena
+        verify(tokenService, never()).validateAndGetToken(anyString(), any());
+    }
+
+    @Test
+    void testActivateAccountTokenNotFound() {
+        String tokenValue = "validToken";
+        // Zwracamy Optional.empty() gdy token nie zostanie znaleziony
+        when(tokenService.validateAndGetToken(eq(tokenValue), eq(TokenType.ACCOUNT_ACTIVATION)))
+                .thenReturn(Optional.empty());
+
+        boolean result = authService.activateAccount(tokenValue);
+        assertFalse(result);
+        // Nie powinno być zapytania do repozytorium kont
+        verify(accountRepository, never()).findById(any());
+    }
+
+    @Test
+    void testActivateAccountAccountNotFound() {
+        String tokenValue = "validToken";
+        String  accountId = new ObjectId().toHexString();
+        Token token = new Token();
+        token.setAccountId(accountId);
+        // Token został zweryfikowany
+        when(tokenService.validateAndGetToken(eq(tokenValue), eq(TokenType.ACCOUNT_ACTIVATION)))
+                .thenReturn(Optional.of(token));
+        // Konto nie zostało znalezione
+        when(accountRepository.findById(eq(accountId)))
+                .thenReturn(Optional.empty());
+
+        boolean result = authService.activateAccount(tokenValue);
+        assertFalse(result);
+    }
+
+    @Test
+    void testActivateAccountSuccess() {
+        String tokenValue = "validToken";
+        String accountId = new ObjectId().toHexString();
+        Token token = new Token();
+        token.setAccountId(accountId);
+        Account account = new Account();
+        account.setEnabled(false);
+
+        when(tokenService.validateAndGetToken(eq(tokenValue), eq(TokenType.ACCOUNT_ACTIVATION)))
+                .thenReturn(Optional.of(token));
+        when(accountRepository.findById(eq(accountId)))
+                .thenReturn(Optional.of(account));
+
+        boolean result = authService.activateAccount(tokenValue);
+        assertTrue(result);
+        // Konto powinno zostać aktywowane
+        assertTrue(account.isEnabled());
+        verify(accountRepository, times(1)).save(account);
     }
 }

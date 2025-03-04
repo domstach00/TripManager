@@ -27,6 +27,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.nio.CharBuffer;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -103,7 +104,20 @@ public class AuthServiceImpl implements AuthService {
             return false;
         }
         final TokenType expectedTokenType = TokenType.ACCOUNT_ACTIVATION;
-        return tokenService.validateToken(tokenValue, expectedTokenType);
+        Optional<Token> tokenOpt = tokenService.validateAndGetToken(tokenValue, expectedTokenType);
+        if (tokenOpt.isEmpty()) {
+            return false;
+        }
+
+        Optional<Account> accountToActivateOpt = accountRepository.findById(tokenOpt.get().getAccountId());
+        if (accountToActivateOpt.isEmpty()) {
+            log.warn("Account with Id {} to activate is not present in database or is deleted", tokenOpt.get().getAccountId());
+            return false;
+        }
+        accountToActivateOpt.get().setEnabled(true);
+        accountRepository.save(accountToActivateOpt.get());
+        log.info("Account with Id {} has been activated properly", accountToActivateOpt.get().getId());
+        return true;
     }
 
     private Cookie createJwtCookie(String token, boolean isRequestSecure, int maxCookieAgeInSec) {

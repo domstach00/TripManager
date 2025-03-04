@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class TokenService {
@@ -52,13 +53,13 @@ public class TokenService {
         return tokenRepository.save(token);
     }
 
-    public boolean validateToken(String tokenValue, TokenType expectedType) {
+    public Optional<Token> validateAndGetToken(String tokenValue, TokenType expectedType) {
         try {
             TokenData tokenData = tokenDataStrategy.deserializeAndVerify(tokenValue, tokenConfiguration.getSecret());
 
             if (isTokenExpired(tokenData)) {
                 log.warn("Token expired for account {}, token={}", tokenData.accountId(), tokenValue);
-                return false;
+                return Optional.empty();
             }
 
             Token storedToken = tokenRepository.findTokenByTokenValue(tokenValue, tokenData.accountId())
@@ -66,10 +67,15 @@ public class TokenService {
                         log.error("Token for this account ({}) was not found, token={}", tokenData.accountId(), tokenValue);
                         return new TokenNotFoundException("Token for this account was not found");
                     });
-            return tokenDataStrategy.validate(tokenData, storedToken, expectedType);
+            boolean isTokenValid = tokenDataStrategy.validate(tokenData, storedToken, expectedType);
+            if (!isTokenValid) {
+                log.warn("Token is not valid, token={}", tokenValue);
+                return Optional.empty();
+            }
+            return Optional.of(storedToken);
         } catch (TokenValidationException e) {
             log.error("Token validation exception, expectedType={} token={}", expectedType, tokenValue);
-            return false;
+            return Optional.empty();
         }
     }
 
