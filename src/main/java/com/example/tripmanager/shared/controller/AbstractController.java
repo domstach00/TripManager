@@ -17,7 +17,7 @@ public abstract class AbstractController {
 
     protected Account getCurrentAccount(Principal principal) {
         if (principal == null) {
-            log.warn("Principal is null");
+            log.debug("Principal is null");
             throw new IllegalArgumentException("Principal cannot be null");
         }
         return accountService.getCurrentAccount(principal);
