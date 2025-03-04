@@ -56,10 +56,10 @@ public class AuthController extends AbstractController {
 
     @PostMapping(REGISTER_URL)
     @ResponseStatus(HttpStatus.CREATED)
-    public AccountDto register(@Valid @RequestBody SignupRequest signupRequest, HttpServletRequest request) {
+    public MessageResponse register(@Valid @RequestBody SignupRequest signupRequest, HttpServletRequest request) {
         log.info("Registration attempt for email={} from IP={}", signupRequest.getEmail(), request.getRemoteAddr());
-        Account account = authService.register(signupRequest);
-        return toDto(account);
+        authService.register(signupRequest);
+        return new MessageResponse("Registration successful. Please check your email for activation instructions");
     }
 
     @GetMapping(LOGOUT_URL)

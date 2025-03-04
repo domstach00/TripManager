@@ -48,7 +48,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void login(LoginRequest loginRequest, HttpServletRequest request, HttpServletResponse response) {
         if (loginRequest == null || request == null || response == null) {
-            log.error("Login request failed: loginRequest, request, or response is null");
+            log.warn("Login request failed: loginRequest, request, or response is null");
             throw new InvalidRequestException();
         }
         log.info("Login attempt for user: {}", loginRequest.getEmail());
@@ -68,9 +68,9 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Account register(SignupRequest signupRequest) {
+    public void register(SignupRequest signupRequest) {
         if (signupRequest == null) {
-            log.error("Registration failed: SignupRequest form is null");
+            log.warn("Registration failed: SignupRequest form is null");
             throw new IllegalArgumentException("SignupRequest form cannot be null");
         }
         log.info("Registration attempt for email: {}", signupRequest.getEmail());
@@ -87,7 +87,6 @@ public class AuthServiceImpl implements AuthService {
         Token generatedToken = tokenService.generateToken(createdAccount.getId(), TokenType.ACCOUNT_ACTIVATION);
         emailService.sendWelcomeEmail(createdAccount, generatedToken.getTokenValue());
         log.info("User registered successfully with email: {}", createdAccount.getEmail());
-        return createdAccount;
     }
 
     public void logoutUser(HttpServletRequest request,

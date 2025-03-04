@@ -1,6 +1,7 @@
 package com.example.tripmanager.auth.service;
 
 import com.example.tripmanager.account.exception.AccountAlreadyExistsException;
+import com.example.tripmanager.email.service.EmailService;
 import com.example.tripmanager.shared.exception.InvalidRequestException;
 import com.example.tripmanager.account.mapper.AccountMapper;
 import com.example.tripmanager.auth.model.LoginRequest;
@@ -9,10 +10,15 @@ import com.example.tripmanager.account.model.Account;
 import com.example.tripmanager.account.model.Role;
 import com.example.tripmanager.account.repository.AccountRepository;
 import com.example.tripmanager.auth.security.jwt.JwtService;
+import com.example.tripmanager.shared.token.model.Token;
+import com.example.tripmanager.shared.token.model.TokenType;
+import com.example.tripmanager.shared.token.service.TokenService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.nio.CharBuffer;
+
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -27,7 +33,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.times;
@@ -46,6 +51,10 @@ class AuthServiceImplTest {
     private JwtService jwtService;
     @Mock
     private AuthenticationManager authenticationManager;
+    @Mock
+    private EmailService emailService;
+    @Mock
+    private TokenService tokenService;
     @InjectMocks
     private AuthServiceImpl authService;
 
@@ -61,9 +70,11 @@ class AuthServiceImplTest {
         loginRequest.setPassword("password");
 
         when(request.isSecure()).thenReturn(true);
+        when(request.getRemoteAddr()).thenReturn("127.0.0.1");
 
         Authentication authentication = mock(Authentication.class);
-        when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
+        ArgumentCaptor<UsernamePasswordAuthenticationToken> authTokenCaptor = ArgumentCaptor.forClass(UsernamePasswordAuthenticationToken.class);
+        when(authenticationManager.authenticate(authTokenCaptor.capture()))
                 .thenReturn(authentication);
         String dummyJwt = "dummyJwt";
         when(jwtService.generateToken(authentication)).thenReturn(dummyJwt);
@@ -73,6 +84,10 @@ class AuthServiceImplTest {
         when(jwtService.getJwtCookieName()).thenReturn(cookieName);
 
         authService.login(loginRequest, request, response);
+
+        UsernamePasswordAuthenticationToken actualAuthToken = authTokenCaptor.getValue();
+        assertEquals(loginRequest.getEmail(), actualAuthToken.getPrincipal());
+        assertEquals(loginRequest.getPassword(), actualAuthToken.getCredentials());
 
         ArgumentCaptor<Cookie> cookieCaptor = ArgumentCaptor.forClass(Cookie.class);
         verify(response).addCookie(cookieCaptor.capture());
@@ -91,11 +106,8 @@ class AuthServiceImplTest {
         loginRequest.setEmail("test@example.com");
         loginRequest.setPassword("password");
 
-        // If loginRequest is null
         assertThrows(InvalidRequestException.class, () -> authService.login(null, request, response));
-        // If request is null
         assertThrows(InvalidRequestException.class, () -> authService.login(loginRequest, null, response));
-        // If response is null
         assertThrows(InvalidRequestException.class, () -> authService.login(loginRequest, request, null));
     }
 
@@ -108,6 +120,7 @@ class AuthServiceImplTest {
         when(accountRepository.existsByEmail(signupRequest.getEmail())).thenReturn(false);
 
         Account dummyAccount = new Account();
+        dummyAccount.setId(new ObjectId().toHexString());
         try (var accountMapperMock = mockStatic(AccountMapper.class)) {
             accountMapperMock.when(() -> AccountMapper.fromSignUp(signupRequest))
                     .thenReturn(dummyAccount);
@@ -118,12 +131,19 @@ class AuthServiceImplTest {
 
             when(accountRepository.save(dummyAccount)).thenReturn(dummyAccount);
 
-            Account result = authService.register(signupRequest);
+            Token mockToken = new Token();
+            mockToken.setTokenValue("testToken");
+            when(tokenService.generateToken(dummyAccount.getId(), TokenType.ACCOUNT_ACTIVATION))
+                    .thenReturn(mockToken);
+
+            authService.register(signupRequest);
+
+            verify(accountRepository).save(dummyAccount);
+            verify(tokenService).generateToken(dummyAccount.getId(), TokenType.ACCOUNT_ACTIVATION);
+            verify(emailService).sendWelcomeEmail(dummyAccount, "testToken");
+            accountMapperMock.verify(() -> AccountMapper.fromSignUp(signupRequest), times(1));
             assertEquals(encodedPassword, dummyAccount.getPassword());
             assertTrue(dummyAccount.getRoles().contains(Role.ROLE_USER));
-            verify(accountRepository, times(1)).save(dummyAccount);
-            accountMapperMock.verify(() -> AccountMapper.fromSignUp(signupRequest), times(1));
-            assertEquals(dummyAccount, result);
         }
     }
 

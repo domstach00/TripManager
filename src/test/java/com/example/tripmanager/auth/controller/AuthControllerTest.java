@@ -26,7 +26,6 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class AuthControllerTest {
@@ -107,14 +106,8 @@ class AuthControllerTest {
         signupRequest.setEmail("user@example.com");
         signupRequest.setPassword("password");
 
-        when(authService.register(eq(signupRequest))).thenReturn(dummyAccount);
+        authController.register(signupRequest, dummyRequest);
 
-        doReturn(dummyAccountDto).when(authController).toDto(dummyAccount);
-
-        AccountDto result = authController.register(signupRequest, dummyRequest);
-
-        assertNotNull(result);
-        assertEquals("acc1", result.getId());
         verify(authService, times(1)).register(eq(signupRequest));
     }
 
@@ -131,7 +124,7 @@ class AuthControllerTest {
         signupRequest.setPassword("password");
 
         RuntimeException ex = new RuntimeException("Register error");
-        when(authService.register(eq(signupRequest))).thenThrow(ex);
+        doThrow(ex).when(authService).register(eq(signupRequest));
 
         RuntimeException thrown = assertThrows(RuntimeException.class,
                 () -> authController.register(signupRequest, dummyRequest));
