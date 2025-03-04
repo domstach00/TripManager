@@ -16,6 +16,7 @@ import com.example.tripmanager.shared.token.service.TokenService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,6 +95,16 @@ public class AuthServiceImpl implements AuthService {
         Cookie jwtCookieToDelete = createJwtCookie("", request.isSecure(), 0);
         response.addCookie(jwtCookieToDelete);
         log.info("User successfully logged out");
+    }
+
+    @Override
+    public boolean activateAccount(String tokenValue) {
+        if (StringUtils.isBlank(tokenValue)) {
+            log.warn("Token value for account activation is blank, token={}", tokenValue);
+            return false;
+        }
+        final TokenType expectedTokenType = TokenType.ACCOUNT_ACTIVATION;
+        return tokenService.validateToken(tokenValue, expectedTokenType);
     }
 
     private Cookie createJwtCookie(String token, boolean isRequestSecure, int maxCookieAgeInSec) {

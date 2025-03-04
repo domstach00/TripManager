@@ -38,9 +38,10 @@ public class SecurityConfig {
                 .addFilterBefore(authTokenFilter, BasicAuthenticationFilter.class)
                 .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((request) ->
-                        request.requestMatchers(HttpMethod.POST, AuthController.getLoginPostUrl()).permitAll()
-                                .requestMatchers(HttpMethod.POST, AuthController.getRegisterPostUrl()).permitAll()
-                                .requestMatchers(HttpMethod.GET, AuthController.getLogoutGetUrl()).permitAll()
+                        request.requestMatchers(HttpMethod.POST, AuthController.getLoginUrl()).permitAll()
+                                .requestMatchers(HttpMethod.POST, AuthController.getRegisterUrl()).permitAll()
+                                .requestMatchers(HttpMethod.GET, AuthController.getActivateAccountUrl()).permitAll()
+                                .requestMatchers(HttpMethod.GET, AuthController.getLogoutUrl()).permitAll()
                                 .anyRequest().authenticated());
         return http.build();
     }

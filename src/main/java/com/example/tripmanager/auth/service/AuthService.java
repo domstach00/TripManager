@@ -10,4 +10,5 @@ public interface AuthService {
     void login(LoginRequest loginRequest, HttpServletRequest request, HttpServletResponse response);
     Account register(SignupRequest signupRequest);
     void logoutUser(HttpServletRequest request, HttpServletResponse response);
+    boolean activateAccount(String tokenValue);
 }
