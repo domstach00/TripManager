@@ -17,6 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.Clock;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -73,16 +74,39 @@ public class DefaultTokenDataStrategy implements TokenDataStrategy {
 
     private TokenData deserializePayload(String payload) {
         String[] elements = payload.split(Pattern.quote(tokenProperties.getSeparator()));
-        if (elements.length < 4) {
-            throw new TokenValidationException("Invalid payload format");
+        DefaultTokenDataBuilder builder = new DefaultTokenDataBuilder();
+
+        // AccountId (element 0)
+        if (elements.length >= 1 && !elements[0].isEmpty()) {
+            builder.accountId(elements[0]);
         }
 
-        return new DefaultTokenDataBuilder()
-                .accountId(elements[0])
-                .expirationDate(Long.parseLong(elements[1]))
-                .tokenType(TokenType.valueOf(elements[2]))
-                .addAdditionalData(parseAdditionalData(elements[3]))
-                .build();
+        // ExpirationDate (element 1)
+        if (elements.length >= 2 && !elements[1].isEmpty()) {
+            try {
+                builder.expirationDate(Long.parseLong(elements[1]));
+            } catch (NumberFormatException ignored) {
+                // Skip
+            }
+        }
+
+        // TokenType (element 2)
+        if (elements.length >= 3 && !elements[2].isEmpty()) {
+            try {
+                builder.tokenType(TokenType.valueOf(elements[2]));
+            } catch (IllegalArgumentException ignored) {
+                // Skip
+            }
+        }
+
+        // AdditionalData (element 3)
+        Map<String, String> additionalData = Collections.emptyMap();
+        if (elements.length >= 4 && !elements[3].isEmpty()) {
+            additionalData = parseAdditionalData(elements[3]);
+        }
+        builder.addAdditionalData(additionalData);
+
+        return builder.build();
     }
 
     private Map<String, String> parseAdditionalData(String data) {

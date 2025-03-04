@@ -1,4 +1,9 @@
 {
+	"activate.account.activating": "Account activation in progress...",
+	"activate.account.error": "An error occurred while activating your account.",
+	"activate.account.errorTip": "Please contact your administrator or try again.",
+	"activate.account.goToLoginPage": "Go to login page.",
+	"activate.account.success": "Your account has been activated!",
 	"budget.allocatedBudget": "Budget",
 	"budget.archive": "Archive",
 	"budget.categories.table.actions": "Actions",

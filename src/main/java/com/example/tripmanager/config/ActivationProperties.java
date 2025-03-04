@@ -62,7 +62,7 @@ public class ActivationProperties {
      * <p>Default: {@value #DEFAULT_PATH}
      */
     private String path = DEFAULT_PATH;
-    private static final String DEFAULT_PATH = "/activate";
+    private static final String DEFAULT_PATH = "/activate-account";
 
     public ActivationProperties() {
     }

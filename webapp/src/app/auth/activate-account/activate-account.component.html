@@ -1,0 +1,19 @@
+<div class="activation-container">
+	<div *ngIf="isLoading" class="loading">
+		<p>{{ 'activate.account.activating' | translate }}</p>
+		<app-loading/>
+	</div>
+
+	<div *ngIf="successMessageKey" class="success-message">
+		<mat-icon class="success-icon">check_circle</mat-icon>
+		<p>{{ successMessageKey | translate }}</p>
+		<a routerLink="{{Paths.register}}">{{ 'activate.account.goToLoginPage' | translate }}</a>
+
+	</div>
+
+	<div *ngIf="errorMessageKey" class="error-message">
+		<mat-icon class="error-icon">error</mat-icon>
+		<p>{{ errorMessageKey | translate }}</p>
+		<p>{{ 'activate.account.errorTip' | translate }}</p>
+	</div>
+</div>

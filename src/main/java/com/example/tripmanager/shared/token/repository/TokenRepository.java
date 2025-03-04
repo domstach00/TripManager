@@ -1,5 +1,6 @@
 package com.example.tripmanager.shared.token.repository;
 
+import com.example.tripmanager.shared.model.AbstractEntity;
 import com.example.tripmanager.shared.repository.AbstractRepositoryImpl;
 import com.example.tripmanager.shared.token.model.Token;
 import jakarta.validation.constraints.NotBlank;
@@ -29,7 +30,7 @@ public class TokenRepository extends AbstractRepositoryImpl<Token> {
 
         operationList.add(
                 Aggregation.match(
-                        Criteria.where(Token.FIELD_NAME_ACCOUNT_ID).is(accountId)
+                        Criteria.where(Token.FIELD_NAME_ACCOUNT_ID).is(AbstractEntity.toObjectId(accountId))
                 )
         );
 

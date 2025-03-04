@@ -34,3 +34,7 @@ export interface Page<T> {
 	sort?: SortModel;
 	number?: number;
 }
+
+export interface MessageResponse {
+	message: string;
+}

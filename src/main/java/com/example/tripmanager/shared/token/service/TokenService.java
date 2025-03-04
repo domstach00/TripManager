@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 
 @Service
@@ -54,6 +55,12 @@ public class TokenService {
     public boolean validateToken(String tokenValue, TokenType expectedType) {
         try {
             TokenData tokenData = tokenDataStrategy.deserializeAndVerify(tokenValue, tokenConfiguration.getSecret());
+
+            if (isTokenExpired(tokenData)) {
+                log.warn("Token expired for account {}, token={}", tokenData.accountId(), tokenValue);
+                return false;
+            }
+
             Token storedToken = tokenRepository.findTokenByTokenValue(tokenValue, tokenData.accountId())
                     .orElseThrow(() -> {
                         log.error("Token for this account ({}) was not found, token={}", tokenData.accountId(), tokenValue);
@@ -64,5 +71,11 @@ public class TokenService {
             log.error("Token validation exception, expectedType={} token={}", expectedType, tokenValue);
             return false;
         }
+    }
+
+    // Method created to validate token expiration date before it is searched in database
+    private boolean isTokenExpired(TokenData tokenData) {
+        Clock clock = Clock.systemDefaultZone();
+        return clock.millis() > tokenData.expirationMillis();
     }
 }

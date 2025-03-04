@@ -8,6 +8,7 @@ import { Injectable } from "@angular/core";
 import { Observable, ReplaySubject, Subject, take, tap } from "rxjs";
 import { AccountService } from "../../account/_serice/account.service";
 import { RouterService } from "../../shared/_service/router.service";
+import { MessageResponse } from "../../shared/_model/base-models.interface";
 
 @Injectable({
 	providedIn: 'root',
@@ -59,6 +60,10 @@ export class AuthService {
 
 	public register(registerCredentials: RegisterCredentials) {
 		return this.apiService.post<boolean, RegisterCredentials>(ApiPath.register, registerCredentials);
+	}
+
+	public activateAccount(token: string) {
+		return this.apiService.get<MessageResponse>(ApiPath.activateAccount, { token });
 	}
 
 	get isLoggedIn$(): Observable<boolean> {
