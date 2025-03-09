@@ -30,6 +30,16 @@ export interface Category extends BaseModel {
 	subCategories?: SubCategory[];
 }
 
+export interface CategoryDialogData {
+	budgetId: string;
+	categoryType?: 'EXPENSE' | 'INCOME';
+	category?: {
+		id: string;
+		name: string;
+		allocatedAmount: string;
+	};
+}
+
 export interface SubCategory {
 	id: string;
 	name: string;

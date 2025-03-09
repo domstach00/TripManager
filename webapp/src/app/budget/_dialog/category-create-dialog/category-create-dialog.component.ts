@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { CategoryCreateForm } from "../../_model/budget";
+import { CategoryCreateForm, CategoryDialogData } from "../../_model/budget";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 
 @Component({
@@ -10,12 +10,16 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 })
 export class CategoryCreateDialogComponent {
 	categoryForm: FormGroup;
+	isEditMode: boolean = false;
+	private initialFormValues?: any;
 
 	constructor(
 		public dialogRef: MatDialogRef<CategoryCreateDialogComponent>,
-		@Inject(MAT_DIALOG_DATA) public data: { budgetId: string, categoryType: 'EXPENSE' | 'INCOME' },
+		@Inject(MAT_DIALOG_DATA) public data: CategoryDialogData,
 		private fb: FormBuilder
 	) {
+		this.isEditMode = !!data.category;
+
 		this.categoryForm = this.fb.group({
 			name: ['', [Validators.required, Validators.maxLength(100)]],
 			allocatedAmount: ['', [
@@ -24,6 +28,26 @@ export class CategoryCreateDialogComponent {
 				Validators.max(9999999999.99)]
 			]
 		});
+
+		if (this.isEditMode && !!data.category.id) {
+			this.categoryForm.patchValue({
+				name: data.category.name,
+				allocatedAmount: data.category.allocatedAmount,
+			})
+			this.initialFormValues = { ...this.categoryForm.value };
+		}
+	}
+
+	hasChanges(): boolean {
+		if (!this.isEditMode || !this.initialFormValues) return true;
+
+		const current = this.categoryForm.value;
+		const initial = this.initialFormValues;
+
+		const nameChanged: boolean = current.name !== initial?.name;
+		const amountChanged: boolean = +current.allocatedAmount !== +initial?.allocatedAmount;
+
+		return nameChanged || amountChanged;
 	}
 
 	get nameError(): string {
@@ -44,6 +68,7 @@ export class CategoryCreateDialogComponent {
 		if (this.categoryForm.invalid) return;
 
 		const newCategory: CategoryCreateForm = {
+			...(this.isEditMode && { id: this.data.category.id }),
 			name: this.categoryForm.value.name,
 			type: this.data.categoryType,
 			allocatedAmount: this.categoryForm.value.allocatedAmount,

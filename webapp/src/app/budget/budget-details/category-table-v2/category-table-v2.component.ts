@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BudgetService } from "../../_service/budget.service";
-import { Category } from "../../_model/budget";
+import { Category, CategoryDialogData } from "../../_model/budget";
 import { CategoryCreateDialogComponent } from "../../_dialog/category-create-dialog/category-create-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
 import {
@@ -71,7 +71,25 @@ export class CategoryTableV2Component implements OnInit {
 	}
 
 	editCategory(category: Category) {
-		// TODO: edit category
+		const categoryDialogData: CategoryDialogData = {
+			budgetId: this.budgetId,
+			category: {
+				id: category.id,
+				name: category.name,
+				allocatedAmount: category.allocatedAmount,
+			}
+		}
+
+		const dialogRef = this.dialog.open(CategoryCreateDialogComponent, {
+			width: '500px',
+			data: categoryDialogData,
+		})
+
+		dialogRef.afterClosed().subscribe( editedCategory => {
+			if (editedCategory) {
+				this.budgetService.patchCategory(this.budgetId, editedCategory).subscribe(_ => this.refreshEvent.emit());
+			}
+		})
 	}
 
 	addSubCategory(category: Category) {

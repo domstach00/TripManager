@@ -266,4 +266,21 @@ public class BudgetService {
 
         return subCategories;
     }
+
+    public Category patchCategory(Account currentAccount, Category patchedCategory) {
+        log.debug("Patching category with id={} by accountId={}", patchedCategory.getId(), currentAccount.getId());
+        Category oryginalCategory = categoryService.getCategory(patchedCategory.getId())
+                .orElseThrow(() -> {
+                    log.warn("Category not found with id={}", patchedCategory.getId());
+                    return new ItemNotFound("Category was not found or you do not have enough permissions");
+                });
+        oryginalCategory.setName(patchedCategory.getName());
+        oryginalCategory.setAllocatedAmount(patchedCategory.getAllocatedAmount());
+        if (patchedCategory.getType() != null) {
+            oryginalCategory.setType(patchedCategory.getType());
+        }
+        Category savedCategory = categoryService.saveCategory(oryginalCategory);
+        log.info("Category with id={} has been updated by accountId={}", savedCategory.getId(), currentAccount.getId());
+        return savedCategory;
+    }
 }

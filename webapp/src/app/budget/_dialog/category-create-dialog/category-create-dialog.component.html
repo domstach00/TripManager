@@ -1,17 +1,16 @@
-<h2 mat-dialog-title>Create New Category</h2>
+<h2 mat-dialog-title>{{ (isEditMode
+	? 'budget.categories.dialog.header.editMode' : 'budget.categories.dialog.header.createMode') | translate }}</h2>
 
 <mat-dialog-content>
 	<form [formGroup]="categoryForm" class="category-form">
-		<!-- Name -->
 		<mat-form-field appearance="outline">
-			<mat-label>Category Name</mat-label>
+			<mat-label>{{ 'budget.categories.dialog.categoryName' | translate }}</mat-label>
 			<input matInput formControlName="name" required>
 			<mat-error>{{ nameError }}</mat-error>
 		</mat-form-field>
 
-		<!-- Allocated Amount -->
 		<mat-form-field appearance="outline">
-			<mat-label>Allocated Amount</mat-label>
+			<mat-label>{{ 'budget.categories.dialog.allocatedAmount' | translate }}</mat-label>
 			<input matInput type="number" formControlName="allocatedAmount">
 			<mat-error>{{ amountError }}</mat-error>
 		</mat-form-field>
@@ -19,10 +18,10 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-	<button mat-button (click)="onCancel()">Cancel</button>
+	<button mat-button (click)="onCancel()">{{ 'budget.categories.dialog.cancel' | translate }}</button>
 	<button mat-raised-button color="primary"
 			(click)="onSubmit()"
-			[disabled]="categoryForm.invalid">
-		Create
+			[disabled]="categoryForm.invalid || (isEditMode && !hasChanges())">
+		{{ (isEditMode ? 'budget.categories.dialog.submit.editMode' : 'budget.categories.dialog.submit.createMode') | translate }}
 	</button>
 </mat-dialog-actions>
