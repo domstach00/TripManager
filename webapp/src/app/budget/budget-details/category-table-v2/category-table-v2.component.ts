@@ -61,7 +61,7 @@ export class CategoryTableV2Component implements OnInit {
 		dialogRef.afterClosed().subscribe(newCategory => {
 			if (newCategory) {
 				this.budgetService.addCategoryToBudget(this.budgetId, newCategory)
-					.subscribe(_ => this.refreshEvent.emit());
+					.subscribe(_ => this.loadCategories(this.budgetId));
 			}
 		});
 	}
@@ -87,7 +87,7 @@ export class CategoryTableV2Component implements OnInit {
 
 		dialogRef.afterClosed().subscribe( editedCategory => {
 			if (editedCategory) {
-				this.budgetService.patchCategory(this.budgetId, editedCategory).subscribe(_ => this.refreshEvent.emit());
+				this.budgetService.patchCategory(this.budgetId, editedCategory).subscribe(_ => this.loadCategories(this.budgetId));
 			}
 		})
 	}
