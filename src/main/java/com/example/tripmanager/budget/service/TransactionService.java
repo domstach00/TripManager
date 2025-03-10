@@ -45,7 +45,7 @@ public class TransactionService {
 
     public Page<Transaction> getTransactionsForBudget(Pageable pageable, Account currentAccount, String budgetId, @Nullable String categoryId, @Nullable String subCategoryId, boolean excludeCategorized, boolean excludeSubCategorized) {
         log.debug("Fetching transactions for budgetId: {}, categoryId: {}, subCategoryId: {}", budgetId, categoryId, subCategoryId);
-        budgetService.getBudgetById(budgetId, currentAccount);
+        budgetService.getBudgetByIdOrThrow(budgetId, currentAccount);
         Page<Transaction> transactions = transactionRepository.getTransactionByBudgetIdAndCategoryId(pageable, budgetId, categoryId, subCategoryId, excludeCategorized, excludeSubCategorized);
         log.info("Retrieved {} transactions for budgetId: {}", transactions.getTotalElements(), budgetId);
         return transactions;
@@ -53,7 +53,7 @@ public class TransactionService {
 
     public TransactionBudgetSummary getTransactionsStatsForBudget(String budgetId, Account currentAccount) {
         log.debug("Fetching transaction statistics for budgetId: {}", budgetId);
-        budgetService.getBudgetById(budgetId, currentAccount); // to check if account has access to budget
+        budgetService.getBudgetByIdOrThrow(budgetId, currentAccount); // to check if account has access to budget
         Optional<TransactionBudgetSummary> budgetSummaryOpt = transactionRepository.getTransactionBudgetSummaryByBudgetId(budgetId);
         TransactionBudgetSummary summary = budgetSummaryOpt.orElseGet(() -> new TransactionBudgetSummary(budgetId, 0, 0));
         log.info("Transaction statistics retrieved for budgetId: {} - Total Amount: {}, Total Transactions: {}", budgetId, summary.getTransactionCount(), summary.getTransactionCount());
@@ -62,7 +62,7 @@ public class TransactionService {
 
     private void validateTransactionCreateForm(TransactionCreateForm createForm, Account currentAccount) {
         log.debug("Validating transaction create form for account: {}", currentAccount.getEmail());
-        Budget refferedBudget = budgetService.getBudgetById(createForm.getBudgetId(), currentAccount);
+        Budget refferedBudget = budgetService.getBudgetByIdOrThrow(createForm.getBudgetId(), currentAccount);
         if (refferedBudget == null) {
             log.warn("Invalid transaction: BudgetId {} does not exist or user has no access", createForm.getBudgetId());
             throw new IllegalArgumentException("Wrong BudgetId");

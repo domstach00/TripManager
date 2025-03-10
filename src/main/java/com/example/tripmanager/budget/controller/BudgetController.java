@@ -22,6 +22,7 @@ import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -81,16 +82,18 @@ public class BudgetController extends AbstractController {
         return toDto(budgets);
     }
 
+    @PreAuthorize("@budgetSecurity.hasAccessToBudget(#principal, #budgetId)")
     @GetMapping("/{budgetId}")
     public BudgetDto getBudget(
             Principal principal,
             @PathVariable String budgetId
     ) {
         Account currentAccount = getCurrentAccount(principal);
-        Budget budget = budgetService.getBudgetById(budgetId, currentAccount);
+        Budget budget = budgetService.getBudgetByIdOrThrow(budgetId, currentAccount);
         return toDto(budget);
     }
 
+    @PreAuthorize("@budgetSecurity.hasAccessToBudget(#principal, #budgetId)")
     @PutMapping("/{budgetId}/archive")
     public BudgetDto archiveBudget(
             Principal principal,
@@ -102,6 +105,7 @@ public class BudgetController extends AbstractController {
         return toDto(archivedBudget);
     }
 
+    @PreAuthorize("@budgetSecurity.hasAccessToBudget(#principal, #budgetId)")
     @PutMapping("/{budgetId}/unarchive")
     public BudgetDto unArchiveBudget(
             Principal principal,
@@ -113,6 +117,7 @@ public class BudgetController extends AbstractController {
         return toDto(archivedBudget);
     }
 
+    @PreAuthorize("@budgetSecurity.hasAccessToBudget(#principal, #budgetId)")
     @DeleteMapping("/{budgetId}")
     public void deleteBudget(
             Principal principal,
@@ -123,6 +128,7 @@ public class BudgetController extends AbstractController {
         budgetService.deleteBudget(budgetId, currentAccount);
     }
 
+    @PreAuthorize("@budgetSecurity.hasAccessToBudget(#principal, #budgetId)")
     @DeleteMapping("/{budgetId}/leave")
     public void leaveBudget(
             Principal principal,
@@ -133,6 +139,7 @@ public class BudgetController extends AbstractController {
         budgetService.leaveBudget(budgetId, currentAccount);
     }
 
+    @PreAuthorize("@budgetSecurity.hasAccessToBudget(#principal, #budgetId)")
     @PutMapping("/{budgetId}")
     public BudgetDto editBudget(
             Principal principal,
@@ -145,6 +152,7 @@ public class BudgetController extends AbstractController {
         return toDto(updatedBudget);
     }
 
+    @PreAuthorize("@budgetSecurity.hasAccessToBudget(#principal, #budgetId)")
     @PostMapping("/{budgetId}/category")
     @ResponseStatus(HttpStatus.CREATED)
     public BudgetDto addCategoryToBudget(
@@ -158,6 +166,7 @@ public class BudgetController extends AbstractController {
         return toDto(budget);
     }
 
+    @PreAuthorize("@budgetSecurity.hasAccessToBudget(#principal, #budgetId)")
     @PostMapping("/{budgetId}/category/{categoryId}/subcategory")
     @ResponseStatus(HttpStatus.CREATED)
     public SubCategory addSubCategoryToCategoryInBudget(
@@ -171,6 +180,7 @@ public class BudgetController extends AbstractController {
         return budgetService.addSubCategoryToBudget(budgetId, categoryId, subCategoryCreateForm, currentAccount);
     }
 
+    @PreAuthorize("@budgetSecurity.hasAccessToBudget(#principal, #budgetId)")
     @GetMapping("/{budgetId}/category")
     public List<Category> getBudgetCategories(
             Principal principal,
@@ -180,6 +190,7 @@ public class BudgetController extends AbstractController {
         return budgetService.getCategoriesForBudget(currentAccount, budgetId);
     }
 
+    @PreAuthorize("@budgetSecurity.hasAccessToBudget(#principal, #budgetId)")
     @GetMapping("/{budgetId}/category/{categoryId}/subcategory")
     public List<SubCategory> getBudgetCategorySubCategory(
             Principal principal,
@@ -190,24 +201,24 @@ public class BudgetController extends AbstractController {
         return budgetService.getSubCategoriesForCategoryInBudget(currentAccount, budgetId, categoryId);
     }
 
+    @PreAuthorize("@budgetSecurity.hasAccessToBudget(#principal, #budgetId)")
     @PatchMapping("/{budgetId}/category")
     public Category patchBudgetCategory(
             Principal principal,
             @PathVariable String budgetId,
             @RequestBody Category patchedCategory
     ) {
-        // TODO: verify access to budget
         Account currentAccount = getCurrentAccount(principal);
         return this.budgetService.patchCategory(currentAccount, patchedCategory);
     }
 
+    @PreAuthorize("@budgetSecurity.hasAccessToBudget(#principal, #budgetId)")
     @DeleteMapping("/{budgetId}/category/{categoryId}")
     public MessageResponse deleteBudgetCategory(
             Principal principal,
             @PathVariable String budgetId,
             @PathVariable String categoryId
     ) {
-        // TODO: verify access to budget
         Account currentAccount = getCurrentAccount(principal);
         this.transactionService.removeCategoryIdFromTransactions(categoryId);
         this.categoryService.deleteCategory(currentAccount, categoryId);

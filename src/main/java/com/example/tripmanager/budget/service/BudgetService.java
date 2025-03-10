@@ -27,6 +27,7 @@ import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -60,17 +61,27 @@ public class BudgetService {
         return budgetRepository.getBudgetRelatedWhereGivenAccountIsMember(pageable, account, includeArchived);
     }
 
-    public Budget getBudgetById(String budgetId, Account currentAccount) {
-        if (StringUtils.isBlank(budgetId)) {
-            log.warn("Attempted to fetch budget with empty ID");
-            throw new IllegalArgumentException("Budget id is empty");
-        }
+    public Optional<Budget> getBudgetById(String budgetId, Account currentAccount) {
+        validateBudgetId(budgetId);
+        log.debug("Fetching budget with ID: {}", budgetId);
+        return budgetRepository.getBudgetById(budgetId, currentAccount);
+    }
+
+    public Budget getBudgetByIdOrThrow(String budgetId, Account currentAccount) {
+        validateBudgetId(budgetId);
         log.debug("Fetching budget with ID: {}", budgetId);
         return budgetRepository.getBudgetById(budgetId, currentAccount)
                 .orElseThrow(() -> {
                     log.warn("Budget not found or insufficient permissions for ID: {}", budgetId);
                     return new ItemNotFound("Budget was not found or you do not have enough permissions");
                 });
+    }
+
+    private void validateBudgetId(String budgetId) {
+        if (StringUtils.isBlank(budgetId)) {
+            log.warn("Attempted to fetch budget with empty ID");
+            throw new IllegalArgumentException("Budget id is empty");
+        }
     }
 
     public Budget archiveBudget(String budgetId, Account currentAccount) {
@@ -242,7 +253,7 @@ public class BudgetService {
 
     public List<Category> getCategoriesForBudget(Account currentAccount, String budgetId) {
         log.debug("Fetching categories for budget ID: {}", budgetId);
-        Budget budget = getBudgetById(budgetId, currentAccount);
+        Budget budget = getBudgetByIdOrThrow(budgetId, currentAccount);
         List<Category> categories = budget.getCategories() == null ? Collections.emptyList() : budget.getCategories();
         log.info("Retrieved {} categories for budget ID: {}", categories.size(), budgetId);
         return categories;
@@ -250,7 +261,7 @@ public class BudgetService {
 
     public List<SubCategory> getSubCategoriesForCategoryInBudget(Account currentAccount, String budgetId, String categoryId) {
         log.debug("Fetching subcategories for category ID: {} in budget ID: {}", categoryId, budgetId);
-        Budget budget = getBudgetById(budgetId, currentAccount);
+        Budget budget = getBudgetByIdOrThrow(budgetId, currentAccount);
         boolean isCategoryInBudget = budget.getCategories().stream().anyMatch(category -> Objects.equals(category.getId(), categoryId));
         if (!isCategoryInBudget) {
             log.warn("Attempted to fetch subcategories for a non-existing category ID: {} in budget ID: {}", categoryId, budgetId);

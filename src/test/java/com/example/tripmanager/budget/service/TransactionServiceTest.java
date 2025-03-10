@@ -53,7 +53,7 @@ public class TransactionServiceTest {
 
         Budget budget = new Budget();
         budget.setCategories(Collections.emptyList());
-        when(budgetService.getBudgetById("budget1", account)).thenReturn(budget);
+        when(budgetService.getBudgetByIdOrThrow("budget1", account)).thenReturn(budget);
 
         Transaction transaction = new Transaction();
         try (var mapperMock = mockStatic(TransactionMapper.class)) {
@@ -79,7 +79,7 @@ public class TransactionServiceTest {
         category.setId("cat1");
         Budget budget = new Budget();
         budget.setCategories(List.of(category));
-        when(budgetService.getBudgetById("budget1", account)).thenReturn(budget);
+        when(budgetService.getBudgetByIdOrThrow("budget1", account)).thenReturn(budget);
 
         Transaction transaction = new Transaction();
         try (var mapperMock = mockStatic(TransactionMapper.class)) {
@@ -116,7 +116,7 @@ public class TransactionServiceTest {
         Budget budget = new Budget();
         budget.setCategories(List.of(category));
 
-        when(budgetService.getBudgetById("budget1", account)).thenReturn(budget);
+        when(budgetService.getBudgetByIdOrThrow("budget1", account)).thenReturn(budget);
 
         Transaction transaction = new Transaction();
         try (var mapperMock = mockStatic(TransactionMapper.class)) {
@@ -138,12 +138,12 @@ public class TransactionServiceTest {
         TransactionCreateForm form = new TransactionCreateForm();
         form.setBudgetId("invalidBudget");
 
-        when(budgetService.getBudgetById("invalidBudget", account)).thenReturn(null);
+        when(budgetService.getBudgetByIdOrThrow("invalidBudget", account)).thenReturn(null);
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> transactionService.createTransaction(form, account));
         assertEquals("Wrong BudgetId", exception.getMessage());
-        verify(budgetService, times(1)).getBudgetById("invalidBudget", account);
+        verify(budgetService, times(1)).getBudgetByIdOrThrow("invalidBudget", account);
         verifyNoInteractions(transactionRepository);
     }
 
@@ -157,12 +157,12 @@ public class TransactionServiceTest {
 
         Budget budget = new Budget();
         budget.setCategories(Collections.emptyList());
-        when(budgetService.getBudgetById("budget1", account)).thenReturn(budget);
+        when(budgetService.getBudgetByIdOrThrow("budget1", account)).thenReturn(budget);
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> transactionService.createTransaction(form, account));
         assertEquals("SubCategoryId cannot be selected because CategoryId is blank", exception.getMessage());
-        verify(budgetService, times(1)).getBudgetById("budget1", account);
+        verify(budgetService, times(1)).getBudgetByIdOrThrow("budget1", account);
         verifyNoInteractions(transactionRepository);
     }
 
@@ -177,12 +177,12 @@ public class TransactionServiceTest {
         category.setId("cat1");
         Budget budget = new Budget();
         budget.setCategories(List.of(category));
-        when(budgetService.getBudgetById("budget1", account)).thenReturn(budget);
+        when(budgetService.getBudgetByIdOrThrow("budget1", account)).thenReturn(budget);
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> transactionService.createTransaction(form, account));
         assertEquals("Wrong CategoryId - Budget does not contains this category", exception.getMessage());
-        verify(budgetService, times(1)).getBudgetById("budget1", account);
+        verify(budgetService, times(1)).getBudgetByIdOrThrow("budget1", account);
         verifyNoInteractions(transactionRepository);
     }
 
@@ -209,14 +209,14 @@ public class TransactionServiceTest {
         Budget budget = new Budget();
         budget.setCategories(List.of(category));
 
-        when(budgetService.getBudgetById("budget1", account)).thenReturn(budget);
+        when(budgetService.getBudgetByIdOrThrow("budget1", account)).thenReturn(budget);
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> transactionService.createTransaction(form, account));
 
         assertEquals("Wrong SubCategoryId - Budget does not contains this subCategory", exception.getMessage());
 
-        verify(budgetService, times(1)).getBudgetById("budget1", account);
+        verify(budgetService, times(1)).getBudgetByIdOrThrow("budget1", account);
         verifyNoInteractions(transactionRepository);
     }
 
@@ -229,7 +229,7 @@ public class TransactionServiceTest {
         Pageable pageable = mock(Pageable.class);
 
         Budget budget = new Budget();
-        when(budgetService.getBudgetById(budgetId, account)).thenReturn(budget);
+        when(budgetService.getBudgetByIdOrThrow(budgetId, account)).thenReturn(budget);
 
         Page<Transaction> page = new PageImpl<>(List.of(new Transaction(), new Transaction()));
         when(transactionRepository.getTransactionByBudgetIdAndCategoryId(
@@ -238,7 +238,7 @@ public class TransactionServiceTest {
 
         Page<Transaction> result = transactionService.getTransactionsForBudget(pageable, account, budgetId, categoryId, subCategoryId, true, false);
         assertEquals(2, result.getContent().size());
-        verify(budgetService, times(1)).getBudgetById(budgetId, account);
+        verify(budgetService, times(1)).getBudgetByIdOrThrow(budgetId, account);
         verify(transactionRepository, times(1))
                 .getTransactionByBudgetIdAndCategoryId(pageable, budgetId, categoryId, subCategoryId, true, false);
     }
@@ -248,7 +248,7 @@ public class TransactionServiceTest {
         Account account = new Account();
         String budgetId = "budget1";
         Budget budget = new Budget();
-        when(budgetService.getBudgetById(budgetId, account)).thenReturn(budget);
+        when(budgetService.getBudgetByIdOrThrow(budgetId, account)).thenReturn(budget);
 
         TransactionBudgetSummary summary = new TransactionBudgetSummary(budgetId, 100, 50);
         when(transactionRepository.getTransactionBudgetSummaryByBudgetId(budgetId))
@@ -256,7 +256,7 @@ public class TransactionServiceTest {
 
         TransactionBudgetSummary result = transactionService.getTransactionsStatsForBudget(budgetId, account);
         assertEquals(summary, result);
-        verify(budgetService, times(1)).getBudgetById(budgetId, account);
+        verify(budgetService, times(1)).getBudgetByIdOrThrow(budgetId, account);
         verify(transactionRepository, times(1)).getTransactionBudgetSummaryByBudgetId(budgetId);
     }
 
@@ -265,7 +265,7 @@ public class TransactionServiceTest {
         Account account = new Account();
         String budgetId = "budget1";
         Budget budget = new Budget();
-        when(budgetService.getBudgetById(budgetId, account)).thenReturn(budget);
+        when(budgetService.getBudgetByIdOrThrow(budgetId, account)).thenReturn(budget);
 
         when(transactionRepository.getTransactionBudgetSummaryByBudgetId(budgetId))
                 .thenReturn(Optional.empty());
@@ -273,7 +273,7 @@ public class TransactionServiceTest {
         TransactionBudgetSummary result = transactionService.getTransactionsStatsForBudget(budgetId, account);
         assertNotNull(result);
         assertEquals(budgetId, result.getBudgetId());
-        verify(budgetService, times(1)).getBudgetById(budgetId, account);
+        verify(budgetService, times(1)).getBudgetByIdOrThrow(budgetId, account);
         verify(transactionRepository, times(1)).getTransactionBudgetSummaryByBudgetId(budgetId);
     }
 }

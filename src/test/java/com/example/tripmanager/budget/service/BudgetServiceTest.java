@@ -116,7 +116,7 @@ class BudgetServiceTest {
         Budget budget = new Budget();
         when(budgetRepository.getBudgetById(budgetId, account)).thenReturn(Optional.of(budget));
 
-        Budget result = budgetService.getBudgetById(budgetId, account);
+        Budget result = budgetService.getBudgetByIdOrThrow(budgetId, account);
 
         assertNotNull(result);
         assertEquals(budget, result);
@@ -126,7 +126,7 @@ class BudgetServiceTest {
     @Test
     void testGetBudgetById_BlankId() {
         Account account = new Account();
-        assertThrows(IllegalArgumentException.class, () -> budgetService.getBudgetById("   ", account));
+        assertThrows(IllegalArgumentException.class, () -> budgetService.getBudgetByIdOrThrow("   ", account));
     }
 
     @Test
@@ -135,7 +135,7 @@ class BudgetServiceTest {
         String budgetId = "1";
         when(budgetRepository.getBudgetById(budgetId, account)).thenReturn(Optional.empty());
 
-        assertThrows(ItemNotFound.class, () -> budgetService.getBudgetById(budgetId, account));
+        assertThrows(ItemNotFound.class, () -> budgetService.getBudgetByIdOrThrow(budgetId, account));
     }
 
     @Test

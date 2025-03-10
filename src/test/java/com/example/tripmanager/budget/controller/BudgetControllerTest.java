@@ -96,14 +96,14 @@ class BudgetControllerTest {
         String budgetId = "b1";
         Budget budget = new Budget();
         budget.setId(budgetId);
-        when(budgetService.getBudgetById(eq(budgetId), eq(dummyAccount))).thenReturn(budget);
+        when(budgetService.getBudgetByIdOrThrow(eq(budgetId), eq(dummyAccount))).thenReturn(budget);
         BudgetDto dto = new BudgetDto();
         dto.setId(budgetId);
         doReturn(dto).when(budgetController).toDto(budget);
         BudgetDto result = budgetController.getBudget(dummyPrincipal, budgetId);
         assertNotNull(result);
         assertEquals(budgetId, result.getId());
-        verify(budgetService, times(1)).getBudgetById(eq(budgetId), eq(dummyAccount));
+        verify(budgetService, times(1)).getBudgetByIdOrThrow(eq(budgetId), eq(dummyAccount));
     }
     @Test
     void testArchiveBudget() {
