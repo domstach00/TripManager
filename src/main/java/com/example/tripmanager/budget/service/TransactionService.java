@@ -10,6 +10,7 @@ import com.example.tripmanager.budget.model.category.Category;
 import com.example.tripmanager.budget.model.category.SubCategory;
 import com.example.tripmanager.budget.repository.TransactionRepository;
 import com.example.tripmanager.shared.model.AbstractEntity;
+import com.mongodb.client.result.UpdateResult;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -105,4 +106,13 @@ public class TransactionService {
         log.info("Transaction create form validation successful for budgetId: {}", createForm.getBudgetId());
     }
 
+    public void removeCategoryIdFromTransactions(String categoryId) {
+        if (StringUtils.isBlank(categoryId)) {
+            log.warn("Attempt to remove categories from transaction but categoryId={} is blank", categoryId);
+            throw new IllegalArgumentException("CategoryId or BudgetId is blank");
+        }
+        log.debug("Removing category id={} from transactions", categoryId);
+        UpdateResult updateResult = transactionRepository.deleteCategoryFromTransactionsInBudget(categoryId);
+        log.info("Removed categoryId={} from transactions, number of modified transactions={}", categoryId, updateResult.getModifiedCount());
+    }
 }

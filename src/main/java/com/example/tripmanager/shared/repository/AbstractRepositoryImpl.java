@@ -1,5 +1,6 @@
 package com.example.tripmanager.shared.repository;
 
+import com.example.tripmanager.shared.model.AbstractAuditable;
 import com.example.tripmanager.shared.model.AbstractEntity;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ import java.util.stream.Stream;
 public abstract class AbstractRepositoryImpl<T extends AbstractEntity> implements MongoRepository<T, String> {
     public static final String DELIMITER_VALUE_LIST = " *[,;:] *";
     public static final String FIELD_NAME_ID_WITH_UNDERSCORE = "_id";
+    public static final String FIELD_NAME_ID_MONGO_DB_REF= "$id";
     public static final String FIELD_NAME_CLASS = "_class";
     public static final String FULL_WORD_MATCH_FLAG = "fullWordMatch::";
     public static final String PARTIAL_WORD_MACH_FLAG = "partialWordMatch::";
@@ -68,6 +70,10 @@ public abstract class AbstractRepositoryImpl<T extends AbstractEntity> implement
     }
 
     protected <I, O> Page<O> findAllBy(final Pageable pageable, final List<AggregationOperation> operationList, Class<I> inputClass, Class<O> outputClass) {
+        if (operationList != null) {
+            operationList.add(0, Aggregation.match(buildCriteriaToSkipDeletedItems()));
+        }
+
         final int total = countForGivenAggregation(operationList);
         if (total <= 0) {
             return new PageImpl<>(new ArrayList<>(), pageable, total);
@@ -86,6 +92,10 @@ public abstract class AbstractRepositoryImpl<T extends AbstractEntity> implement
     }
 
     protected <I, O> Optional<O> findOneBy(final List<AggregationOperation> operationList, Class<I> inputClass, Class<O> outputClass) {
+        if (operationList != null) {
+            operationList.add(0, Aggregation.match(buildCriteriaToSkipDeletedItems()));
+        }
+
         operationList.add(
                 Aggregation.limit(1)
         );
@@ -95,6 +105,9 @@ public abstract class AbstractRepositoryImpl<T extends AbstractEntity> implement
     }
 
     protected int countForGivenAggregation(final List<AggregationOperation> operationList) {
+        if (operationList != null) {
+            operationList.add(0, Aggregation.match(buildCriteriaToSkipDeletedItems()));
+        }
         final String FIELD_COUNT = "_count";
         List<AggregationOperation> countOperationList = new ArrayList<>(operationList);
         countOperationList.add(Aggregation.count().as(FIELD_COUNT));
@@ -148,6 +161,7 @@ public abstract class AbstractRepositoryImpl<T extends AbstractEntity> implement
     @NonNull
     public <S extends T> Optional<S> findOne(@NonNull Example<S> example) {
         Query query = new Query(Criteria.byExample(example));
+        query.addCriteria(buildCriteriaToSkipDeletedItems());
         return Optional.ofNullable(mongoOperations.findOne(query, example.getProbeType()));
     }
 
@@ -155,6 +169,7 @@ public abstract class AbstractRepositoryImpl<T extends AbstractEntity> implement
     @NonNull
     public <S extends T> List<S> findAll(@NonNull Example<S> example) {
         Query query = new Query(Criteria.byExample(example));
+        query.addCriteria(buildCriteriaToSkipDeletedItems());
         return mongoOperations.find(query, example.getProbeType());
     }
 
@@ -166,6 +181,7 @@ public abstract class AbstractRepositoryImpl<T extends AbstractEntity> implement
     @NonNull
     public <S extends T> List<S> findAll(@NonNull Example<S> example, @NonNull Sort sort) {
         Query query = new Query(Criteria.byExample(example)).with(sort);
+        query.addCriteria(buildCriteriaToSkipDeletedItems());
         return mongoOperations.find(query, example.getProbeType());
     }
 
@@ -173,6 +189,7 @@ public abstract class AbstractRepositoryImpl<T extends AbstractEntity> implement
     @NonNull
     public <S extends T> Page<S> findAll(@NonNull Example<S> example, @NonNull Pageable pageable) {
         Query query = new Query(Criteria.byExample(example)).with(pageable);
+        query.addCriteria(buildCriteriaToSkipDeletedItems());
         List<S> list = mongoOperations.find(query, example.getProbeType());
         return new PageImpl<>(list, pageable, mongoOperations.count(query, example.getProbeType()));
     }
@@ -181,6 +198,7 @@ public abstract class AbstractRepositoryImpl<T extends AbstractEntity> implement
     @NonNull
     public <S extends T> long count(@NonNull Example<S> example) {
         Query query = new Query(Criteria.byExample(example));
+        query.addCriteria(buildCriteriaToSkipDeletedItems());
         return mongoOperations.count(query, example.getProbeType());
     }
 
@@ -200,6 +218,7 @@ public abstract class AbstractRepositoryImpl<T extends AbstractEntity> implement
             private Query createQueryFromExample(Example<S> exampleToCreateQuery) {
                 S probe = exampleToCreateQuery.getProbe();
                 Query query = new Query();
+                query.addCriteria(buildCriteriaToSkipDeletedItems());
 
                 Arrays.stream(probe.getClass().getDeclaredFields()).forEach(field -> {
                     field.setAccessible(true);
@@ -317,6 +336,7 @@ public abstract class AbstractRepositoryImpl<T extends AbstractEntity> implement
     @NonNull
     public boolean existsById(@NonNull String id) {
         Query query = new Query(buildCriteriaById(id));
+        query.addCriteria(buildCriteriaToSkipDeletedItems());
         return this.mongoOperations.exists(query, getEntityClass());
     }
 
@@ -330,12 +350,15 @@ public abstract class AbstractRepositoryImpl<T extends AbstractEntity> implement
     @NonNull
     public List<T> findAllById(@NonNull Iterable<String> ids) {
         Query query = new Query(buildCriteriaByIds(ids));
+        query.addCriteria(buildCriteriaToSkipDeletedItems());
         return mongoOperations.find(query, getEntityClass());
     }
 
     @Override
     public long count() {
-        return mongoOperations.count(new Query(), getEntityClass());
+        Query query = new Query();
+        query.addCriteria(buildCriteriaToSkipDeletedItems());
+        return mongoOperations.count(query, getEntityClass());
     }
 
     @Override
@@ -375,6 +398,7 @@ public abstract class AbstractRepositoryImpl<T extends AbstractEntity> implement
     @NonNull
     public List<T> findAll(@NonNull Sort sort) {
         Query query = new Query().with(sort);
+        query.addCriteria(buildCriteriaToSkipDeletedItems());
         return mongoOperations.find(query, getEntityClass());
     }
 
@@ -382,7 +406,15 @@ public abstract class AbstractRepositoryImpl<T extends AbstractEntity> implement
     @NonNull
     public Page<T> findAll(@NonNull Pageable pageable) {
         Query query = new Query().with(pageable);
+        query.addCriteria(buildCriteriaToSkipDeletedItems());
         List<T> list = mongoOperations.find(query, getEntityClass());
         return new PageImpl<>(list, pageable, mongoOperations.count(query, getEntityClass()));
+    }
+
+    private Criteria buildCriteriaToSkipDeletedItems() {
+        return new Criteria().orOperator(
+                Criteria.where(AbstractAuditable.FIELD_NAME_IS_DELETED).exists(false),
+                Criteria.where(AbstractAuditable.FIELD_NAME_IS_DELETED).is(false)
+        );
     }
 }

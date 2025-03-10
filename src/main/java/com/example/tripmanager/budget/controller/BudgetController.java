@@ -10,8 +10,11 @@ import com.example.tripmanager.budget.model.category.CategoryCreateForm;
 import com.example.tripmanager.budget.model.category.SubCategory;
 import com.example.tripmanager.budget.model.category.SubCategoryCreateForm;
 import com.example.tripmanager.budget.service.BudgetService;
+import com.example.tripmanager.budget.service.CategoryService;
+import com.example.tripmanager.budget.service.TransactionService;
 import com.example.tripmanager.shared.controller.AbstractController;
 import com.example.tripmanager.shared.controller.support.PageParams;
+import com.example.tripmanager.shared.model.messageResponse.MessageResponse;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +45,10 @@ public class BudgetController extends AbstractController {
 
     @Autowired
     private BudgetService budgetService;
+    @Autowired
+    private TransactionService transactionService;
+    @Autowired
+    private CategoryService categoryService;
 
     protected BudgetDto toDto(Budget budget) {
         return BudgetMapper.toDto(budget, accountService);
@@ -192,5 +199,19 @@ public class BudgetController extends AbstractController {
         // TODO: verify access to budget
         Account currentAccount = getCurrentAccount(principal);
         return this.budgetService.patchCategory(currentAccount, patchedCategory);
+    }
+
+    @DeleteMapping("/{budgetId}/category/{categoryId}")
+    public MessageResponse deleteBudgetCategory(
+            Principal principal,
+            @PathVariable String budgetId,
+            @PathVariable String categoryId
+    ) {
+        // TODO: verify access to budget
+        Account currentAccount = getCurrentAccount(principal);
+        this.transactionService.removeCategoryIdFromTransactions(categoryId);
+        this.categoryService.deleteCategory(currentAccount, categoryId);
+        this.budgetService.deleteCategoryReferenceFromAllBudgets(currentAccount, categoryId);
+        return new MessageResponse("Category was successfully deleted");
     }
 }

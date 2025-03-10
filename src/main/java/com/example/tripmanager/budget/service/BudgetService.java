@@ -283,4 +283,9 @@ public class BudgetService {
         log.info("Category with id={} has been updated by accountId={}", savedCategory.getId(), currentAccount.getId());
         return savedCategory;
     }
+
+    public void deleteCategoryReferenceFromAllBudgets(Account currentAccount, String categoryId) {
+        budgetRepository.removeCategoryFromBudget(categoryId);
+        log.info("Category id={} was removed from all Budget references in property '{}' by accountId={}", categoryId, Budget.FIELD_NAME_CATEGORIES, currentAccount.getId());
+    }
 }

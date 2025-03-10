@@ -2,11 +2,16 @@ package com.example.tripmanager.budget.repository;
 
 import com.example.tripmanager.account.model.Account;
 import com.example.tripmanager.budget.model.Budget;
+import com.example.tripmanager.shared.model.AbstractEntity;
 import com.example.tripmanager.shared.repository.AbstractRepositoryImpl;
+import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
@@ -93,5 +98,16 @@ public class BudgetRepository extends AbstractRepositoryImpl<Budget> {
                 )
         );
         return findOneBy(operationList);
+    }
+
+    public void removeCategoryFromBudget(String categoryId) {
+        ObjectId categoryObjectId = AbstractEntity.toObjectId(categoryId);
+        Query query = new Query();
+        query.addCriteria(Criteria.where(Budget.FIELD_NAME_CATEGORIES + "." + FIELD_NAME_ID_MONGO_DB_REF).is(categoryObjectId));
+
+        Query queryToSelectReferenceById = Query.query(Criteria.where(FIELD_NAME_ID_MONGO_DB_REF).is(categoryObjectId));
+        Update update = new Update().pull(Budget.FIELD_NAME_CATEGORIES, queryToSelectReferenceById);
+
+        getMongoOperations().updateMulti(query, update, getEntityClass());
     }
 }

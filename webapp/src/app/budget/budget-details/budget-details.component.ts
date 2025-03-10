@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Budget } from "../_model/budget";
 import { ActivatedRoute } from "@angular/router";
 import { BudgetService } from "../_service/budget.service";
@@ -8,6 +8,7 @@ import {
 } from "../_dialog/transaction-create-dialog/transaction-create-dialog.component";
 import { TransactionBudgetSummary } from "../_model/transaction";
 import { TransactionService } from "../_service/transaction.service";
+import { TransactionsSearchableComponent } from "../transactions-table/transactions-searchable.component";
 
 @Component({
   selector: 'budget-details',
@@ -15,6 +16,8 @@ import { TransactionService } from "../_service/transaction.service";
   styleUrl: './budget-details.component.scss'
 })
 export class BudgetDetailsComponent implements OnInit {
+	@ViewChild('transactions') transactionsSearchable?: TransactionsSearchableComponent;
+
 	budgetId!: string;
 	budget!: Budget;
 	loading: boolean = true;
@@ -90,5 +93,11 @@ export class BudgetDetailsComponent implements OnInit {
 			return null;
 		}
 		return  budgetValueNumber - totalValueNumber;
+	}
+
+	onRefreshEventFromCategoryTable() {
+		if (!!this.transactionsSearchable) {
+			this.transactionsSearchable.prepareQueryParamsAndSearch(this.transactionsSearchable?.page);
+		}
 	}
 }

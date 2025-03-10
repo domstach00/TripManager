@@ -57,11 +57,14 @@
 				*ngIf="!!budgetId"
 				[budgetId]="budgetId"
 				[preloadedCategories]="budget.categories"
+				(refreshEvent)="onRefreshEventFromCategoryTable()"
 			></category-table-v2>
-			<transactions-searchable *ngIf="budgetId"
+			<transactions-searchable
+				*ngIf="budgetId"
 				[budgetId]="budgetId"
 				[excludeCategorized]="true"
 				[excludeSubCategorized]="true"
+				#transactions
 			></transactions-searchable>
 		</div>
 	</div>

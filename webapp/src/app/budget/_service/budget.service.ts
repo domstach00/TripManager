@@ -62,6 +62,10 @@ export class BudgetService{
 		return this.apiService.patchFormatted<Category>(ApiPath.budgetCategory, [budgetId], updatedCategory, params);
 	}
 
+	deleteCategory(budgetId: string, categoryId: string, params?: any): Observable<any> {
+		return this.apiService.deleteFormatted(ApiPath.budgetCategorySelect, [budgetId, categoryId], params);
+	}
+
 	addSubCategoryToCategoryInBudget(budgetId: string, categoryId: string, subCategoryForm: SubCategoryCreateForm, parms?: any): Observable<SubCategory> {
 		return this.apiService.postFormatted<SubCategory>(ApiPath.budgetCategorySubCategory, [budgetId, categoryId], subCategoryForm, parms);
 	}

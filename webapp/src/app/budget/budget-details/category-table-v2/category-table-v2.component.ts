@@ -6,6 +6,9 @@ import { MatDialog } from "@angular/material/dialog";
 import {
 	SubcategoryCreateDialogComponent
 } from "../../_dialog/subcategory-create-dialog/subcategory-create-dialog.component";
+import {
+	ConfirmActionDialogComponent
+} from "../../../shared/_dialog/delete-confirmation-dialog/confirm-action-dialog.component";
 
 @Component({
   selector: 'category-table-v2',
@@ -106,7 +109,21 @@ export class CategoryTableV2Component implements OnInit {
 	}
 
 	deleteCategory(category: Category) {
-		// TODO: delete category
+		const confirmationTextKey: string = `Do you want to delete category ${category.name}?`
+		const dialogRef = this.dialog.open(ConfirmActionDialogComponent, {
+			height: '300px',
+			width: '600px',
+			data: { elementName: category.name, body: confirmationTextKey, isWarning: true },
+		})
+
+		dialogRef.afterClosed().subscribe((result) => {
+			if (!!result) {
+				this.budgetService.deleteCategory(this.budgetId, category.id).subscribe(_ => {
+					this.loadCategories(this.budgetId);
+					this.refreshEvent.emit();
+				})
+			}
+		})
 	}
 
 	isExpanded(category: Category): boolean {
