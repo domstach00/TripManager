@@ -1,18 +1,22 @@
 package com.example.tripmanager.budget.service;
 
 import com.example.tripmanager.account.model.Account;
+import com.example.tripmanager.account.service.AccountService;
 import com.example.tripmanager.budget.mapper.BudgetMapper;
 import com.example.tripmanager.budget.mapper.CategoryMapper;
 import com.example.tripmanager.budget.model.Budget;
 import com.example.tripmanager.budget.model.BudgetCreateForm;
 import com.example.tripmanager.budget.model.BudgetTemplate;
+import com.example.tripmanager.budget.model.InviteMembersRequest;
 import com.example.tripmanager.budget.model.category.Category;
 import com.example.tripmanager.budget.model.category.CategoryCreateForm;
 import com.example.tripmanager.budget.model.category.SubCategory;
 import com.example.tripmanager.budget.model.category.SubCategoryCreateForm;
 import com.example.tripmanager.budget.repository.BudgetRepository;
+import com.example.tripmanager.email.service.EmailService;
 import com.example.tripmanager.shared.exception.ItemNotFound;
 import com.example.tripmanager.shared.model.AbstractEntity;
+import jakarta.validation.constraints.NotNull;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
@@ -24,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -37,6 +42,10 @@ public class BudgetService {
     private BudgetRepository budgetRepository;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private AccountService accountService;
+    @Autowired
+    private EmailService emailService;
 
     public Budget createBudgetFromTemplate(BudgetTemplate budgetTemplate) {
         log.debug("Creating a budget from template: {}", budgetTemplate.getId());
@@ -65,6 +74,41 @@ public class BudgetService {
         validateBudgetId(budgetId);
         log.debug("Fetching budget with ID: {}", budgetId);
         return budgetRepository.getBudgetById(budgetId, currentAccount);
+    }
+
+    public void inviteMembersToBudget(@NotNull Account currentAccount, String budgetId, InviteMembersRequest inviteMembersRequest) {
+        if (StringUtils.isBlank(budgetId)) {
+            log.warn("Budget ID is blank.");
+            throw new IllegalArgumentException("Budget ID must not be blank.");
+        } else if (inviteMembersRequest == null) {
+            log.warn("InviteMembersRequest is null.");
+            throw new IllegalArgumentException("InviteMembersRequest must not be null.");
+        }
+
+        List<String> memberIds = inviteMembersRequest.getIds();
+        if (memberIds == null || memberIds.isEmpty()) {
+            log.warn("No member IDs provided for invitation.");
+            return;
+        }
+
+        List<Account> accountsToInvite = new ArrayList<>();
+        int pageNumber = 0;
+        int pageSize = Math.min(memberIds.size(), 50);
+        Page<Account> accountPage;
+
+        do {
+            Pageable pageable = Pageable.ofSize(pageSize).withPage(pageNumber);
+            accountPage = accountService.getAccountsByIds(pageable, memberIds);
+            accountsToInvite.addAll(accountPage.getContent());
+        } while (accountPage.hasNext());
+
+        if (accountsToInvite.isEmpty()) {
+            log.warn("No accounts found for the specified IDs.");
+            return;
+        }
+
+        String inviteToken = "tokenSample"; // TODO: generate invite token
+        emailService.sendInviteEmail(currentAccount, inviteToken, accountsToInvite);
     }
 
     public Budget getBudgetByIdOrThrow(String budgetId, Account currentAccount) {

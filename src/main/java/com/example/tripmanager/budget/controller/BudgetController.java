@@ -5,6 +5,7 @@ import com.example.tripmanager.budget.mapper.BudgetMapper;
 import com.example.tripmanager.budget.model.Budget;
 import com.example.tripmanager.budget.model.BudgetCreateForm;
 import com.example.tripmanager.budget.model.BudgetDto;
+import com.example.tripmanager.budget.model.InviteMembersRequest;
 import com.example.tripmanager.budget.model.category.Category;
 import com.example.tripmanager.budget.model.category.CategoryCreateForm;
 import com.example.tripmanager.budget.model.category.SubCategory;
@@ -91,6 +92,18 @@ public class BudgetController extends AbstractController {
         Account currentAccount = getCurrentAccount(principal);
         Budget budget = budgetService.getBudgetByIdOrThrow(budgetId, currentAccount);
         return toDto(budget);
+    }
+
+    @PreAuthorize("@budgetSecurity.hasAccessToBudget(#principal, #budgetId)")
+    @PostMapping("/{budgetId}/invite")
+    public MessageResponse inviteToBudget(
+            Principal principal,
+            @PathVariable String budgetId,
+            @Valid @RequestBody InviteMembersRequest inviteMembersRequest
+    ) {
+        Account currentAccount = getCurrentAccount(principal);
+        budgetService.inviteMembersToBudget(currentAccount, budgetId, inviteMembersRequest);
+        return new MessageResponse("Invitations to budget has been sent");
     }
 
     @PreAuthorize("@budgetSecurity.hasAccessToBudget(#principal, #budgetId)")

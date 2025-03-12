@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -46,6 +47,10 @@ public class EmailService {
 
         sendMessage(emailDetails);
         log.info("Welcome email to {} has been added to message Queue", account.getEmail());
+    }
+
+    public void sendInviteEmail(Account sender, String joinToken, List<Account> accountsToInvite) {
+        // TODO: create method to send inivations via email
     }
 
     private void sendMessage(EmailDetails emailDetails) {
