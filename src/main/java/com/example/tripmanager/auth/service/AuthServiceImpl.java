@@ -10,7 +10,8 @@ import com.example.tripmanager.account.model.Account;
 import com.example.tripmanager.account.model.Role;
 import com.example.tripmanager.account.repository.AccountRepository;
 import com.example.tripmanager.auth.security.jwt.JwtService;
-import com.example.tripmanager.shared.token.model.Token;
+import com.example.tripmanager.shared.token.model.token.AccountActivationToken;
+import com.example.tripmanager.shared.token.model.token.Token;
 import com.example.tripmanager.shared.token.model.TokenType;
 import com.example.tripmanager.shared.token.service.TokenService;
 import jakarta.servlet.http.Cookie;
@@ -104,7 +105,7 @@ public class AuthServiceImpl implements AuthService {
             return false;
         }
         final TokenType expectedTokenType = TokenType.ACCOUNT_ACTIVATION;
-        Optional<Token> tokenOpt = tokenService.validateAndGetToken(tokenValue, expectedTokenType);
+        Optional<AccountActivationToken> tokenOpt = tokenService.getToken(tokenValue, expectedTokenType);
         if (tokenOpt.isEmpty()) {
             return false;
         }
@@ -114,9 +115,10 @@ public class AuthServiceImpl implements AuthService {
             log.warn("Account with Id {} to activate is not present in database or is deleted", tokenOpt.get().getAccountId());
             return false;
         }
-        accountToActivateOpt.get().setEnabled(true);
-        accountRepository.save(accountToActivateOpt.get());
-        log.info("Account with Id {} has been activated properly", accountToActivateOpt.get().getId());
+        Account accountToActivate = accountToActivateOpt.get();
+        accountToActivate.setEnabled(true);
+        accountRepository.save(accountToActivate);
+        log.info("Account with Id {} has been activated properly", accountToActivate.getId());
         return true;
     }
 

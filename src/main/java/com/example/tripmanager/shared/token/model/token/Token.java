@@ -1,14 +1,16 @@
-package com.example.tripmanager.shared.token.model;
+package com.example.tripmanager.shared.token.model.token;
 
-import com.example.tripmanager.shared.model.AbstractEntity;
+import com.example.tripmanager.shared.model.AbstractAuditable;
+import com.example.tripmanager.shared.token.model.TokenType;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
 @Document(collection = Token.COLLECTION_NAME)
-public class Token extends AbstractEntity {
+public class Token extends AbstractAuditable {
     public static final String COLLECTION_NAME = "tokens";
     public static final String FIELD_NAME_TOKEN_VALUE = "tokenValue";
     public static final String FIELD_NAME_ACCOUNT_ID = "accountId";
@@ -19,7 +21,6 @@ public class Token extends AbstractEntity {
     @Indexed(unique = true)
     private String tokenValue;
 
-    @Indexed
     private ObjectId accountId;
     private LocalDateTime expirationDate;
     private boolean isUsed;

@@ -1,9 +1,10 @@
 package com.example.tripmanager.shared.token.repository;
 
-import com.example.tripmanager.shared.model.AbstractEntity;
 import com.example.tripmanager.shared.repository.AbstractRepositoryImpl;
-import com.example.tripmanager.shared.token.model.Token;
+import com.example.tripmanager.shared.token.model.TokenType;
+import com.example.tripmanager.shared.token.model.token.Token;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -20,7 +21,7 @@ public class TokenRepository extends AbstractRepositoryImpl<Token> {
         return Token.class;
     }
 
-    public Optional<Token> findTokenByTokenValue(@NotBlank String tokenValue, @NotBlank String accountId) {
+    public Optional<Token> findTokenByTokenValue(@NotBlank String tokenValue, @NotNull TokenType tokenType) {
         List<AggregationOperation> operationList = new ArrayList<>();
         operationList.add(
                 Aggregation.match(
@@ -30,7 +31,7 @@ public class TokenRepository extends AbstractRepositoryImpl<Token> {
 
         operationList.add(
                 Aggregation.match(
-                        Criteria.where(Token.FIELD_NAME_ACCOUNT_ID).is(AbstractEntity.toObjectId(accountId))
+                        Criteria.where(Token.FIELD_NAME_TOKEN_TYPE).is(tokenType.name())
                 )
         );
 

@@ -10,7 +10,7 @@ import com.example.tripmanager.account.model.Account;
 import com.example.tripmanager.account.model.Role;
 import com.example.tripmanager.account.repository.AccountRepository;
 import com.example.tripmanager.auth.security.jwt.JwtService;
-import com.example.tripmanager.shared.token.model.Token;
+import com.example.tripmanager.shared.token.model.token.Token;
 import com.example.tripmanager.shared.token.model.TokenType;
 import com.example.tripmanager.shared.token.service.TokenService;
 import jakarta.servlet.http.Cookie;
@@ -200,14 +200,14 @@ class AuthServiceImplTest {
         boolean result = authService.activateAccount("  ");
         assertFalse(result);
         // Nie powinno zostać wywołane walidowanie tokena
-        verify(tokenService, never()).validateAndGetToken(anyString(), any());
+        verify(tokenService, never()).getToken(anyString(), any());
     }
 
     @Test
     void testActivateAccountTokenNotFound() {
         String tokenValue = "validToken";
         // Zwracamy Optional.empty() gdy token nie zostanie znaleziony
-        when(tokenService.validateAndGetToken(eq(tokenValue), eq(TokenType.ACCOUNT_ACTIVATION)))
+        when(tokenService.getToken(eq(tokenValue), eq(TokenType.ACCOUNT_ACTIVATION)))
                 .thenReturn(Optional.empty());
 
         boolean result = authService.activateAccount(tokenValue);
@@ -223,7 +223,7 @@ class AuthServiceImplTest {
         Token token = new Token();
         token.setAccountId(accountId);
         // Token został zweryfikowany
-        when(tokenService.validateAndGetToken(eq(tokenValue), eq(TokenType.ACCOUNT_ACTIVATION)))
+        when(tokenService.getToken(eq(tokenValue), eq(TokenType.ACCOUNT_ACTIVATION)))
                 .thenReturn(Optional.of(token));
         // Konto nie zostało znalezione
         when(accountRepository.findById(eq(accountId)))
@@ -242,7 +242,7 @@ class AuthServiceImplTest {
         Account account = new Account();
         account.setEnabled(false);
 
-        when(tokenService.validateAndGetToken(eq(tokenValue), eq(TokenType.ACCOUNT_ACTIVATION)))
+        when(tokenService.getToken(eq(tokenValue), eq(TokenType.ACCOUNT_ACTIVATION)))
                 .thenReturn(Optional.of(token));
         when(accountRepository.findById(eq(accountId)))
                 .thenReturn(Optional.of(account));
