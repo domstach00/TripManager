@@ -27,7 +27,6 @@ public class TokenService {
 
     private final TokenRepository tokenRepository;
     private final TokenConfiguration tokenConfiguration;
-    private final TokenDataStrategy tokenDataStrategy;
     private final TokenGeneratorFactory tokenGeneratorFactory;
 
     /**
@@ -35,14 +34,12 @@ public class TokenService {
      *
      * @param tokenRepository         repository for persisting and retrieving tokens
      * @param tokenConfiguration      configuration object for token behavior
-     * @param tokenDataStrategy       strategy used for token-related data handling
      * @param tokenGeneratorFactory   factory used to generate tokens
      */
     @Autowired
-    public TokenService(TokenRepository tokenRepository, TokenConfiguration tokenConfiguration, TokenDataStrategy tokenDataStrategy, TokenGeneratorFactory tokenGeneratorFactory) {
+    public TokenService(TokenRepository tokenRepository, TokenConfiguration tokenConfiguration, TokenGeneratorFactory tokenGeneratorFactory) {
         this.tokenRepository = tokenRepository;
         this.tokenConfiguration = tokenConfiguration;
-        this.tokenDataStrategy = tokenDataStrategy;
         this.tokenGeneratorFactory = tokenGeneratorFactory;
     }
 

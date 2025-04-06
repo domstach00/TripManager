@@ -17,7 +17,10 @@ public enum TokenType {
     private final Duration defaultDuration;
     private Duration configuredDuration;
     private final Class<? extends Token> associatedTokenClass;
-    private static final Map<TokenType, Class<? extends Token>> tokenMap = Map.of(TokenType.ACCOUNT_ACTIVATION, AccountActivationToken.class);
+    private static final Map<TokenType, Class<? extends Token>> tokenMap = Map.of(
+            TokenType.ACCOUNT_ACTIVATION, AccountActivationToken.class,
+            TokenType.BUDGET_INVITATION, BudgetInvitationToken.class
+    );
 
     TokenType(Duration defaultDuration, Class<? extends Token> associatedTokenClass) {
         this.defaultDuration = defaultDuration;
