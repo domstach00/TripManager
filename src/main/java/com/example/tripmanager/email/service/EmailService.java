@@ -2,6 +2,7 @@ package com.example.tripmanager.email.service;
 
 import com.example.tripmanager.account.model.Account;
 import com.example.tripmanager.email.model.EmailDetails;
+import com.example.tripmanager.shared.model.AbstractEntity;
 import com.example.tripmanager.shared.rabbitmq.MessageProducer;
 import com.example.tripmanager.shared.token.service.helper.ActivationLinkService;
 import jakarta.validation.constraints.NotBlank;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class EmailService {
@@ -38,7 +40,7 @@ public class EmailService {
         String activationLink = activationLinkService.createActivationLink("token", activationToken);
         model.put("activationLink", activationLink);
 
-        EmailDetails emailDetails = new EmailDetails(
+        EmailDetails emailDetails = createEmailDetails(
                 account.getEmail(),
                 "Welcome",
                 "welcome",
@@ -50,10 +52,30 @@ public class EmailService {
     }
 
     public void sendInviteEmail(Account sender, String joinToken, List<Account> accountsToInvite) {
-        // TODO: create method to send inivations via email
+        Map<String, Object> model = new HashMap<>();
+        model.put("inviterName", sender.getUsername());
+        String joinBudgetLink = activationLinkService.createJoinBudgetLink("token", joinToken);
+        model.put("inviteLink", joinBudgetLink);
+
+        List<EmailDetails> emailDetailsList = accountsToInvite.stream()
+                .map(invitedAccount -> createEmailDetails(invitedAccount.getEmail(), "Budget Invitation", "budget-invite", model))
+                .toList();
+
+        sendMessage(emailDetailsList);
+        log.info("Budget Invitation email from {} to {} account(s) ({}) has been added to message Queue",
+                sender.getId(), accountsToInvite.size(), accountsToInvite.stream().map(AbstractEntity::getId).collect(Collectors.joining(", ")));
+    }
+
+    private EmailDetails createEmailDetails(String recipientEmail, String subject, String templateName, Map<String, Object> model) {
+        return new EmailDetails(recipientEmail, subject, templateName, model);
     }
 
     private void sendMessage(EmailDetails emailDetails) {
         messageProducer.sendMessage(emailRoutingKey, emailDetails);
+    }
+    private void sendMessage(List<EmailDetails> emailDetailsList) {
+        if (emailDetailsList != null) {
+            emailDetailsList.forEach(this::sendMessage);
+        }
     }
 }

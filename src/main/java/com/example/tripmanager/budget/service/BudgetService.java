@@ -16,6 +16,9 @@ import com.example.tripmanager.budget.repository.BudgetRepository;
 import com.example.tripmanager.email.service.EmailService;
 import com.example.tripmanager.shared.exception.ItemNotFound;
 import com.example.tripmanager.shared.model.AbstractEntity;
+import com.example.tripmanager.shared.token.model.TokenType;
+import com.example.tripmanager.shared.token.model.token.BudgetInvitationToken;
+import com.example.tripmanager.shared.token.service.TokenService;
 import jakarta.validation.constraints.NotNull;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.types.ObjectId;
@@ -31,6 +34,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -46,6 +50,8 @@ public class BudgetService {
     private AccountService accountService;
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private TokenService tokenService;
 
     public Budget createBudgetFromTemplate(BudgetTemplate budgetTemplate) {
         log.debug("Creating a budget from template: {}", budgetTemplate.getId());
@@ -107,8 +113,9 @@ public class BudgetService {
             return;
         }
 
-        String inviteToken = "tokenSample"; // TODO: generate invite token
-        emailService.sendInviteEmail(currentAccount, inviteToken, accountsToInvite);
+        Map<String, Object> additionalData = Map.of(BudgetInvitationToken.FIELD_NAME_BUDGET_ID, budgetId);
+        BudgetInvitationToken generatedToken = tokenService.generateToken(currentAccount.getId(), TokenType.BUDGET_INVITATION, additionalData);
+        emailService.sendInviteEmail(currentAccount, generatedToken.getTokenValue(), accountsToInvite);
     }
 
     public Budget getBudgetByIdOrThrow(String budgetId, Account currentAccount) {

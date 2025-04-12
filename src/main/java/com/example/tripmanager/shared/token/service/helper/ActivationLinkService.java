@@ -16,17 +16,29 @@ public class ActivationLinkService {
         this.activationProperties = activationProperties;
     }
 
-    public String createActivationLink(String queryParamToken, String activationToken) {
+    protected UriBuilder getDefaultUriBuilder() {
         UriBuilderFactory uriBuilderFactory = new DefaultUriBuilderFactory();
         UriBuilder builder = uriBuilderFactory.builder()
                 .scheme(activationProperties.getScheme())
                 .host(activationProperties.getDomain());
-
         if (activationProperties.getPort() > 0) {
             builder.port(activationProperties.getPort());
         }
+        return builder;
+    }
+
+    public String createActivationLink(String queryParamName, String activationToken) {
+        UriBuilder builder = getDefaultUriBuilder();
         return builder.path(activationProperties.getPath())
-                .queryParam(queryParamToken, activationToken)
+                .queryParam(queryParamName, activationToken)
+                .build()
+                .toString();
+    }
+
+    public String createJoinBudgetLink(String queryParamName, String token) {
+        return getDefaultUriBuilder()
+                .path("/budgets/join") // TODO: Refactor hardcoded value
+                .queryParam(queryParamName, token)
                 .build()
                 .toString();
     }
