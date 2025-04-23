@@ -10,6 +10,7 @@ import { TranslateModule } from "@ngx-translate/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { AppLoadingComponent } from "../shared/components/app-loader/app-loading.component";
 import { ActivateAccountComponent } from "./activate-account/activate-account.component";
+import { ForgotPasswordComponent } from "./forgot-password/forgot-password.component";
 
 @NgModule({
 	declarations: [
@@ -17,6 +18,7 @@ import { ActivateAccountComponent } from "./activate-account/activate-account.co
 		RegisterComponent,
 		RegisterSuccessComponent,
 		ActivateAccountComponent,
+		ForgotPasswordComponent,
 	],
 	imports: [
 		RouterModule,
@@ -33,6 +35,7 @@ import { ActivateAccountComponent } from "./activate-account/activate-account.co
 		LoginFormComponent,
 		RegisterComponent,
 		RegisterSuccessComponent,
+		ForgotPasswordComponent,
 	],
 })
 export class AuthModule {

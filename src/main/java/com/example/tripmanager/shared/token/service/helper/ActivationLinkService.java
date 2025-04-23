@@ -42,4 +42,12 @@ public class ActivationLinkService {
                 .build()
                 .toString();
     }
+
+    public String createResetPasswordLink(String queryParamName, String token) {
+        return getDefaultUriBuilder()
+                .path("/reset-password")
+                .queryParam(queryParamName, token)
+                .build()
+                .toString();
+    }
 }

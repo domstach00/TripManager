@@ -66,8 +66,19 @@ public class EmailService {
                 sender.getId(), accountsToInvite.size(), accountsToInvite.stream().map(AbstractEntity::getId).collect(Collectors.joining(", ")));
     }
 
+    public void sendPasswordResetEmail(Account account, String tokenValue) {
+        Map<String, Object> model = new HashMap<>();
+        model.put("username", account.getUsername());
+        String linkValue = activationLinkService.createResetPasswordLink("token", tokenValue);
+        model.put("resetLink", linkValue);
+
+        EmailDetails emailDetails = createEmailDetails(account.getEmail(), "Password reset", "password-reset", model);
+        sendMessage(emailDetails);
+        log.info("Password reset email has been sent to {}", account.getEmail());
+    }
+
     private EmailDetails createEmailDetails(String recipientEmail, String subject, String templateName, Map<String, Object> model) {
-        return new EmailDetails(recipientEmail, subject, templateName, model);
+        return new EmailDetails(recipientEmail, "TM - " + subject, templateName, model);
     }
 
     private void sendMessage(EmailDetails emailDetails) {

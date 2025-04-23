@@ -17,8 +17,11 @@
 
 			<button type="submit" [disabled]="loginForm.invalid">{{ 'login.submit' | translate }}</button>
 		</form>
+		<div class="forgot-password-link">
+			<p> {{ 'login.forgotPassword' | translate }} <a routerLink="{{Paths.forgotPassword}}">{{ 'login.goToForgotPassword' | translate }} </a></p>
+		</div>
 		<div class="register-link">
-			<p> {{ 'login.noAccountYet' | translate }} <a routerLink="{{Paths.register}}">{{ 'login.goToRegister' | translate }}</a></p>
+			<p> {{ 'login.noAccountYet' | translate }} <a routerLink="{{Paths.register}}">{{ 'login.goToRegister' | translate }} </a></p>
 		</div>
 	</div>
 </div>

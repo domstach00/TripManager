@@ -1,6 +1,7 @@
 package com.example.tripmanager.auth.service;
 
 import com.example.tripmanager.account.exception.AccountAlreadyExistsException;
+import com.example.tripmanager.auth.model.ForgotPassword;
 import com.example.tripmanager.email.service.EmailService;
 import com.example.tripmanager.shared.exception.InvalidRequestException;
 import com.example.tripmanager.account.mapper.AccountMapper;
@@ -11,6 +12,7 @@ import com.example.tripmanager.account.model.Role;
 import com.example.tripmanager.account.repository.AccountRepository;
 import com.example.tripmanager.auth.security.jwt.JwtService;
 import com.example.tripmanager.shared.token.model.token.AccountActivationToken;
+import com.example.tripmanager.shared.token.model.token.PasswordResetToken;
 import com.example.tripmanager.shared.token.model.token.Token;
 import com.example.tripmanager.shared.token.model.TokenType;
 import com.example.tripmanager.shared.token.service.TokenService;
@@ -28,6 +30,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.nio.CharBuffer;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -120,6 +123,27 @@ public class AuthServiceImpl implements AuthService {
         accountRepository.save(accountToActivate);
         log.info("Account with Id {} has been activated properly", accountToActivate.getId());
         return true;
+    }
+
+    @Override
+    public void forgotPasswordProcess(ForgotPassword forgotPassword) {
+        if (StringUtils.isBlank(forgotPassword.email())) {
+            log.warn("Forgot password failed: Given email is blank");
+            return;
+        }
+
+        final Optional<Account> accountOpt = accountRepository.findByEmail(forgotPassword.email());
+        if (accountOpt.isEmpty()) {
+            log.warn("Forgot password failed: Account does not exists");
+            return;
+        }
+        Account account = accountOpt.get();
+
+        Optional<PasswordResetToken> activeForgotPasswordTokenOpt = tokenService.getPresentValidToken(account.getId(), TokenType.PASSWORD_RESET);
+        PasswordResetToken token = activeForgotPasswordTokenOpt.orElseGet(() ->
+                tokenService.generateToken(account.getId(), TokenType.PASSWORD_RESET, Map.of()));
+
+        emailService.sendPasswordResetEmail(account, token.getTokenValue());
     }
 
     private Cookie createJwtCookie(String token, boolean isRequestSecure, int maxCookieAgeInSec) {

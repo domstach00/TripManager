@@ -3,6 +3,7 @@ package com.example.tripmanager.shared.token.model;
 import com.example.tripmanager.shared.token.config.TokenConfiguration;
 import com.example.tripmanager.shared.token.model.token.AccountActivationToken;
 import com.example.tripmanager.shared.token.model.token.BudgetInvitationToken;
+import com.example.tripmanager.shared.token.model.token.PasswordResetToken;
 import com.example.tripmanager.shared.token.model.token.Token;
 
 import java.time.Duration;
@@ -11,6 +12,7 @@ import java.util.Map;
 
 public enum TokenType {
     ACCOUNT_ACTIVATION(Duration.ofHours(24), AccountActivationToken.class),
+    PASSWORD_RESET(Duration.ofDays(3), PasswordResetToken.class),
     BUDGET_INVITATION(Duration.ofDays(30),BudgetInvitationToken.class),
     ;
 

@@ -7,6 +7,7 @@ import { RegisterComponent } from "./auth/register/register.component";
 import { RegisterSuccessComponent } from "./auth/register/register-success/register-success.component";
 import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
 import { ActivateAccountComponent } from "./auth/activate-account/activate-account.component";
+import { ForgotPasswordComponent } from "./auth/forgot-password/forgot-password.component";
 
 
 const routes: Routes = [
@@ -16,6 +17,7 @@ const routes: Routes = [
 	{ path: 'register', component: RegisterComponent },
 	{ path: 'register-success', component: RegisterSuccessComponent },
 	{ path: 'activate-account', component: ActivateAccountComponent },
+	{ path: 'forgot-password', component: ForgotPasswordComponent },
 	{ path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
 	{ path: 'settings', component: HomeComponent, canActivate: [AuthGuard] },
 	{ path: 'trips', loadChildren: () => import('./trips/trips.module').then(m => m.TripsModule), canActivate: [AuthGuard] },

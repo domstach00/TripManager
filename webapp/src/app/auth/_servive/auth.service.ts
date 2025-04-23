@@ -9,6 +9,7 @@ import { Observable, ReplaySubject, Subject, take, tap } from "rxjs";
 import { AccountService } from "../../account/_serice/account.service";
 import { RouterService } from "../../shared/_service/router.service";
 import { MessageResponse } from "../../shared/_model/base-models.interface";
+import { ForgotPassword } from "../_model/forgot-password";
 
 @Injectable({
 	providedIn: 'root',
@@ -64,6 +65,10 @@ export class AuthService {
 
 	public activateAccount(token: string) {
 		return this.apiService.get<MessageResponse>(ApiPath.activateAccount, { token });
+	}
+
+	public forgotPassword(forgotPassword: ForgotPassword): Observable<MessageResponse> {
+		return this.apiService.post<MessageResponse>(ApiPath.forgotPassword, forgotPassword);
 	}
 
 	get isLoggedIn$(): Observable<boolean> {

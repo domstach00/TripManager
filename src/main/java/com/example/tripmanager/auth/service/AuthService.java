@@ -1,5 +1,6 @@
 package com.example.tripmanager.auth.service;
 
+import com.example.tripmanager.auth.model.ForgotPassword;
 import com.example.tripmanager.auth.model.LoginRequest;
 import com.example.tripmanager.auth.model.SignupRequest;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,4 +11,5 @@ public interface AuthService {
     void register(SignupRequest signupRequest);
     void logoutUser(HttpServletRequest request, HttpServletResponse response);
     boolean activateAccount(String tokenValue);
+    void forgotPasswordProcess(ForgotPassword forgotPassword);
 }

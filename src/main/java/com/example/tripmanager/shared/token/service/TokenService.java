@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
 
@@ -96,6 +97,34 @@ public class TokenService {
         }
         return tokenOpt.map(tokenClass::cast);
     }
+
+    /**
+     * Retrieves the most valid (i.e., unused and not expired) token of the specified type
+     * for a given account, and casts it to the appropriate subclass of Token.
+     * <p>
+     * This method performs the following steps:
+     * - Determines the expected token subclass based on the provided TokenType.
+     * - Queries the database for the most valid token associated with the given account ID.
+     *   A token is considered valid if it meets the following conditions:
+     *     - It has not been used (isUsed == false),
+     *     - Its expirationDate is in the future,
+     *     - It belongs to the specified account.
+     * - If a valid token is found, it is cast to the appropriate subclass of Token
+     *   and returned as an Optional<T>.
+     *
+     * @param accountId     the ID of the account for which the token is being retrieved (must not be blank)
+     * @param expectedType  the expected type of the token
+     * @param <T>           the subclass of Token associated with the expectedType
+     * @return an Optional containing the valid token cast to the expected subclass,
+     *         or Optional.empty() if no valid token is found
+     */
+    public <T extends Token> Optional<T> getPresentValidToken(@NotBlank String accountId, @NotNull TokenType expectedType) {
+        Class<T> tokenClass = tokenClassCast(expectedType.getAssociatedTokenClass());
+        LocalDateTime now = LocalDateTime.now().plusHours(3);
+        Optional<Token> tokenOpt = tokenRepository.findValidTokenWithLatestExpirationForAccount(accountId, now);
+        return tokenOpt.map(tokenClass::cast);
+    }
+
 
 
     /**

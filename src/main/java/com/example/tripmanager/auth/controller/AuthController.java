@@ -3,6 +3,7 @@ package com.example.tripmanager.auth.controller;
 import com.example.tripmanager.account.mapper.AccountMapper;
 import com.example.tripmanager.account.model.Account;
 import com.example.tripmanager.account.model.AccountDto;
+import com.example.tripmanager.auth.model.ForgotPassword;
 import com.example.tripmanager.auth.model.LoginRequest;
 import com.example.tripmanager.auth.model.SignupRequest;
 import com.example.tripmanager.shared.controller.AbstractController;
@@ -37,6 +38,7 @@ public class AuthController extends AbstractController {
     private final static String REGISTER_URL = "/register";
     private static final String ACTIVATE_ACCOUNT_URL = "/activate-account";
     public static final String LOGOUT_URL = "/logout";
+    public static final String FORGOT_PASSWORD_URL = "/forgot-password";
 
     @Autowired
     private AuthService authService;
@@ -96,6 +98,14 @@ public class AuthController extends AbstractController {
         return toDto(currentAccount);
     }
 
+    @PostMapping(FORGOT_PASSWORD_URL)
+    public MessageResponse forgotPassword(
+            @Valid @RequestBody ForgotPassword forgotPassword
+    ) {
+        authService.forgotPasswordProcess(forgotPassword);
+        return new MessageResponse("If an account is associated with the provided email address, you will receive an email with a link.");
+    }
+
     public static String getLoginUrl() {
         return AUTH_CONTROLLER_URL + LOGIN_URL;
     }
@@ -110,5 +120,9 @@ public class AuthController extends AbstractController {
 
     public static String getLogoutUrl() {
         return AUTH_CONTROLLER_URL + LOGOUT_URL;
+    }
+
+    public static String getForgotPasswordUrl() {
+        return AUTH_CONTROLLER_URL + FORGOT_PASSWORD_URL;
     }
 }
