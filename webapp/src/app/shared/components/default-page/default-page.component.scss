@@ -1,24 +1,36 @@
+@import "../../../../styles/variables.scss";
+
 .my-container {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	background-color: $background-color;
 
 	.container-title {
 		display: flex;
 		flex-direction: row;
 		box-sizing: border-box;
-		background-color: #e7e7ea;
+		background-color: $surface-color;
+		margin: $spacing-md;
+		padding: $spacing-sm $spacing-md;
+		border-radius: $border-radius-md;
+		box-shadow: $box-shadow-sm;
 
 		h2 {
 			flex: 1 1 0;
 			box-sizing: border-box;
-			padding-left: 15px;
-			padding-top: 5px;
+			padding: 0;
+			margin: 0;
+			color: $text-color-dark;
 		}
 	}
 
 	.container-content {
-		margin: 15px;
-		padding: 15px;
-		background: #e7e7ea;
-		min-width: 100vh;
-		min-height: 86vh;
+		flex-grow: 1;
+		margin: 0 $spacing-md $spacing-md $spacing-md;
+		padding: $spacing-lg;
+		background: $surface-color;
+		border-radius: $border-radius-md;
+		box-shadow: $box-shadow-sm;
 	}
 }

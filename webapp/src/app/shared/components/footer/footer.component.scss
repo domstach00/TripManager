@@ -1,31 +1,33 @@
+@import "../../../../styles/variables.scss";
+
 .footer-wrapper {
-	flex: 1;
 	display: flex;
 	flex-direction: column;
+	justify-content: flex-end; // Pushes the footer to the bottom
+	width: 100%;
 
 	.footer {
-		background-color: #333;
-		color: white;
+		background-color: $primary-color;
+		color: $surface-color;
 		text-align: center;
-		font-size: 13px;
-		width: 100%;
-		padding: 5px 0;
-		flex-shrink: 0;
+		font-size: $font-size-base * 0.8;
+		padding: $spacing-sm 0;
+		box-shadow: $box-shadow-sm;
+
+		a {
+			color: $surface-color;
+			text-decoration: none;
+
+			&:hover {
+				text-decoration: underline;
+			}
+		}
 	}
 
-	.footer a {
-		color: #fff;
-		text-decoration: none;
-	}
-
-	.footer a:hover {
-		text-decoration: underline;
-	}
-
-	@media (max-width: 600px) {
+	@media (max-width: $breakpoint-sm) {
 		.footer {
-			font-size: 12px;
-			padding: 8px 0;
+			font-size: $font-size-base * 0.75;
+			padding: $spacing-xs 0;
 		}
 	}
 }

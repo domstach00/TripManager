@@ -1,62 +1,95 @@
+@import "../../../styles/variables.scss";
+
 .register-wrapper {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 100vh;
-	background-color: #e5e5e5;
+	min-height: 100vh;
+	background-color: $background-color;
 
 	.register-box {
-		background-color: white;
-		padding: 40px;
-		border-radius: 10px;
-		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-		width: 350px;
+		background-color: $surface-color;
+		padding: $spacing-lg $spacing-xl;
+		border-radius: $border-radius-md;
+		box-shadow: $box-shadow-md;
+		width: 100%;
+		max-width: 400px;
 		text-align: center;
+		box-sizing: border-box;
 	}
 
 	.title {
-		margin-bottom: 20px;
-		font-size: 24px;
-		color: #333;
+		margin-bottom: $spacing-lg;
+		font-size: $font-size-base * 1.5;
+		color: $text-color-dark;
+	}
+
+	form {
+		display: flex;
+		flex-direction: column;
+		gap: $spacing-md;
 	}
 
 	input {
 		width: 100%;
-		padding: 12px 15px;
-		margin: 10px 0;
-		border: 1px solid #ddd;
-		border-radius: 8px;
-		font-size: 16px;
+		padding: $spacing-sm $spacing-md;
+		border: 1px solid $border-color;
+		border-radius: $border-radius-sm;
+		font-size: $font-size-base;
+		transition: border-color 0.3s ease-in-out;
+
+		&:focus {
+			border-color: $primary-color;
+			outline: none;
+		}
 	}
 
 	button {
-		margin-top: 8px;
 		width: 100%;
-		padding: 12px 20px;
-		background-color: #6c63ff;
+		padding: $spacing-sm $spacing-md;
+		background-color: $primary-color;
 		border: none;
-		border-radius: 8px;
-		color: white;
-		font-size: 16px;
+		border-radius: $border-radius-sm;
+		color: $surface-color;
+		font-size: $font-size-base;
 		cursor: pointer;
-	}
+		transition: background-color 0.3s ease-in-out;
 
-	button:disabled {
-		background-color: #aaa;
+		&:disabled {
+			background-color: $border-color;
+			cursor: not-allowed;
+		}
+
+		&:hover:not(:disabled) {
+			background-color: darken($primary-color, 10%);
+		}
 	}
 
 	.error {
-		color: #ff4d4d;
-		font-size: 12px;
+		color: #f44336;
+		font-size: $font-size-base * 0.8;
 		text-align: left;
+		margin-top: -$spacing-sm;
+		margin-bottom: $spacing-sm;
 
 		.valid {
-			color: #28a745;
+			color: $primary-color;
 		}
 	}
 
 	.login-link {
-		margin-top: 8px;
+		margin-top: $spacing-md;
+		font-size: $font-size-base * 0.9;
+		color: $text-color-light;
+
+		a {
+			color: $primary-color;
+			text-decoration: none;
+
+			&:hover {
+				text-decoration: underline;
+			}
+		}
 	}
 }
 

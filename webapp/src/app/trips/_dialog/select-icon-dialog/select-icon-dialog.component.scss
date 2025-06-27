@@ -1,22 +1,65 @@
-.icon-grid {
+@import "../../../../styles/variables.scss";
+
+.mat-dialog-title {
+	color: $text-color-dark;
+	font-size: $font-size-base * 1.4;
+	margin-bottom: $spacing-lg;
+	text-align: center;
+}
+
+.mat-dialog-content {
+	.icon-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+		gap: $spacing-md;
+		padding: $spacing-md 0;
+
+		.icon-item {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			padding: $spacing-sm;
+			border: 1px solid $border-color;
+			border-radius: $border-radius-sm;
+			cursor: pointer;
+			transition: all 0.2s ease-in-out;
+
+			&:hover {
+				border-color: $primary-color;
+				box-shadow: $box-shadow-sm;
+				transform: translateY(-2px);
+			}
+
+			img {
+				max-width: 100%;
+				height: auto;
+				display: block;
+			}
+		}
+	}
+}
+
+.mat-dialog-actions {
 	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-around;
-}
+	justify-content: flex-end;
+	gap: $spacing-md;
+	margin-top: $spacing-lg;
 
-.icon-item {
-	flex: 1 0 200px;
-	margin: 10px;
-	cursor: pointer;
-}
+	.btn {
+		padding: $spacing-sm $spacing-md;
+		border-radius: $border-radius-sm;
+		font-size: $font-size-base;
+		cursor: pointer;
+		transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 
-.icon-item img {
-	max-width: 100%;
-	height: auto;
-}
+		&.btn-secondary {
+			background-color: $surface-color;
+			color: $text-color-dark;
+			border: 1px solid $border-color;
 
-@media (max-width: 600px) {
-	.icon-item {
-		flex: 1 0 100px;
+			&:hover {
+				background-color: darken($surface-color, 5%);
+			}
+		}
 	}
 }

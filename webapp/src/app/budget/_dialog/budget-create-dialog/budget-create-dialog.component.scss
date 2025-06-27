@@ -1,57 +1,108 @@
+@import "../../../../styles/variables.scss";
+
+.mat-dialog-title {
+	color: $text-color-dark;
+	font-size: $font-size-base * 1.4;
+	margin-bottom: $spacing-lg;
+	text-align: center;
+}
+
 .budget-form {
 	display: flex;
 	flex-direction: column;
-	gap: 20px;
-	padding: 20px;
+	gap: $spacing-md;
+	padding: $spacing-md;
 
 	.mat-form-field {
 		width: 100%;
+
+		.mat-form-field-wrapper {
+			padding-bottom: 0;
+		}
+
+		.mat-form-field-flex {
+			align-items: center;
+			padding: $spacing-xs $spacing-sm;
+			border-radius: $border-radius-sm;
+			background-color: lighten($background-color, 2%);
+		}
+
+		.mat-form-field-infix {
+			padding: 0;
+			border-top: 0;
+			display: flex;
+			align-items: center;
+			min-height: 40px;
+		}
+
+		.mat-form-field-outline {
+			color: $border-color;
+		}
+
+		.mat-form-field-outline-thicker {
+			color: $primary-color;
+		}
+
+		.mat-input-element,
+		textarea {
+			color: $text-color-dark;
+			font-size: $font-size-base;
+		}
+
+		.mat-label {
+			color: $text-color-light;
+		}
+
+		.mat-error {
+			font-size: $font-size-base * 0.8;
+			color: #f44336;
+		}
 	}
 }
 
 .member-section {
-	background: #fff;
-	border: 1px solid #e0e0e0;
-	border-radius: 8px;
-	padding: 20px;
-	margin-top: 0;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+	background: $surface-color;
+	border: 1px solid $border-color;
+	border-radius: $border-radius-md;
+	padding: $spacing-lg;
+	margin-top: $spacing-md;
+	box-shadow: $box-shadow-sm;
 
 	label {
 		display: block;
-		font-size: 1.1rem;
+		font-size: $font-size-base * 1.1;
 		font-weight: 600;
-		color: #333;
-		margin-bottom: 16px;
+		color: $text-color-dark;
+		margin-bottom: $spacing-md;
 	}
 
 	.member-list {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 8px;
-		margin-bottom: 16px;
+		gap: $spacing-sm;
+		margin-bottom: $spacing-md;
 
 		.member-badge {
-			background: #f0f0f0;
-			color: #333;
-			padding: 6px 12px;
-			border-radius: 20px;
-			font-size: 0.9rem;
+			background: lighten($background-color, 2%);
+			color: $text-color-dark;
+			padding: $spacing-xs $spacing-sm;
+			border-radius: $border-radius-md;
+			font-size: $font-size-base * 0.9;
 			display: inline-flex;
 			align-items: center;
-			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+			box-shadow: $box-shadow-sm;
 
 			.remove-btn {
 				background: transparent;
 				border: none;
-				color: #d32f2f;
-				margin-left: 8px;
-				font-size: 1rem;
+				color: #f44336;
+				margin-left: $spacing-xs;
+				font-size: $font-size-base;
 				cursor: pointer;
 				transition: color 0.3s ease;
 
 				&:hover {
-					color: #9a0007;
+					color: darken(#f44336, 10%);
 				}
 			}
 		}
@@ -60,7 +111,7 @@
 	.member-input-container {
 		display: flex;
 		align-items: center;
-		gap: 12px;
+		gap: $spacing-md;
 
 		.mat-form-field {
 			flex: 1;
@@ -68,36 +119,65 @@
 		}
 
 		.add-btn {
-			background-color: #1976d2;
+			background-color: $primary-color;
 			border: none;
-			color: #fff;
-			padding: 8px 16px;
-			border-radius: 4px;
-			font-size: 1.2rem;
+			color: $surface-color;
+			padding: $spacing-sm $spacing-md;
+			border-radius: $border-radius-sm;
+			font-size: $font-size-base;
 			cursor: pointer;
 			transition: background-color 0.3s ease;
 
 			&:hover {
-				background-color: #1565c0;
+				background-color: darken($primary-color, 10%);
 			}
 		}
 	}
 }
 
-mat-dialog-actions {
-	padding: 16px;
+.mat-dialog-actions {
+	padding: $spacing-md;
 	display: flex;
 	justify-content: flex-end;
+	gap: $spacing-md;
+
+	.mat-button {
+		padding: $spacing-sm $spacing-md;
+		border-radius: $border-radius-sm;
+		font-size: $font-size-base;
+		cursor: pointer;
+		transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+
+		&[color="primary"] {
+			background-color: $primary-color;
+			color: $surface-color;
+			border: 1px solid $primary-color;
+
+			&:hover {
+				background-color: darken($primary-color, 10%);
+			}
+		}
+
+		&:not([color="primary"]) {
+			background-color: $surface-color;
+			color: $text-color-dark;
+			border: 1px solid $border-color;
+
+			&:hover {
+				background-color: darken($surface-color, 5%);
+			}
+		}
+	}
 }
 
-@media (max-width: 600px) {
+@media (max-width: $breakpoint-sm) {
 	.budget-form {
-		padding: 16px;
-		gap: 16px;
+		padding: $spacing-sm;
+		gap: $spacing-sm;
 	}
 
 	.member-section {
-		padding: 16px;
+		padding: $spacing-sm;
 
 		.member-input-container {
 			flex-direction: column;
@@ -110,7 +190,7 @@ mat-dialog-actions {
 			.add-btn {
 				width: 100%;
 				text-align: center;
-				margin-top: 8px;
+				margin-top: $spacing-sm;
 			}
 		}
 

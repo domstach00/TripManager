@@ -1,43 +1,49 @@
+@import "../../../styles/variables.scss";
+
 :host {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	max-width: 1200px;
-	margin: 0 auto;
-	padding: 1.5rem;
-	background-color: #fafafa;
-	color: #333;
-	font-family: 'Roboto', sans-serif;
+	margin: $spacing-lg auto;
+	padding: $spacing-lg;
+	background-color: $surface-color;
+	color: $text-color-dark;
+	border-radius: $border-radius-md;
+	box-shadow: $box-shadow-md;
 }
 
 .header {
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: space-between;
 	align-items: center;
 	width: 100%;
-	margin-bottom: 1.5rem;
-}
+	margin-bottom: $spacing-lg;
+	gap: $spacing-md;
 
-.left-section {
+	.left-section,
+	.right-section {
+		display: flex;
+		align-items: center;
+		gap: $spacing-md;
+		flex-wrap: wrap;
+	}
+
 	button {
-		border: 1px solid #3f51b5;
-		color: #3f51b5;
+		border: 1px solid $primary-color;
+		color: $primary-color;
 		background-color: transparent;
 		transition: background-color 0.3s ease;
 		height: 40px;
 		line-height: 40px;
-		padding: 0 16px;
+		padding: 0 $spacing-md;
+		border-radius: $border-radius-sm;
 
 		&:hover {
-			background-color: rgba(63, 81, 181, 0.1);
+			background-color: rgba($primary-color, 0.1);
 		}
 	}
-}
-
-.right-section {
-	display: flex;
-	align-items: center;
-	gap: 0.5rem;
 
 	.code-input {
 		width: 140px;
@@ -60,46 +66,30 @@
 		}
 
 		.mat-form-field-outline {
-			color: #ccc;
+			color: $border-color;
 		}
 
 		.mat-form-field-outline-thicker {
-			color: #3f51b5;
+			color: $primary-color;
 		}
 
 		.mat-input-element {
 			height: 100%;
-			padding: 0 0.5em;
+			padding: 0 $spacing-xs;
 			line-height: 40px;
-		}
-	}
-
-	button {
-		border: 1px solid #3f51b5;
-		color: #3f51b5;
-		background-color: transparent;
-		transition: background-color 0.3s ease;
-		height: 40px;
-		line-height: 40px;
-		padding: 0 16px;
-
-		&:hover {
-			background-color: rgba(63, 81, 181, 0.1);
+			color: $text-color-dark;
 		}
 	}
 }
 
 budget-table {
 	width: 100%;
-	margin-top: 1.5rem;
-	border: 1px solid #e0e0e0;
-	border-radius: 4px;
-	background-color: #fff;
+	margin-top: $spacing-lg;
 }
 
 app-paginator {
 	width: 100%;
-	margin-top: 1.5rem;
+	margin-top: $spacing-lg;
 	display: flex;
 	justify-content: center;
 }

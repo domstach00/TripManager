@@ -1,23 +1,46 @@
+@import "../../styles/variables.scss";
+
 .tmpl-content {
 	.clikable-text {
 		cursor: pointer;
+		color: $primary-color;
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
 	}
 
 	.title-with-button {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		margin-bottom: 5px;
+		margin-bottom: $spacing-md;
 
 		.title {
 			flex-grow: 1;
+
+			h3 {
+				margin: 0;
+				color: $text-color-dark;
+			}
 		}
 
 		.button-actions {
 			display: flex;
+			gap: $spacing-sm;
+
 			button {
-				margin: 5px 5px 5px 0;
-				background: #ddd;
+				background-color: $primary-color;
+				color: $surface-color;
+				border-radius: $border-radius-sm;
+				padding: $spacing-xs $spacing-md;
+				font-size: $font-size-base * 0.9;
+				transition: background-color 0.3s ease-in-out;
+
+				&:hover {
+					background-color: darken($primary-color, 10%);
+				}
 			}
 		}
 	}

@@ -1,0 +1,96 @@
+@import "../../../../styles/variables.scss";
+
+.mat-dialog-title {
+	color: $text-color-dark;
+	font-size: $font-size-base * 1.4;
+	margin-bottom: $spacing-lg;
+	text-align: center;
+}
+
+.category-form {
+	display: flex;
+	flex-direction: column;
+	gap: $spacing-md;
+	padding: $spacing-md;
+
+	.mat-form-field {
+		width: 100%;
+
+		.mat-form-field-wrapper {
+			padding-bottom: 0;
+		}
+
+		.mat-form-field-flex {
+			align-items: center;
+			padding: $spacing-xs $spacing-sm;
+			border-radius: $border-radius-sm;
+			background-color: lighten($background-color, 2%);
+		}
+
+		.mat-form-field-infix {
+			padding: 0;
+			border-top: 0;
+			display: flex;
+			align-items: center;
+			min-height: 40px;
+		}
+
+		.mat-form-field-outline {
+			color: $border-color;
+		}
+
+		.mat-form-field-outline-thicker {
+			color: $primary-color;
+		}
+
+		.mat-input-element {
+			color: $text-color-dark;
+			font-size: $font-size-base;
+		}
+
+		.mat-label {
+			color: $text-color-light;
+		}
+
+		.mat-error {
+			font-size: $font-size-base * 0.8;
+			color: #f44336;
+		}
+	}
+}
+
+.mat-dialog-actions {
+	padding: $spacing-md;
+	display: flex;
+	justify-content: flex-end;
+	gap: $spacing-md;
+
+	.mat-button,
+	.mat-raised-button {
+		padding: $spacing-sm $spacing-md;
+		border-radius: $border-radius-sm;
+		font-size: $font-size-base;
+		cursor: pointer;
+		transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+
+		&[color="primary"] {
+			background-color: $primary-color;
+			color: $surface-color;
+			border: 1px solid $primary-color;
+
+			&:hover {
+				background-color: darken($primary-color, 10%);
+			}
+		}
+
+		&:not([color="primary"]) {
+			background-color: $surface-color;
+			color: $text-color-dark;
+			border: 1px solid $border-color;
+
+			&:hover {
+				background-color: darken($surface-color, 5%);
+			}
+		}
+	}
+}
