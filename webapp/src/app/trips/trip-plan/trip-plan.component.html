@@ -10,10 +10,10 @@
 		></trip-plan-table-searchable>
 
 		<app-trip-plan-map
-			*ngIf="!!this.tripId"
-			[dataSource$]="this.dataSource$.asObservable()"
+			*ngIf="tripId"
+			[dataSource$]="dataSource$"
 			[hidden]="this.showMap !== ShowToggle.MAP && this.showMap !== ShowToggle.ALL"
-			[tripId]="this.tripId"
+			[tripId]="tripId"
 		></app-trip-plan-map>
 
 	</div>

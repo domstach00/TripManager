@@ -1,4 +1,5 @@
-import { APP_INITIALIZER, NgModule } from "@angular/core";
+import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { GoogleMapsLoaderService } from './_service/google-maps-loader.service';
 import { TripPlanMapComponent } from "./trip-plan/trip-plan-map/trip-plan-map.component";
 import { GoogleMapsModule } from "@angular/google-maps";
 import { SharedModule } from "../shared/shared.module";
@@ -20,14 +21,9 @@ import { MatDialogClose } from "@angular/material/dialog";
 import {
 	TripPlanTableAddNewDialogComponent
 } from "./_dialog/trip-plan-table-add-new-dialog/trip-plan-table-add-new-dialog.component";
-import { NgxGpAutocompleteModule } from "@angular-magic/ngx-gp-autocomplete";
+import { NgxGpAutocompleteModule } from '@angular-magic/ngx-gp-autocomplete';
 import { SelectIconDialogComponent } from "./_dialog/select-icon-dialog/select-icon-dialog.component";
 import { TripsRoutingModule } from "./trips-routing.module";
-import { GoogleMapsLoaderService } from "./_service/google-maps-loader.service";
-
-export function initializeGoogleMaps(gmapsLoaderService: GoogleMapsLoaderService) {
-	return () => gmapsLoaderService.load();
-}
 
 @NgModule({
 	declarations: [
@@ -54,9 +50,9 @@ export function initializeGoogleMaps(gmapsLoaderService: GoogleMapsLoaderService
 	providers: [
 		{
 			provide: APP_INITIALIZER,
-			useFactory: initializeGoogleMaps,
+			useFactory: (loader: GoogleMapsLoaderService) => () => loader.load(),
 			deps: [GoogleMapsLoaderService],
-			multi: true,
+			multi: true
 		},
 		{
 			provide: Loader,

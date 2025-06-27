@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
-import { BehaviorSubject, ReplaySubject, Subscription, tap } from "rxjs";
+import { BehaviorSubject, Subscription, tap } from "rxjs";
 import { Trip } from "../_model/trip";
-import { GoogleMapPin, TripPlan } from "../_model/trip-plan";
+import { TripPlan } from "../_model/trip-plan";
 import { TripPlanService } from "../_service/trip-plan.service";
 
 enum ShowToggle {
@@ -17,8 +17,7 @@ enum ShowToggle {
 	styleUrls: ['./trip-plan.component.scss']
 })
 export class TripPlanComponent implements OnInit, OnDestroy {
-	dataSource$: BehaviorSubject<TripPlan[]> = new BehaviorSubject<TripPlan[]>([])
-	obs: ReplaySubject<GoogleMapPin> = new ReplaySubject<GoogleMapPin>();
+	dataSource$ = new BehaviorSubject<TripPlan[]>([]);
 	showMap: ShowToggle = ShowToggle.ALL;
 
 	subscriptions: Subscription = new Subscription();
@@ -34,8 +33,12 @@ export class TripPlanComponent implements OnInit, OnDestroy {
 	ngOnInit(): void {
 		this.subscriptions.add(
 			this.activatedRoute.params.subscribe(params => {
-				this.tripId = params['tripId']
-			}))
+				this.tripId = params['tripId'];
+				if (this.tripId) {
+					this.refreshData();
+				}
+			})
+		);
 	}
 
 	refreshData() {
@@ -51,7 +54,6 @@ export class TripPlanComponent implements OnInit, OnDestroy {
 	changeShowMap(val: ShowToggle) {
 		this.showMap = val;
 	}
-
 
 	protected readonly ShowToggle = ShowToggle;
 }

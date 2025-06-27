@@ -41,7 +41,7 @@ export class TripPlanService {
 			locationLng: assignedPlace.geometry?.location?.lng(),
 			name: assignedPlace.name,
 			vicinity: assignedPlace.vicinity,
-			displayName: assignedPlace.name + (assignedPlace.vicinity && assignedPlace.name != assignedPlace.vicinity ? ' ' + assignedPlace.vicinity : ''),
+			displayName: assignedPlace.name + (assignedPlace.vicinity && assignedPlace.name !== assignedPlace.vicinity ? ' ' + assignedPlace.vicinity : ''),
 			address: assignedPlace.vicinity,
 			iconUrl: assignedPlace.icon,
 		} as GoogleMapPin

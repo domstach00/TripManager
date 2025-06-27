@@ -1,11 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { GoogleMapPin, TripPlan } from "../../_model/trip-plan";
-import { BehaviorSubject, Observable } from "rxjs";
+import { Observable } from "rxjs";
 import { GoogleMap } from "@angular/google-maps";
 import { getMapIconPath } from "../../_model/MapPinIcons";
 import { GoogleMapsLoaderService } from "../../_service/google-maps-loader.service";
-import { ApiService } from "../../../shared/_service/api.service";
-import { ApiPath } from "../../../shared/_model/ApiPath";
 
 @Component({
 	selector: 'app-trip-plan-map',
@@ -21,24 +19,20 @@ export class TripPlanMapComponent implements OnInit {
 	@Input()
 	tripId!: string;
 
-	pinsSubject = new BehaviorSubject<google.maps.LatLng[]>([]);
-	dataSource: Observable<google.maps.LatLng[]> = this.pinsSubject.asObservable();
-	@Input() dataSource$!: Observable<TripPlan[]>;
-	@Output() refreshEvent = new EventEmitter<void>();
+	@Input() 
+	dataSource$!: Observable<TripPlan[]>;
+	
+	@Output() 
+	refreshEvent = new EventEmitter<void>();
 
 	options?: google.maps.MapOptions;
-	// = {
-	//   center: {lat: 50, lng: 19},
-	//   zoom: this.zoom,
-	// }
 
 	constructor(
 		private googleMapsLoaderService: GoogleMapsLoaderService,
-		private apiService: ApiService,
 	) {
 	}
 
-	async ngOnInit() {
+	ngOnInit() {
 		this.googleMapsLoaderService.load()
 			.then(() => {
 				this.initializeMap();
@@ -46,34 +40,36 @@ export class TripPlanMapComponent implements OnInit {
 			.catch(error => {
 				console.error('Failed to load Google Maps API:', error);
 			});
-
-		this.apiService.getFormatted(ApiPath.mapElements, ['6717b6a942f5016247d7d5cc'],).subscribe(value => {
-			console.log(value)
-		})
 	}
 
 	private initializeMap() {
+        // Set default options immediately to ensure the map component initializes correctly.
+        this.options = {
+            center: { lat: 50, lng: 19 }, // Default center of Europe
+            zoom: this.zoom,
+        };
+
 		this.dataSource$.subscribe(tripPlanList => {
-			const googleMapPins = [...tripPlanList
+			const googleMapPins = tripPlanList
 				.map(value => value.mapElement)
 				.filter((optionalGoogleMapPin): optionalGoogleMapPin is GoogleMapPin =>
 					optionalGoogleMapPin != null
-					&& !!optionalGoogleMapPin.locationLat
-					&& !!optionalGoogleMapPin.locationLng)
-			];
-			const latlngPins: google.maps.LatLng[] = this.mapGoogleMapPinsToLatLngs(googleMapPins);
+					&& optionalGoogleMapPin.locationLat != null
+					&& optionalGoogleMapPin.locationLng != null);
 
-			this.options = {
-				center: {
-					lat: this.calcAverage(latlngPins.map(latlngPin => latlngPin.lat())),
-					lng: this.calcAverage(latlngPins.map(latlngPin => latlngPin.lng()))
-				},
-				zoom: this.zoom
+			if (googleMapPins.length > 0) {
+				const latlngPins: google.maps.LatLng[] = this.mapGoogleMapPinsToLatLngs(googleMapPins);
 
+                // Update map options with calculated center based on actual data
+				this.options = {
+                    ...this.options,
+					center: {
+						lat: this.calcAverage(latlngPins.map(latlngPin => latlngPin.lat())),
+						lng: this.calcAverage(latlngPins.map(latlngPin => latlngPin.lng()))
+					}
+				};
 			}
-
-			this.pinsSubject.next(latlngPins);
-		})
+		});
 	}
 
 	mapGoogleMapPinsToLatLngs(googleMapPins: GoogleMapPin[]): google.maps.LatLng[] {
@@ -92,6 +88,5 @@ export class TripPlanMapComponent implements OnInit {
 		return sum / table.length;
 	}
 
-	protected readonly String = String;
 	protected readonly getIconPath = getMapIconPath;
 }

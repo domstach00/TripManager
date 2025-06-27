@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, } from '@angular/core';
 import { TripPlan } from "../../_model/trip-plan";
-import { catchError, tap, throwError } from "rxjs";
+import { catchError, switchMap, tap, throwError } from "rxjs";
 import { MatDialog } from "@angular/material/dialog";
 import {
 	TripPlanTableAddNewDialogComponent
@@ -65,14 +65,27 @@ export class TripPlanTableComponent extends SearchResultComponent<TripPlan> impl
 		const dialogRef = this.dialog.open(TripPlanTableAddNewDialogComponent, {
 			height: '400px',
 			width: '600px',
-			data: {},
+			data: { tripId: this.tripId }, // Pass tripId to the dialog
 		});
 
 		dialogRef.afterClosed().subscribe((result) => {
-			if (!!result) {
-				this.tripPlanService.addTripPlan(result, this.tripId).subscribe(_ => {
-					this.refreshEvent.emit();
-				});
+			if (result) {
+				const { mapElement, ...tripPlanData } = result;
+
+				this.tripPlanService.addTripPlan(tripPlanData, this.tripId).pipe(
+					switchMap(newTripPlan => {
+						if (mapElement) {
+							newTripPlan.mapElement = mapElement;
+							return this.tripPlanService.patchTripPlan(newTripPlan);
+						}
+						return [newTripPlan]; // Return as an array to match the stream
+					}),
+					tap(() => this.refreshData()),
+					catchError(err => {
+						console.error('Error during the two-step save process', err);
+						return throwError(() => new Error(err));
+					})
+				).subscribe();
 			}
 		});
 	}
@@ -86,7 +99,8 @@ export class TripPlanTableComponent extends SearchResultComponent<TripPlan> impl
 
 		dialogRef.afterClosed().subscribe((result) => {
 			if (!!result) {
-				this.tripPlanService.patchTripPlan(result).subscribe(_ => {
+                const updatedTripPlan = { ...tripPlan, ...result };
+				this.tripPlanService.patchTripPlan(updatedTripPlan).subscribe(_ => {
 					this.refreshEvent.emit();
 				});
 			}
