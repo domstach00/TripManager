@@ -1,15 +1,17 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { catchError, Observable, tap, throwError } from "rxjs";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { TransactionsSearchableComponent } from "../transactions-table/transactions-searchable.component";
+import { CategoryTableV2Component } from "./category-table-v2/category-table-v2.component";
+import { ExpenseDistributionChartComponent } from "../expense-distribution-chart/expense-distribution-chart.component";
 import { Budget } from "../_model/budget";
-import { ActivatedRoute } from "@angular/router";
-import { BudgetService } from "../_service/budget.service";
-import { MatDialog } from "@angular/material/dialog";
+import { TransactionBudgetSummary } from "../_model/transaction";
 import {
 	TransactionCreateDialogComponent
 } from "../_dialog/transaction-create-dialog/transaction-create-dialog.component";
-import { TransactionBudgetSummary } from "../_model/transaction";
+import { ActivatedRoute } from "@angular/router";
+import { BudgetService } from "../_service/budget.service";
 import { TransactionService } from "../_service/transaction.service";
-import { TransactionsSearchableComponent } from "../transactions-table/transactions-searchable.component";
-import { CategoryTableV2Component } from "./category-table-v2/category-table-v2.component";
+import { MatDialog } from "@angular/material/dialog";
 
 @Component({
   selector: 'budget-details',
@@ -19,6 +21,7 @@ import { CategoryTableV2Component } from "./category-table-v2/category-table-v2.
 export class BudgetDetailsComponent implements OnInit {
 	@ViewChild('transactions') transactionsSearchable?: TransactionsSearchableComponent;
 	@ViewChild('categoryTables') categoryTable?: CategoryTableV2Component;
+	@ViewChild('expenseDistributionChartComponent') expenseDistributionChartComponent: ExpenseDistributionChartComponent
 
 	budgetId!: string;
 	budget!: Budget;
@@ -37,7 +40,7 @@ export class BudgetDetailsComponent implements OnInit {
 	ngOnInit(): void {
 		this.budgetId = this.route.snapshot.paramMap.get('id');
 		this.loadBudgetDetails();
-		this.loadTransactionBudgetSummary();
+		this.loadTransactionBudgetSummary().subscribe();
 	}
 
 	openCreateTransactionDialog(): void {
@@ -47,11 +50,14 @@ export class BudgetDetailsComponent implements OnInit {
 		})
 
 		dialogRef.afterClosed().subscribe(value => {
-			if (!!value) {
-				this.onRefreshEventFromCategoryTable();
-				this.loadTransactionBudgetSummary();
-			}
-		})
+				if (!!value) {
+					this.loadTransactionBudgetSummary().subscribe(() => {
+						if (!!this.expenseDistributionChartComponent) {
+							this.expenseDistributionChartComponent.refreshChart();
+						}
+					});
+				}
+			})
 	}
 
 	loadBudgetDetails(): void {
@@ -73,18 +79,19 @@ export class BudgetDetailsComponent implements OnInit {
 		});
 	}
 
-	loadTransactionBudgetSummary(): void {
+	loadTransactionBudgetSummary(): Observable<TransactionBudgetSummary> {
 		this.loadingSummary = true;
-		this.transactionService.getTransactionSummaryForGivenBudget(this.budgetId).subscribe({
-			next: (resultTransactionBudgetSummary: TransactionBudgetSummary) => {
+		return this.transactionService.getTransactionSummaryForGivenBudget(this.budgetId).pipe(
+			tap((resultTransactionBudgetSummary: TransactionBudgetSummary) => {
 				this.transactionBudgetSummary = resultTransactionBudgetSummary;
 				this.loadingSummary = false;
-			},
-			error: (err) => {
+			}),
+			catchError((err) => {
 				console.error("Error on loading TransactionBudgetSummary: ", err);
 				this.loadingSummary = false;
-			}
-		});
+				return throwError(() => err);
+			})
+		);
 	}
 
 	calculateSavings(budgetTotalValue: string, transactionsTotalValue: string): number {
@@ -104,6 +111,15 @@ export class BudgetDetailsComponent implements OnInit {
 		}
 		if (!!this.categoryTable) {
 			this.categoryTable.refreshTables();
+		}
+		if (!!this.expenseDistributionChartComponent) {
+			this.expenseDistributionChartComponent.refreshChart();
+		}
+	}
+
+	onCategoriesDataRefreshed(): void {
+		if (!!this.expenseDistributionChartComponent) {
+			this.expenseDistributionChartComponent.refreshChart();
 		}
 	}
 }

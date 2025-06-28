@@ -5,6 +5,7 @@ import com.example.tripmanager.budget.model.category.Category;
 import com.example.tripmanager.budget.model.category.CategoryCreateForm;
 import com.example.tripmanager.budget.model.category.SubCategory;
 import com.example.tripmanager.budget.model.category.SubCategoryCreateForm;
+import com.example.tripmanager.shared.util.ColorUtils;
 
 public class CategoryMapper {
     public static Category categoryFromCreateForm(CategoryCreateForm categoryCreateForm) {
@@ -15,6 +16,10 @@ public class CategoryMapper {
         category.setName(categoryCreateForm.getName());
         category.setType(BudgetType.valueOf(categoryCreateForm.getType()));
         category.setAllocatedAmount(categoryCreateForm.getAllocatedAmount());
+        if (ColorUtils.isValidHexColor(categoryCreateForm.getColor())) {
+            String normalizedHexColor = ColorUtils.normalizeHexColor(categoryCreateForm.getColor());
+            category.setColor(normalizedHexColor);
+        }
         return category;
     }
 

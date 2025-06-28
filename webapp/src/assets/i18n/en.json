@@ -9,6 +9,7 @@
 	"budget.categories.dialog.allocatedAmount": "Allocated Amount",
 	"budget.categories.dialog.cancel": "Cancel",
 	"budget.categories.dialog.categoryName": "Category name",
+	"budget.categories.dialog.color": "Color",
 	"budget.categories.dialog.header.createMode": "Create New Category",
 	"budget.categories.dialog.header.editMode": "Edit category",
 	"budget.categories.dialog.submit.createMode": "Create",

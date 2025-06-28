@@ -42,6 +42,7 @@ export interface CategoryDialogData {
 		id: string;
 		name: string;
 		allocatedAmount: string;
+		color?: string;
 	};
 }
 
@@ -54,6 +55,7 @@ export interface CategoryCreateForm {
 	name: string;
 	type?: 'EXPENSE' | 'INCOME';
 	allocatedAmount?: string;
+	color?: string;
 }
 
 export interface SubCategoryCreateForm {

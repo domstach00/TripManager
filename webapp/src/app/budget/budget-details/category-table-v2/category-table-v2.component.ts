@@ -57,6 +57,7 @@ export class CategoryTableV2Component implements OnInit {
 	 */
 	@Input() preloadedCategories?: CategoryWithStats[] = null;
 	@Output() refreshEvent: EventEmitter<void> = new EventEmitter<void>();
+	@Output() categoriesDataRefreshed: EventEmitter<void> = new EventEmitter<void>();
 	@ViewChildren(SubcategoryTableComponent) subcategoryTables: QueryList<SubcategoryTableComponent>;
 	@ViewChildren(TransactionsSearchableComponent) transactionTables: QueryList<TransactionsSearchableComponent>;
 
@@ -105,6 +106,7 @@ export class CategoryTableV2Component implements OnInit {
 				setTimeout(() => {
 					this.subcategoryTables.forEach(table => table.refreshSubCategoryList());
 				});
+				this.categoriesDataRefreshed.emit();
 
 			}, error: err => {
 				console.error("Error while loading Categories", err)
@@ -150,6 +152,7 @@ export class CategoryTableV2Component implements OnInit {
 				id: category.id,
 				name: category.name,
 				allocatedAmount: category.allocatedAmount,
+				color: category.color,
 			}
 		}
 
@@ -160,7 +163,10 @@ export class CategoryTableV2Component implements OnInit {
 
 		dialogRef.afterClosed().subscribe( editedCategory => {
 			if (editedCategory) {
-				this.budgetService.patchCategory(this.budgetId, editedCategory).subscribe(_ => this.loadCategories(this.budgetId));
+				this.budgetService.patchCategory(this.budgetId, editedCategory).subscribe(_ => {
+					this.loadCategories(this.budgetId);
+					this.refreshEvent.emit();
+				});
 			}
 		})
 	}

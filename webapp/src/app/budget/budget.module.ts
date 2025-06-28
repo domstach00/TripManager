@@ -51,6 +51,7 @@ import { ExpenseDistributionChartComponent } from "./expense-distribution-chart/
 		TransactionsOnCategoryTableComponent,
 		ExpenseDistributionChartComponent,
 		BudgetDetailsComponent,
+		CategoryCreateDialogComponent,
 	],
 	imports: [
 		SharedModule,
@@ -61,7 +62,6 @@ import { ExpenseDistributionChartComponent } from "./expense-distribution-chart/
 		MatSelect,
 		MatOption,
 		NgxChartsModule,
-		CategoryCreateDialogComponent,
 		SubcategoryCreateDialogComponent,
 		CategoryTableV2Component,
 		SubcategoryTableComponent,

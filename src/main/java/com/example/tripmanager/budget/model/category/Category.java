@@ -2,6 +2,8 @@ package com.example.tripmanager.budget.model.category;
 
 import com.example.tripmanager.budget.model.BudgetType;
 import com.example.tripmanager.shared.model.AbstractAuditable;
+import com.example.tripmanager.shared.util.ColorUtils;
+import jakarta.validation.constraints.Pattern;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
@@ -15,19 +17,31 @@ public class Category extends AbstractAuditable {
     public static final String FIELD_NAME_TYPE = "type";
     public static final String FIELD_NAME_ALLOCATED_AMOUNT = "allocatedAmount";
     public static final String FIELD_NAME_SUB_CATEGORIES = "subCategories";
+    public static final String FIELD_NAME_COLOR = "color";
     private String name;
     private BudgetType type;
     private BigDecimal allocatedAmount;
     private List<SubCategory> subCategories;
+    @Pattern(regexp = ColorUtils.HEX_COLOR_REGEX, message = ColorUtils.HEX_COLOR_ERROR_MESSAGE)
+    private String color;
 
-    public Category(String name, BudgetType type, BigDecimal allocatedAmount, List<SubCategory> subCategories) {
+    public Category(String name, BudgetType type, BigDecimal allocatedAmount, List<SubCategory> subCategories, String color) {
         this.name = name;
         this.type = type;
         this.allocatedAmount = allocatedAmount;
         this.subCategories = subCategories;
+        this.color = color;
     }
 
     public Category() {
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public String getName() {

@@ -19,6 +19,7 @@ import com.example.tripmanager.shared.model.AbstractEntity;
 import com.example.tripmanager.shared.token.model.TokenType;
 import com.example.tripmanager.shared.token.model.token.BudgetInvitationToken;
 import com.example.tripmanager.shared.token.service.TokenService;
+import com.example.tripmanager.shared.util.ColorUtils;
 import jakarta.validation.constraints.NotNull;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.types.ObjectId;
@@ -338,6 +339,12 @@ public class BudgetService {
                 });
         oryginalCategory.setName(patchedCategory.getName());
         oryginalCategory.setAllocatedAmount(patchedCategory.getAllocatedAmount());
+        if (ColorUtils.isValidHexColor(patchedCategory.getColor())) {
+            String normalizedHexColor = ColorUtils.normalizeHexColor(patchedCategory.getColor());
+            oryginalCategory.setColor(normalizedHexColor);
+        } else {
+            log.error("Invalid hex color: {}", patchedCategory.getColor());
+        }
         if (patchedCategory.getType() != null) {
             oryginalCategory.setType(patchedCategory.getType());
         }

@@ -1,27 +1,12 @@
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { CategoryCreateForm, CategoryDialogData } from "../../_model/budget";
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from "@angular/material/dialog";
-import { CommonModule } from "@angular/common";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from "@angular/material/input";
-import { MatButtonModule } from "@angular/material/button";
-import { TranslateModule } from "@ngx-translate/core";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 
 @Component({
   selector: 'category-create-dialog',
   templateUrl: './category-create-dialog.component.html',
   styleUrl: './category-create-dialog.component.scss',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    TranslateModule
-  ]
 })
 export class CategoryCreateDialogComponent {
 	categoryForm: FormGroup;
@@ -41,13 +26,15 @@ export class CategoryCreateDialogComponent {
 				Validators.min(0),
 				Validators.pattern(/^\d+\.?\d{0,2}$/),
 				Validators.max(9999999999.99)]
-			]
+			],
+			color: [this.generateRandomColor(), Validators.required]
 		});
 
 		if (this.isEditMode && !!data.category.id) {
 			this.categoryForm.patchValue({
 				name: data.category.name,
 				allocatedAmount: data.category.allocatedAmount,
+				color: data.category?.color
 			})
 			this.initialFormValues = { ...this.categoryForm.value };
 		}
@@ -61,8 +48,9 @@ export class CategoryCreateDialogComponent {
 
 		const nameChanged: boolean = current.name !== initial?.name;
 		const amountChanged: boolean = +current.allocatedAmount !== +initial?.allocatedAmount;
+		const colorChanged: boolean = current.color !== initial?.color;
 
-		return nameChanged || amountChanged;
+		return nameChanged || amountChanged || colorChanged;
 	}
 
 	get nameError(): string {
@@ -87,6 +75,7 @@ export class CategoryCreateDialogComponent {
 			name: this.categoryForm.value.name,
 			type: this.data.categoryType,
 			allocatedAmount: this.categoryForm.value.allocatedAmount,
+			color: this.categoryForm.value.color
 		};
 
 		this.dialogRef.close(newCategory);
@@ -94,5 +83,14 @@ export class CategoryCreateDialogComponent {
 
 	onCancel(): void {
 		this.dialogRef.close();
+	}
+
+	generateRandomColor(): string {
+		const letters = '0123456789ABCDEF';
+		let color = '#';
+		for (let i = 0; i < 6; i++) {
+			color += letters[Math.floor(Math.random() * 16)];
+		}
+		return color;
 	}
 }
