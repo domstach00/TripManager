@@ -6,7 +6,7 @@ import {
 	Budget,
 	BudgetCreateForm,
 	Category,
-	CategoryCreateForm,
+	CategoryCreateForm, CategoryWithStats,
 	SubCategory,
 	SubCategoryCreateForm
 } from "../_model/budget";
@@ -56,6 +56,10 @@ export class BudgetService{
 
 	getCategories(budgetId: string, params?: any): Observable<Category[]> {
 		return this.apiService.getFormatted<Category[]>(ApiPath.budgetCategory, [budgetId], params);
+	}
+
+	getCategoriesWithStats(budgetId: string, params?: any): Observable<CategoryWithStats[]> {
+		return this.apiService.getFormatted<CategoryWithStats[]>(ApiPath.budgetCategoryWithStats, [budgetId], params);
 	}
 
 	patchCategory(budgetId: string, updatedCategory: Category, params?: any): Observable<Category> {

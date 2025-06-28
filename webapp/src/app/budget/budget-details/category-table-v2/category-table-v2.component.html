@@ -15,6 +15,9 @@
 				<div class="category-row-budget">
 					{{ (category.allocatedAmount ?? 0) | currency }} Budget
 				</div>
+				<div class="category-row-spent">
+					{{ (category.totalSpentAmount ?? 0) | currency }} Spent
+				</div>
 				<div class="category-row-action">
 					<button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
 						<mat-icon>more_vert</mat-icon>

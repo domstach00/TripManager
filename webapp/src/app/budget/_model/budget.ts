@@ -30,6 +30,10 @@ export interface Category extends BaseModel {
 	subCategories?: SubCategory[];
 }
 
+export interface CategoryWithStats extends Category {
+	totalSpentAmount?: string;
+}
+
 export interface CategoryDialogData {
 	budgetId: string;
 	categoryType?: 'EXPENSE' | 'INCOME';

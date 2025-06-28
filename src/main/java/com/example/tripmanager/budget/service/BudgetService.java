@@ -12,7 +12,6 @@ import com.example.tripmanager.budget.model.category.Category;
 import com.example.tripmanager.budget.model.category.CategoryCreateForm;
 import com.example.tripmanager.budget.model.category.SubCategory;
 import com.example.tripmanager.budget.model.category.SubCategoryCreateForm;
-import com.example.tripmanager.budget.model.category.CategoryWithStats;
 import com.example.tripmanager.budget.repository.BudgetRepository;
 import com.example.tripmanager.email.service.EmailService;
 import com.example.tripmanager.shared.exception.ItemNotFound;
@@ -31,7 +30,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,26 +47,11 @@ public class BudgetService {
     @Autowired
     private CategoryService categoryService;
     @Autowired
-    private TransactionService transactionService;
-    @Autowired
     private AccountService accountService;
     @Autowired
     private EmailService emailService;
     @Autowired
     private TokenService tokenService;
-
-    public List<CategoryWithStats> getBudgetCategoriesWithStats(Account currentAccount, String budgetId) {
-        log.debug("Fetching categories with stats for budget ID: {}", budgetId);
-        Budget budget = getBudgetByIdOrThrow(budgetId, currentAccount);
-        List<CategoryWithStats> categoriesWithStats = budget.getCategories().stream()
-                .map(category -> {
-                    BigDecimal totalSpentAmount = transactionService.getTotalAmountForCategory(budgetId, category.getId());
-                    return new CategoryWithStats(category, totalSpentAmount);
-                })
-                .collect(Collectors.toList());
-        log.info("Retrieved {} categories with stats for budget ID: {}", categoriesWithStats.size(), budgetId);
-        return categoriesWithStats;
-    }
 
     public Budget createBudgetFromTemplate(BudgetTemplate budgetTemplate) {
         log.debug("Creating a budget from template: {}", budgetTemplate.getId());

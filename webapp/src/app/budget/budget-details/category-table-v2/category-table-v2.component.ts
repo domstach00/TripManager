@@ -1,7 +1,7 @@
 import { animate, state, style, transition, trigger } from "@angular/animations";
 import { Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
 import { BudgetService } from "../../_service/budget.service";
-import { Category, CategoryDialogData } from "../../_model/budget";
+import { Category, CategoryDialogData, CategoryWithStats } from "../../_model/budget";
 import { CategoryCreateDialogComponent } from "../../_dialog/category-create-dialog/category-create-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
 import {
@@ -32,13 +32,13 @@ export class CategoryTableV2Component implements OnInit {
 	 * If categories are provided via `preloadedCategories`,
 	 * the initial API request to load categories will be skipped.
 	 */
-	@Input() preloadedCategories?: Category[] = null;
+	@Input() preloadedCategories?: CategoryWithStats[] = null;
 	@Output() refreshEvent: EventEmitter<void> = new EventEmitter<void>();
 	@ViewChildren(SubcategoryTableComponent) subcategoryTables: QueryList<SubcategoryTableComponent>;
 	@ViewChildren(TransactionsSearchableComponent) transactionTables: QueryList<TransactionsSearchableComponent>;
 
 	loading: boolean = true;
-	categoryList: Category[] = [];
+	categoryList: CategoryWithStats[] = [];
 	expandedElementIds: Set<string> = new Set<string>();
 
 	constructor(
@@ -50,6 +50,7 @@ export class CategoryTableV2Component implements OnInit {
 	ngOnInit(): void {
 		if (!!this.preloadedCategories) {
 			this.categoryList = this.preloadedCategories;
+			this.loadSpentStats(this.budgetId);
 			this.loading = false;
 		} else {
 			this.loadCategories(this.budgetId);
@@ -58,10 +59,10 @@ export class CategoryTableV2Component implements OnInit {
 
 	loadCategories(budgetId: string) {
 		this.budgetService.getCategories(budgetId).subscribe( {
-			next: newCategoryList => {
+			next: categoryList => {
 				this.loading = false;
 				// Update existing categories and add new ones
-				newCategoryList.forEach(newCategory => {
+				categoryList.forEach(newCategory => {
 					const existingCategoryIndex = this.categoryList.findIndex(c => c.id === newCategory.id);
 					if (existingCategoryIndex > -1) {
 						this.categoryList[existingCategoryIndex] = newCategory;
@@ -71,8 +72,11 @@ export class CategoryTableV2Component implements OnInit {
 				});
 				// Remove categories that no longer exist
 				this.categoryList = this.categoryList.filter(existingCategory =>
-					newCategoryList.some(newCategory => newCategory.id === existingCategory.id)
+					categoryList.some(newCategory => newCategory.id === existingCategory.id)
 				);
+
+				// Now fetch categories with stats and update totalSpentAmount
+				this.loadSpentStats(budgetId);
 
 				// Refresh subcategory tables after categories are loaded and updated
 				setTimeout(() => {
@@ -84,6 +88,18 @@ export class CategoryTableV2Component implements OnInit {
 				this.loading = false;
 			}
 		})
+	}
+
+	loadSpentStats(budgetId: string) {
+		this.budgetService.getCategoriesWithStats(budgetId).subscribe(categoriesWithStats => {
+			console.log('Got: ', categoriesWithStats)
+			categoriesWithStats.forEach(categoryWithStats => {
+				const existingCategory = this.categoryList.find(c => c.id === categoryWithStats.id);
+				if (existingCategory) {
+					existingCategory.totalSpentAmount = categoryWithStats.totalSpentAmount;
+				}
+			});
+		});
 	}
 
 	openCreateCategoryDialog(budgetType: 'EXPENSE' | 'INCOME'): void {
@@ -170,6 +186,7 @@ export class CategoryTableV2Component implements OnInit {
 	}
 
 	public refreshTables() {
+		this.loadSpentStats(this.budgetId);
 		this.subcategoryTables.forEach(table => table.refreshTransactionsTable());
 		this.transactionTables.forEach(table => table.prepareQueryParamsAndSearch());
 	}

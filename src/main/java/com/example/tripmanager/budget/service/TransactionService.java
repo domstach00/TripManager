@@ -7,6 +7,7 @@ import com.example.tripmanager.budget.model.TransactionBudgetSummary;
 import com.example.tripmanager.budget.model.Transaction;
 import com.example.tripmanager.budget.model.TransactionCreateForm;
 import com.example.tripmanager.budget.model.category.Category;
+import com.example.tripmanager.budget.model.category.CategoryWithStats;
 import com.example.tripmanager.budget.model.category.SubCategory;
 import com.example.tripmanager.budget.repository.TransactionRepository;
 import com.example.tripmanager.shared.model.AbstractEntity;
@@ -25,6 +26,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TransactionService {
@@ -119,5 +121,18 @@ public class TransactionService {
 
     public BigDecimal getTotalAmountForCategory(String budgetId, String categoryId) {
         return transactionRepository.getTotalAmountForCategory(budgetId, categoryId);
+    }
+
+    public List<CategoryWithStats> getBudgetCategoriesWithStats(Account currentAccount, String budgetId) {
+        log.debug("Fetching categories with stats for budget ID: {}", budgetId);
+        Budget budget = budgetService.getBudgetByIdOrThrow(budgetId, currentAccount);
+        List<CategoryWithStats> categoriesWithStats = budget.getCategories().stream()
+                .map(category -> {
+                    BigDecimal totalSpentAmount = transactionRepository.getTotalAmountForCategory(budgetId, category.getId());
+                    return new CategoryWithStats(category, totalSpentAmount);
+                })
+                .collect(Collectors.toList());
+        log.info("Retrieved {} categories with stats for budget ID: {}", categoriesWithStats.size(), budgetId);
+        return categoriesWithStats;
     }
 }

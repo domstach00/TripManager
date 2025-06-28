@@ -197,7 +197,7 @@ public class BudgetController extends AbstractController {
             @PathVariable String budgetId
     ) {
         Account currentAccount = getCurrentAccount(principal);
-        return budgetService.getBudgetCategoriesWithStats(currentAccount, budgetId);
+        return transactionService.getBudgetCategoriesWithStats(currentAccount, budgetId);
     }
 
     @PreAuthorize("@budgetSecurity.hasAccessToBudget(#principal, #budgetId)")
