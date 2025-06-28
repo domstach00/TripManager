@@ -3,6 +3,8 @@
 .table-container {
 	width: 100%;
 	overflow-x: auto;
+	padding: $spacing-md;
+	box-sizing: border-box;
 
 	.icons-archive {
 		font-size: $font-size-base * 1.1;
@@ -15,37 +17,64 @@
 .budget-table {
 	width: 100%;
 	min-width: 600px;
-	border-collapse: collapse;
+	border-collapse: separate; /* Use separate to allow border-radius on cells */
+	border-spacing: 0; /* Remove default spacing */
+	border-radius: $border-radius-md;
+	overflow: hidden; /* Ensures border-radius is applied */
+	box-shadow: $box-shadow-md;
 
 	mat-header-cell,
 	mat-cell {
-		padding: $spacing-md $spacing-lg;
+		padding: $spacing-sm $spacing-md;
 		text-align: left;
 		font-size: $font-size-base;
 		color: $text-color-dark;
+		border-bottom: 1px solid $border-color;
+
+		&:first-child {
+			padding-left: $spacing-lg;
+		}
+
+		&:last-child {
+			padding-right: $spacing-lg;
+		}
 	}
 
 	mat-header-cell {
-		background-color: $background-color;
+		background-color: $primary-color;
+		color: $surface-color;
 		font-weight: bold;
-		border-bottom: 2px solid $border-color;
+		font-size: $font-size-base * 1.1;
+		border-bottom: 2px solid darken($primary-color, 10%);
+
+		&:first-child {
+			border-top-left-radius: $border-radius-md;
+		}
+
+		&:last-child {
+			border-top-right-radius: $border-radius-md;
+		}
 	}
 
 	mat-cell {
-		border-bottom: 1px solid $border-color;
+		background-color: $surface-color;
 	}
 
 	mat-row {
-		&:nth-child(odd) {
-			background-color: $surface-color;
-		}
+		transition: background-color 0.2s ease-in-out;
 
 		&:nth-child(even) {
-			background-color: lighten($background-color, 2%);
+			background-color: lighten($surface-color, 2%);
 		}
 
 		&:hover {
 			background-color: lighten($primary-color, 40%);
+		}
+
+		&:last-child {
+			mat-cell {
+				border-bottom: none;
+			}
 		}
 	}
 
@@ -75,4 +104,10 @@
 
 .icon-container {
 	pointer-events: auto;
+}
+
+@media (max-width: $breakpoint-md) {
+	.budget-table {
+		min-width: unset;
+	}
 }

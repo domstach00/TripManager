@@ -7,7 +7,7 @@
 	max-width: 1200px;
 	margin: $spacing-lg auto;
 	padding: $spacing-lg;
-	background-color: $surface-color;
+	background-color: $background-color; /* Use background-color for the host */
 	color: $text-color-dark;
 	border-radius: $border-radius-md;
 	box-shadow: $box-shadow-md;
@@ -34,14 +34,20 @@
 		border: 1px solid $primary-color;
 		color: $primary-color;
 		background-color: transparent;
-		transition: background-color 0.3s ease;
+		transition: background-color 0.3s ease, transform 0.2s ease;
 		height: 40px;
 		line-height: 40px;
 		padding: 0 $spacing-md;
 		border-radius: $border-radius-sm;
+		font-weight: 500;
 
 		&:hover {
 			background-color: rgba($primary-color, 0.1);
+			transform: translateY(-2px);
+		}
+
+		&:active {
+			transform: translateY(0);
 		}
 	}
 
@@ -92,4 +98,15 @@ app-paginator {
 	margin-top: $spacing-lg;
 	display: flex;
 	justify-content: center;
+}
+
+@media (max-width: $breakpoint-md) {
+	.header {
+		flex-direction: column;
+		.left-section,
+		.right-section {
+			width: 100%;
+			justify-content: center;
+		}
+	}
 }

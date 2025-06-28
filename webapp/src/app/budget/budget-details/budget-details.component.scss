@@ -1,58 +1,99 @@
+@import "../../../styles/variables.scss";
+
 :host {
 	display: block;
 	max-width: 1200px;
-	margin: 0 auto;
-	padding: 1.5rem;
-	background-color: #fafafa;
-	color: #333;
-	font-family: 'Roboto', sans-serif;
+	margin: $spacing-lg auto;
+	padding: $spacing-lg;
+	background-color: $background-color;
+	color: $text-color-dark;
+	font-family: $font-family-base;
 	box-sizing: border-box;
 
-	.content-container {
+	.content {
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-		gap: 2rem;
+		gap: $spacing-lg;
 		width: 100%;
-	}
 
-	.charts-grid {
-		width: 100%;
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-		gap: 1.5rem;
-		margin-top: 1rem;
+		h1 {
+			color: $text-color-dark;
+			font-weight: 700;
+			margin-bottom: $spacing-md;
+			text-align: center;
+			font-size: $font-size-base * 2;
+		}
 
-		mat-card {
-			background: white;
-			border-radius: 8px;
-			box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-			padding: 1.5rem;
-			transition: transform 0.2s;
+		> button {
+			align-self: flex-end;
+			margin-bottom: $spacing-md;
+		}
 
-			&:hover {
-				transform: translateY(-2px);
+		.charts-grid {
+			width: 100%;
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+			gap: $spacing-lg;
+
+			mat-card {
+				background: $surface-color;
+				border-radius: $border-radius-md;
+				box-shadow: $box-shadow-md;
+				padding: $spacing-lg;
+				transition: transform 0.2s ease-in-out;
+
+				&:hover {
+					transform: translateY(-$spacing-xs);
+				}
+
+				mat-card-title {
+					color: $text-color-dark;
+					font-size: $font-size-base * 1.2;
+					font-weight: 600;
+					margin-bottom: $spacing-md;
+				}
+
+				mat-card-content {
+					padding: 0;
+				}
+			}
+
+			.stat-item {
+				display: flex;
+				justify-content: space-between;
+				padding: $spacing-sm 0;
+				border-bottom: 1px solid $border-color;
+
+				&:last-child {
+					border-bottom: none;
+				}
+
+				span {
+					font-size: $font-size-base;
+					color: $text-color-dark;
+				}
+
+				.align-right {
+					font-weight: 500;
+					color: $primary-color;
+				}
 			}
 		}
 	}
+}
 
-	h1 {
-		color: #2c3e50;
-		font-weight: 500;
-		margin-bottom: 1rem;
-		width: 100%;
-		text-align: center;
+@media (max-width: $breakpoint-md) {
+	:host {
+		padding: $spacing-md;
 	}
 
-	.stat-item {
-		background: #ffffff;
-		border-radius: 6px;
-		padding: 1rem;
-		margin: 0.5rem 0;
-		box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+	.content {
+		h1 {
+			font-size: $font-size-base * 1.5;
+		}
 	}
 
-	.align-right {
-		float: right;
+	.charts-grid {
+		grid-template-columns: 1fr;
 	}
 }

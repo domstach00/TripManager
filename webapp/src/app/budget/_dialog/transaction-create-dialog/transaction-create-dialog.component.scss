@@ -2,28 +2,35 @@
 
 .mat-dialog-title {
 	color: $text-color-dark;
-	font-size: $font-size-base * 1.4;
+	font-size: $font-size-base * 1.5;
+	font-weight: 700;
 	margin-bottom: $spacing-lg;
 	text-align: center;
+	padding: $spacing-md $spacing-lg 0;
+}
+
+.mat-dialog-content {
+	padding: 0 $spacing-lg $spacing-lg;
 }
 
 .transaction-form {
 	display: flex;
 	flex-direction: column;
 	gap: $spacing-md;
-	padding: $spacing-md;
 
 	.budget-info {
 		margin-bottom: $spacing-md;
 		padding: $spacing-md;
-		background-color: lighten($background-color, 2%);
+		background-color: $background-color;
 		border-radius: $border-radius-sm;
 		border: 1px solid $border-color;
+		box-shadow: $box-shadow-sm;
 
 		h3 {
 			margin: 0;
 			color: $primary-color;
-			font-size: $font-size-base * 1.1;
+			font-size: $font-size-base * 1.2;
+			font-weight: 600;
 		}
 
 		p {
@@ -44,7 +51,7 @@
 			align-items: center;
 			padding: $spacing-xs $spacing-sm;
 			border-radius: $border-radius-sm;
-			background-color: lighten($background-color, 2%);
+			background-color: $background-color;
 		}
 
 		.mat-form-field-infix {
@@ -52,7 +59,7 @@
 			border-top: 0;
 			display: flex;
 			align-items: center;
-			min-height: 40px;
+			min-height: 48px; /* Increased height for better touch targets */
 		}
 
 		.mat-form-field-outline {
@@ -74,8 +81,9 @@
 		}
 
 		.mat-error {
-			font-size: $font-size-base * 0.8;
+			font-size: $font-size-base * 0.85;
 			color: #f44336;
+			margin-top: $spacing-xs;
 		}
 	}
 }
@@ -112,6 +120,31 @@
 			&:hover {
 				background-color: darken($surface-color, 5%);
 			}
+		}
+	}
+}
+
+@media (max-width: $breakpoint-sm) {
+	.mat-dialog-title {
+		font-size: $font-size-base * 1.2;
+	}
+
+	.mat-dialog-content {
+		padding: 0 $spacing-md $spacing-md;
+	}
+
+	.transaction-form {
+		gap: $spacing-sm;
+	}
+
+	.mat-dialog-actions {
+		flex-direction: column;
+		align-items: stretch;
+		gap: $spacing-sm;
+
+		.mat-button,
+		.mat-raised-button {
+			width: 100%;
 		}
 	}
 }
