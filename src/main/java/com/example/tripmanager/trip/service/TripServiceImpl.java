@@ -109,8 +109,6 @@ public class TripServiceImpl implements TripService {
         duplicatedTrip.deepCopyFrom(tripToDuplicate);
         duplicatedTrip.setName(duplicatedTrip.getName() + " - duplicated");
         duplicatedTrip.setId(null);
-        duplicatedTrip.setCreatedTime(null);
-        duplicatedTrip.setCreatedBy(null);
         duplicatedTrip.setLastModifiedTime(null);
         duplicatedTrip.setLastModifiedBy(null);
         duplicatedTrip.setOwner(account);

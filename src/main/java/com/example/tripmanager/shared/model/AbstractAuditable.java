@@ -51,11 +51,6 @@ public abstract class AbstractAuditable extends AbstractEntity {
 
     protected void deepCopyFrom(AbstractAuditable that) {
         super.deepCopyFrom(that);
-        setCreatedTime(that.getCreatedTime());
-        setCreatedBy(that.getCreatedBy());
-        setLastModifiedTime(that.getLastModifiedTime());
-        setLastModifiedBy(that.getLastModifiedBy());
-        setDeleted(that.isDeleted());
     }
 
 
@@ -66,16 +61,8 @@ public abstract class AbstractAuditable extends AbstractEntity {
                 : createdTime.truncatedTo(ChronoUnit.MILLIS);
     }
 
-    public void setCreatedTime(Instant createdTime) {
-        this.createdTime = createdTime;
-    }
-
     public String getCreatedBy() {
         return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
     }
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)

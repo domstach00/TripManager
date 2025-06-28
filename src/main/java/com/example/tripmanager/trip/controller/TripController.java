@@ -7,6 +7,7 @@ import com.example.tripmanager.account.model.Account;
 import com.example.tripmanager.trip.model.Trip;
 import com.example.tripmanager.trip.model.TripDto;
 import com.example.tripmanager.account.service.AccountService;
+import com.example.tripmanager.trip.service.TripPlanService;
 import com.example.tripmanager.trip.service.TripService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +35,8 @@ public class TripController extends AbstractController {
 
     @Autowired
     private TripService tripService;
+    @Autowired
+    private TripPlanService tripPlanService;
     @Autowired
     private AccountService accountService;
 
@@ -72,6 +75,7 @@ public class TripController extends AbstractController {
         Account currentAccount = getCurrentAccount(principal);
         log.info("Attempting to delete Trip {} by accountId={}", tripId, currentAccount.getId());
         this.tripService.deleteTrip(tripId, currentAccount);
+        this.tripPlanService.deleteAllTripPlansForTrip(tripId, currentAccount);
     }
 
     @PatchMapping("/{tripId}/archive")

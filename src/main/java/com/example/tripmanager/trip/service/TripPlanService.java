@@ -10,6 +10,7 @@ public interface TripPlanService {
     Page<TripPlan> getAllTripPlansForTrip(Pageable pageable, String tripId, Account currentAccount);
     TripPlan insertTripPlan(TripPlanDto tripPlan, String tripId);
     void deleteTripPlan(String tripPlanId, Account currentAccount);
+    void deleteAllTripPlansForTrip(String tripId, Account currentAccount);
     TripPlan patchTripPlan(TripPlan updatedTripPlan, String tripId);
     Page<TripPlan> getAllTripPlansWithMapElement(Pageable pageable, String tripId, Account currentAccount);
 }
