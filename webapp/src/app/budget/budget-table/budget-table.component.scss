@@ -111,3 +111,29 @@
 		min-width: unset;
 	}
 }
+
+@media (max-width: $breakpoint-sm) {
+	.table-container {
+		padding: $spacing-sm;
+	}
+
+	.budget-table {
+		mat-header-cell,
+		mat-cell {
+			padding: $spacing-xs $spacing-sm;
+			font-size: $font-size-base * 0.9;
+
+			&:first-child {
+				padding-left: $spacing-sm;
+			}
+
+			&:last-child {
+				padding-right: $spacing-sm;
+			}
+		}
+
+		.icon-container {
+			max-width: 60px; /* Adjust for smaller screens */
+		}
+	}
+}

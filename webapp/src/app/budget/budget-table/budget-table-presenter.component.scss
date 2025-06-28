@@ -110,3 +110,37 @@ app-paginator {
 		}
 	}
 }
+
+@media (max-width: $breakpoint-sm) {
+	:host {
+		padding: $spacing-sm;
+		margin: $spacing-md auto;
+	}
+
+	.header {
+		gap: $spacing-sm;
+		margin-bottom: $spacing-md;
+
+		.left-section,
+		.right-section {
+			gap: $spacing-sm;
+		}
+
+		button {
+			width: 100%;
+			font-size: $font-size-base * 0.9;
+		}
+
+		.code-input {
+			width: 100%;
+		}
+	}
+
+	budget-table {
+		margin-top: $spacing-md;
+	}
+
+	app-paginator {
+		margin-top: $spacing-md;
+	}
+}

@@ -1,84 +1,171 @@
+@import "../../../../styles/variables.scss";
+
 .category-table {
 	display: flex;
 	flex-direction: column;
-	padding: 1rem;
-
+	padding: $spacing-md;
 
 	.category-header {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+		margin-bottom: $spacing-md;
+
+		h3 {
+			font-size: $font-size-base * 1.2;
+			color: $text-color-dark;
+			margin: 0;
+		}
 
 		.category-create-button {
-			padding: 10px 15px;
-			font-size: 16px;
+			padding: $spacing-sm $spacing-md;
+			font-size: $font-size-base;
 			font-weight: 500;
 			text-align: center;
 			text-decoration: none;
 			border: none;
-			border-radius: 5px;
-			background-color: #f0f0f0;
-			color: #333;
+			border-radius: $border-radius-sm;
+			background-color: $primary-color;
+			color: $surface-color;
 			cursor: pointer;
-			transition: background-color 0.3s ease, color 0.3s ease;
+			transition: background-color 0.3s ease, transform 0.2s ease;
 
 			&:hover {
-				background-color: #e0e0e0;
-				color: #000;
+				background-color: darken($primary-color, 10%);
+				transform: translateY(-2px);
 			}
 
 			&:active {
-				background-color: #d0d0d0;
+				transform: translateY(0);
 			}
 
 			&:focus {
 				outline: none;
-				box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+				box-shadow: 0 0 5px rgba($primary-color, 0.5);
 			}
 		}
 	}
 
 	.category-mat-card {
-		background-color: #fafafa;
-		margin: 3px;
-		padding: 3px;
-		color: #333;
-		font-family: 'Roboto', sans-serif;
+		background-color: $surface-color;
+		margin-bottom: $spacing-sm;
+		padding: $spacing-md;
+		color: $text-color-dark;
+		font-family: $font-family-base;
 		box-sizing: border-box;
-		transition: transform 0.2s;
+		transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+		border-radius: $border-radius-md;
+		box-shadow: $box-shadow-sm;
+
+		&:hover {
+			transform: translateY(-$spacing-xs);
+			box-shadow: $box-shadow-md;
+		}
 
 		.category-row {
 			display: flex;
 			flex-direction: row;
 			justify-content: space-between;
-			padding-top: 10px;
-
-			&:hover {
-				transform: translateY(-2px);
-			}
+			align-items: center;
+			padding-bottom: $spacing-sm;
+			cursor: pointer;
 
 			&-name {
-				margin-left: 5px;
+				font-size: $font-size-base * 1.1;
+				font-weight: 600;
+				flex-grow: 1;
+				margin-right: $spacing-sm;
 			}
 
-			&-budget {
-
+			&-budget,
+			&-spent {
+				font-size: $font-size-base;
+				color: $text-color-light;
+				white-space: nowrap;
+				margin-left: $spacing-sm;
 			}
 
 			&-action {
+				margin-left: $spacing-sm;
 
+				button {
+					color: $text-color-light;
+					&:hover {
+						color: $primary-color;
+					}
+				}
 			}
 		}
 
 		.category-progress-bar {
-			margin-top: 5px; /* Minimalist height */
-			height: 5px; /* Minimalist height */
-			border-radius: 2.5px; /* Rounded corners */
+			margin-top: $spacing-xs;
+			height: $spacing-xs;
+			border-radius: $border-radius-sm;
 		}
 
 		.expandable-section {
-			padding: 5px;
-			background-color: rgba(241, 241, 241, 0.63);
+			background-color: lighten($background-color, 2%);
+			margin: $spacing-md -($spacing-md) -($spacing-md);
+			padding: $spacing-md;
+			border-bottom-left-radius: $border-radius-md;
+			border-bottom-right-radius: $border-radius-md;
+		}
+	}
+}
+
+@media (max-width: $breakpoint-sm) {
+	.category-table {
+		padding: $spacing-sm;
+
+		.category-header {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: $spacing-sm;
+
+			h3 {
+				font-size: $font-size-base;
+			}
+
+			.category-create-button {
+				width: 100%;
+				font-size: $font-size-base * 0.9;
+			}
+		}
+
+		.category-mat-card {
+			padding: $spacing-sm;
+
+			.category-row {
+				flex-wrap: wrap;
+				justify-content: center;
+				text-align: center;
+
+				&-name {
+					width: 100%;
+					margin-right: 0;
+					margin-bottom: $spacing-xs;
+					font-size: $font-size-base;
+				}
+
+				&-budget,
+				&-spent {
+					width: 50%;
+					margin-left: 0;
+					font-size: $font-size-base * 0.9;
+				}
+
+				&-action {
+					width: 100%;
+					margin-top: $spacing-sm;
+					margin-left: 0;
+					text-align: center;
+				}
+			}
+
+			.expandable-section {
+				padding: $spacing-sm;
+				margin: $spacing-sm -($spacing-sm) -($spacing-sm);
+			}
 		}
 	}
 }
