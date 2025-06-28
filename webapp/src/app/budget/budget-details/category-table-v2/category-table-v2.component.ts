@@ -58,9 +58,27 @@ export class CategoryTableV2Component implements OnInit {
 
 	loadCategories(budgetId: string) {
 		this.budgetService.getCategories(budgetId).subscribe( {
-			next: categoryList => {
-				this.categoryList = categoryList ?? [];
+			next: newCategoryList => {
 				this.loading = false;
+				// Update existing categories and add new ones
+				newCategoryList.forEach(newCategory => {
+					const existingCategoryIndex = this.categoryList.findIndex(c => c.id === newCategory.id);
+					if (existingCategoryIndex > -1) {
+						this.categoryList[existingCategoryIndex] = newCategory;
+					} else {
+						this.categoryList.push(newCategory);
+					}
+				});
+				// Remove categories that no longer exist
+				this.categoryList = this.categoryList.filter(existingCategory =>
+					newCategoryList.some(newCategory => newCategory.id === existingCategory.id)
+				);
+
+				// Refresh subcategory tables after categories are loaded and updated
+				setTimeout(() => {
+					this.subcategoryTables.forEach(table => table.refreshSubCategoryList());
+				});
+
 			}, error: err => {
 				console.error("Error while loading Categories", err)
 				this.loading = false;
