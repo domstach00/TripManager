@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { ApiPath } from "../_model/ApiPath";
 import { Observable } from "rxjs";
 import { Injectable } from "@angular/core";
+import { environment } from "../../../environments/environment";
 
 @Injectable({
 	providedIn: 'root',
@@ -14,7 +15,7 @@ export class ApiService {
 	}
 
 	public get<T = any>(url: ApiPath, params?: any): Observable<T> {
-		return this.httpClient.get<T>(`${ApiPath.apiBaseUrl}` + `${url}`, { params, withCredentials: true })
+		return this.httpClient.get<T>(`${environment.apiUrl}` + `${url}`, { params, withCredentials: true })
 	}
 
 	public getFormatted<T = any>(url: ApiPath, paramArray: string[], params?: any): Observable<T> {
@@ -22,7 +23,7 @@ export class ApiService {
 	}
 
 	public post<T = any, K = any>(url: ApiPath, body?: K, params?: any): Observable<T> {
-		return this.httpClient.post<T>(`${ApiPath.apiBaseUrl}` + `${url}`, body, { params, withCredentials: true });
+		return this.httpClient.post<T>(`${environment.apiUrl}` + `${url}`, body, { params, withCredentials: true });
 	}
 
 	public postFormatted<T = any, K = any>(url: ApiPath, paramArray: string[], body?: K, params?: any): Observable<T> {
@@ -30,7 +31,7 @@ export class ApiService {
 	}
 
 	public put<T = any, K = any>(url: ApiPath, body?: K, params?: any): Observable<T> {
-		return this.httpClient.put<T>(`${ApiPath.apiBaseUrl}` + `${url}`, body, { params, withCredentials: true });
+		return this.httpClient.put<T>(`${environment.apiUrl}` + `${url}`, body, { params, withCredentials: true });
 	}
 
 	public putFormatted<T = any, K = any>(url: ApiPath, paramArray: string[], body?: K, params?: any): Observable<T> {
@@ -38,7 +39,7 @@ export class ApiService {
 	}
 
 	public patch<T = any, K = any>(url: ApiPath, body?: K, params?: any): Observable<T> {
-		return this.httpClient.patch<T>(`${ApiPath.apiBaseUrl}` + `${url}`, body, { params, withCredentials: true });
+		return this.httpClient.patch<T>(`${environment.apiUrl}` + `${url}`, body, { params, withCredentials: true });
 	}
 
 	public patchFormatted<T = any, K = any>(url: ApiPath, paramArray: string[], body?: K, params?: any): Observable<T> {
@@ -46,7 +47,7 @@ export class ApiService {
 	}
 
 	public delete<T = any>(url: ApiPath, params?: any): Observable<T> {
-		return this.httpClient.delete<T>(`${ApiPath.apiBaseUrl}` + `${url}`, { params, withCredentials: true });
+		return this.httpClient.delete<T>(`${environment.apiUrl}` + `${url}`, { params, withCredentials: true });
 	}
 
 	public deleteFormatted<T = any>(url: ApiPath, paramArray: string[], params?: any): Observable<T> {
@@ -66,6 +67,6 @@ export class ApiService {
 	}
 
 	private formatWithBaseUrl(str: string, paramArray: string[]): string {
-		return `${ApiPath.apiBaseUrl}` + this.format(`${str}`, paramArray);
+		return `${environment.apiUrl}` + this.format(`${str}`, paramArray);
 	}
 }

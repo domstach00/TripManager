@@ -1,5 +1,4 @@
 export enum ApiPath {
-	apiBaseUrl = 'http://localhost:8080/api',
 	login = '/auth/login',
 	logout = '/auth/logout',
 	register = '/auth/register',
