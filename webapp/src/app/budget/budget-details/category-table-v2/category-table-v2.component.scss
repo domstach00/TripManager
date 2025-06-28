@@ -105,7 +105,7 @@
 
 		.expandable-section {
 			background-color: lighten($background-color, 2%);
-			margin: $spacing-md -($spacing-md) -($spacing-md);
+			margin: $spacing-md - ($spacing-md) - ($spacing-md);
 			padding: $spacing-md;
 			border-bottom-left-radius: $border-radius-md;
 			border-bottom-right-radius: $border-radius-md;
@@ -164,7 +164,7 @@
 
 			.expandable-section {
 				padding: $spacing-sm;
-				margin: $spacing-sm -($spacing-sm) -($spacing-sm);
+									margin: $spacing-sm - ($spacing-sm) - ($spacing-sm);
 			}
 		}
 	}

@@ -1,65 +1,48 @@
-@import "../../../../styles/variables.scss";
+@import '../../../../styles/variables.scss';
 
-.mat-dialog-title {
-	color: $text-color-dark;
-	font-size: $font-size-base * 1.4;
-	margin-bottom: $spacing-lg;
-	text-align: center;
+.dialog-wrapper {
+	padding: $spacing-lg $spacing-md;
+	background: $surface-color;
 }
 
-.mat-dialog-content {
-	.icon-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-		gap: $spacing-md;
-		padding: $spacing-md 0;
+.dialog-title {
+	margin: 0 0 $spacing-lg;
+	font-size: 1.5rem;
+	text-align: center;
+	color: $text-color-dark;
+}
 
-		.icon-item {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			padding: $spacing-sm;
-			border: 1px solid $border-color;
-			border-radius: $border-radius-sm;
-			cursor: pointer;
-			transition: all 0.2s ease-in-out;
+.icon-grid {
+	mat-grid-tile {
+		background: transparent;
+		border: 2px solid transparent;
+		border-radius: $border-radius-sm;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		cursor: pointer;
+		transition: border-color 0.2s, transform 0.2s;
 
-			&:hover {
-				border-color: $primary-color;
-				box-shadow: $box-shadow-sm;
-				transform: translateY(-2px);
-			}
+		&:hover {
+			transform: translateY(-2px);
+		}
 
-			img {
-				max-width: 100%;
-				height: auto;
-				display: block;
-			}
+		&.selected {
+			border-color: $primary-color;
+			box-shadow: $box-shadow-sm;
+		}
+
+		img {
+			max-height: 48px;
+			max-width: 48px;
+			display: block;
 		}
 	}
 }
 
-.mat-dialog-actions {
-	display: flex;
-	justify-content: flex-end;
-	gap: $spacing-md;
-	margin-top: $spacing-lg;
-
-	.btn {
-		padding: $spacing-sm $spacing-md;
-		border-radius: $border-radius-sm;
-		font-size: $font-size-base;
-		cursor: pointer;
-		transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-
-		&.btn-secondary {
-			background-color: $surface-color;
-			color: $text-color-dark;
-			border: 1px solid $border-color;
-
-			&:hover {
-				background-color: darken($surface-color, 5%);
-			}
-		}
+.dialog-actions {
+	padding: $spacing-md $spacing-lg;
+	button + button {
+		margin-left: $spacing-sm;
 	}
 }

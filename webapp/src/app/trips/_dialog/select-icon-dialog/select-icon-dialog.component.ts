@@ -1,10 +1,10 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { MapIcon } from "../../_model/MapPinIcons";
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MapIcon } from '../../_model/MapPinIcons';
 
-export interface IconKeyUrl {
-	key: string,
-	url: string,
+export interface IconItem {
+	key: string;
+	url: string;
 }
 
 @Component({
@@ -13,23 +13,29 @@ export interface IconKeyUrl {
 	styleUrls: ['./select-icon-dialog.component.scss']
 })
 export class SelectIconDialogComponent {
-	icons: IconKeyUrl[];
+	icons: IconItem[];
+	selectedKey: string | null = null;
 
 	constructor(
 		public dialogRef: MatDialogRef<SelectIconDialogComponent>,
-		@Inject(MAT_DIALOG_DATA) readonly iconEnum: MapIcon,
+		@Inject(MAT_DIALOG_DATA) public currentIcon: string
 	) {
-		this.icons = Object.keys(MapIcon).map(keyValue => ({
-			key: keyValue,
-			url: MapIcon[keyValue as keyof typeof MapIcon]
-		}));
+		this.icons = Object.entries(MapIcon).map(
+			([key, url]) => ({ key, url })
+		);
+		this.selectedKey = currentIcon;
 	}
 
-	onClose() {
+	selectIcon(item: IconItem) {
+		this.selectedKey = item.key;
+	}
+
+	confirm() {
+		const chosen: IconItem = this.icons.find(i => i.key === this.selectedKey);
+		this.dialogRef.close(chosen);
+	}
+
+	cancel() {
 		this.dialogRef.close();
-	}
-
-	selectIcon(icon: any) {
-		this.dialogRef.close(icon);
 	}
 }

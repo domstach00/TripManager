@@ -9,7 +9,7 @@ import { TripPlanService } from "../../_service/trip-plan.service";
 import {
 	ConfirmActionDialogComponent
 } from "../../../shared/_dialog/delete-confirmation-dialog/confirm-action-dialog.component";
-import { IconKeyUrl, SelectIconDialogComponent } from "../../_dialog/select-icon-dialog/select-icon-dialog.component";
+import { IconItem, SelectIconDialogComponent } from "../../_dialog/select-icon-dialog/select-icon-dialog.component";
 import { defaultMapIcon, getMapIconPath, MapIcon } from "../../_model/MapPinIcons";
 import { SearchResultComponent } from "../../../shared/directives/search-result/search-result.component";
 import { TranslateService } from "@ngx-translate/core";
@@ -47,7 +47,7 @@ export class TripPlanTableComponent extends SearchResultComponent<TripPlan> impl
 			data: MapIcon,
 		});
 
-		dialogRef.afterClosed().subscribe((result: IconKeyUrl) => {
+		dialogRef.afterClosed().subscribe((result: IconItem) => {
 			if (!!result && tripPlan?.mapElement) {
 				tripPlan.mapElement.icon = result.key;
 
