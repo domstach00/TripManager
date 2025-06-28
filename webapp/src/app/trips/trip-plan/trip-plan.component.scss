@@ -1,30 +1,94 @@
+@import "../../../styles/variables.scss";
+
+:host {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.tmpl-content {
+	display: flex;
+	flex-direction: column;
+	gap: $spacing-lg;
+	padding: $spacing-lg;
+	flex-grow: 1;
+}
 
 .container {
 	display: flex;
 	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: $spacing-md;
 }
 
 .toggle-buttons {
-	margin-left: 15px;
+	margin-left: $spacing-md;
+
+	.button-left,
+	.button-middle,
+	.button-right {
+		width: 100px;
+		padding: $spacing-sm $spacing-md;
+		font-size: $font-size-base;
+		border: 1px solid $primary-color;
+		color: $primary-color;
+		background-color: transparent;
+		transition: background-color 0.3s ease, color 0.3s ease;
+
+		&:hover {
+			background-color: rgba($primary-color, 0.1);
+		}
+	}
 
 	.button-left {
 		border-top-left-radius: 15px;
 		border-bottom-left-radius: 15px;
-		width: 100px;
-	}
-
-	.button-middle {
-		width: 100px;
 	}
 
 	.button-right {
 		border-top-right-radius: 15px;
 		border-bottom-right-radius: 15px;
-		width: 100px;
 	}
 }
 
 app-trip-plan-table,
 app-trip-plan-map {
 	flex: 1;
+}
+
+@media (max-width: $breakpoint-md) {
+	.tmpl-content {
+		padding: $spacing-md;
+	}
+
+	.toggle-buttons {
+		margin-left: 0;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+
+		.button-left,
+		.button-middle,
+		.button-right {
+			width: 100%;
+			max-width: 120px;
+		}
+	}
+}
+
+@media (max-width: $breakpoint-sm) {
+	.tmpl-content {
+		padding: $spacing-sm;
+		gap: $spacing-md;
+	}
+
+	.toggle-buttons {
+		flex-wrap: wrap;
+		.button-left,
+		.button-middle,
+		.button-right {
+			max-width: 100%;
+			border-radius: $border-radius-sm !important;
+		}
+	}
 }

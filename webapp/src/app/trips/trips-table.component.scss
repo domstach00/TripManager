@@ -4,8 +4,8 @@
 	width: 100%;
 	background-color: $surface-color;
 	border-radius: $border-radius-md;
-	box-shadow: $box-shadow-sm;
-	overflow: hidden; // Ensures rounded corners apply to table content
+	box-shadow: $box-shadow-md;
+	overflow: hidden; /* Ensures rounded corners apply to table content */
 
 	.clickable-text {
 		cursor: pointer;
@@ -19,33 +19,61 @@
 
 	.table-result {
 		width: 100%;
-		border-collapse: collapse;
+		border-collapse: separate; /* Use separate to allow border-radius on cells */
+		border-spacing: 0; /* Remove default spacing */
 
 		mat-header-cell,
 		mat-cell {
-			padding: $spacing-md $spacing-lg;
+			padding: $spacing-sm $spacing-md;
 			font-size: $font-size-base;
 			border-bottom: 1px solid $border-color;
 			color: $text-color-dark;
+			text-align: left;
+
+			&:first-child {
+				padding-left: $spacing-lg;
+			}
+
+			&:last-child {
+				padding-right: $spacing-lg;
+			}
 		}
 
 		mat-header-cell {
-			background-color: $background-color;
+			background-color: $primary-color;
+			color: $surface-color;
 			font-weight: bold;
-			color: $text-color-dark;
+			font-size: $font-size-base * 1.1;
+			border-bottom: 2px solid darken($primary-color, 10%);
+
+			&:first-child {
+				border-top-left-radius: $border-radius-md;
+			}
+
+			&:last-child {
+				border-top-right-radius: $border-radius-md;
+			}
+		}
+
+		mat-cell {
+			background-color: $surface-color;
 		}
 
 		mat-row {
-			&:nth-child(odd) {
-				background-color: $surface-color;
-			}
+			transition: background-color 0.2s ease-in-out;
 
 			&:nth-child(even) {
-				background-color: lighten($background-color, 2%);
+				background-color: lighten($surface-color, 2%);
 			}
 
 			&:hover {
 				background-color: lighten($primary-color, 40%);
+			}
+
+			&:last-child {
+				mat-cell {
+					border-bottom: none;
+				}
 			}
 		}
 
@@ -69,6 +97,38 @@
 			padding-top: 3px;
 			color: $text-color-light;
 			margin-right: $spacing-xs;
+		}
+	}
+}
+
+@media (max-width: $breakpoint-md) {
+	.table-result {
+		min-width: unset;
+	}
+}
+
+@media (max-width: $breakpoint-sm) {
+	.table-content {
+		padding: $spacing-sm;
+	}
+
+	.table-result {
+		mat-header-cell,
+		mat-cell {
+			padding: $spacing-xs $spacing-sm;
+			font-size: $font-size-base * 0.9;
+
+			&:first-child {
+				padding-left: $spacing-md;
+			}
+
+			&:last-child {
+				padding-right: $spacing-md;
+			}
+		}
+
+		.icon-container {
+			max-width: 60px; /* Adjust for smaller screens */
 		}
 	}
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { SearchableComponent } from "../../../shared/directives/search/searchable.component";
 import { TripPlan } from "../../_model/trip-plan";
 import { Page } from "../../../shared/_model/base-models.interface";
@@ -17,7 +17,7 @@ import { MatDialog } from "@angular/material/dialog";
   templateUrl: './trip-plan-table-searchable.component.html',
   styleUrl: './trip-plan-table-searchable.component.scss'
 })
-export class TripPlanTableSearchableComponent extends SearchableComponent<TripPlan, Page<TripPlan>> implements OnInit {
+export class TripPlanTableSearchableComponent extends SearchableComponent<TripPlan, Page<TripPlan>> implements OnInit, OnChanges {
 	@Input() tripId: string;
 
 	constructor(
@@ -36,7 +36,12 @@ export class TripPlanTableSearchableComponent extends SearchableComponent<TripPl
 
 	override ngOnInit() {
 		super.ngOnInit();
-		this.prepareQueryParamsAndSearch();
+	}
+
+	ngOnChanges(changes: SimpleChanges): void {
+		if (changes['tripId'] && changes['tripId'].currentValue) {
+			this.prepareQueryParamsAndSearch();
+		}
 	}
 
 	insertTripPlanDialog(): void {

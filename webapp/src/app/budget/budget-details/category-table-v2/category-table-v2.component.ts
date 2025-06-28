@@ -11,7 +11,7 @@ import {
 	ConfirmActionDialogComponent
 } from "../../../shared/_dialog/delete-confirmation-dialog/confirm-action-dialog.component";
 import { SubcategoryTableComponent } from "./subcategory-table/subcategory-table.component";
-import {TransactionsSearchableComponent} from "../../transactions-table/transactions-searchable.component";
+import { TransactionsSearchableComponent } from "../../transactions-table/transactions-searchable.component";
 import { CommonModule } from "@angular/common";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
@@ -232,7 +232,6 @@ export class CategoryTableV2Component implements OnInit {
 	}
 
 	getBlanderColor(hex: string | undefined): string {
-		console.log('Original hex:', hex);
 		if (!hex) {
 			return 'rgba(224, 224, 224, 0.3)'; // Default blander color if hex is undefined
 		}
@@ -243,9 +242,7 @@ export class CategoryTableV2Component implements OnInit {
 				c= [c[0], c[0], c[1], c[1], c[2], c[2]];
 			}
 			c= '0x'+c.join('');
-			const blanderColor = 'rgba('+[(c>>16)&255, (c>>8)&255, c&255].join(',')+',0.3)';
-			console.log('Blander color:', blanderColor);
-			return blanderColor;
+			return 'rgba(' + [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(',') + ',0.3)';
 		}
 		console.log('Invalid hex, returning default blander color.');
 		return 'rgba(224, 224, 224, 0.3)'; // Fallback for invalid hex

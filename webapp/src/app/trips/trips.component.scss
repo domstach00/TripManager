@@ -1,6 +1,8 @@
 @import "../../styles/variables.scss";
 
 .tmpl-content {
+	padding: $spacing-lg;
+
 	.clikable-text {
 		cursor: pointer;
 		color: $primary-color;
@@ -15,7 +17,9 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		margin-bottom: $spacing-md;
+		margin-bottom: $spacing-lg;
+		flex-wrap: wrap;
+		gap: $spacing-md;
 
 		.title {
 			flex-grow: 1;
@@ -23,6 +27,8 @@
 			h3 {
 				margin: 0;
 				color: $text-color-dark;
+				font-size: $font-size-base * 1.8;
+				font-weight: 700;
 			}
 		}
 
@@ -34,14 +40,57 @@
 				background-color: $primary-color;
 				color: $surface-color;
 				border-radius: $border-radius-sm;
-				padding: $spacing-xs $spacing-md;
-				font-size: $font-size-base * 0.9;
-				transition: background-color 0.3s ease-in-out;
+				padding: $spacing-sm $spacing-md;
+				font-size: $font-size-base;
+				transition: background-color 0.3s ease-in-out, transform 0.2s ease;
+				border: none;
 
 				&:hover {
 					background-color: darken($primary-color, 10%);
+					transform: translateY(-2px);
+				}
+
+				&:active {
+					transform: translateY(0);
 				}
 			}
 		}
+	}
+}
+
+app-paginator {
+	margin-top: $spacing-lg;
+}
+
+@media (max-width: $breakpoint-sm) {
+	.tmpl-content {
+		padding: $spacing-md;
+
+		.title-with-button {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: $spacing-sm;
+			margin-bottom: $spacing-md;
+
+			.title {
+				width: 100%;
+				h3 {
+					font-size: $font-size-base * 1.5;
+				}
+			}
+
+			.button-actions {
+				width: 100%;
+				flex-direction: column;
+
+				button {
+					width: 100%;
+				}
+			}
+		}
+	}
+
+	app-paginator {
+		margin-top: $spacing-md;
 	}
 }

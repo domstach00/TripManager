@@ -1,0 +1,21 @@
+@import "../../../../styles/variables.scss";
+
+:host {
+	display: block;
+	height: 500px; /* Default height for the map */
+	width: 100%;
+	border-radius: $border-radius-md;
+	overflow: hidden;
+	box-shadow: $box-shadow-md;
+}
+
+google-map {
+	height: 100%;
+	width: 100%;
+}
+
+@media (max-width: $breakpoint-sm) {
+	:host {
+		height: 300px; /* Adjust height for smaller screens */
+	}
+}

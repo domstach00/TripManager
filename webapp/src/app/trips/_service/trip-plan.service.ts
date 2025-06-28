@@ -28,6 +28,7 @@ export class TripPlanService {
 	}
 
 	public getTripPlans(tripId: string): Observable<Page<TripPlan>> {
+		console.log('Fetching trip plans for tripId:', tripId);
 		return this.apiService.getFormatted<Page<TripPlan>>(ApiPath.tripPlan, [tripId]);
 	}
 

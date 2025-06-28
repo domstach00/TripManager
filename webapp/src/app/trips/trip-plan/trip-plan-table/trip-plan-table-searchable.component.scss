@@ -1,4 +1,11 @@
+@import "../../../../styles/variables.scss";
+
 .trip-table-searchable-content {
+	padding: $spacing-md;
+	background-color: $surface-color;
+	border-radius: $border-radius-md;
+	box-shadow: $box-shadow-md;
+
 	.clikable-text {
 		cursor: pointer;
 	}
@@ -7,18 +14,80 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		margin-bottom: 5px;
+		margin-bottom: $spacing-lg;
+		flex-wrap: wrap;
+		gap: $spacing-md;
 
 		.title {
 			flex-grow: 1;
+
+			h3 {
+				margin: 0;
+				color: $text-color-dark;
+				font-size: $font-size-base * 1.5;
+				font-weight: 700;
+			}
 		}
 
 		.button-actions {
 			display: flex;
+			gap: $spacing-sm;
+
 			button {
-				margin: 5px 5px 5px 0;
-				background: #ddd;
+				background-color: $primary-color;
+				color: $surface-color;
+				border-radius: $border-radius-sm;
+				padding: $spacing-sm $spacing-md;
+				font-size: $font-size-base;
+				transition: background-color 0.3s ease-in-out, transform 0.2s ease;
+				border: none;
+
+				&:hover {
+					background-color: darken($primary-color, 10%);
+					transform: translateY(-2px);
+				}
+
+				&:active {
+					transform: translateY(0);
+				}
 			}
 		}
+	}
+}
+
+app-paginator {
+	margin-top: $spacing-lg;
+}
+
+@media (max-width: $breakpoint-sm) {
+	.trip-table-searchable-content {
+		padding: $spacing-sm;
+
+		.title-with-button {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: $spacing-sm;
+			margin-bottom: $spacing-md;
+
+			.title {
+				width: 100%;
+				h3 {
+					font-size: $font-size-base * 1.2;
+				}
+			}
+
+			.button-actions {
+				width: 100%;
+				flex-direction: column;
+
+				button {
+					width: 100%;
+				}
+			}
+		}
+	}
+
+	app-paginator {
+		margin-top: $spacing-md;
 	}
 }
