@@ -58,6 +58,7 @@
 				[budgetId]="budgetId"
 				[preloadedCategories]="budget.categories"
 				(refreshEvent)="onRefreshEventFromCategoryTable()"
+				#categoryTables
 			></category-table-v2>
 			<transactions-searchable
 				*ngIf="budgetId"

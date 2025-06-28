@@ -1,7 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import { SubCategory } from "../../../_model/budget";
 import { BudgetService } from "../../../_service/budget.service";
 import { MatDialog } from "@angular/material/dialog";
+import {TransactionsSearchableComponent} from "../../../transactions-table/transactions-searchable.component";
 
 @Component({
   selector: 'subcategory-table',
@@ -16,6 +17,7 @@ export class SubcategoryTableComponent implements OnInit {
 	 * the initial API request to load categories will be skipped.
 	 */
 	@Input() preloadedSubCategories?: SubCategory[] = null;
+	@ViewChild('transactionsSearchableComponent') transactionsTable: TransactionsSearchableComponent;
 
 	subCategoryList: SubCategory[] = [];
 	expandedElements: SubCategory[] = [];
@@ -67,5 +69,9 @@ export class SubcategoryTableComponent implements OnInit {
 
 	deleteSubCategory(subCategory: SubCategory): void {
 		// TODO: delete subcategory
+	}
+
+	refreshTransactionsTable() {
+		this.transactionsTable.prepareQueryParamsAndSearch(this.transactionsTable?.page);
 	}
 }

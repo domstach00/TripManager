@@ -9,6 +9,7 @@ import {
 import { TransactionBudgetSummary } from "../_model/transaction";
 import { TransactionService } from "../_service/transaction.service";
 import { TransactionsSearchableComponent } from "../transactions-table/transactions-searchable.component";
+import { CategoryTableV2Component } from "./category-table-v2/category-table-v2.component";
 
 @Component({
   selector: 'budget-details',
@@ -17,6 +18,7 @@ import { TransactionsSearchableComponent } from "../transactions-table/transacti
 })
 export class BudgetDetailsComponent implements OnInit {
 	@ViewChild('transactions') transactionsSearchable?: TransactionsSearchableComponent;
+	@ViewChild('categoryTables') categoryTable?: CategoryTableV2Component;
 
 	budgetId!: string;
 	budget!: Budget;
@@ -46,7 +48,8 @@ export class BudgetDetailsComponent implements OnInit {
 
 		dialogRef.afterClosed().subscribe(value => {
 			if (!!value) {
-				this.loadBudgetDetails();
+				this.onRefreshEventFromCategoryTable();
+				this.loadTransactionBudgetSummary();
 			}
 		})
 	}
@@ -98,6 +101,9 @@ export class BudgetDetailsComponent implements OnInit {
 	onRefreshEventFromCategoryTable() {
 		if (!!this.transactionsSearchable) {
 			this.transactionsSearchable.prepareQueryParamsAndSearch(this.transactionsSearchable?.page);
+		}
+		if (!!this.categoryTable) {
+			this.categoryTable.refreshTables();
 		}
 	}
 }

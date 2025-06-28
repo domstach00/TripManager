@@ -24,7 +24,7 @@ interface TransactionGroup {
 export class TransactionsOnCategoryTableComponent extends SearchResultComponent<Transaction> implements OnInit {
 	groupedTransactions: TransactionGroup[] = [];
 	noSubCategoryTransactions: Transaction[] = [];
-	expandedGroups: TransactionGroup[] = [];
+	expandedGroupIds: Set<string> = new Set();
 
 	transactionDisplayedColumns: string[] = ['description', 'amount', 'transactionDate'];
 
@@ -55,16 +55,15 @@ export class TransactionsOnCategoryTableComponent extends SearchResultComponent<
 	}
 
 	toggleGroup(group: TransactionGroup): void {
-		const index = this.expandedGroups.indexOf(group);
-		if (index >= 0) {
-			this.expandedGroups.splice(index, 1);
+		if (this.expandedGroupIds.has(group.subCategoryId)) {
+			this.expandedGroupIds.delete(group.subCategoryId);
 		} else {
-			this.expandedGroups.push(group);
+			this.expandedGroupIds.add(group.subCategoryId);
 		}
 	}
 
 	isGroupExpanded(group: TransactionGroup): boolean {
-		return this.expandedGroups.indexOf(group) !== -1;
+		return this.expandedGroupIds.has(group.subCategoryId);
 	}
 
 	isGroupExpandedRow = (index: number, row: any): boolean => {

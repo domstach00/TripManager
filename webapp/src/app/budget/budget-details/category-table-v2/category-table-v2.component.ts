@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { animate, state, style, transition, trigger } from "@angular/animations";
+import { Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
 import { BudgetService } from "../../_service/budget.service";
 import { Category, CategoryDialogData } from "../../_model/budget";
 import { CategoryCreateDialogComponent } from "../../_dialog/category-create-dialog/category-create-dialog.component";
@@ -9,11 +10,21 @@ import {
 import {
 	ConfirmActionDialogComponent
 } from "../../../shared/_dialog/delete-confirmation-dialog/confirm-action-dialog.component";
+import { SubcategoryTableComponent } from "./subcategory-table/subcategory-table.component";
+import {TransactionsSearchableComponent} from "../../transactions-table/transactions-searchable.component";
+
 
 @Component({
   selector: 'category-table-v2',
   templateUrl: './category-table-v2.component.html',
-  styleUrl: './category-table-v2.component.scss'
+  styleUrl: './category-table-v2.component.scss',
+  animations: [
+		trigger('detailExpand', [
+			state('collapsed', style({ height: '0px', minHeight: '0', visibility: 'hidden' })),
+			state('expanded', style({ height: '*', visibility: 'visible' })),
+			transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+		]),
+	],
 })
 export class CategoryTableV2Component implements OnInit {
 	@Input() budgetId!: string;
@@ -23,10 +34,12 @@ export class CategoryTableV2Component implements OnInit {
 	 */
 	@Input() preloadedCategories?: Category[] = null;
 	@Output() refreshEvent: EventEmitter<void> = new EventEmitter<void>();
+	@ViewChildren(SubcategoryTableComponent) subcategoryTables: QueryList<SubcategoryTableComponent>;
+	@ViewChildren(TransactionsSearchableComponent) transactionTables: QueryList<TransactionsSearchableComponent>;
 
 	loading: boolean = true;
 	categoryList: Category[] = [];
-	expandedElements: Category[] = [];
+	expandedElementIds: Set<string> = new Set<string>();
 
 	constructor(
 		readonly dialog: MatDialog,
@@ -127,15 +140,19 @@ export class CategoryTableV2Component implements OnInit {
 	}
 
 	isExpanded(category: Category): boolean {
-		return this.expandedElements.indexOf(category) !== -1;
+		return this.expandedElementIds.has(category.id);
 	}
 
 	toggleExpendedElements(category: Category) {
-		const index: number = this.expandedElements.indexOf(category);
-		if (index >= 0) {
-			this.expandedElements.splice(index, 1);
+		if (this.expandedElementIds.has(category.id)) {
+			this.expandedElementIds.delete(category.id);
 		} else {
-			this.expandedElements.push(category);
+			this.expandedElementIds.add(category.id);
 		}
+	}
+
+	public refreshTables() {
+		this.subcategoryTables.forEach(table => table.refreshTransactionsTable());
+		this.transactionTables.forEach(table => table.prepareQueryParamsAndSearch());
 	}
 }
