@@ -21,6 +21,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -114,5 +115,9 @@ public class TransactionService {
         log.debug("Removing category id={} from transactions", categoryId);
         UpdateResult updateResult = transactionRepository.deleteCategoryFromTransactionsInBudget(categoryId);
         log.info("Removed categoryId={} from transactions, number of modified transactions={}", categoryId, updateResult.getModifiedCount());
+    }
+
+    public BigDecimal getTotalAmountForCategory(String budgetId, String categoryId) {
+        return transactionRepository.getTotalAmountForCategory(budgetId, categoryId);
     }
 }

@@ -6,10 +6,7 @@ import com.example.tripmanager.budget.model.Budget;
 import com.example.tripmanager.budget.model.BudgetCreateForm;
 import com.example.tripmanager.budget.model.BudgetDto;
 import com.example.tripmanager.budget.model.InviteMembersRequest;
-import com.example.tripmanager.budget.model.category.Category;
-import com.example.tripmanager.budget.model.category.CategoryCreateForm;
-import com.example.tripmanager.budget.model.category.SubCategory;
-import com.example.tripmanager.budget.model.category.SubCategoryCreateForm;
+import com.example.tripmanager.budget.model.category.*;
 import com.example.tripmanager.budget.service.BudgetService;
 import com.example.tripmanager.budget.service.CategoryService;
 import com.example.tripmanager.budget.service.TransactionService;
@@ -191,6 +188,16 @@ public class BudgetController extends AbstractController {
         Account currentAccount = getCurrentAccount(principal);
         log.info("Attempting to add subcategory to category {} in Budget {} by accountId={}", categoryId, budgetId, currentAccount.getId());
         return budgetService.addSubCategoryToBudget(budgetId, categoryId, subCategoryCreateForm, currentAccount);
+    }
+
+    @PreAuthorize("@budgetSecurity.hasAccessToBudget(#principal, #budgetId)")
+    @GetMapping("/{budgetId}/category/with-stats")
+    public List<CategoryWithStats> getBudgetCategoriesWithStats(
+            Principal principal,
+            @PathVariable String budgetId
+    ) {
+        Account currentAccount = getCurrentAccount(principal);
+        return budgetService.getBudgetCategoriesWithStats(currentAccount, budgetId);
     }
 
     @PreAuthorize("@budgetSecurity.hasAccessToBudget(#principal, #budgetId)")

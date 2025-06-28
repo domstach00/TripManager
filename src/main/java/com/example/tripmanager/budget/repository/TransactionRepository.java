@@ -14,6 +14,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +29,37 @@ public class TransactionRepository extends AbstractRepositoryImpl<Transaction> {
     @Override
     protected Class<Transaction> getEntityClass() {
         return Transaction.class;
+    }
+
+    public BigDecimal getTotalAmountForCategory(String budgetId, String categoryId) {
+        List<AggregationOperation> operationList = new ArrayList<>();
+        operationList.add(Aggregation.match(buildCriteriaTransactionWithGivenBudgetId(budgetId)));
+        operationList.add(Aggregation.match(buildCriteriaTransactionWithGivenCategoryId(categoryId)));
+
+        final String tmpAmountDoubleType = "_tmpAmountDoubleType";
+
+        operationList.add(
+                Aggregation.project()
+                        .and(ConvertOperators.valueOf(Transaction.FIELD_NAME_AMOUNT).convertToDouble())
+                        .as(tmpAmountDoubleType)
+        );
+
+        operationList.add(
+                Aggregation.group()
+                        .sum(tmpAmountDoubleType).as("totalAmount")
+        );
+
+        List<org.bson.Document> results = getMongoOperations().aggregate(
+                Aggregation.newAggregation(operationList),
+                Transaction.class,
+                org.bson.Document.class
+        ).getMappedResults();
+
+        if (results.isEmpty() || results.get(0).get("totalAmount") == null) {
+            return BigDecimal.ZERO;
+        }
+
+        return new BigDecimal(results.get(0).get("totalAmount").toString());
     }
 
     public Page<Transaction> getTransactionByBudgetIdAndCategoryId(Pageable pageable, String budgetId, @Nullable String categoryId, @Nullable String subCategoryId, boolean excludeCategorized, boolean excludeSubCategorized) {
