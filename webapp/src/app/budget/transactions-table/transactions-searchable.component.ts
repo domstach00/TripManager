@@ -9,11 +9,40 @@ import { ActivatedRoute } from "@angular/router";
 import { BudgetService } from "../_service/budget.service";
 import { MatDialog } from "@angular/material/dialog";
 import { TransactionService } from "../_service/transaction.service";
+import { CommonModule } from "@angular/common";
+import { MatTableModule } from "@angular/material/table";
+import { MatSortModule } from "@angular/material/sort";
+import { MatIconModule } from "@angular/material/icon";
+import { MatButtonModule } from "@angular/material/button";
+import { TranslateModule } from "@ngx-translate/core";
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatMenuModule } from "@angular/material/menu";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { FormsModule } from "@angular/forms";
+import { TransactionsTableComponent } from "./transactions-table.component";
+import { PaginatorComponent } from "../../shared/components/paginator/paginator.component";
 
 @Component({
   selector: 'transactions-searchable',
   templateUrl: './transactions-searchable.component.html',
-  styleUrl: './transactions-searchable.component.scss'
+  styleUrl: './transactions-searchable.component.scss',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatSortModule,
+    MatIconModule,
+    MatButtonModule,
+    TranslateModule,
+    MatTooltipModule,
+    MatMenuModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    TransactionsTableComponent,
+    PaginatorComponent
+  ]
 })
 export class TransactionsSearchableComponent extends SearchableComponent<Transaction, Page<Transaction>> implements OnInit {
 	@Input() budgetId!: string;

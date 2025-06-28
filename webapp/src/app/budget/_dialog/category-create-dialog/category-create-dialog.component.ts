@@ -1,12 +1,27 @@
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { CategoryCreateForm, CategoryDialogData } from "../../_model/budget";
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from "@angular/material/dialog";
+import { CommonModule } from "@angular/common";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatButtonModule } from "@angular/material/button";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
   selector: 'category-create-dialog',
   templateUrl: './category-create-dialog.component.html',
-  styleUrl: './category-create-dialog.component.scss'
+  styleUrl: './category-create-dialog.component.scss',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    TranslateModule
+  ]
 })
 export class CategoryCreateDialogComponent {
 	categoryForm: FormGroup;

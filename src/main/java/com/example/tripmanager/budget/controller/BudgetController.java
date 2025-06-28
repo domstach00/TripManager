@@ -201,6 +201,16 @@ public class BudgetController extends AbstractController {
     }
 
     @PreAuthorize("@budgetSecurity.hasAccessToBudget(#principal, #budgetId)")
+    @GetMapping("/{budgetId}/expense-distribution")
+    public List<CategoryWithStats> getExpenseDistribution(
+            Principal principal,
+            @PathVariable String budgetId
+    ) {
+        Account currentAccount = getCurrentAccount(principal);
+        return transactionService.getBudgetCategoriesWithStats(currentAccount, budgetId);
+    }
+
+    @PreAuthorize("@budgetSecurity.hasAccessToBudget(#principal, #budgetId)")
     @GetMapping("/{budgetId}/category")
     public List<Category> getBudgetCategories(
             Principal principal,

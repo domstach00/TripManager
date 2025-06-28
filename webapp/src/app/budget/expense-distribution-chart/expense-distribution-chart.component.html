@@ -1,0 +1,17 @@
+<div class="chart-container">
+  <h2>Expense Distribution</h2>
+  <ngx-charts-pie-chart
+    *ngIf="single.length > 0"
+    [view]="view"
+    [scheme]="colorScheme"
+    [results]="single"
+    [gradient]="gradient"
+    [labels]="showLabels"
+    [doughnut]="isDoughnut"
+    [legend]="showLegend"
+  >
+  </ngx-charts-pie-chart>
+  <div *ngIf="single.length === 0" class="no-data-message">
+    No expense data available for this budget.
+  </div>
+</div>

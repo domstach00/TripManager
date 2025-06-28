@@ -33,9 +33,7 @@ import { AppLoadingComponent } from "./components/app-loader/app-loading.compone
 		HeaderComponent,
 		DefaultPageComponent,
 		FooterComponent,
-		PaginatorComponent,
 		SideBarComponent,
-		ConfirmActionDialogComponent,
 	],
 	imports: [
 		MatToolbarModule,
@@ -59,6 +57,8 @@ import { AppLoadingComponent } from "./components/app-loader/app-loading.compone
 		MatSidenavModule,
 		FormsModule,
 		AppLoadingComponent,
+		ConfirmActionDialogComponent,
+		PaginatorComponent,
 	],
 	providers: [
 		ApiService,
@@ -92,7 +92,6 @@ import { AppLoadingComponent } from "./components/app-loader/app-loading.compone
 		MatListModule,
 		MatSidenavModule,
 		FormsModule,
-		ConfirmActionDialogComponent,
 		AppLoadingComponent,
 	],
 })

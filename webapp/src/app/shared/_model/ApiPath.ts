@@ -23,6 +23,8 @@ export enum ApiPath {
 	budgetCategorySelect = budgetCategory + '/{1}',
 	budgetCategorySubCategory = budgetCategorySelect + '/subcategory',
 	budgetCategoryWithStats = budgetCategory + '/with-stats',
+	budgetExpenseDistribution = budgetSelect + '/expense-distribution',
+	budgetInvite = budgetSelect + '/invite',
 	transaction = '/transactions',
 	transactionBudgetSelect = transaction + '/budgets/{0}',
 	transactionBudgetSelectSummary = transactionBudgetSelect + '/summary',

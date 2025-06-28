@@ -14,7 +14,7 @@ import { CategoryTableV2Component } from "./category-table-v2/category-table-v2.
 @Component({
   selector: 'budget-details',
   templateUrl: './budget-details.component.html',
-  styleUrl: './budget-details.component.scss'
+  styleUrl: './budget-details.component.scss',
 })
 export class BudgetDetailsComponent implements OnInit {
 	@ViewChild('transactions') transactionsSearchable?: TransactionsSearchableComponent;

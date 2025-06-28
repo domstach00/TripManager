@@ -11,6 +11,7 @@ import {
 	SubCategoryCreateForm
 } from "../_model/budget";
 import { ApiPath } from "../../shared/_model/ApiPath";
+import { InviteMembersRequest } from "../_model/invite-members-request";
 
 @Injectable()
 export class BudgetService{
@@ -76,5 +77,13 @@ export class BudgetService{
 
 	getSubCategories(budgetId: string, categoryId: string, params?: any): Observable<SubCategory[]> {
 		return this.apiService.getFormatted<SubCategory[]>(ApiPath.budgetCategorySubCategory, [budgetId, categoryId], params);
+	}
+
+	getExpenseDistribution(budgetId: string, params?: any): Observable<CategoryWithStats[]> {
+		return this.apiService.getFormatted<CategoryWithStats[]>(ApiPath.budgetExpenseDistribution, [budgetId], params);
+	}
+
+	inviteMembers(budgetId: string, inviteMembersRequest: InviteMembersRequest, params?: any): Observable<any> {
+		return this.apiService.postFormatted(ApiPath.budgetInvite, [budgetId], inviteMembersRequest, params);
 	}
 }

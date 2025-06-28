@@ -17,6 +17,7 @@ import {
 import { TransactionService } from "./_service/transaction.service";
 import { MatSelect } from "@angular/material/select";
 import { CategoryCreateDialogComponent } from "./_dialog/category-create-dialog/category-create-dialog.component";
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import {
 	CategoryTableComponent
 } from "./budget-details/category-table/category-table.component";
@@ -35,6 +36,7 @@ import {
 } from "./budget-details/category-table-v2/subcategory-table/subcategory-table.component";
 import { TransactionsSearchableComponent } from "./transactions-table/transactions-searchable.component";
 import { TransactionsTableComponent } from "./transactions-table/transactions-table.component";
+import { ExpenseDistributionChartComponent } from "./expense-distribution-chart/expense-distribution-chart.component";
 
 @NgModule({
 	declarations: [
@@ -42,18 +44,13 @@ import { TransactionsTableComponent } from "./transactions-table/transactions-ta
 		BudgetTablePresenterComponent,
 		BudgetTableComponent,
 		BudgetCreateDialogComponent,
-		BudgetDetailsComponent,
 		BudgetLayoutComponent,
 		TransactionCreateDialogComponent,
-		CategoryCreateDialogComponent,
 		CategoryTableComponent,
 		TransactionsOnCategorySearchableComponent,
 		TransactionsOnCategoryTableComponent,
-		SubcategoryCreateDialogComponent,
-		CategoryTableV2Component,
-		SubcategoryTableComponent,
-		TransactionsSearchableComponent,
-		TransactionsTableComponent,
+		ExpenseDistributionChartComponent,
+		BudgetDetailsComponent,
 	],
 	imports: [
 		SharedModule,
@@ -63,6 +60,14 @@ import { TransactionsTableComponent } from "./transactions-table/transactions-ta
 		MatProgressBar,
 		MatSelect,
 		MatOption,
+		NgxChartsModule,
+		CategoryCreateDialogComponent,
+		SubcategoryCreateDialogComponent,
+		CategoryTableV2Component,
+		SubcategoryTableComponent,
+		TransactionsSearchableComponent,
+		TransactionsTableComponent,
+		// AppLoadingComponent,
 	],
 	providers: [
 		BudgetService,

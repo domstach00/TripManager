@@ -1,13 +1,34 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import { SubCategory } from "../../../_model/budget";
 import { BudgetService } from "../../../_service/budget.service";
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import {TransactionsSearchableComponent} from "../../../transactions-table/transactions-searchable.component";
+import { CommonModule } from "@angular/common";
+import { MatIconModule } from "@angular/material/icon";
+import { MatButtonModule } from "@angular/material/button";
+import { MatTableModule } from "@angular/material/table";
+import { TranslateModule } from "@ngx-translate/core";
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatCardModule } from "@angular/material/card";
+import { MatMenuModule } from "@angular/material/menu";
 
 @Component({
   selector: 'subcategory-table',
   templateUrl: './subcategory-table.component.html',
-  styleUrl: './subcategory-table.component.scss'
+  styleUrl: './subcategory-table.component.scss',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatDialogModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTableModule,
+    TranslateModule,
+    MatTooltipModule,
+    TransactionsSearchableComponent,
+    MatCardModule,
+    MatMenuModule
+  ]
 })
 export class SubcategoryTableComponent implements OnInit {
 	@Input() budgetId!: string;

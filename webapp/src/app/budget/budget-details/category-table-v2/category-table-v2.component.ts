@@ -12,12 +12,35 @@ import {
 } from "../../../shared/_dialog/delete-confirmation-dialog/confirm-action-dialog.component";
 import { SubcategoryTableComponent } from "./subcategory-table/subcategory-table.component";
 import {TransactionsSearchableComponent} from "../../transactions-table/transactions-searchable.component";
+import { CommonModule } from "@angular/common";
+import { MatIconModule } from "@angular/material/icon";
+import { MatButtonModule } from "@angular/material/button";
+import { MatTableModule } from "@angular/material/table";
+import { MatProgressBarModule } from "@angular/material/progress-bar";
+import { TranslateModule } from "@ngx-translate/core";
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatCardModule } from "@angular/material/card";
+import { MatMenuModule } from "@angular/material/menu";
 
 
 @Component({
   selector: 'category-table-v2',
   templateUrl: './category-table-v2.component.html',
   styleUrl: './category-table-v2.component.scss',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTableModule,
+    MatProgressBarModule,
+    TranslateModule,
+    MatTooltipModule,
+    SubcategoryTableComponent,
+    TransactionsSearchableComponent,
+    MatCardModule,
+    MatMenuModule
+  ],
   animations: [
 		trigger('detailExpand', [
 			state('collapsed', style({ height: '0px', minHeight: '0', visibility: 'hidden' })),

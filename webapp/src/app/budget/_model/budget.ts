@@ -27,6 +27,7 @@ export interface Category extends BaseModel {
 	name: string;
 	type?: 'EXPENSE' | 'INCOME';
 	allocatedAmount?: string;
+	color?: string;
 	subCategories?: SubCategory[];
 }
 
