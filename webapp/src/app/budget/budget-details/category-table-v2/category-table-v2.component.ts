@@ -185,6 +185,17 @@ export class CategoryTableV2Component implements OnInit {
 		}
 	}
 
+	calculateSpentPercentage(category: CategoryWithStats): number {
+		const allocated = parseFloat(category.allocatedAmount || '0');
+		const spent = parseFloat(category.totalSpentAmount || '0');
+
+		if (allocated === 0) {
+			return 0;
+		}
+
+		return (spent / allocated) * 100;
+	}
+
 	public refreshTables() {
 		this.loadSpentStats(this.budgetId);
 		this.subcategoryTables.forEach(table => table.refreshTransactionsTable());

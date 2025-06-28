@@ -29,6 +29,11 @@
 					</mat-menu>
 				</div>
 			</div>
+			<mat-progress-bar
+				class="category-progress-bar"
+				mode="determinate"
+				[value]="calculateSpentPercentage(category)"
+			></mat-progress-bar>
 			<div [@detailExpand]="isExpanded(category) ? 'expanded' : 'collapsed'" class="expandable-section">
 				<subcategory-table
 					[budgetId]="budgetId"

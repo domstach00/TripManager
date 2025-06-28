@@ -70,6 +70,20 @@
 			}
 		}
 
+		.category-progress-bar {
+			margin-top: 5px;
+			height: 5px; /* Minimalist height */
+			border-radius: 2.5px; /* Rounded corners */
+
+			.mat-progress-bar-fill::after {
+				background-color: #4CAF50; /* Green for progress */
+			}
+
+			.mat-progress-bar-background {
+				background-color: #e0e0e0; /* Light grey background */
+			}
+		}
+
 		.expandable-section {
 			padding: 5px;
 			background-color: rgba(241, 241, 241, 0.63);
