@@ -45,7 +45,12 @@
 					</div>
 					<div class="stat-item">
 						<span>{{ 'budget.details.summary.total.savings' | translate }} </span>
-						<span class="align-right" *ngIf="!loadingSummary">{{ calculateSavings(budget?.allocatedBudget, transactionBudgetSummary?.totalTransactionsValue) | currency }}</span>
+						<span class="align-right"
+							  [ngClass]="{ 'error-text': calculateSavings(budget?.allocatedBudget, transactionBudgetSummary?.totalTransactionsValue) < 0 }"
+							  *ngIf="!loadingSummary"
+						>
+							{{ calculateSavings(budget?.allocatedBudget, transactionBudgetSummary?.totalTransactionsValue) | currency }}
+						</span>
 					</div>
 				</mat-card-content>
 				<div *ngIf="loadingSummary"><app-loading/></div>
