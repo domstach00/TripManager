@@ -2,20 +2,39 @@
 
 :host {
 	display: block;
-	height: 500px; /* Default height for the map */
 	width: 100%;
+	height: 100%;
 	border-radius: $border-radius-md;
 	overflow: hidden;
 	box-shadow: $box-shadow-md;
 }
 
 google-map {
-	height: 100%;
+	display: inline-block;
+	height: 80vh;
 	width: 100%;
 }
 
 @media (max-width: $breakpoint-sm) {
 	:host {
-		height: 300px; /* Adjust height for smaller screens */
+		height: 300px;
 	}
+}
+
+:host ::ng-deep .gm-style .gm-style-mtc {
+	margin: 0 !important;
+	right: 8px !important;
+}
+
+:host ::ng-deep .gm-style .gm-fullscreen-control {
+	bottom: 8px !important;
+	right: 8px !important;
+}
+
+:host ::ng-deep .map-container {
+	position: relative !important;
+	overflow: hidden !important;
+
+	height: 100% !important;
+	width: 100% !important;
 }

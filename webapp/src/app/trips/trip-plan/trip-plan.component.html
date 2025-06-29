@@ -4,17 +4,17 @@
 	</div>
 
 	<div class="tmpl-content">
+		<div class="trip-plan-container">
+			<trip-plan-table-searchable
+				[tripId]="tripId"
+			></trip-plan-table-searchable>
 
-		<trip-plan-table-searchable
-			[tripId]="tripId"
-		></trip-plan-table-searchable>
-
-		<app-trip-plan-map
-			*ngIf="tripId"
-			[dataSource$]="dataSource$"
-			[hidden]="this.showMap !== ShowToggle.MAP && this.showMap !== ShowToggle.ALL"
-			[tripId]="tripId"
-		></app-trip-plan-map>
-
+			<app-trip-plan-map
+				*ngIf="tripId"
+				[dataSource$]="dataSource$"
+				[hidden]="this.showMap !== ShowToggle.MAP && this.showMap !== ShowToggle.ALL"
+				[tripId]="tripId"
+			></app-trip-plan-map>
+		</div>
 	</div>
 </app-default-page>
