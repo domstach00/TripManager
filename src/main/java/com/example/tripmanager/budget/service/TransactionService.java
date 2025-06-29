@@ -3,6 +3,7 @@ package com.example.tripmanager.budget.service;
 import com.example.tripmanager.account.model.Account;
 import com.example.tripmanager.budget.mapper.TransactionMapper;
 import com.example.tripmanager.budget.model.Budget;
+import com.example.tripmanager.budget.model.BudgetType;
 import com.example.tripmanager.budget.model.TransactionBudgetSummary;
 import com.example.tripmanager.budget.model.Transaction;
 import com.example.tripmanager.budget.model.TransactionCreateForm;
@@ -132,6 +133,9 @@ public class TransactionService {
                     return new CategoryWithStats(category, totalSpentAmount);
                 })
                 .collect(Collectors.toList());
+        BigDecimal uncategorizedSpentAmount = transactionRepository.getTotalAmountForCategory(budgetId, null);
+        CategoryWithStats uncategorizedWithStats = CategoryWithStats.uncategorizedWithStats(BudgetType.EXPENSE, uncategorizedSpentAmount);
+        categoriesWithStats.add(uncategorizedWithStats);
         log.info("Retrieved {} categories with stats for budget ID: {}", categoriesWithStats.size(), budgetId);
         return categoriesWithStats;
     }
