@@ -8,8 +8,8 @@ services:
     volumes:
       - data:/data
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=rootuser
-      - MONGO_INITDB_ROOT_PASSWORD=rootpass
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
   rabbitmq:
     image: rabbitmq:3-management
     container_name: rabbitmq
@@ -17,8 +17,8 @@ services:
       - "5672:5672"
       - "15672:15672"
     environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
 volumes:
   data: {}
 networks:
