@@ -1,0 +1,77 @@
+spring:
+  data:
+    mongodb:
+      authentication-database: admin
+      username: ${MONGO_ROOT_USERNAME}
+      password: ${MONGO_ROOT_PASSWORD}
+      database: trip-manager
+      port: 27017
+      host: localhost
+
+  mail:
+    host: localhost
+    port: 25
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: ${RABBITMQ_USER}
+    password: ${RABBITMQ_PASSWORD}
+    listener:
+      simple:
+        retry:
+          enabled: true
+          max-attempts: 5
+          initial-interval: 1000
+          multiplier: 2.0
+
+web:
+  cors:
+    max-age: 3600
+    allowed-origins:
+      - http://localhost:4200
+    allowed-methods:
+      - GET
+      - POST
+      - PATCH
+      - PUT
+      - DELETE
+    allowed-headers:
+      - Requestor-Type
+      - Authorization
+      - Content-Type
+      - Accept
+
+sec:
+  app:
+    jwtSecret: ${JWT_SECRET}
+    jwtExpirationMs: 2550000
+    jwtCookieName: auth-token
+
+app:
+  activation:
+    scheme: http
+    domain: localhost
+    path: /activate-account
+    port: 4200
+
+token:
+  expiration:
+    secret: ${TOKEN_SECRET}
+    account-activation: PT72H
+
+rabbitmq:
+  exchange:
+    default: tm.direct.exchange
+  queue:
+    email: queue.email
+  routing:
+    email: routingKey.email
