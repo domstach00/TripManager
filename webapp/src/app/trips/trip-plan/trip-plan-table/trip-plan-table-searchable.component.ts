@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { SearchableComponent } from "../../../shared/directives/search/searchable.component";
 import { TripPlan } from "../../_model/trip-plan";
 import { Page } from "../../../shared/_model/base-models.interface";
@@ -19,6 +19,7 @@ import { MatDialog } from "@angular/material/dialog";
 })
 export class TripPlanTableSearchableComponent extends SearchableComponent<TripPlan, Page<TripPlan>> implements OnInit, OnChanges {
 	@Input() tripId: string;
+	@Output() refreshEvent = new EventEmitter<void>();
 
 	constructor(
 		override readonly accountService: AccountService,
@@ -40,7 +41,7 @@ export class TripPlanTableSearchableComponent extends SearchableComponent<TripPl
 
 	ngOnChanges(changes: SimpleChanges): void {
 		if (changes['tripId'] && changes['tripId'].currentValue) {
-			this.prepareQueryParamsAndSearch();
+			this.refresh();
 		}
 	}
 
@@ -54,10 +55,15 @@ export class TripPlanTableSearchableComponent extends SearchableComponent<TripPl
 		dialogRef.afterClosed().subscribe((result) => {
 			if (!!result) {
 				this.tripPlanService.addTripPlan(result, this.tripId).subscribe(_ => {
-					this.prepareQueryParamsAndSearch();
+					this.refresh();
 				});
 			}
 		});
+	}
+
+	refresh() {
+		this.refreshEvent.emit();
+		this.prepareQueryParamsAndSearch();
 	}
 
 }

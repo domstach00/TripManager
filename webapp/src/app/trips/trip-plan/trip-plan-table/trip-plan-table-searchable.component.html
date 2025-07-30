@@ -17,7 +17,7 @@
 			[dataSet]="searchResult.content"
 			[totalPages]="searchResult.totalPages"
 			[tripId]="tripId"
-			(refreshEvent)="prepareQueryParamsAndSearch()"
+			(refreshEvent)="refresh()"
 		></app-trip-plan-table>
 
 		<app-paginator
