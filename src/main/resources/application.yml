@@ -1,16 +1,16 @@
 spring:
   data:
     mongodb:
-      authentication-database: admin
-      username: ${MONGO_ROOT_USERNAME}
-      password: ${MONGO_ROOT_PASSWORD}
-      database: trip-manager
-      port: 27017
-      host: localhost
+      host: ${MONGO_HOST:localhost}
+      port: ${MONGO_PORT:27017}
+      database: ${MONGO_APP_DB:trip-manager}
+      username: ${MONGO_APP_USER:tripmanager_app}
+      password: ${MONGO_APP_PASSWORD:<CHANGE_ME_elm^5Ic5VM>}
+      authentication-database: ${MONGO_APP_DB:trip-manager}
 
   mail:
-    host: localhost
-    port: 25
+    host: ${EMAIL_HOST:localhost}
+    port: ${EMAIL_PORT:25}
     username: ${EMAIL_USERNAME}
     password: ${EMAIL_PASSWORD}
     properties:
@@ -21,10 +21,11 @@ spring:
             enable: true
 
   rabbitmq:
-    host: localhost
-    port: 5672
-    username: ${RABBITMQ_USER}
-    password: ${RABBITMQ_PASSWORD}
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_APP_USER:tripmanager_svc}
+    password: ${RABBITMQ_APP_PASSWORD:<CHANGE_ME_!vNE*d1iPl>}
+    virtual-host: ${RABBITMQ_APP_VHOST:/trip-manager}
     listener:
       simple:
         retry:

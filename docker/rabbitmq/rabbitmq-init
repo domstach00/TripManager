@@ -1,0 +1,31 @@
+#!/bin/sh
+set -e
+
+# Wait for RabbitMQ to be ready
+until rabbitmqctl status > /dev/null 2>&1; do
+  echo "Waiting for RabbitMQ to start..."
+  sleep 1
+done
+
+# Create vhost if it doesn't exist
+if ! rabbitmqctl list_vhosts | grep -qw "${RABBITMQ_APP_VHOST}"; then
+    rabbitmqctl add_vhost "${RABBITMQ_APP_VHOST}"
+    echo "Created vhost: ${RABBITMQ_APP_VHOST}"
+else
+    echo "Vhost ${RABBITMQ_APP_VHOST} already exists"
+fi
+
+# Create user or update password
+if rabbitmqctl list_users | grep -qw "${RABBITMQ_APP_USER}"; then
+    rabbitmqctl change_password "${RABBITMQ_APP_USER}" "${RABBITMQ_APP_PASSWORD}"
+    echo "Changed password for user: ${RABBITMQ_APP_USER}"
+else
+    rabbitmqctl add_user "${RABBITMQ_APP_USER}" "${RABBITMQ_APP_PASSWORD}"
+    echo "Created user: ${RABBITMQ_APP_USER}"
+fi
+
+# Set permissions for user on vhost
+rabbitmqctl set_permissions -p "${RABBITMQ_APP_VHOST}" "${RABBITMQ_APP_USER}" ".*" ".*" ".*"
+echo "Set permissions for user ${RABBITMQ_APP_USER} on vhost ${RABBITMQ_APP_VHOST}"
+
+echo "RabbitMQ initialization script finished."

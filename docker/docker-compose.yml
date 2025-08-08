@@ -1,26 +1,51 @@
 version: "3.8"
 services:
-  mongodb:
-    image: mongo
+  mongo:
+    image: mongo:6.0
     container_name: mongodb
+    restart: unless-stopped
     ports:
-      - 27017:27017
-    volumes:
-      - data:/data
+      - "27017:27017"
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USERNAME}
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME:-tripmanager_root}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD:-<CHANGE_ME_8R83dBi$AW>}
+      MONGO_APP_DB: ${MONGO_APP_DB:-trip-manager}
+      MONGO_APP_USER: ${MONGO_APP_USER:-tripmanager_app}
+      MONGO_APP_PASSWORD: ${MONGO_APP_PASSWORD:-<CHANGE_ME_elm^5Ic5VM>}
+    volumes:
+      - data:/data/db
+      - ./mongo/mongo-init_user.js:/docker-entrypoint-initdb.d/mongo-mongo-init_user.js:ro
+    networks:
+      - backend
+
   rabbitmq:
-    image: rabbitmq:3-management
+    build: ./rabbitmq
     container_name: rabbitmq
+    restart: unless-stopped
     ports:
       - "5672:5672"
       - "15672:15672"
     environment:
-      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
-      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-tripmanager_root}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-<CHANGE_ME_rjt5C*2pI@>}
+      RABBITMQ_APP_USER: ${RABBITMQ_PASSWORD:-tripmanager_svc}
+      RABBITMQ_APP_PASSWORD: ${RABBITMQ_APP_PASSWORD:-<CHANGE_ME_!vNE*d1iPl>}
+      RABBITMQ_APP_VHOST: ${RABBITMQ_APP_VHOST:-/trip-manager}
+    volumes:
+      - rabbitdata:/var/lib/rabbitmq
+    command: sh -c "/etc/rabbitmq/rabbitmq-init.sh & rabbitmq-server"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - backend
+
 volumes:
-  data: {}
+  data:
+  rabbitdata:
+
 networks:
-  default:
-    name: mongodb_network
+  backend:
+    driver: bridge
