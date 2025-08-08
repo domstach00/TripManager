@@ -26,7 +26,7 @@ services:
       - "5672:5672"
       - "15672:15672"
     environment:
-      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-tripmanager_root}
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-tripmanager_admin}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-<CHANGE_ME_rjt5C*2pI@>}
       RABBITMQ_APP_USER: ${RABBITMQ_PASSWORD:-tripmanager_svc}
       RABBITMQ_APP_PASSWORD: ${RABBITMQ_APP_PASSWORD:-<CHANGE_ME_!vNE*d1iPl>}
