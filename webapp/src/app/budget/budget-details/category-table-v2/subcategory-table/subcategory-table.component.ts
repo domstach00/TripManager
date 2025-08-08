@@ -93,7 +93,9 @@ export class SubcategoryTableComponent implements OnInit {
 	}
 
 	refreshTransactionsTable() {
-		this.transactionsTable.prepareQueryParamsAndSearch(this.transactionsTable?.page);
+		if (!!this.transactionsTable) {
+			this.transactionsTable.prepareQueryParamsAndSearch(this.transactionsTable?.page);
+		}
 	}
 
 	public refreshSubCategoryList(): void {

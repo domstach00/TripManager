@@ -57,6 +57,8 @@ export class BudgetDetailsComponent implements OnInit {
 							this.onRefreshEventFromCategoryTable();
 						}
 					});
+				} else if (dialogRef.componentRef.instance.isAddedAnyCategoryOrSubcategory) {
+					this.onRefreshCategoryTable()
 				}
 			})
 	}
@@ -115,6 +117,12 @@ export class BudgetDetailsComponent implements OnInit {
 		}
 		if (!!this.expenseDistributionChartComponent) {
 			this.expenseDistributionChartComponent.refreshChart();
+		}
+	}
+
+	onRefreshCategoryTable() {
+		if (!!this.categoryTable) {
+			this.categoryTable.loadCategories(this.budgetId);
 		}
 	}
 

@@ -227,8 +227,8 @@ export class CategoryTableV2Component implements OnInit {
 
 	public refreshTables() {
 		this.loadSpentStats(this.budgetId);
-		this.subcategoryTables.forEach(table => table.refreshTransactionsTable());
-		this.transactionTables.forEach(table => table.prepareQueryParamsAndSearch());
+		this.subcategoryTables?.forEach(table => table.refreshTransactionsTable());
+		this.transactionTables?.forEach(table => table.prepareQueryParamsAndSearch());
 	}
 
 	getBlanderColor(hex: string | undefined): string {

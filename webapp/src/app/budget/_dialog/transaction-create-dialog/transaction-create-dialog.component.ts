@@ -1,9 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { Budget, Category, SubCategory } from "../../_model/budget";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Budget, Category, SubCategory, CategoryType } from "../../_model/budget";
+import { FormBuilder, FormGroup, Validators, FormControl } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { BudgetService } from "../../_service/budget.service";
 import { TransactionService } from "../../_service/transaction.service";
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'transaction-create-dialog',
@@ -12,17 +16,21 @@ import { TransactionService } from "../../_service/transaction.service";
 })
 export class TransactionCreateDialogComponent implements OnInit {
 	transactionForm: FormGroup;
+	categoryControl = new FormControl();
 	categories: Category[] = [];
+	filteredCategories: Observable<Category[]>;
 	subCategories: SubCategory[] = [];
 	loading = false;
 	budget: Budget | null = null;
+	public isAddedAnyCategoryOrSubcategory: boolean = false;
 
 	constructor(
 		public dialogRef: MatDialogRef<TransactionCreateDialogComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: { budgetId: string },
 		private fb: FormBuilder,
 		private budgetService: BudgetService,
-		private transactionService: TransactionService
+		private transactionService: TransactionService,
+		private snackBar: MatSnackBar
 	) {
 		this.transactionForm = this.fb.group({
 			categoryId: [''],
@@ -36,6 +44,11 @@ export class TransactionCreateDialogComponent implements OnInit {
 			transactionDate: [new Date(), Validators.required]
 		});
 
+		this.filteredCategories = this.categoryControl.valueChanges.pipe(
+			startWith(''),
+			map(value => this._filter(value || ''))
+		);
+
 		this.setupCategoryValidation();
 	}
 
@@ -45,10 +58,13 @@ export class TransactionCreateDialogComponent implements OnInit {
 
 	private setupCategoryValidation(): void {
 		const subCategoryControl = this.transactionForm.get('subCategoryId');
-		this.transactionForm.get('categoryId')?.valueChanges.subscribe(categoryId => {
-			if (categoryId) {
-				this.loadSubCategories(categoryId);
+		this.categoryControl.valueChanges.subscribe(categoryName => {
+			const category = this.categories.find(c => c.name === categoryName);
+			if (category) {
+				this.transactionForm.get('categoryId')?.setValue(category.id);
+				this.loadSubCategories(category.id);
 			} else {
+				this.transactionForm.get('categoryId')?.setValue(null);
 				this.subCategories = [];
 			}
 			subCategoryControl?.updateValueAndValidity();
@@ -61,6 +77,10 @@ export class TransactionCreateDialogComponent implements OnInit {
 			next: (budget) => {
 				this.budget = budget;
 				this.categories = budget.categories || [];
+				this.filteredCategories = this.categoryControl.valueChanges.pipe(
+					startWith(''),
+					map(value => this._filter(value || ''))
+				);
 				this.loading = false;
 			},
 			error: (err) => {
@@ -83,12 +103,78 @@ export class TransactionCreateDialogComponent implements OnInit {
 		return subCategory.id;
 	}
 
+	onCategorySelected(event: MatAutocompleteSelectedEvent): void {
+		const selectedCategoryName = event.option.value;
+		const selectedCategory = this.categories.find(c => c.name === selectedCategoryName);
+		if (selectedCategory) {
+			this.transactionForm.get('categoryId')?.setValue(selectedCategory.id);
+			this.loadSubCategories(selectedCategory.id);
+		}
+	}
+
+	onCategoryInputBlur(): void {
+		const categoryName = this.categoryControl.value;
+		if (categoryName) {
+			const existingCategory = this.categories.find(c => c.name.toLowerCase() === categoryName.toLowerCase());
+			if (!existingCategory) {
+				this.addNewCategory(categoryName);
+			}
+		}
+	}
+
+	addNewCategory(categoryName: string): void {
+		const trimmedCategoryName = categoryName.trim();
+		if (!trimmedCategoryName || !this.budget) {
+			return;
+		}
+
+		this.loading = true;
+		const randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
+
+		this.budgetService.addCategoryToBudget(this.budget.id, {
+			name: categoryName,
+			type: CategoryType.EXPENSE,
+			allocatedAmount: '0',
+			color: randomColor
+		}).subscribe({
+			next: (updatedBudget) => {
+				const newCategory = updatedBudget.categories?.find(c => c.name === categoryName);
+				this.categoryControl.setValue(newCategory.name);
+				if (!!newCategory) {
+					this.isAddedAnyCategoryOrSubcategory = true;
+					this.transactionForm.get('categoryId')?.setValue(newCategory.id);
+					this.loadSubCategories(newCategory.id);
+					this.loadBudgetDetails();
+				} else {
+					console.error('Error while finding new category');
+				}
+			},
+			error: (err) => {
+				console.error('Failed to add new category', err);
+				this.snackBar.open('Failed to add category.', 'Close', { duration: 3000 });
+				this.loading = false;
+			}
+		});
+	}
+
+	private _filter(value: string): Category[] {
+		const filterValue = value.toLowerCase();
+		return this.categories.filter(category => category.name.toLowerCase().includes(filterValue));
+	}
+
 	onSubmit(): void {
 		if (this.transactionForm.invalid || this.loading || !this.budget) return;
+
+		const categoryId = this.transactionForm.get('categoryId')?.value;
+		if (!categoryId) {
+			this.snackBar.open('Please select or create a category.', 'Close', { duration: 3000 });
+			return;
+		}
 
 		this.loading = true;
 		const transactionData = {
 			budgetId: this.budget.id,
+			categoryId: categoryId,
 			...this.transactionForm.value,
 			amount: parseFloat(this.transactionForm.value.amount),
 			transactionDate: this.transactionForm.value.transactionDate.toISOString()

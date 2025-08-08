@@ -37,7 +37,7 @@ export interface CategoryWithStats extends Category {
 
 export interface CategoryDialogData {
 	budgetId: string;
-	categoryType?: 'EXPENSE' | 'INCOME';
+	categoryType?: CategoryType;
 	category?: {
 		id: string;
 		name: string;
@@ -53,11 +53,16 @@ export interface SubCategory {
 
 export interface CategoryCreateForm {
 	name: string;
-	type?: 'EXPENSE' | 'INCOME';
+	type?: CategoryType;
 	allocatedAmount?: string;
 	color?: string;
 }
 
 export interface SubCategoryCreateForm {
 	name: string;
+}
+
+export enum CategoryType {
+	EXPENSE = 'EXPENSE',
+	INCOME = 'INCOME'
 }

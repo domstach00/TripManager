@@ -7,17 +7,19 @@ import { BudgetService } from "./_service/budget.service";
 import { BudgetCreateDialogComponent } from "./_dialog/budget-create-dialog/budget-create-dialog.component";
 import { BudgetRoutingModule } from "./budget-routing.module";
 import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatNativeDateModule, MatOption } from "@angular/material/core";
+import { MatNativeDateModule, MatOptionModule } from "@angular/material/core";
 import { BudgetDetailsComponent } from "./budget-details/budget-details.component";
-import { MatProgressBar } from "@angular/material/progress-bar";
+import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { BudgetLayoutComponent } from "./budget-layout/budget-layout.component";
 import {
 	TransactionCreateDialogComponent
 } from "./_dialog/transaction-create-dialog/transaction-create-dialog.component";
 import { TransactionService } from "./_service/transaction.service";
-import { MatSelect } from "@angular/material/select";
+import { MatSelectModule } from "@angular/material/select";
 import { CategoryCreateDialogComponent } from "./_dialog/category-create-dialog/category-create-dialog.component";
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {
 	CategoryTableComponent
 } from "./budget-details/category-table/category-table.component";
@@ -58,10 +60,12 @@ import { ExpenseDistributionChartComponent } from "./expense-distribution-chart/
 		BudgetRoutingModule,
 		MatDatepickerModule,
 		MatNativeDateModule,
-		MatProgressBar,
-		MatSelect,
-		MatOption,
+		MatProgressBarModule,
+		MatSelectModule,
+		MatOptionModule,
 		NgxChartsModule,
+		MatAutocompleteModule,
+		MatSnackBarModule,
 		SubcategoryCreateDialogComponent,
 		CategoryTableV2Component,
 		SubcategoryTableComponent,

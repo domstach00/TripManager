@@ -9,14 +9,14 @@
 			<p>{{ budget.description }}</p>
 		</div>
 
-		<!-- Category Selection -->
 		<mat-form-field appearance="outline">
 			<mat-label>Category</mat-label>
-			<mat-select formControlName="categoryId">
-				<mat-option *ngFor="let category of categories" [value]="category.id">
+			<input type="text" matInput [formControl]="categoryControl" [matAutocomplete]="auto" (blur)="onCategoryInputBlur()">
+			<mat-autocomplete #auto="matAutocomplete" (optionSelected)="onCategorySelected($event)">
+				<mat-option *ngFor="let category of filteredCategories | async" [value]="category.name">
 					{{ category.name }}
 				</mat-option>
-			</mat-select>
+			</mat-autocomplete>
 		</mat-form-field>
 
 		<!-- Subcategory Selection -->
