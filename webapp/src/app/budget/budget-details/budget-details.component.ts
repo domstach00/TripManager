@@ -54,6 +54,7 @@ export class BudgetDetailsComponent implements OnInit {
 					this.loadTransactionBudgetSummary().subscribe(() => {
 						if (!!this.expenseDistributionChartComponent) {
 							this.expenseDistributionChartComponent.refreshChart();
+							this.onRefreshEventFromCategoryTable();
 						}
 					});
 				}
