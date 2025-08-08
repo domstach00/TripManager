@@ -17,9 +17,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class TransactionCreateDialogComponent implements OnInit {
 	transactionForm: FormGroup;
 	categoryControl = new FormControl();
+	subCategoryControl = new FormControl();
 	categories: Category[] = [];
 	filteredCategories: Observable<Category[]>;
 	subCategories: SubCategory[] = [];
+	filteredSubCategories: Observable<SubCategory[]>;
 	loading = false;
 	budget: Budget | null = null;
 	public isAddedAnyCategoryOrSubcategory: boolean = false;
@@ -48,8 +50,13 @@ export class TransactionCreateDialogComponent implements OnInit {
 			startWith(''),
 			map(value => this._filter(value || ''))
 		);
+		this.filteredSubCategories = this.subCategoryControl.valueChanges.pipe(
+			startWith(''),
+			map(value => this._filter(value || ''))
+		)
 
 		this.setupCategoryValidation();
+
 	}
 
 	ngOnInit(): void {
@@ -81,6 +88,10 @@ export class TransactionCreateDialogComponent implements OnInit {
 					startWith(''),
 					map(value => this._filter(value || ''))
 				);
+				this.filteredSubCategories = this.subCategoryControl.valueChanges.pipe(
+					startWith(''),
+					map(value => this._filter(value || ''))
+				)
 				this.loading = false;
 			},
 			error: (err) => {
@@ -93,6 +104,15 @@ export class TransactionCreateDialogComponent implements OnInit {
 	private loadSubCategories(categoryId: string): void {
 		const category = this.categories.find(c => c.id === categoryId);
 		this.subCategories = [...(category?.subCategories || [])];
+
+		// Re-initialize filteredSubCategories to reflect the new subCategories array
+		this.filteredSubCategories = this.subCategoryControl.valueChanges.pipe(
+			startWith(''),
+			map(value => this._filterSubCategories(value || ''))
+		);
+
+		// Clear the subcategory control value when category changes
+		this.subCategoryControl.setValue('');
 
 		if (!this.subCategories.length) {
 			this.transactionForm.get('subCategoryId')?.setValue(null);
@@ -122,6 +142,52 @@ export class TransactionCreateDialogComponent implements OnInit {
 		}
 	}
 
+	onSubCategorySelected(event: MatAutocompleteSelectedEvent): void {
+		const selectedSubCategoryName = event.option.value;
+		const selectedSubCategory = this.subCategories.find(s => s.name === selectedSubCategoryName);
+		if (selectedSubCategory) {
+			this.transactionForm.get('subCategoryId')?.setValue(selectedSubCategory.id);
+		}
+	}
+
+	addNewSubCategory(subCategoryName: string, categoryId: string): void {
+		const trimmedSubCategoryName: string = subCategoryName.trim();
+		if (!trimmedSubCategoryName || !this.budget || !categoryId) {
+			return;
+		}
+
+		this.loading = true;
+
+		this.budgetService.addSubCategoryToCategoryInBudget(this.budget.id, categoryId, {
+			name: trimmedSubCategoryName
+		}).subscribe({
+			next: (newSubCategoryResponse: SubCategory) => {
+				this.snackBar.open(`Subcategory '${newSubCategoryResponse.name}' added successfully!`, 'Close', { duration: 3000 });
+				this.subCategoryControl.setValue(newSubCategoryResponse.name);
+				this.transactionForm.get('subCategoryId')?.setValue(newSubCategoryResponse.id);
+				this.isAddedAnyCategoryOrSubcategory = true;
+				this.loadBudgetDetails(); // Refresh categories and subcategories
+				this.loading = false;
+			},
+			error: (err) => {
+				console.error('Failed to add new subcategory', err);
+				this.snackBar.open('Failed to add subcategory.', 'Close', { duration: 3000 });
+				this.loading = false;
+			}
+		});
+	}
+
+	onSubCategoryInputBlur(): void {
+		const subCategoryName = this.subCategoryControl.value;
+		const categoryId = this.transactionForm.get('categoryId')?.value;
+		if (subCategoryName && categoryId) {
+			const existingSubCategory = this.subCategories.find(s => s.name.toLowerCase() === subCategoryName.toLowerCase());
+			if (!existingSubCategory) {
+				this.addNewSubCategory(subCategoryName, categoryId);
+			}
+		}
+	}
+
 	addNewCategory(categoryName: string): void {
 		const trimmedCategoryName = categoryName.trim();
 		if (!trimmedCategoryName || !this.budget) {
@@ -132,13 +198,14 @@ export class TransactionCreateDialogComponent implements OnInit {
 		const randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
 
 		this.budgetService.addCategoryToBudget(this.budget.id, {
-			name: categoryName,
+			name: trimmedCategoryName,
 			type: CategoryType.EXPENSE,
 			allocatedAmount: '0',
 			color: randomColor
 		}).subscribe({
 			next: (updatedBudget) => {
-				const newCategory = updatedBudget.categories?.find(c => c.name === categoryName);
+				const newCategory = updatedBudget.categories?.find(c => c.name === trimmedCategoryName);
+				this.snackBar.open(`Category '${newCategory.name}' added successfully!`, 'Close', { duration: 3000 });
 				this.categoryControl.setValue(newCategory.name);
 				if (!!newCategory) {
 					this.isAddedAnyCategoryOrSubcategory = true;
@@ -159,13 +226,20 @@ export class TransactionCreateDialogComponent implements OnInit {
 
 	private _filter(value: string): Category[] {
 		const filterValue = value.toLowerCase();
-		return this.categories.filter(category => category.name.toLowerCase().includes(filterValue));
+		return this.categories.filter((category: Category) => category.name.toLowerCase().includes(filterValue));
+	}
+
+	private _filterSubCategories(value: string): SubCategory[] {
+		const filterValue = value.toLowerCase();
+		return this.subCategories.filter((subCategory: SubCategory) => subCategory.name.toLowerCase().includes(filterValue));
 	}
 
 	onSubmit(): void {
 		if (this.transactionForm.invalid || this.loading || !this.budget) return;
 
 		const categoryId = this.transactionForm.get('categoryId')?.value;
+		const subCategoryId = this.transactionForm.get('subCategoryId')?.value;
+
 		if (!categoryId) {
 			this.snackBar.open('Please select or create a category.', 'Close', { duration: 3000 });
 			return;
@@ -175,6 +249,7 @@ export class TransactionCreateDialogComponent implements OnInit {
 		const transactionData = {
 			budgetId: this.budget.id,
 			categoryId: categoryId,
+			subCategoryId: subCategoryId,
 			...this.transactionForm.value,
 			amount: parseFloat(this.transactionForm.value.amount),
 			transactionDate: this.transactionForm.value.transactionDate.toISOString()

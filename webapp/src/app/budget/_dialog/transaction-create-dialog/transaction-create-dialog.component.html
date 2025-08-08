@@ -22,11 +22,12 @@
 		<!-- Subcategory Selection -->
 		<mat-form-field appearance="outline">
 			<mat-label>Subcategory</mat-label>
-			<mat-select formControlName="subCategoryId" [disabled]="!transactionForm.get('categoryId')?.value">
-				<mat-option *ngFor="let subCategory of subCategories" [value]="subCategory.id">
+			<input type="text" matInput [formControl]="subCategoryControl" [matAutocomplete]="subAuto" (blur)="onSubCategoryInputBlur()">
+			<mat-autocomplete #subAuto="matAutocomplete" (optionSelected)="onSubCategorySelected($event)">
+				<mat-option *ngFor="let subCategory of filteredSubCategories | async" [value]="subCategory.name">
 					{{ subCategory.name }}
 				</mat-option>
-			</mat-select>
+			</mat-autocomplete>
 		</mat-form-field>
 
 		<!-- Amount Input -->
