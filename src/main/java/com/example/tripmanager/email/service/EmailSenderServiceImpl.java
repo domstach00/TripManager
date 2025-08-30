@@ -1,6 +1,7 @@
 package com.example.tripmanager.email.service;
 
 import com.example.tripmanager.config.EmailConfig;
+import com.example.tripmanager.config.MailThymeleafConfig;
 import com.example.tripmanager.email.model.EmailDetails;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -8,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -22,7 +24,8 @@ public class EmailSenderServiceImpl implements EmailSenderService {
     private final SpringTemplateEngine templateEngine;
 
     @Autowired
-    public EmailSenderServiceImpl(JavaMailSender mailSender, SpringTemplateEngine templateEngine) {
+    public EmailSenderServiceImpl(JavaMailSender mailSender,
+                                  @Qualifier(MailThymeleafConfig.EMAIL_TEMPLATE_ENGINE_BEAN_NAME) SpringTemplateEngine templateEngine) {
         this.mailSender = mailSender;
         this.templateEngine = templateEngine;
     }

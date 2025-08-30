@@ -7,6 +7,9 @@ spring:
       username: ${MONGO_APP_USER:tripmanager_app}
       password: ${MONGO_APP_PASSWORD:<CHANGE_ME_elm^5Ic5VM>}
       authentication-database: ${MONGO_APP_DB:trip-manager}
+  thymeleaf:
+    enabled: false
+    check-template-location: false
 
   mail:
     host: ${EMAIL_HOST:localhost}
