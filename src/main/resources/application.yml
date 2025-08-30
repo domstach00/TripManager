@@ -45,11 +45,13 @@ web:
       - PATCH
       - PUT
       - DELETE
+      - OPTIONS
     allowed-headers:
       - Requestor-Type
       - Authorization
       - Content-Type
       - Accept
+      - X-Init-Token
 
 sec:
   app:
@@ -68,6 +70,8 @@ token:
   expiration:
     secret: ${TOKEN_SECRET}
     account-activation: PT72H
+  initialization:
+    value: ${TOKEN_INIT}
 
 rabbitmq:
   exchange:

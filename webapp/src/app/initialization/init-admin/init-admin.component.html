@@ -1,0 +1,70 @@
+<div *ngIf="enabled; else notEnabled" class="init-wrapper">
+	<div class="card">
+		<h2> {{ 'initialize.admin.header' | translate }} </h2>
+
+		<form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+			<div class="field">
+				<label for="token">{{ 'initialize.admin.token' | translate }}</label>
+				<input id="token" type="text" formControlName="token"
+						placeholder="{{ 'initialize.admin.token.placeholder' | translate }}"/>
+			</div>
+
+			<div class="field">
+				<label for="email">{{ 'initialize.admin.email' | translate }}</label>
+				<input id="email" type="email" formControlName="email"
+					   [class.invalid]="f['email'].invalid && f['email'].touched"
+					   placeholder="{{ 'initialize.admin.email.placeholder' | translate }}"/>
+				<small *ngIf="f['email'].invalid && f['email'].touched">
+					{{ 'initialize.admin.email.incorrect' | translate }}
+				</small>
+			</div>
+
+			<div class="field">
+				<label for="username">{{ 'initialize.admin.username' | translate }}</label>
+				<input id="username" type="text" formControlName="username"
+					   [class.invalid]="f['username'].invalid && f['username'].touched"
+					   placeholder="{{ 'initialize.admin.username.placeholder' | translate }}"/>
+				<small *ngIf="f['username'].invalid && f['username'].touched">
+					{{ 'initialize.admin.username.incorrect' | translate }}
+				</small>
+			</div>
+
+			<div class="field">
+				<label for="password">{{ 'initialize.admin.password' | translate }}</label>
+				<input id="password" type="password" formControlName="password"
+					   [class.invalid]="(f['password'].invalid && f['password'].touched) || passwordsMismatch"
+					   placeholder="{{ 'initialize.admin.password.placeholder' | translate }}"/>
+				<small *ngIf="f['password'].invalid && f['password'].touched">
+					{{ 'initialize.admin.password.incorrect' | translate }}
+				</small>
+			</div>
+
+			<div class="field">
+				<label for="confirmPassword">{{ 'initialize.admin.confirm-password' | translate }}</label>
+				<input id="confirmPassword" type="password" formControlName="confirmPassword"
+					   [class.invalid]="(f['confirmPassword'].invalid && f['confirmPassword'].touched) || passwordsMismatch"
+					   placeholder="{{ 'initialize.admin.confirm-password.placeholder' | translate }}"/>
+				<small *ngIf="passwordsMismatch && (f['confirmPassword'].touched || f['password'].touched)">
+					{{ 'initialize.admin.confirm-password.incorrect' | translate }}
+				</small>
+			</div>
+
+			<label class="checkbox">
+				<input type="checkbox" formControlName="sendActivationEmail"/>
+				{{ 'initialize.admin.checkbox.sendActivationEmail.label' | translate }}
+			</label>
+
+			<button type="submit" class="btn" [disabled]="submitting || form.invalid || passwordsMismatch">
+				{{ (submitting
+					? 'initialize.admin.button.create-account.in-progress'
+					: 'initialize.admin.button.create-account') | translate }}
+			</button>
+
+			<div class="alert error" *ngIf="error">{{ error }}</div>
+		</form>
+	</div>
+</div>
+
+<ng-template #notEnabled>
+	Nothing here 👀
+</ng-template>

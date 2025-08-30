@@ -3,6 +3,7 @@ package com.example.tripmanager.account.mapper;
 import com.example.tripmanager.account.model.Account;
 import com.example.tripmanager.account.model.AccountDto;
 import com.example.tripmanager.auth.model.SignupRequest;
+import com.example.tripmanager.initialization.dto.AdminInitRequest;
 
 import java.util.Objects;
 
@@ -23,6 +24,13 @@ public class AccountMapper {
         Account account = new Account();
         account.setEmail(signupRequest.getEmail());
         account.setName(signupRequest.getName());
+        return account;
+    }
+
+    public static Account fromSignUpAdmin(AdminInitRequest adminInitRequest) {
+        Account account = new Account();
+        account.setEmail(adminInitRequest.getEmail());
+        account.setName(adminInitRequest.getUsername());
         return account;
     }
 }

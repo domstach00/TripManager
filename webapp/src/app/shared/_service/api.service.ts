@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { ApiPath } from "../_model/ApiPath";
 import { Observable } from "rxjs";
 import { Injectable } from "@angular/core";
@@ -22,8 +22,8 @@ export class ApiService {
 		return this.httpClient.get<T>(this.formatWithBaseUrl(`${url}`, paramArray), { params, withCredentials: true })
 	}
 
-	public post<T = any, K = any>(url: ApiPath, body?: K, params?: any): Observable<T> {
-		return this.httpClient.post<T>(`${environment.apiUrl}` + `${url}`, body, { params, withCredentials: true });
+	public post<T = any, K = any>(url: ApiPath, body?: K, params?: any, headers?: HttpHeaders | { [header: string]: string | string[] }): Observable<T> {
+		return this.httpClient.post<T>(`${environment.apiUrl}` + `${url}`, body, { params, headers, withCredentials: true });
 	}
 
 	public postFormatted<T = any, K = any>(url: ApiPath, paramArray: string[], body?: K, params?: any): Observable<T> {

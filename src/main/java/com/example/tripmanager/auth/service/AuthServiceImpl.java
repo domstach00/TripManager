@@ -3,6 +3,7 @@ package com.example.tripmanager.auth.service;
 import com.example.tripmanager.account.exception.AccountAlreadyExistsException;
 import com.example.tripmanager.auth.model.ForgotPassword;
 import com.example.tripmanager.email.service.EmailService;
+import com.example.tripmanager.initialization.dto.AdminInitRequest;
 import com.example.tripmanager.shared.exception.InvalidRequestException;
 import com.example.tripmanager.account.mapper.AccountMapper;
 import com.example.tripmanager.auth.model.LoginRequest;
@@ -28,6 +29,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.CharBuffer;
 import java.util.Map;
@@ -73,6 +75,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional
     public void register(SignupRequest signupRequest) {
         if (signupRequest == null) {
             log.warn("Registration failed: SignupRequest form is null");
@@ -85,13 +88,39 @@ public class AuthServiceImpl implements AuthService {
         }
 
         Account newAccount = AccountMapper.fromSignUp(signupRequest);
-        setUserPassword(newAccount, signupRequest.getPassword());
+        newAccount.setPassword(encodePassword(signupRequest.getPassword()));
         newAccount.setRoles(Set.of(Role.ROLE_USER));
 
         Account createdAccount = accountRepository.save(newAccount);
         Token generatedToken = tokenService.generateToken(createdAccount.getId(), TokenType.ACCOUNT_ACTIVATION);
         emailService.sendWelcomeEmail(createdAccount, generatedToken.getTokenValue());
         log.info("User registered successfully with email: {}", createdAccount.getEmail());
+    }
+
+    @Override
+    @Transactional
+    public void registerAdmin(AdminInitRequest adminInitRequest, boolean activateAccountOnDefault) {
+        if (adminInitRequest == null) {
+            log.warn("Registration failed: AdminInitRequest form is null");
+            throw new IllegalArgumentException("AdminInitRequest form cannot be null");
+        }
+        log.info("Admin registration attempt for email: {}", adminInitRequest.getEmail());
+        if (accountRepository.existsByEmail(adminInitRequest.getEmail())) {
+            log.warn("Registration failed: Account with email '{}' already exists", adminInitRequest.getEmail());
+            throw new AccountAlreadyExistsException("Account with email %s already exists".formatted(adminInitRequest.getEmail()));
+        }
+
+        Account newAccountAdmin = AccountMapper.fromSignUpAdmin(adminInitRequest);
+        newAccountAdmin.setPassword(encodePassword(adminInitRequest.getPassword()));
+        newAccountAdmin.setRoles(Set.of(Role.ROLE_ADMIN));
+        newAccountAdmin.setEnabled(activateAccountOnDefault || !adminInitRequest.isSendActivationEmail());
+
+        Account createdAccount = accountRepository.save(newAccountAdmin);
+        if (adminInitRequest.isSendActivationEmail()) {
+            Token token = tokenService.generateToken(createdAccount.getId(), TokenType.ACCOUNT_ACTIVATION);
+            emailService.sendWelcomeEmail(createdAccount, token.getTokenValue());
+        }
+        log.info("Admin registered successfully with email: {}", createdAccount.getEmail());
     }
 
     public void logoutUser(HttpServletRequest request,
@@ -102,6 +131,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional
     public boolean activateAccount(String tokenValue) {
         if (StringUtils.isBlank(tokenValue)) {
             log.warn("Token value for account activation is blank, token={}", tokenValue);
@@ -157,8 +187,7 @@ public class AuthServiceImpl implements AuthService {
         return cookie;
     }
 
-    private void setUserPassword(Account account, String password) {
-        log.debug("Encoding password for account with email: {}", account.getEmail());
-        account.setPassword(passwordEncoder.encode(CharBuffer.wrap(password)));
+    private String encodePassword(String password) {
+        return passwordEncoder.encode(CharBuffer.wrap(password));
     }
 }

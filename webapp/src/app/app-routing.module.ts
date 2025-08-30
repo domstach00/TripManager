@@ -8,6 +8,8 @@ import { RegisterSuccessComponent } from "./auth/register/register-success/regis
 import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
 import { ActivateAccountComponent } from "./auth/activate-account/activate-account.component";
 import { ForgotPasswordComponent } from "./auth/forgot-password/forgot-password.component";
+import { InitAdminComponent } from "./initialization/init-admin/init-admin.component";
+import { initializationEnabledCanMach } from "./guard/initialization-enabled.guard";
 
 
 const routes: Routes = [
@@ -22,6 +24,7 @@ const routes: Routes = [
 	{ path: 'settings', component: HomeComponent, canActivate: [AuthGuard] },
 	{ path: 'trips', loadChildren: () => import('./trips/trips.module').then(m => m.TripsModule), canActivate: [AuthGuard] },
 	{ path: 'budgets', loadChildren: () => import('./budget/budget.module').then(m => m.BudgetModule), canActivate: [AuthGuard] },
+	{ path: 'initialize', component: InitAdminComponent, canActivate: [initializationEnabledCanMach] },
 	{ path: '**', redirectTo: '/not-found' },
 ];
 

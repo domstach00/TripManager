@@ -4,6 +4,7 @@ import com.example.tripmanager.auth.controller.AuthController;
 import com.example.tripmanager.auth.security.auth.AuthTokenFilter;
 import com.example.tripmanager.auth.security.jwt.JwtService;
 import com.example.tripmanager.auth.security.service.CustomUserDetailsService;
+import com.example.tripmanager.initialization.controller.InitializeController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,6 +44,8 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST, AuthController.getForgotPasswordUrl()).permitAll()
                                 .requestMatchers(HttpMethod.GET, AuthController.getActivateAccountUrl()).permitAll()
                                 .requestMatchers(HttpMethod.GET, AuthController.getLogoutUrl()).permitAll()
+                                .requestMatchers(HttpMethod.POST, InitializeController.INIT_CONTROLLER_URL).permitAll()
+                                .requestMatchers(HttpMethod.GET, InitializeController.INIT_ENABLED_URL).permitAll()
                                 .anyRequest().authenticated());
         return http.build();
     }

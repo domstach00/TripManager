@@ -5,6 +5,8 @@ export enum ApiPath {
 	activateAccount = '/auth/activate-account',
 	currentAccount = '/auth/currentaccount',
 	forgotPassword = '/auth/forgot-password',
+	initialize = '/init',
+	initializeEnabled = initialize + '/enabled',
 	trip = '/trip',
 	tripSelect = trip + '/{0}',
 	tripArchive =  tripSelect + '/archive',
