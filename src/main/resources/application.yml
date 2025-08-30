@@ -60,7 +60,7 @@ web:
 
 sec:
   app:
-    jwtSecret: ${JWT_SECRET}
+    jwtSecret: ${JWT_SECRET:}
     jwtExpirationMs: 2550000
     jwtCookieName: auth-token
 
@@ -75,7 +75,7 @@ app:
 
 token:
   expiration:
-    secret: ${TOKEN_SECRET}
+    secret: ${TOKEN_SECRET:}
     account-activation: PT72H
   initialization:
     value: ${TOKEN_INIT}

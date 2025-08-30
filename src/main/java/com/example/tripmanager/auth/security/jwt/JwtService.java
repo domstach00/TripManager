@@ -20,7 +20,6 @@ import java.util.Date;
 public class JwtService {
     private static final Logger log = LoggerFactory.getLogger(JwtService.class);
 
-    private final String jwtSecret;
     private final int jwtExpirationMs;
     private final String jwtCookieName;
     private final Algorithm algorithm;
@@ -28,10 +27,9 @@ public class JwtService {
     public JwtService(@Value("${sec.app.jwtSecret}") String jwtSecret,
                       @Value("${sec.app.jwtExpirationMs}") int jwtExpirationMs,
                       @Value("${sec.app.jwtCookieName}") String jwtCookieName) {
-        this.jwtSecret = jwtSecret;
         this.jwtExpirationMs = jwtExpirationMs;
         this.jwtCookieName = jwtCookieName;
-        this.algorithm = Algorithm.HMAC512(this.jwtSecret);
+        this.algorithm = Algorithm.HMAC512(jwtSecret);
     }
 
     public String generateToken(Authentication authentication) {
