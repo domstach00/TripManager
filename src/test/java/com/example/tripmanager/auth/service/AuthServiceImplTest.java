@@ -10,6 +10,7 @@ import com.example.tripmanager.account.model.Account;
 import com.example.tripmanager.account.model.Role;
 import com.example.tripmanager.account.repository.AccountRepository;
 import com.example.tripmanager.auth.security.jwt.JwtService;
+import com.example.tripmanager.shared.token.model.token.AccountActivationToken;
 import com.example.tripmanager.shared.token.model.token.Token;
 import com.example.tripmanager.shared.token.model.TokenType;
 import com.example.tripmanager.shared.token.service.TokenService;
@@ -219,27 +220,33 @@ class AuthServiceImplTest {
     @Test
     void testActivateAccountAccountNotFound() {
         String tokenValue = "validToken";
-        String  accountId = new ObjectId().toHexString();
-        Token token = new Token();
+        String accountId = new ObjectId().toHexString();
+
+        AccountActivationToken token = new AccountActivationToken();
         token.setAccountId(accountId);
-        // Token został zweryfikowany
+
         when(tokenService.getToken(eq(tokenValue), eq(TokenType.ACCOUNT_ACTIVATION)))
                 .thenReturn(Optional.of(token));
-        // Konto nie zostało znalezione
         when(accountRepository.findById(eq(accountId)))
                 .thenReturn(Optional.empty());
 
         boolean result = authService.activateAccount(tokenValue);
+
         assertFalse(result);
+        verify(accountRepository, times(1)).findById(accountId);
+        verify(accountRepository, never()).save(any());
     }
 
     @Test
     void testActivateAccountSuccess() {
         String tokenValue = "validToken";
         String accountId = new ObjectId().toHexString();
-        Token token = new Token();
+
+        AccountActivationToken token = new AccountActivationToken();
         token.setAccountId(accountId);
+
         Account account = new Account();
+        account.setId(accountId);
         account.setEnabled(false);
 
         when(tokenService.getToken(eq(tokenValue), eq(TokenType.ACCOUNT_ACTIVATION)))
@@ -248,8 +255,8 @@ class AuthServiceImplTest {
                 .thenReturn(Optional.of(account));
 
         boolean result = authService.activateAccount(tokenValue);
+
         assertTrue(result);
-        // Konto powinno zostać aktywowane
         assertTrue(account.isEnabled());
         verify(accountRepository, times(1)).save(account);
     }

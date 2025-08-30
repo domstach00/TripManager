@@ -16,21 +16,22 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class EmailService {
     private static final Logger log = LoggerFactory.getLogger(EmailService.class);
 
-    private final MessageProducer messageProducer;
+    private final Optional<MessageProducer> messageProducerOpt;
     private final ActivationLinkService activationLinkService;
 
     @Value("${rabbitmq.routing.email}")
     private String emailRoutingKey;
 
     @Autowired
-    public EmailService(MessageProducer messageProducer, ActivationLinkService activationLinkService) {
-        this.messageProducer = messageProducer;
+    public EmailService(Optional<MessageProducer> messageProducerOpt, ActivationLinkService activationLinkService) {
+        this.messageProducerOpt = messageProducerOpt;
         this.activationLinkService = activationLinkService;
     }
 
@@ -82,7 +83,8 @@ public class EmailService {
     }
 
     private void sendMessage(EmailDetails emailDetails) {
-        messageProducer.sendMessage(emailRoutingKey, emailDetails);
+        messageProducerOpt.ifPresent(messageProducer ->
+                messageProducer.sendMessage(emailRoutingKey, emailDetails));
     }
     private void sendMessage(List<EmailDetails> emailDetailsList) {
         if (emailDetailsList != null) {

@@ -3,6 +3,7 @@ package com.example.tripmanager.trip.controller;
 import com.example.tripmanager.account.model.Account;
 import com.example.tripmanager.trip.model.Trip;
 import com.example.tripmanager.trip.model.TripDto;
+import com.example.tripmanager.trip.service.TripPlanService;
 import com.example.tripmanager.trip.service.TripService;
 import com.example.tripmanager.account.service.AccountService;
 import com.example.tripmanager.shared.controller.support.PageParams;
@@ -34,11 +35,11 @@ class TripControllerTest {
 
     @Mock
     private TripService tripService;
-
     @Mock
     private AccountService accountService;
+    @Mock
+    private TripPlanService tripPlanService;
 
-    // Używamy spy, aby nadpisać metody dziedziczone z AbstractController.
     @InjectMocks
     @Spy
     private TripController tripController;
@@ -73,7 +74,6 @@ class TripControllerTest {
 
         TripDto result = tripController.postTrip(dummyPrincipal, inputTripDto);
 
-        // Weryfikacja wyniku
         assertNotNull(result);
         assertEquals("trip1", result.getId());
         assertEquals("Test Trip", result.getName());
@@ -112,12 +112,16 @@ class TripControllerTest {
         verify(tripService, times(1)).getTripsForAccount(eq(pageable), eq(dummyAccount));
     }
 
+
     @Test
     void testDeleteTrip() {
         String tripId = "trip1";
-        // Wywołanie metody delete – metoda void, więc weryfikujemy interakcję z serwisem
+
         tripController.deleteTrip(dummyPrincipal, tripId);
+
         verify(tripService, times(1)).deleteTrip(eq(tripId), eq(dummyAccount));
+        verify(tripPlanService, times(1))
+                .deleteAllTripPlansForTrip(eq(tripId), eq(dummyAccount)); // <<< WERYFIKACJA
     }
 
     @Test
@@ -128,7 +132,6 @@ class TripControllerTest {
         archivedTrip.setName("Archived Trip");
         when(tripService.archiveTrip(eq(tripId), eq(dummyAccount))).thenReturn(archivedTrip);
 
-        // Nadpisanie mapowania do DTO
         TripDto expectedDto = new TripDto();
         expectedDto.setId("trip1");
         expectedDto.setName("Archived Trip");
@@ -149,7 +152,6 @@ class TripControllerTest {
         duplicatedTrip.setName("Trip - duplicated");
         when(tripService.duplicateTrip(eq(tripId), eq(dummyAccount))).thenReturn(duplicatedTrip);
 
-        // Nadpisanie mapowania do DTO
         TripDto expectedDto = new TripDto();
         expectedDto.setId("trip2");
         expectedDto.setName("Trip - duplicated");
@@ -165,7 +167,7 @@ class TripControllerTest {
     @Test
     void testLeaveTripAsMember() {
         String tripId = "trip1";
-        // Metoda leaveTripAsMember nie zwraca wartości, więc tylko weryfikujemy wywołanie serwisu.
+
         tripController.leaveTripAsMember(dummyPrincipal, tripId);
         verify(tripService, times(1))
                 .removeAccountFromTrip(eq(tripId), eq(dummyAccount), eq(dummyAccount));

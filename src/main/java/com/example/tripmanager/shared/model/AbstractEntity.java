@@ -3,16 +3,14 @@ package com.example.tripmanager.shared.model;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 
-@MappedSuperclass
+// Enable on JPA in future
+// @MappedSuperclass
 public abstract class AbstractEntity implements Serializable {
     public static final String FIELD_NAME_ID = "id";
 
     @Id
-    @GeneratedValue
     private String id = null;
 
     public AbstractEntity() {

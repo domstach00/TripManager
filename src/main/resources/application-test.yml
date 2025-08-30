@@ -1,0 +1,13 @@
+spring:
+  data:
+    mongodb:
+      auditing:
+        enabled: false
+  thymeleaf:
+    enabled: false
+app:
+  rabbit:
+    enabled: false
+
+JWT_SECRET: hJRBAgOU4r
+TOKEN_SECRET: 7YqMX3qJOV

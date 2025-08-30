@@ -5,6 +5,7 @@ import com.example.tripmanager.account.model.Account;
 import com.example.tripmanager.account.model.AccountDto;
 import com.example.tripmanager.account.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.AuditorAware;
@@ -21,6 +22,7 @@ import java.util.Optional;
 @Configuration
 @Lazy
 @EnableMongoAuditing
+@ConditionalOnProperty(name="spring.data.mongodb.auditing.enabled", havingValue="true", matchIfMissing=true)
 public class AuditorAwareImpl implements AuditorAware<String> {
     @Autowired
     private AccountService accountService;

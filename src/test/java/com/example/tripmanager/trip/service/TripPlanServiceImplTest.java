@@ -154,13 +154,37 @@ class TripPlanServiceImplTest {
     @Test
     void testPatchTripPlan_Success() {
         String tripId = "trip1";
-        TripPlan updatedTripPlan = new TripPlan();
-        when(tripPlanRepository.save(updatedTripPlan)).thenReturn(updatedTripPlan);
+        String tripPlanId = "plan1";
 
-        TripPlan result = tripPlanService.patchTripPlan(updatedTripPlan, tripId);
+        TripPlan existing = new TripPlan();
+        existing.setId(tripPlanId);
+        existing.setName("Old name");
+        existing.setDay(1);
+        existing.setDesc("Old desc");
+        existing.setLink("http://old.link");
 
-        assertEquals(updatedTripPlan, result);
-        verify(tripPlanRepository, times(1)).save(updatedTripPlan);
+        TripPlan patch = new TripPlan();
+        patch.setId(tripPlanId);
+        patch.setName("New name");
+        patch.setDay(2);
+        patch.setDesc(null);
+        patch.setLink("http://new.link");
+
+        when(tripPlanRepository.findById(tripPlanId)).thenReturn(Optional.of(existing));
+        when(tripPlanRepository.save(any(TripPlan.class)))
+                .thenAnswer(inv -> inv.getArgument(0));
+
+        TripPlan result = tripPlanService.patchTripPlan(patch, tripId);
+
+        assertNotNull(result);
+        assertEquals(tripPlanId, result.getId());
+        assertEquals("New name", result.getName());
+        assertEquals(2, result.getDay());
+        assertEquals("Old desc", result.getDesc());
+        assertEquals("http://new.link", result.getLink());
+
+        verify(tripPlanRepository, times(1)).findById(tripPlanId);
+        verify(tripPlanRepository, times(1)).save(existing);
     }
 
     @Test

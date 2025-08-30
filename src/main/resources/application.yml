@@ -7,6 +7,8 @@ spring:
       username: ${MONGO_APP_USER:tripmanager_app}
       password: ${MONGO_APP_PASSWORD:<CHANGE_ME_elm^5Ic5VM>}
       authentication-database: ${MONGO_APP_DB:trip-manager}
+      auditing:
+        enabled: true
   thymeleaf:
     enabled: false
     check-template-location: false
@@ -63,6 +65,8 @@ sec:
     jwtCookieName: auth-token
 
 app:
+  rabbit:
+    enabled: true
   activation:
     scheme: http
     domain: localhost
