@@ -5,9 +5,10 @@ import { AuthService } from "../_servive/auth.service";
 import { Paths } from "../../shared/_model/paths";
 
 @Component({
-	selector: 'app-activate-account',
-	templateUrl: './activate-account.component.html',
-	styleUrls: ['./activate-account.component.scss']
+    selector: 'app-activate-account',
+    templateUrl: './activate-account.component.html',
+    styleUrls: ['./activate-account.component.scss'],
+    standalone: false
 })
 export class ActivateAccountComponent implements OnInit {
 	successMessageKey: string | null = null;

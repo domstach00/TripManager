@@ -12,9 +12,10 @@ import {
 import { BudgetCreateDialogComponent } from "../_dialog/budget-create-dialog/budget-create-dialog.component";
 
 @Component({
-  selector: 'budget-table',
-  templateUrl: './budget-table.component.html',
-  styleUrl: './budget-table.component.scss'
+    selector: 'budget-table',
+    templateUrl: './budget-table.component.html',
+    styleUrl: './budget-table.component.scss',
+    standalone: false
 })
 export class BudgetTableComponent extends SearchResultComponent<Budget>{
 	displayedColumns: string[] = ['name', 'owner', 'startDate', 'endDate', 'allocatedBudget', 'actions']

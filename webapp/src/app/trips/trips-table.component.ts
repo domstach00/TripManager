@@ -8,9 +8,10 @@ import { Account } from "../account/_model/account";
 import { TripService } from "./_service/trip.service";
 
 @Component({
-  selector: 'app-trips-table',
-  templateUrl: './trips-table.component.html',
-  styleUrl: './trips-table.component.scss'
+    selector: 'app-trips-table',
+    templateUrl: './trips-table.component.html',
+    styleUrl: './trips-table.component.scss',
+    standalone: false
 })
 export class TripsTableComponent extends SearchResultComponent<Trip> {
 	displayedColumns: string[] = ['name', 'lastUpdate', 'actions']

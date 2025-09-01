@@ -14,9 +14,10 @@ import { TransactionService } from "../_service/transaction.service";
 import { MatDialog } from "@angular/material/dialog";
 
 @Component({
-  selector: 'budget-details',
-  templateUrl: './budget-details.component.html',
-  styleUrl: './budget-details.component.scss',
+    selector: 'budget-details',
+    templateUrl: './budget-details.component.html',
+    styleUrl: './budget-details.component.scss',
+    standalone: false
 })
 export class BudgetDetailsComponent implements OnInit {
 	@ViewChild('transactions') transactionsSearchable?: TransactionsSearchableComponent;

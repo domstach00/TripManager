@@ -13,22 +13,21 @@ import { MatCardModule } from "@angular/material/card";
 import { MatMenuModule } from "@angular/material/menu";
 
 @Component({
-  selector: 'subcategory-table',
-  templateUrl: './subcategory-table.component.html',
-  styleUrl: './subcategory-table.component.scss',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatDialogModule,
-    MatIconModule,
-    MatButtonModule,
-    MatTableModule,
-    TranslateModule,
-    MatTooltipModule,
-    TransactionsSearchableComponent,
-    MatCardModule,
-    MatMenuModule
-  ]
+    selector: 'subcategory-table',
+    templateUrl: './subcategory-table.component.html',
+    styleUrl: './subcategory-table.component.scss',
+    imports: [
+        CommonModule,
+        MatDialogModule,
+        MatIconModule,
+        MatButtonModule,
+        MatTableModule,
+        TranslateModule,
+        MatTooltipModule,
+        TransactionsSearchableComponent,
+        MatCardModule,
+        MatMenuModule
+    ]
 })
 export class SubcategoryTableComponent implements OnInit {
 	@Input() budgetId!: string;

@@ -9,19 +9,18 @@ import { MatButtonModule } from "@angular/material/button";
 import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
-  selector: 'subcategory-create-dialog',
-  templateUrl: './subcategory-create-dialog.component.html',
-  styleUrl: './subcategory-create-dialog.component.scss',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    TranslateModule
-  ]
+    selector: 'subcategory-create-dialog',
+    templateUrl: './subcategory-create-dialog.component.html',
+    styleUrl: './subcategory-create-dialog.component.scss',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        TranslateModule
+    ]
 })
 export class SubcategoryCreateDialogComponent {
 	subCategoryForm: FormGroup;

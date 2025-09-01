@@ -4,9 +4,10 @@ import { CategoryCreateForm, CategoryDialogData } from "../../_model/budget";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 
 @Component({
-  selector: 'category-create-dialog',
-  templateUrl: './category-create-dialog.component.html',
-  styleUrl: './category-create-dialog.component.scss',
+    selector: 'category-create-dialog',
+    templateUrl: './category-create-dialog.component.html',
+    styleUrl: './category-create-dialog.component.scss',
+    standalone: false
 })
 export class CategoryCreateDialogComponent {
 	categoryForm: FormGroup;

@@ -10,19 +10,18 @@ import { TranslateModule } from "@ngx-translate/core";
 import { MatSortModule } from "@angular/material/sort";
 
 @Component({
-  selector: 'transactions-table',
-  templateUrl: './transactions-table.component.html',
-  styleUrl: './transactions-table.component.scss',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatTableModule,
-    MatIconModule,
-    MatButtonModule,
-    MatMenuModule,
-    TranslateModule,
-    MatSortModule
-  ]
+    selector: 'transactions-table',
+    templateUrl: './transactions-table.component.html',
+    styleUrl: './transactions-table.component.scss',
+    imports: [
+        CommonModule,
+        MatTableModule,
+        MatIconModule,
+        MatButtonModule,
+        MatMenuModule,
+        TranslateModule,
+        MatSortModule
+    ]
 })
 export class TransactionsTableComponent extends SearchResultComponent<Transaction> {
 	@Input() displayHeaders: boolean = true;

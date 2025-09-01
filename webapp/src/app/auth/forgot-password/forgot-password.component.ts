@@ -10,9 +10,10 @@ import { ForgotPassword } from "../_model/forgot-password";
 import { Paths } from "../../shared/_model/paths";
 
 @Component({
-  selector: 'forgot-password',
-  templateUrl: './forgot-password.component.html',
-  styleUrl: './forgot-password.component.scss'
+    selector: 'forgot-password',
+    templateUrl: './forgot-password.component.html',
+    styleUrl: './forgot-password.component.scss',
+    standalone: false
 })
 export class ForgotPasswordComponent implements OnInit, OnDestroy {
 	protected subscribe = new Subscription();

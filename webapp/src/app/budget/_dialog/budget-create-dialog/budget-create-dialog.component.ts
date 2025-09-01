@@ -3,9 +3,10 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 
 @Component({
-  selector: 'budget-create-dialog',
-  templateUrl: './budget-create-dialog.component.html',
-  styleUrl: './budget-create-dialog.component.scss'
+    selector: 'budget-create-dialog',
+    templateUrl: './budget-create-dialog.component.html',
+    styleUrl: './budget-create-dialog.component.scss',
+    standalone: false
 })
 export class BudgetCreateDialogComponent {
 	budgetForm: FormGroup;

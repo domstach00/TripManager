@@ -10,16 +10,17 @@ interface TransactionGroup {
 
 
 @Component({
-  selector: 'transactions-on-category-table',
-  templateUrl: './transactions-on-category-table.component.html',
-  styleUrl: './transactions-on-category-table.component.scss',
-	animations: [
-		trigger('detailExpand', [
-			state('collapsed', style({ height: '0px', minHeight: '0', visibility: 'hidden' })),
-			state('expanded', style({ height: '*', visibility: 'visible' })),
-			transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-		]),
-	],
+    selector: 'transactions-on-category-table',
+    templateUrl: './transactions-on-category-table.component.html',
+    styleUrl: './transactions-on-category-table.component.scss',
+    animations: [
+        trigger('detailExpand', [
+            state('collapsed', style({ height: '0px', minHeight: '0', visibility: 'hidden' })),
+            state('expanded', style({ height: '*', visibility: 'visible' })),
+            transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+        ]),
+    ],
+    standalone: false
 })
 export class TransactionsOnCategoryTableComponent extends SearchResultComponent<Transaction> implements OnInit {
 	groupedTransactions: TransactionGroup[] = [];

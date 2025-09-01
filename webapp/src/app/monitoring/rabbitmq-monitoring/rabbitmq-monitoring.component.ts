@@ -6,10 +6,11 @@ import { ApiService } from '../../shared/_service/api.service';
 import { ApiPath } from '../../shared/_model/ApiPath';
 
 @Component({
-  selector: 'app-rabbitmq-monitoring',
-  templateUrl: './rabbitmq-monitoring.component.html',
-  styleUrls: ['./rabbitmq-monitoring.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-rabbitmq-monitoring',
+    templateUrl: './rabbitmq-monitoring.component.html',
+    styleUrls: ['./rabbitmq-monitoring.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class RabbitmqMonitoringComponent implements OnInit {
 

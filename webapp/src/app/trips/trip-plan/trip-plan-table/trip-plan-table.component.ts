@@ -15,9 +15,10 @@ import { SearchResultComponent } from "../../../shared/directives/search-result/
 import { TranslateService } from "@ngx-translate/core";
 
 @Component({
-	selector: 'app-trip-plan-table',
-	templateUrl: './trip-plan-table.component.html',
-	styleUrls: ['./trip-plan-table.component.scss']
+    selector: 'app-trip-plan-table',
+    templateUrl: './trip-plan-table.component.html',
+    styleUrls: ['./trip-plan-table.component.scss'],
+    standalone: false
 })
 export class TripPlanTableComponent extends SearchResultComponent<TripPlan> implements OnInit {
 	displayedColumns: string[] = ['name', 'day', 'cost', 'mapElementName', 'actions'];

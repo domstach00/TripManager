@@ -24,30 +24,29 @@ import { MatMenuModule } from "@angular/material/menu";
 
 
 @Component({
-  selector: 'category-table-v2',
-  templateUrl: './category-table-v2.component.html',
-  styleUrl: './category-table-v2.component.scss',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatIconModule,
-    MatButtonModule,
-    MatTableModule,
-    MatProgressBarModule,
-    TranslateModule,
-    MatTooltipModule,
-    SubcategoryTableComponent,
-    TransactionsSearchableComponent,
-    MatCardModule,
-    MatMenuModule
-  ],
-  animations: [
-		trigger('detailExpand', [
-			state('collapsed', style({ height: '0px', minHeight: '0', visibility: 'hidden' })),
-			state('expanded', style({ height: '*', visibility: 'visible' })),
-			transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-		]),
-	],
+    selector: 'category-table-v2',
+    templateUrl: './category-table-v2.component.html',
+    styleUrl: './category-table-v2.component.scss',
+    imports: [
+        CommonModule,
+        MatIconModule,
+        MatButtonModule,
+        MatTableModule,
+        MatProgressBarModule,
+        TranslateModule,
+        MatTooltipModule,
+        SubcategoryTableComponent,
+        TransactionsSearchableComponent,
+        MatCardModule,
+        MatMenuModule
+    ],
+    animations: [
+        trigger('detailExpand', [
+            state('collapsed', style({ height: '0px', minHeight: '0', visibility: 'hidden' })),
+            state('expanded', style({ height: '*', visibility: 'visible' })),
+            transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+        ]),
+    ]
 })
 export class CategoryTableV2Component implements OnInit {
 	@Input() budgetId!: string;

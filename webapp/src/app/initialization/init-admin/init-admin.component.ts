@@ -9,11 +9,10 @@ import { MessageResponse } from "../../shared/_model/base-models.interface";
 import { SharedModule } from "../../shared/shared.module";
 
 @Component({
-	selector: 'app-init-admin',
-	standalone: true,
-	imports: [CommonModule, ReactiveFormsModule, SharedModule],
-	templateUrl: './init-admin.component.html',
-	styleUrl: './init-admin.component.scss'
+    selector: 'app-init-admin',
+    imports: [CommonModule, ReactiveFormsModule, SharedModule],
+    templateUrl: './init-admin.component.html',
+    styleUrl: './init-admin.component.scss'
 })
 export class InitAdminComponent implements OnInit {
 	enabled = false;

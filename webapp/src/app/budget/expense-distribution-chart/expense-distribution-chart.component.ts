@@ -3,9 +3,10 @@ import { BudgetService } from '../_service/budget.service';
 import { CategoryWithStats } from '../_model/budget';
 
 @Component({
-  selector: 'app-expense-distribution-chart',
-  templateUrl: './expense-distribution-chart.component.html',
-  styleUrl: './expense-distribution-chart.component.scss'
+    selector: 'app-expense-distribution-chart',
+    templateUrl: './expense-distribution-chart.component.html',
+    styleUrl: './expense-distribution-chart.component.scss',
+    standalone: false
 })
 export class ExpenseDistributionChartComponent implements OnInit {
   @Input() budgetId!: string;

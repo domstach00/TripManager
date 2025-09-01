@@ -10,15 +10,14 @@ export interface ConfirmActionData {
 }
 
 @Component({
-	selector: 'app-confirmation-action-dialog',
-	templateUrl: './confirm-action-dialog.component.html',
-	styleUrls: ['./confirm-action-dialog.component.scss'],
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatDialogModule,
-    MatButtonModule
-  ]
+    selector: 'app-confirmation-action-dialog',
+    templateUrl: './confirm-action-dialog.component.html',
+    styleUrls: ['./confirm-action-dialog.component.scss'],
+    imports: [
+        CommonModule,
+        MatDialogModule,
+        MatButtonModule
+    ]
 })
 export class ConfirmActionDialogComponent {
 	constructor(

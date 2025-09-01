@@ -4,9 +4,10 @@ import { AuthService } from "../../../auth/_servive/auth.service";
 import { RouterService } from "../../_service/router.service";
 
 @Component({
-	selector: 'app-header',
-	templateUrl: './header.component.html',
-	styleUrls: ['./header.component.scss']
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss'],
+    standalone: false
 })
 export class HeaderComponent {
 	@Input() account: Account;

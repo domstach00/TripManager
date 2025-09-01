@@ -11,9 +11,10 @@ import { BudgetCreateDialogComponent } from "../_dialog/budget-create-dialog/bud
 import { MatDialog } from "@angular/material/dialog";
 
 @Component({
-  selector: 'budget-table-presenter',
-  templateUrl: './budget-table-presenter.component.html',
-  styleUrl: './budget-table-presenter.component.scss'
+    selector: 'budget-table-presenter',
+    templateUrl: './budget-table-presenter.component.html',
+    styleUrl: './budget-table-presenter.component.scss',
+    standalone: false
 })
 export class BudgetTablePresenterComponent extends SearchableComponent<Budget, Page<Budget>> implements OnInit {
 	joinCode: string = '';

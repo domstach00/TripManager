@@ -8,9 +8,10 @@ import { RouterService } from "../../shared/_service/router.service";
 import { RegisterCredentials } from "../_model/register-credentials";
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+    selector: 'app-register',
+    templateUrl: './register.component.html',
+    styleUrl: './register.component.scss',
+    standalone: false
 })
 export class RegisterComponent implements OnInit {
 	protected readonly MIN_PASSWORD_LENGTH: number = 6;

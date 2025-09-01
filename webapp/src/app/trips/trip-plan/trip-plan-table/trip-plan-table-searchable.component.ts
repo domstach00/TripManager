@@ -13,9 +13,10 @@ import {
 import { MatDialog } from "@angular/material/dialog";
 
 @Component({
-  selector: 'trip-plan-table-searchable',
-  templateUrl: './trip-plan-table-searchable.component.html',
-  styleUrl: './trip-plan-table-searchable.component.scss'
+    selector: 'trip-plan-table-searchable',
+    templateUrl: './trip-plan-table-searchable.component.html',
+    styleUrl: './trip-plan-table-searchable.component.scss',
+    standalone: false
 })
 export class TripPlanTableSearchableComponent extends SearchableComponent<TripPlan, Page<TripPlan>> implements OnInit, OnChanges {
 	@Input() tripId: string;

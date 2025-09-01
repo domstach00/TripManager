@@ -13,18 +13,18 @@
   "private": true,
   "dependencies": {
     "@angular-magic/ngx-gp-autocomplete": "^2.0.2",
-    "@angular/animations": "^18.2.3",
-    "@angular/cdk": "^18.2.3",
-    "@angular/common": "^18.2.3",
-    "@angular/compiler": "^18.2.3",
-    "@angular/core": "^18.2.3",
+    "@angular/animations": "^20.2.3",
+    "@angular/cdk": "^20.2.1",
+    "@angular/common": "^20.2.3",
+    "@angular/compiler": "^20.2.3",
+    "@angular/core": "^20.2.3",
     "@angular/flex-layout": "^15.0.0-beta.42",
-    "@angular/forms": "^18.2.3",
-    "@angular/google-maps": "^18.2.3",
-    "@angular/material": "^18.2.3",
-    "@angular/platform-browser": "^18.2.3",
-    "@angular/platform-browser-dynamic": "^18.2.3",
-    "@angular/router": "^18.2.3",
+    "@angular/forms": "^20.2.3",
+    "@angular/google-maps": "^20.2.1",
+    "@angular/material": "^20.2.1",
+    "@angular/platform-browser": "^20.2.3",
+    "@angular/platform-browser-dynamic": "^20.2.3",
+    "@angular/router": "^20.2.3",
     "@googlemaps/js-api-loader": "^1.16.8",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
@@ -33,13 +33,14 @@
     "@types/google.maps": "^3.57.0",
     "ngx-toastr": "^19.0.0",
     "rxjs": "~7.8.1",
-    "tslib": "^2.7.0"
+    "tslib": "^2.7.0",
+    "zone.js": "^0.15.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^18.2.3",
-    "@angular/cli": "~18.2.3",
-    "@angular/compiler-cli": "^18.2.3",
-    "@angular/localize": "^18.2.3",
+    "@angular-devkit/build-angular": "^20.2.1",
+    "@angular/cli": "~20.2.1",
+    "@angular/compiler-cli": "^20.2.3",
+    "@angular/localize": "^20.2.3",
     "@types/d3-scale": "^4.0.9",
     "@types/d3-selection": "^3.0.11",
     "@types/d3-shape": "^3.1.7",
@@ -50,6 +51,6 @@
     "karma-coverage": "~2.2.1",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.4.5"
+    "typescript": "~5.8.3"
   }
 }

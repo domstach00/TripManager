@@ -6,9 +6,10 @@ import { getMapIconPath } from "../../_model/MapPinIcons";
 import { GoogleMapsLoaderService } from "../../_service/google-maps-loader.service";
 
 @Component({
-	selector: 'app-trip-plan-map',
-	templateUrl: './trip-plan-map.component.html',
-	styleUrls: ['./trip-plan-map.component.scss']
+    selector: 'app-trip-plan-map',
+    templateUrl: './trip-plan-map.component.html',
+    styleUrls: ['./trip-plan-map.component.scss'],
+    standalone: false
 })
 export class TripPlanMapComponent implements OnInit {
 	private zoom = 5;

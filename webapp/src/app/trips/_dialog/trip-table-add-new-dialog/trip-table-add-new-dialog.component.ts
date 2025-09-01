@@ -6,9 +6,10 @@ import {
 import { Trip } from "../../_model/trip";
 
 @Component({
-	selector: 'app-trip-table-add-new-dialog',
-	templateUrl: './trip-table-add-new-dialog.component.html',
-	styleUrls: ['./trip-table-add-new-dialog.component.scss']
+    selector: 'app-trip-table-add-new-dialog',
+    templateUrl: './trip-table-add-new-dialog.component.html',
+    styleUrls: ['./trip-table-add-new-dialog.component.scss'],
+    standalone: false
 })
 export class TripTableAddNewDialogComponent {
 	constructor(

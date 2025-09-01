@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'budget',
-  templateUrl: './budget.component.html',
-  styleUrl: './budget.component.scss'
+    selector: 'budget',
+    templateUrl: './budget.component.html',
+    styleUrl: './budget.component.scss',
+    standalone: false
 })
 export class BudgetComponent implements OnInit {
   budgetId!: string;

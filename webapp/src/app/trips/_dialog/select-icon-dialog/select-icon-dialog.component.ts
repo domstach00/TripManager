@@ -8,9 +8,10 @@ export interface IconItem {
 }
 
 @Component({
-	selector: 'app-select-icon-dialog',
-	templateUrl: './select-icon-dialog.component.html',
-	styleUrls: ['./select-icon-dialog.component.scss']
+    selector: 'app-select-icon-dialog',
+    templateUrl: './select-icon-dialog.component.html',
+    styleUrls: ['./select-icon-dialog.component.scss'],
+    standalone: false
 })
 export class SelectIconDialogComponent {
 	icons: IconItem[];

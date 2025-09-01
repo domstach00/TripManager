@@ -12,9 +12,10 @@ enum ShowToggle {
 }
 
 @Component({
-	selector: 'app-trip-plan',
-	templateUrl: './trip-plan.component.html',
-	styleUrls: ['./trip-plan.component.scss']
+    selector: 'app-trip-plan',
+    templateUrl: './trip-plan.component.html',
+    styleUrls: ['./trip-plan.component.scss'],
+    standalone: false
 })
 export class TripPlanComponent implements OnInit, OnDestroy {
 	dataSource$ = new BehaviorSubject<TripPlan[]>([]);

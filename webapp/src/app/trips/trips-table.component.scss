@@ -1,4 +1,5 @@
-@import "../../styles/variables.scss";
+@use "sass:color";
+@use "../../styles/variables.scss" as *;
 
 .table-content {
 	width: 100%;
@@ -44,7 +45,7 @@
 			color: $surface-color;
 			font-weight: bold;
 			font-size: $font-size-base * 1.1;
-			border-bottom: 2px solid darken($primary-color, 10%);
+			border-bottom: 2px solid color.adjust($primary-color, $lightness: -10%);
 
 			&:first-child {
 				border-top-left-radius: $border-radius-md;
@@ -63,11 +64,11 @@
 			transition: background-color 0.2s ease-in-out;
 
 			&:nth-child(even) {
-				background-color: lighten($surface-color, 2%);
+				background-color: color.adjust($surface-color, $lightness: 2%);
 			}
 
 			&:hover {
-				background-color: lighten($primary-color, 40%);
+				background-color: color.adjust($primary-color, $lightness: 40%);
 			}
 
 			&:last-child {

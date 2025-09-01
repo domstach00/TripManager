@@ -24,25 +24,24 @@ import { TransactionsTableComponent } from "./transactions-table.component";
 import { PaginatorComponent } from "../../shared/components/paginator/paginator.component";
 
 @Component({
-  selector: 'transactions-searchable',
-  templateUrl: './transactions-searchable.component.html',
-  styleUrl: './transactions-searchable.component.scss',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatTableModule,
-    MatSortModule,
-    MatIconModule,
-    MatButtonModule,
-    TranslateModule,
-    MatTooltipModule,
-    MatMenuModule,
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    TransactionsTableComponent,
-    PaginatorComponent
-  ]
+    selector: 'transactions-searchable',
+    templateUrl: './transactions-searchable.component.html',
+    styleUrl: './transactions-searchable.component.scss',
+    imports: [
+        CommonModule,
+        MatTableModule,
+        MatSortModule,
+        MatIconModule,
+        MatButtonModule,
+        TranslateModule,
+        MatTooltipModule,
+        MatMenuModule,
+        MatFormFieldModule,
+        MatInputModule,
+        FormsModule,
+        TransactionsTableComponent,
+        PaginatorComponent
+    ]
 })
 export class TransactionsSearchableComponent extends SearchableComponent<Transaction, Page<Transaction>> implements OnInit {
 	@Input() budgetId!: string;

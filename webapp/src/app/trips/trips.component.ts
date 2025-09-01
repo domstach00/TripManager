@@ -13,9 +13,10 @@ import { AccountService } from "../account/_serice/account.service";
 import { ActivatedRoute } from "@angular/router";
 
 @Component({
-	selector: 'app-trips',
-	templateUrl: './trips.component.html',
-	styleUrls: ['./trips.component.scss']
+    selector: 'app-trips',
+    templateUrl: './trips.component.html',
+    styleUrls: ['./trips.component.scss'],
+    standalone: false
 })
 export class TripsComponent extends SearchableComponent<Trip, Page<Trip>> implements OnInit {
 

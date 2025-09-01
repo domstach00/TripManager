@@ -4,9 +4,10 @@ import { Account } from "../../../account/_model/account";
 import { TranslateService } from "@ngx-translate/core";
 
 @Component({
-  selector: 'app-default-page',
-  templateUrl: './default-page.component.html',
-  styleUrl: './default-page.component.scss'
+    selector: 'app-default-page',
+    templateUrl: './default-page.component.html',
+    styleUrl: './default-page.component.scss',
+    standalone: false
 })
 export class DefaultPageComponent implements OnInit {
 	@Input() account?: Account;

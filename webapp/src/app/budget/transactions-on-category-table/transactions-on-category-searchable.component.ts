@@ -9,9 +9,10 @@ import { Observable } from "rxjs";
 import { TransactionService } from "../_service/transaction.service";
 
 @Component({
-  selector: 'transactions-on-category-searchable',
-  templateUrl: './transactions-on-category-searchable.component.html',
-  styleUrl: './transactions-on-category-searchable.component.scss'
+    selector: 'transactions-on-category-searchable',
+    templateUrl: './transactions-on-category-searchable.component.html',
+    styleUrl: './transactions-on-category-searchable.component.scss',
+    standalone: false
 })
 export class TransactionsOnCategorySearchableComponent extends SearchableComponent<Transaction, Page<Transaction>> implements OnInit {
 	@Input() budgetId!: string;

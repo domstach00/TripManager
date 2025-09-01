@@ -10,9 +10,10 @@ import { LoginCredentials } from "../_model/login-credentials";
 import { ToastrService } from "ngx-toastr";
 
 @Component({
-	selector: 'app-login-form',
-	templateUrl: './login-form.component.html',
-	styleUrls: ['./login-form.component.scss']
+    selector: 'app-login-form',
+    templateUrl: './login-form.component.html',
+    styleUrls: ['./login-form.component.scss'],
+    standalone: false
 })
 export class LoginFormComponent implements OnInit, OnDestroy {
 	protected subscribe = new Subscription();

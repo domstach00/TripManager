@@ -10,9 +10,10 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'transaction-create-dialog',
-  templateUrl: './transaction-create-dialog.component.html',
-  styleUrl: './transaction-create-dialog.component.scss'
+    selector: 'transaction-create-dialog',
+    templateUrl: './transaction-create-dialog.component.html',
+    styleUrl: './transaction-create-dialog.component.scss',
+    standalone: false
 })
 export class TransactionCreateDialogComponent implements OnInit {
 	transactionForm: FormGroup;

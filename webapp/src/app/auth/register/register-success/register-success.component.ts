@@ -3,9 +3,10 @@ import { TranslateService } from "@ngx-translate/core";
 import { Paths } from "../../../shared/_model/paths";
 
 @Component({
-  selector: 'app-register-success',
-  templateUrl: './register-success.component.html',
-  styleUrl: './register-success.component.scss'
+    selector: 'app-register-success',
+    templateUrl: './register-success.component.html',
+    styleUrl: './register-success.component.scss',
+    standalone: false
 })
 export class RegisterSuccessComponent {
 

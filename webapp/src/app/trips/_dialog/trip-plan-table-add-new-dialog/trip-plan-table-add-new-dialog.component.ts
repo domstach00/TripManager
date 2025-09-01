@@ -12,9 +12,10 @@ import { TripPlanService } from '../../_service/trip-plan.service';
 import { GoogleMapsLoaderService } from '../../_service/google-maps-loader.service';
 
 @Component({
-	selector: 'app-trip-plan-table-add-new-dialog',
-	templateUrl: './trip-plan-table-add-new-dialog.component.html',
-	styleUrls: ['./trip-plan-table-add-new-dialog.component.scss']
+    selector: 'app-trip-plan-table-add-new-dialog',
+    templateUrl: './trip-plan-table-add-new-dialog.component.html',
+    styleUrls: ['./trip-plan-table-add-new-dialog.component.scss'],
+    standalone: false
 })
 export class TripPlanTableAddNewDialogComponent implements OnInit, AfterViewInit {
 	@ViewChild('autocompleteInput', { static: true })
