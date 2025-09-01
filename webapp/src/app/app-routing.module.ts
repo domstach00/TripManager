@@ -25,6 +25,7 @@ const routes: Routes = [
 	{ path: 'trips', loadChildren: () => import('./trips/trips.module').then(m => m.TripsModule), canActivate: [AuthGuard] },
 	{ path: 'budgets', loadChildren: () => import('./budget/budget.module').then(m => m.BudgetModule), canActivate: [AuthGuard] },
 	{ path: 'initialize', component: InitAdminComponent, canActivate: [initializationEnabledCanMach] },
+	{ path: 'monitoring', loadChildren: () => import('./monitoring/rabbitmq-monitoring/rabbitmq-monitoring.module').then(m => m.RabbitmqMonitoringModule), canActivate: [AuthGuard] }, // TODO : add AdminGuard
 	{ path: '**', redirectTo: '/not-found' },
 ];
 

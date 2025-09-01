@@ -12,6 +12,8 @@ public enum Role {
     ROLE_MODERATOR,
     ROLE_ADMIN;
 
+    public static final String ROLE_ADMIN_NAME = "ROLE_ADMIN";
+
     public static Collection<? extends GrantedAuthority> toGrantedAuthorities(Collection<Role> roles) {
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority(role.name()))

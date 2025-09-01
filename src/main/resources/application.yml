@@ -31,6 +31,10 @@ spring:
     username: ${RABBITMQ_APP_USER:tripmanager_svc}
     password: ${RABBITMQ_APP_PASSWORD:<CHANGE_ME_!vNE*d1iPl>}
     virtual-host: ${RABBITMQ_APP_VHOST:/trip-manager}
+    management:
+      url: http://${RABBITMQ_MANAGEMENT_HOST:localhost}:${RABBITMQ_MANAGEMENT_PORT:15672}
+      username: ${RABBITMQ_USER:tripmanager_admin}
+      password: ${RABBITMQ_PASS:<CHANGE_ME_rjt5C*2pI@>}
     listener:
       simple:
         retry:
