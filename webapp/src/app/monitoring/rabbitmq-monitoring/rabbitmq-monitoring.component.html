@@ -41,34 +41,40 @@
 		  {{ 'monitoring.rabbitmq.table.no-queues' | translate }}
       </div>
 
-      <mat-card class="chart-card" *ngIf="queues.length > 0">
-        <mat-card-title>{{ 'monitoring.rabbitmq.chart.title' | translate }}</mat-card-title>
-        <mat-card-content>
-          <ngx-charts-line-chart
-            [results]="chartData"
-            [xAxis]="true"
-            [yAxis]="true"
-            [showXAxisLabel]="true"
-            [showYAxisLabel]="true"
-            xAxisLabel="{{ 'monitoring.rabbitmq.chart.xAxisLabel' | translate }}"
-            yAxisLabel="{{ 'monitoring.rabbitmq.chart.yAxisLabel' | translate }}"
-            [legend]="true"
-            [autoScale]="true"
-            [timeline]="false"
-            [xAxisTickFormatting]="xAxisTickFormatting.bind(this)"
-            [scheme]="'natural'"
-            [roundDomains]="true"
-            [curve]="'monotoneX'"
-            [gradient]="true"
-            [tooltipDisabled]="false"
-            [showGridLines]="true"
-            [animations]="true"
-          >
-          </ngx-charts-line-chart>
-        </mat-card-content>
-      </mat-card>
+<!--          <mat-card class="chart-card" *ngIf="queues.length > 0">-->
+<!--            <mat-card-title>{{ 'monitoring.rabbitmq.chart.title' | translate }}</mat-card-title>-->
+<!--            <mat-card-content>-->
+<!--              <ngx-charts-line-chart-->
+<!--                [results]="chartData"-->
+<!--                [xAxis]="true"-->
+<!--                [yAxis]="true"-->
+<!--                [showXAxisLabel]="true"-->
+<!--                [showYAxisLabel]="true"-->
+<!--                xAxisLabel="{{ 'monitoring.rabbitmq.chart.xAxisLabel' | translate }}"-->
+<!--                yAxisLabel="{{ 'monitoring.rabbitmq.chart.yAxisLabel' | translate }}"-->
+<!--                [legend]="true"-->
+<!--                [autoScale]="true"-->
+<!--                [timeline]="false"-->
+<!--                [xAxisTickFormatting]="xAxisTickFormatting.bind(this)"-->
+<!--                [scheme]="'natural'"-->
+<!--                [roundDomains]="true"-->
+<!--                [curve]="'monotoneX'"-->
+<!--                [gradient]="true"-->
+<!--                [tooltipDisabled]="false"-->
+<!--                [showGridLines]="true"-->
+<!--                [animations]="true"-->
+<!--              >-->
+<!--              </ngx-charts-line-chart>-->
+<!--            </mat-card-content>-->
+<!--          </mat-card>-->
 
-    </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="{{ 'monitoring.rabbitmq.tabs.dlq' | translate }}">
+        <div class="dlq-content">
+          <div class="spinner-container" *ngIf="isLoadingDlq">
+            <mat-spinner></mat-spinner>
+          </div>
 
     <ng-template #loading>
       <div class="loading-spinner">
