@@ -33,8 +33,7 @@
 				class="category-progress-bar"
 				mode="determinate"
 				[value]="calculateSpentPercentage(category)"
-				[style.--mat-progress-bar-active-indicator-color]="category.color"
-				[style.--mat-progress-bar-track-color]="getBlanderColor(category.color)"
+				[ngStyle]="{'--mdc-linear-progress-active-indicator-color': category.color, '--mdc-linear-progress-track-color': getBlanderColor(category.color)}"
 			></mat-progress-bar>
 			<div [@detailExpand]="isExpanded(category) ? 'expanded' : 'collapsed'" class="expandable-section">
 				<subcategory-table
