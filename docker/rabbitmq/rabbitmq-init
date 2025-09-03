@@ -1,31 +1,101 @@
 #!/bin/sh
-set -e
+set -eu
 
-# Wait for RabbitMQ to be ready
-until rabbitmqctl status > /dev/null 2>&1; do
-  echo "Waiting for RabbitMQ to start..."
+log() { printf '%s %s\n' "[init]" "$*"; }
+
+#ENV + safe default
+VHOST="${RABBITMQ_APP_VHOST}"
+APP_USER="${RABBITMQ_APP_USER}"
+APP_PASS="${RABBITMQ_APP_PASSWORD}"
+ADMIN_USER="${RABBITMQ_DEFAULT_USER}"
+ADMIN_PASS="${RABBITMQ_DEFAULT_PASS}"
+DLX_NAME="${RABBITMQ_DLX_NAME}"
+DLQ_NAME="${RABBITMQ_DLQ_NAME}"
+DLQ_RK="${RABBITMQ_DLQ_ROUTING_KEY}"
+
+DLQ_VIEW_USER="${RABBITMQ_DLQ_VIEWER_USER:-dlq_viewer}"
+DLQ_VIEW_PASS="${RABBITMQ_DLQ_VIEWER_PASSWORD:-CHANGE_ME_NG23^NA&%j}"
+
+URL_VHOST=$(printf "%s" "$VHOST" | sed 's,/,%2F,g')
+DLX_URL=$(printf "%s" "$DLX_NAME" | sed -e 's/@/%40/g')
+
+log "Waiting for RabbitMQ node..."
+until rabbitmqctl status >/dev/null 2>&1; do sleep 1; done
+log "Node is up."
+
+log "Waiting for Management API..."
+until curl -sf -u "$ADMIN_USER:$ADMIN_PASS" "http://localhost:15672/api/overview" >/dev/null; do
   sleep 1
 done
+log "Management API is up."
 
-# Create vhost if it doesn't exist
-if ! rabbitmqctl list_vhosts | grep -qw "${RABBITMQ_APP_VHOST}"; then
-    rabbitmqctl add_vhost "${RABBITMQ_APP_VHOST}"
-    echo "Created vhost: ${RABBITMQ_APP_VHOST}"
+# -------- VHOST --------
+if ! rabbitmqctl list_vhosts | grep -qw "$VHOST"; then
+  rabbitmqctl add_vhost "$VHOST"
+  log "Created vhost: $VHOST"
 else
-    echo "Vhost ${RABBITMQ_APP_VHOST} already exists"
+  log "Vhost $VHOST already exists"
 fi
 
-# Create user or update password
-if rabbitmqctl list_users | grep -qw "${RABBITMQ_APP_USER}"; then
-    rabbitmqctl change_password "${RABBITMQ_APP_USER}" "${RABBITMQ_APP_PASSWORD}"
-    echo "Changed password for user: ${RABBITMQ_APP_USER}"
+# -------- USER + PERMS --------
+if rabbitmqctl list_users | grep -qw "$APP_USER"; then
+  rabbitmqctl change_password "$APP_USER" "$APP_PASS"
+  log "Updated password for user: $APP_USER"
 else
-    rabbitmqctl add_user "${RABBITMQ_APP_USER}" "${RABBITMQ_APP_PASSWORD}"
-    echo "Created user: ${RABBITMQ_APP_USER}"
+  rabbitmqctl add_user "$APP_USER" "$APP_PASS"
+  log "Created user: $APP_USER"
 fi
 
-# Set permissions for user on vhost
-rabbitmqctl set_permissions -p "${RABBITMQ_APP_VHOST}" "${RABBITMQ_APP_USER}" ".*" ".*" ".*"
-echo "Set permissions for user ${RABBITMQ_APP_USER} on vhost ${RABBITMQ_APP_VHOST}"
+# Admin and app-user get full permissions on the vhost (we narrow app-user at the end for DLQ)
+rabbitmqctl set_permissions -p "$VHOST" "$ADMIN_USER" ".*" ".*" ".*"  >/dev/null || true
+rabbitmqctl set_permissions -p "$VHOST" "$APP_USER"  ".*" ".*" ".*"   >/dev/null || true
+log "Granted broad perms to $ADMIN_USER and $APP_USER on $VHOST"
 
-echo "RabbitMQ initialization script finished."
+# -------- DLX (exchange) --------
+curl -sS -u "$ADMIN_USER:$ADMIN_PASS" -H "content-type: application/json" \
+  -X PUT "http://localhost:15672/api/exchanges/${URL_VHOST}/${DLX_NAME}" \
+  -d '{"type":"topic","durable":true}' >/dev/null || true
+log "Ensured DLX exchange: $DLX_NAME"
+
+# -------- DLQ (queue) – without any arguments --------
+curl -sS -u "$ADMIN_USER:$ADMIN_PASS" -H "content-type: application/json" \
+  -X PUT "http://localhost:15672/api/queues/${URL_VHOST}/${DLQ_NAME}" \
+  -d '{"durable":true,"arguments":{}}' >/dev/null || true
+log "Ensured DLQ queue: $DLQ_NAME"
+
+# -------- Binding DLX -> DLQ --------
+curl -sS -u "$ADMIN_USER:$ADMIN_PASS" -H "content-type: application/json" \
+  -X POST "http://localhost:15672/api/bindings/${URL_VHOST}/e/${DLX_URL}/q/${DLQ_NAME}" \
+  -d "{\"routing_key\":\"${DLQ_RK}\"}" >/dev/null || true
+log "Ensured binding: ${DLX_NAME} -> ${DLQ_NAME} (rk=${DLQ_RK})"
+
+# -------- DLX Policy for all queues except DLQ --------
+PATTERN=$(printf '^(?!%s$).*' "${DLQ_NAME}")
+rabbitmqctl set_policy -p "$VHOST" --priority 0 --apply-to queues dlx-policy \
+  "$PATTERN" \
+  "{\"dead-letter-exchange\":\"${DLX_NAME}\",\"dead-letter-routing-key\":\"${DLQ_RK}\"}" >/dev/null || true
+log "Applied policy 'dlx-policy' to all queues except '${DLQ_NAME}'"
+
+# -------- Restrict READ on DLQ for application user --------
+READ_REGEX=$(printf '^(?!%s$).*' "${DLQ_NAME}")
+rabbitmqctl set_permissions -p "$VHOST" "$APP_USER" ".*" ".*" "$READ_REGEX" >/dev/null || true
+log "Restricted READ for $APP_USER (cannot read '${DLQ_NAME}')"
+
+# -------- DLQ view-only user --------
+if [ -n "$DLQ_VIEW_PASS" ]; then
+  if rabbitmqctl list_users | grep -qw "$DLQ_VIEW_USER"; then
+    rabbitmqctl change_password "$DLQ_VIEW_USER" "$DLQ_VIEW_PASS" >/dev/null || true
+    log "Updated password for user: $DLQ_VIEW_USER"
+  else
+    rabbitmqctl add_user "$DLQ_VIEW_USER" "$DLQ_VIEW_PASS" >/dev/null || true
+    log "Created user: $DLQ_VIEW_USER"
+  fi
+  # READ only for 'dlq', no configure/write
+  rabbitmqctl set_permissions -p "$VHOST" "$DLQ_VIEW_USER" '^$' '^$' "^${DLQ_NAME}\$" >/dev/null || true
+  rabbitmqctl set_user_tags "$DLQ_VIEW_USER" management >/dev/null || true
+  log "Granted DLQ view-only perms to $DLQ_VIEW_USER (management tag)"
+else
+  log "DLQ viewer not created (set RABBITMQ_DLQ_VIEWER_PASSWORD to enable)"
+fi
+
+log "RabbitMQ initialization finished."

@@ -2,6 +2,7 @@ import { Component, Input } from "@angular/core";
 import { Account } from "../../../account/_model/account";
 import { AuthService } from "../../../auth/_servive/auth.service";
 import { RouterService } from "../../_service/router.service";
+import { AccountService } from "../../../account/_serice/account.service";
 
 @Component({
     selector: 'app-header',
@@ -16,6 +17,7 @@ export class HeaderComponent {
 	constructor(
 		readonly authService: AuthService,
 		readonly routerService: RouterService,
+		readonly accountService: AccountService,
 	) {
 	}
 
@@ -29,5 +31,9 @@ export class HeaderComponent {
 
 	logout() {
 		this.authService.logout();
+	}
+
+	isAdmin(): boolean {
+		return this.account && this.account.roles.includes('ROLE_ADMIN');
 	}
 }

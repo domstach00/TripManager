@@ -34,6 +34,10 @@ export class RouterService {
 		this.navTo(Paths.budgets)
 	}
 
+	public navToMonitoringRabbitmq() {
+		this.navTo(Paths.monitoringRabbitmq);
+	}
+
 	public navToTrip(tripId: string) {
 		this.navTo(Paths.trip, [tripId]);
 	}

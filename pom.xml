@@ -82,6 +82,11 @@
             <version>${jwt.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
+        </dependency>
+
         <!-- Mail / Thymeleaf / RabbitMQ -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

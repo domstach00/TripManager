@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Observable, timer } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { finalize, switchMap, tap } from 'rxjs/operators';
 import { QueueInfo } from './queue-info.model';
-import { ApiService } from '../../shared/_service/api.service';
-import { ApiPath } from '../../shared/_model/ApiPath';
+import { RabbitMqMonitoringService } from './rabbitmq-monitoring.service';
+import { DlqMessage } from './dlq.message';
 
 @Component({
     selector: 'app-rabbitmq-monitoring',
@@ -17,37 +17,70 @@ export class RabbitmqMonitoringComponent implements OnInit {
   queues$: Observable<QueueInfo[]>;
   displayedColumns: string[] = ['name', 'messages', 'messagesReady', 'messagesUnacknowledged', 'consumers', 'node'];
 
+  dlqMessages: DlqMessage[] = [];
+  isLoadingDlq = false;
+  displayedDlqColumns: string[] = ['payload', 'reason', 'originalExchange', 'originalRoutingKey', 'actions'];
+
   chartData: any[] = [];
   readonly maxChartDataPoints = 20;
 
-  constructor(private apiService: ApiService, private cdr: ChangeDetectorRef) { }
+  constructor(private rabbitMqMonitoringService: RabbitMqMonitoringService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.queues$ = timer(0, 5000).pipe(
-      switchMap(() => this.apiService.get<QueueInfo[]>(ApiPath.rabbitmqQueues)),
+      switchMap(() => this.rabbitMqMonitoringService.getQueues()),
       tap(queues => {
         queues.forEach(queue => {
-          // Find or create series for the current queue
           let series = this.chartData.find(s => s.name === queue.name);
           if (!series) {
             series = { name: queue.name, series: [] };
             this.chartData.push(series);
           }
-
-          // Add new data point
           series.series.push({ name: new Date().getTime(), value: queue.messages });
-
-          // Limit data points
           if (series.series.length > this.maxChartDataPoints) {
-            series.series.shift(); // Remove the oldest data point
+            series.series.shift();
           }
         });
-
-        // Trigger change detection for ngx-charts
         this.chartData = [...this.chartData];
-        this.cdr.detectChanges(); // Force change detection
+        this.cdr.detectChanges();
       })
     );
+
+    this.loadDlqMessages();
+  }
+
+  loadDlqMessages(): void {
+    this.isLoadingDlq = true;
+    this.rabbitMqMonitoringService.getDlqMessages()
+      .pipe(finalize(() => {
+        this.isLoadingDlq = false;
+        this.cdr.detectChanges();
+      }))
+      .subscribe(messages => {
+        this.dlqMessages = messages;
+      });
+  }
+
+  requeue(message: DlqMessage): void {
+    this.rabbitMqMonitoringService.requeueMessage(message)
+      .subscribe(() => {
+        this.loadDlqMessages();
+      });
+  }
+
+  getReason(message: DlqMessage): string {
+    const xDeath = message.properties.headers['x-death'][0];
+    return xDeath ? xDeath.reason : 'N/A';
+  }
+
+  getOriginalExchange(message: DlqMessage): string {
+    const xDeath = message.properties.headers['x-death'][0];
+    return xDeath ? xDeath.exchange : 'N/A';
+  }
+
+  getOriginalRoutingKey(message: DlqMessage): string {
+    const xDeath = message.properties.headers['x-death'][0];
+    return xDeath ? xDeath['routing-keys'][0] : 'N/A';
   }
 
   xAxisTickFormatting(val: number): string {

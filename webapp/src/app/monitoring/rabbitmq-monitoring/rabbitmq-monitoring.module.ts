@@ -6,6 +6,9 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { RabbitmqMonitoringRoutingModule } from './rabbitmq-monitoring-routing.module';
 import { RabbitmqMonitoringComponent } from './rabbitmq-monitoring.component';
 import { SharedModule } from '../../shared/shared.module';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({
@@ -18,7 +21,10 @@ import { SharedModule } from '../../shared/shared.module';
     MatTableModule,
     MatCardModule,
     MatProgressSpinnerModule,
-    NgxChartsModule
+    NgxChartsModule,
+    MatTabsModule,
+    MatIconModule,
+    MatButtonModule
   ]
 })
 export class RabbitmqMonitoringModule { }

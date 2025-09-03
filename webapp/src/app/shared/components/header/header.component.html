@@ -32,6 +32,16 @@
 		</button>
 	</div>
 
+	<div class="toolbar-item" *ngIf="isAdmin()">
+		<button
+			mat-button
+			(click)="routerService.navToMonitoringRabbitmq()"
+		>
+			<mat-icon>monitoring</mat-icon>
+			Monitoring
+		</button>
+	</div>
+
 	<div class="fill-remaining-space"></div>
 
 	<div class="toolbar-item">

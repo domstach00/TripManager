@@ -1,45 +1,47 @@
 <app-default-page [pageTitleKey]="'monitoring.rabbitmq.title'">
   <div class="tmpl-content">
-    <div *ngIf="queues$ | async as queues; else loading">
-      <table mat-table [dataSource]="queues" class="mat-elevation-z8" *ngIf="queues.length > 0">
+    <mat-tab-group>
+      <mat-tab label="{{ 'monitoring.rabbitmq.tabs.queues' | translate }}">
+        <div *ngIf="queues$ | async as queues; else loading">
+          <table mat-table [dataSource]="queues" class="mat-elevation-z8" *ngIf="queues.length > 0">
 
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef> {{ 'monitoring.rabbitmq.table.name' | translate }} </th>
-          <td mat-cell *matCellDef="let queue"> {{queue.name}} </td>
-        </ng-container>
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef> {{ 'monitoring.rabbitmq.table.name' | translate }} </th>
+              <td mat-cell *matCellDef="let queue"> {{queue.name}} </td>
+            </ng-container>
 
-        <ng-container matColumnDef="messages">
-          <th mat-header-cell *matHeaderCellDef> {{ 'monitoring.rabbitmq.table.messages' | translate }} </th>
-          <td mat-cell *matCellDef="let queue"> {{queue.messages}} </td>
-        </ng-container>
+            <ng-container matColumnDef="messages">
+              <th mat-header-cell *matHeaderCellDef> {{ 'monitoring.rabbitmq.table.messages' | translate }} </th>
+              <td mat-cell *matCellDef="let queue"> {{queue.messages}} </td>
+            </ng-container>
 
-        <ng-container matColumnDef="messagesReady">
-          <th mat-header-cell *matHeaderCellDef> {{ 'monitoring.rabbitmq.table.messages-ready' | translate }} </th>
-          <td mat-cell *matCellDef="let queue"> {{queue.messagesReady}} </td>
-        </ng-container>
+            <ng-container matColumnDef="messagesReady">
+              <th mat-header-cell *matHeaderCellDef> {{ 'monitoring.rabbitmq.table.messages-ready' | translate }} </th>
+              <td mat-cell *matCellDef="let queue"> {{queue.messagesReady}} </td>
+            </ng-container>
 
-        <ng-container matColumnDef="messagesUnacknowledged">
-          <th mat-header-cell *matHeaderCellDef> {{ 'monitoring.rabbitmq.table.unacknowledged' | translate }} </th>
-          <td mat-cell *matCellDef="let queue"> {{queue.messagesUnacknowledged}} </td>
-        </ng-container>
+            <ng-container matColumnDef="messagesUnacknowledged">
+              <th mat-header-cell *matHeaderCellDef> {{ 'monitoring.rabbitmq.table.unacknowledged' | translate }} </th>
+              <td mat-cell *matCellDef="let queue"> {{queue.messagesUnacknowledged}} </td>
+            </ng-container>
 
-        <ng-container matColumnDef="consumers">
-          <th mat-header-cell *matHeaderCellDef> {{ 'monitoring.rabbitmq.table.consumers' | translate }} </th>
-          <td mat-cell *matCellDef="let queue"> {{queue.consumers}} </td>
-        </ng-container>
+            <ng-container matColumnDef="consumers">
+              <th mat-header-cell *matHeaderCellDef> {{ 'monitoring.rabbitmq.table.consumers' | translate }} </th>
+              <td mat-cell *matCellDef="let queue"> {{queue.consumers}} </td>
+            </ng-container>
 
-        <ng-container matColumnDef="node">
-          <th mat-header-cell *matHeaderCellDef> {{ 'monitoring.rabbitmq.table.node' | translate }} </th>
-          <td mat-cell *matCellDef="let queue"> {{queue.node}} </td>
-        </ng-container>
+            <ng-container matColumnDef="node">
+              <th mat-header-cell *matHeaderCellDef> {{ 'monitoring.rabbitmq.table.node' | translate }} </th>
+              <td mat-cell *matCellDef="let queue"> {{queue.node}} </td>
+            </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
 
-      <div *ngIf="queues.length === 0" class="no-data-message">
-		  {{ 'monitoring.rabbitmq.table.no-queues' | translate }}
-      </div>
+          <div *ngIf="queues.length === 0" class="no-data-message">
+            {{ 'monitoring.rabbitmq.table.no-queues' | translate }}
+          </div>
 
 <!--          <mat-card class="chart-card" *ngIf="queues.length > 0">-->
 <!--            <mat-card-title>{{ 'monitoring.rabbitmq.chart.title' | translate }}</mat-card-title>-->
@@ -75,6 +77,50 @@
           <div class="spinner-container" *ngIf="isLoadingDlq">
             <mat-spinner></mat-spinner>
           </div>
+
+          <button mat-raised-button color="primary" (click)="loadDlqMessages()" [disabled]="isLoadingDlq">{{ 'monitoring.rabbitmq.dlq.reload' | translate }}</button>
+
+          <table mat-table [dataSource]="dlqMessages" class="mat-elevation-z8" *ngIf="!isLoadingDlq">
+
+            <ng-container matColumnDef="payload">
+              <th mat-header-cell *matHeaderCellDef> {{ 'monitoring.rabbitmq.dlq.table.payload' | translate }} </th>
+              <td mat-cell *matCellDef="let message"> {{message.payload}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="reason">
+              <th mat-header-cell *matHeaderCellDef> {{ 'monitoring.rabbitmq.dlq.table.reason' | translate }} </th>
+              <td mat-cell *matCellDef="let message"> {{getReason(message)}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="originalExchange">
+              <th mat-header-cell *matHeaderCellDef> {{ 'monitoring.rabbitmq.dlq.table.original-exchange' | translate }} </th>
+              <td mat-cell *matCellDef="let message"> {{getOriginalExchange(message)}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="originalRoutingKey">
+              <th mat-header-cell *matHeaderCellDef> {{ 'monitoring.rabbitmq.dlq.table.original-routing-key' | translate }} </th>
+              <td mat-cell *matCellDef="let message"> {{getOriginalRoutingKey(message)}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef> {{ 'monitoring.rabbitmq.dlq.table.actions' | translate }} </th>
+              <td mat-cell *matCellDef="let message">
+                <button mat-icon-button color="primary" (click)="requeue(message)" matTooltip="Requeue message">
+                  <mat-icon>replay</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedDlqColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedDlqColumns;"></tr>
+          </table>
+
+          <div *ngIf="!isLoadingDlq && dlqMessages.length === 0" class="no-messages">
+            {{ 'monitoring.rabbitmq.dlq.no-messages' | translate }}
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
 
     <ng-template #loading>
       <div class="loading-spinner">

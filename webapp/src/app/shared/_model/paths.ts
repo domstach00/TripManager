@@ -8,6 +8,8 @@ export enum Paths {
 	trips = '/trips',
 	trip = trips + '/:tripId',
 	budgets = '/budgets',
+	monitoring = '/monitoring',
+	monitoringRabbitmq = monitoring + '/rabbitmq'
 }
 
 export function mapPath(path: Paths, ids?: string[]): string {

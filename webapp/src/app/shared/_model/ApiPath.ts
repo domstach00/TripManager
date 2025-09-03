@@ -30,5 +30,9 @@ export enum ApiPath {
 	transaction = '/transactions',
 	transactionBudgetSelect = transaction + '/budgets/{0}',
 	transactionBudgetSelectSummary = transactionBudgetSelect + '/summary',
-    rabbitmqQueues = '/monitoring/rabbitmq/queues',
+	monitoring = '/monitoring',
+	monitoringRabbitMQ = monitoring + '/rabbitmq',
+	monitoringRabbitMQQueues = monitoringRabbitMQ + '/queues',
+	monitoringRabbitMQDlq = monitoringRabbitMQ + '/dlq',
+	monitoringRabbitMQRequeue = monitoringRabbitMQ + '/requeue',
 }

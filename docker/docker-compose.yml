@@ -31,6 +31,11 @@ services:
       RABBITMQ_APP_USER: ${RABBITMQ_APP_USER:-tripmanager_svc}
       RABBITMQ_APP_PASSWORD: ${RABBITMQ_APP_PASSWORD:-<CHANGE_ME_!vNE*d1iPl>}
       RABBITMQ_APP_VHOST: ${RABBITMQ_APP_VHOST:-/trip-manager}
+      RABBITMQ_DLX_NAME: ${RABBITMQ_DLX_NAME:-dlx3@3.c}
+      RABBITMQ_DLQ_NAME: ${RABBITMQ_DLQ_NAME:-dlq}
+      RABBITMQ_DLQ_ROUTING_KEY: ${RABBITMQ_DLQ_ROUTING_KEY:-dead}
+      RABBITMQ_DLQ_VIEWER_USER: ${RABBITMQ_DLQ_VIEWER_USER:-dlq_viewer}
+      RABBITMQ_DLQ_VIEWER_PASSWORD: ${RABBITMQ_DLQ_VIEWER_PASSWORD:-CHANGE_ME_NG23^NA&%j}
     volumes:
       - rabbitdata:/var/lib/rabbitmq
     command: sh -c "/etc/rabbitmq/rabbitmq-init.sh & rabbitmq-server"

@@ -91,3 +91,5 @@ rabbitmq:
     email: queue.email
   routing:
     email: routingKey.email
+  dlq:
+    name: dlq
